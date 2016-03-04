@@ -1,4 +1,6 @@
-### This is in response to a recent question from [mailing group](https://groups.google.com/forum/?fromgroups#!topic/servicestack/qkV5fzdnzt8):
+# Advantages of message based web services
+
+#### This is in response to a recent question from [mailing group](https://groups.google.com/forum/?fromgroups#!topic/servicestack/qkV5fzdnzt8):
 
     It seems like ServiceStack is designed for use primarily in a greenfield 
     SOA implementation where the technology environment is quite homogeneous, 
@@ -78,16 +80,21 @@ Unfortunately despite Microsoft having hosted Martin Fowler's respected [Data Tr
 
 Throughout all these generations of frameworks ServiceStack's underlying core [IService<T> interface](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IService.cs) has remained constant - with its simple Execute method:
 
+```` csharp
     public interface IService<T> {
         object Execute(T request);
     }
+````
 
 Which we've simplified even further in the [[New API]] to just an empty marker interface:
 
+```` csharp
     public interface IService { }
+````
 
 Which lets you handle any HTTP Verb, as well as a 'Catch All' **Any** fall-back to handle any un-specified HTTP verbs, e.g:
 
+```` csharp
     public class MyService : IService 
     {
          public Response Get(Request request){...}
@@ -96,6 +103,7 @@ Which lets you handle any HTTP Verb, as well as a 'Catch All' **Any** fall-back 
          //Fallback for Anything else e.g DELETE, PUT, PATCH, OPTIONS, etc.
          public Response Any(Request request){...} 
     }
+````
 
 It simply accepts any user-defined Request DTO and returns any Response DTO - that you're given complete freedom to create. If ever more customization/headers is needed you can return the decorated response inside a `HttpResult` or `HttpError` to maintain full control over the HTTP output.
 
@@ -127,7 +135,9 @@ It encourages developers to treat web services as just another method call even 
 
 But the main disadvantage of method signature service APIs is that they mandate the use of code-gen in order to provide a typed client API. Using messages allows you to re-use generic service clients for all your service communications. This is how, even up to this day ServiceStack remains the only .NET framework to maintain a terse, (both sync and async), typed, end-to-end client libraries without any code-gen, e.g:
 
+```` csharp
     Todo createdTodo = client.Post(new Todo { Content = "New Todo", Order = 1 });
+````
 
 ### Code-gen'ing service clients is evil
 
@@ -182,7 +192,9 @@ Support is included for registering raw custom IHttpHandler's, [Request / Respon
 
 ServiceStack's JSON & JSV serializers are **case-insensitive** (i.e. supports both camelCase and PascalCase properties) and the 1-line below (already included in most Example templates) emits idiomatic camelCase JSON output:
 
+```` csharp
     ServiceStack.Text.JsConfig.EmitCamelCaseNames = true;
+````
 
 They're both [very resilient and can withstand extreme versioning without error](https://github.com/ServiceStack/ServiceStack.Redis/wiki/MigrationsUsingSchemalessNoSql) making it easy to consume [3rd party APIs](https://github.com/ServiceStack/ServiceStack.Text/tree/master/tests/ServiceStack.Text.Tests/UseCases)
 
@@ -206,19 +218,25 @@ But even without this, ServiceStack services are just as consumable as any other
 
 The earlier typed API example of creating a new TODO in C#:
 
+```` csharp
     var client = new JsonServiceClient(baseUrl);
     Todo createdTodo = client.Send<Todo>(new Todo { Content = "New Todo", Order = 1 });
+````
 
 Is like this in Dart (using the [Dart JSON Client](https://github.com/mythz/DartJsonClient)):
 
+```` dart
     var client = new JsonClient(baseUrl);
     client.todos({'content':'New Todo', 'order':1})
           .then((createdTodo) => ...);
+````
 
 Or in jQuery:
 
+```` javascript
     $.post(baseUrl + '/todos', {content:'New Todo', order:1}, 
          function(createdTodo) { ... }, 'json');
+````
 
 And you still have the option to consume all services in other Content-Types. Some languages may prefer to deal with XML - which can easily be accessed by adding the appropriate `Accept` and `Content-Type` headers.
 

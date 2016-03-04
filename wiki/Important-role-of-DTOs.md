@@ -1,3 +1,6 @@
+# Important role of Data Transfer Objects (DTOs)
+ServiceStack's message-based design is optimal for the design of any remote service. We believe .NET has never gotten web services right, which was the inspiration for starting ServiceStack.
+
 ## Software's biggest enemy
 
 Firstly I want to iterate that 
@@ -141,6 +144,7 @@ goes to very essence of what a Service is and the value it provides.
 As for which DTOs make good candidates for re-use as Data Models, you don't want to use **Request DTOs**
 for anything other than defining your external Services API which is typically a **Verb** that's ideally 
 [grouped by Call Semantics and Response Types](http://stackoverflow.com/a/15941229/85785), e.g:
+
 ```` csharp
 public class SearchProducts : IReturn<SearchProductsResponse> 
 {
@@ -148,7 +152,9 @@ public class SearchProducts : IReturn<SearchProductsResponse>
     public decimal? PriceGreaterThan { get; set; }
 }
 ````
+
 Your RDBMS tables are normally entities defined as **Nouns**, i.e. what your Service returns:
+
 ```` csharp
 public class SearchProductsResponse
 {
