@@ -5,7 +5,7 @@
    * [Important role of DTOs](/wiki/Important-role-of-DTOs.md)
    * [Message-based design](/wiki/Messaged-based-web-service.md)
        * [Advantages](/wiki/Advantages-of-message-based-web-services.md)
-   * [Why remote services should use separate DTOs](http://stackoverflow.com/a/15369736/85785)
+   * [Service layer contract](/wiki/Why-remote-services-should-use-separate-DTOs.md)
 * Getting Started
    * [Creating your first project](/wiki/Creating-your-first-project.md)
        * [Create Service from scratch](/wiki/Create-your-first-webservice.md)
