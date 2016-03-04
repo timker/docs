@@ -83,7 +83,7 @@ to project them differently. At that point (YAGNI) you can take a copy of the DT
 Implementation so they can grow separately, unimpeded by their different concerns. 
 You can then effortlessly convert between them using  
 [ServiceStack's built-in Auto Mapping](https://github.com/ServiceStack/ServiceStack/wiki/Auto-mapping), e.g:
-````
+```` csharp
 var dto = dbPoco.ConvertTo<Poco>();
 ````
 > The built-in Auto Mapping is also very tolerant and can co-erce properties with different types,
@@ -141,7 +141,7 @@ goes to very essence of what a Service is and the value it provides.
 As for which DTOs make good candidates for re-use as Data Models, you don't want to use **Request DTOs**
 for anything other than defining your external Services API which is typically a **Verb** that's ideally 
 [grouped by Call Semantics and Response Types](http://stackoverflow.com/a/15941229/85785), e.g:
-````
+```` csharp
 public class SearchProducts : IReturn<SearchProductsResponse> 
 {
     public string Category { get; set; }
@@ -149,7 +149,7 @@ public class SearchProducts : IReturn<SearchProductsResponse>
 }
 ````
 Your RDBMS tables are normally entities defined as **Nouns**, i.e. what your Service returns:
-````    
+```` csharp
 public class SearchProductsResponse
 {
     public List<Product> Results { get; set; }        
