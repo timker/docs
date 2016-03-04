@@ -1,0 +1,102 @@
+Add an In-Memory `IRequestLogger` and service with the default route at `/requestlogs` which maintains a live log of the most recent requests (and their responses). Supports multiple config options incl. Rolling-size capacity, error and session tracking, hidden request bodies for sensitive services, etc.
+
+    Plugins.Add(new RequestLogsFeature());
+
+### Configuration
+
+Like other ServiceStack [[Plugins]] the `RequestLogsFeature` has a number of configuration options that can be specified at registration to customize Request Logging:
+
+<table>
+<thead>
+<tr>
+    <th>Name</th>
+    <th>Type</th>
+    <th>Description</th>
+</tr>
+</thead>
+<tr>
+    <td>AtRestPath</td>
+    <td>string</td>
+    <td>RequestLogs service Route, default is `/requestlogs`</td>
+</tr>
+<tr>
+    <td>EnableSessionTracking</td>
+    <td>bool</td>
+    <td>Turn On/Off Session Tracking</td>
+</tr>
+<tr>
+    <td>EnableRequestBodyTracking</td>
+    <td>bool</td>
+    <td>Turn On/Off Logging of Raw Request Body, default is Off</td>
+</tr>
+<tr>
+    <td>EnableResponseTracking</td>
+    <td>bool</td>
+    <td>Turn On/Off Tracking of Responses</td>
+</tr>
+<tr>
+    <td>EnableErrorTracking</td>
+    <td>bool</td>
+    <td>Turn On/Off Tracking of Exceptions</td>
+</tr>
+<tr>
+    <td>Capacity</td>
+    <td>int?</td>
+    <td>Size of InMemoryRollingRequestLogger circular buffer</td>
+</tr>
+<tr>
+    <td>RequiredRoles</td>
+    <td>string[]</td>
+    <td>Limit access to /requestlogs service to these roles</td>
+</tr>
+<tr>
+    <td>RequestLogger</td>
+    <td>IRequest
+        Logger</td>
+    <td>Change the RequestLogger provider. Default is InMemoryRollingRequestLogger</td>
+</tr>
+<tr>
+    <td>ExcludeRequestDtoTypes</td>
+    <td>Type[]</td>
+    <td>Don't log requests of these types. By default RequestLog's are excluded</td>
+</tr>
+<tr>
+    <td>HideRequestBody
+        ForRequestDtoTypes</td>
+    <td>Type[]</td>
+    <td>Don't log request bodys for services with sensitive information. By default Auth and Registration requests are hidden.</td>
+</tr>
+</table>
+
+### Usage
+
+The `IRequestLogger` is a great way to introspect and analyze your service requests in real-time. Here's a screenshot from the [bootstrapapi.servicestack.net](http://bootstrapapi.servicestack.net) website:
+
+![Live Screenshot](http://mono.servicestack.net/img/request-logs-01.png)
+
+It supports multiple queryString filters and switches so you filter out related requests for better analysis and debuggability:
+
+![Request Logs Usage](http://mono.servicestack.net/img/request-logs-02.png)
+
+The [RequestLogsService](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Admin/RequestLogsService.cs) is just a simple C# service under-the-hood but is a good example of how a little bit of code can provide a lot of value in ServiceStack's by leveraging its generic, built-in features.
+
+## Redis Request Logger
+
+The HTTP Request logs can also be configured to persist to a distributed [Redis](redis.io) data store instead by configuring the `RequestLogsFeature` plugin to use the `RedisRequestLogger`. Persisting logs in redis will allow them to survive and be viewable across App Domain restarts.
+
+### Install
+
+To use `RedisRequestLogger` first install the **ServiceStack.Server** NuGet package:
+
+    PM> Install-Package ServiceStack.Server
+
+Then configure `RequestLogsFeature` to use the `RedisRequestLogger` which can make use of your existing `IRedisClientsManager` registered IOC dependency, e.g:
+
+```csharp
+Plugins.Add(new RequestLogsFeature {
+    RequestLogger = new RedisRequestLogger(
+	    container.Resolve<IRedisClientsManager>(), capacity:1000)
+});
+```
+
+> The optional `capacity` configures the Redis Request Logger to work as a rolling log where it will only keep the most recent 1000 entries.
