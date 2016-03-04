@@ -2,17 +2,17 @@
 
 * [Introduction](README.md)
 * [Why ServiceStack?](/wiki/Why-Servicestack)
-   * [Important role of DTOs](./https://stackoverflow.com/a/32940275/85785)
+   * [Important role of DTOs](http://stackoverflow.com/a/32940275/85785/)
    * [What is a message based web service?](/wiki/Messaged-based-web-service.md)
    * [Advantages of message based web services](/wiki/Advantages-of-message-based-web-services.md)
-   * [Why remote services should use separate DTOs](https://stackoverflow.com/a/15369736/85785)
+   * [Why remote services should use separate DTOs](http:/stackoverflow.com/a/15369736/85785)
 * Getting Started
    * [Creating your first project](/wiki/Creating-your-first-project.md)
        * [Create Service from scratch](/wiki/Create-your-first-webservice.md)
    * [Your first webservice explained](/wiki/Your-first-webservice-explained.md)
    * [ServiceStack's new API Design](/wiki/New-API.md)
-   * [Designing a REST-ful service with ServiceStack](https://stackoverflow.com/a/15235822/85785)
-   * [Example Projects Overview](https://stackoverflow.com/a/15869816/85785)
+   * [Designing a REST-ful service with ServiceStack](http://stackoverflow.com/a/15235822/85785)
+   * [Example Projects Overview](http://stackoverflow.com/a/15869816/85785)
    * [Learning Resources](/wiki/Learning-ServiceStack.md)
 * Reference
    * [Order of Operations](/wiki/Order-of-Operations.md)
