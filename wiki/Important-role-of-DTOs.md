@@ -66,15 +66,15 @@ re-use the same DTOs in OrmLite and vice-versa without issue. If the DTO and Dat
 you can [hide them from being serialized](http://stackoverflow.com/a/14859968/85785) or stored in OrmLite with 
 the attributes below:
 
-````
-    public class Poco
-    {
-        [Ignore]
-        public int IgnoreInOrmLite { get; set; }
+```` csharp
+public class Poco
+{
+    [Ignore]
+    public int IgnoreInOrmLite { get; set; }
 
-        [IgnoreDataMember]
-        public int IgnoreInSerialization { get; set; }
-    }
+    [IgnoreDataMember]
+    public int IgnoreInSerialization { get; set; }
+}
 ````
 
 Otherwise when you need to separate them, e.g. more fields were added to the RDBMS table than you want to 
@@ -84,7 +84,7 @@ Implementation so they can grow separately, unimpeded by their different concern
 You can then effortlessly convert between them using  
 [ServiceStack's built-in Auto Mapping](https://github.com/ServiceStack/ServiceStack/wiki/Auto-mapping), e.g:
 ````
-    var dto = dbPoco.ConvertTo<Poco>();
+var dto = dbPoco.ConvertTo<Poco>();
 ````
 > The built-in Auto Mapping is also very tolerant and can co-erce properties with different types,
  e.g. to/from strings, different collection types, etc.
@@ -142,19 +142,19 @@ As for which DTOs make good candidates for re-use as Data Models, you don't want
 for anything other than defining your external Services API which is typically a **Verb** that's ideally 
 [grouped by Call Semantics and Response Types](http://stackoverflow.com/a/15941229/85785), e.g:
 ````
-    public class SearchProducts : IReturn<SearchProductsResponse> 
-    {
-        public string Category { get; set; }
-        public decimal? PriceGreaterThan { get; set; }
-    }
+public class SearchProducts : IReturn<SearchProductsResponse> 
+{
+    public string Category { get; set; }
+    public decimal? PriceGreaterThan { get; set; }
+}
 ````
 Your RDBMS tables are normally entities defined as **Nouns**, i.e. what your Service returns:
 ````    
-    public class SearchProductsResponse
-    {
-        public List<Product> Results { get; set; }        
-        public ResponseStatus ResponseStatus { get; set; }
-    }
+public class SearchProductsResponse
+{
+    public List<Product> Results { get; set; }        
+    public ResponseStatus ResponseStatus { get; set; }
+}
 ````
 Even the containing **Response DTO** which defines what your Service returns isn't a good candidate for re-use 
 as a Data Model. I'd typically use discrete DTOs for Service Responses as it allows freely extending existing 
