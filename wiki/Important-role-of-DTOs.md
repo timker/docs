@@ -1,4 +1,4 @@
-# Important role of Data Transfer Objects (DTOs)
+# Important role of DTOs
 ServiceStack's message-based design is optimal for the design of any remote service. We believe .NET has never gotten web services right, which was the inspiration for starting ServiceStack.
 
 ## Software's biggest enemy
@@ -38,14 +38,14 @@ know when to selectively apply it.
 ## The Simple POCO Life
 
 As you've noticed ServiceStack achieves a lot of its simplicity and reuse by being able to reuse the same 
-POCOs indiscriminately anywhere to interface and freely communicate between its different libraries and components. 
+POCOs (Plain indiscriminately anywhere to interface and freely communicate between its different libraries and components. 
 This enables maximum value and reuse of your Models and reduces the friction in mapping between different domains 
 which typically require having purpose-specific types, each with its own unique configuration limiting its 
 applicability and potential re-use.
 
 ### Heavy ORM models are poor DTOs
 
-Not reusing data models as DTOs applies to Heavy ORM's which encourage Data Models with cyclical dependencies 
+Not reusing data models as DTOs (Data Transfer Objects) applies to Heavy ORM's which encourage Data Models with cyclical dependencies 
 and proxied objects with tight coupling and embedded logic that can trigger unintended N+1 data access, making 
 these models poor candidates for use as DTOs and why you should always copy them into purpose-specific
 DTOs that your Services can return so they're serializable without issue.

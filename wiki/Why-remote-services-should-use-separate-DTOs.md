@@ -1,4 +1,4 @@
-# The Service Layer is your most important Contract
+# Service layer contract
 
 The most important interface that you can ever create in your entire system is your external facing service contract, this is what consumers of your service or application will bind to, i.e. the existing call-sites that often won't get updated along with your code-base - every other model is secondary. 
 
