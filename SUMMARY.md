@@ -1,8 +1,8 @@
 # Summary
 
 * [Introduction](README.md)
-* [Why ServiceStack?](/wiki/Why-Servicestack)
-   * [Important role of DTOs](http://stackoverflow.com/a/32940275/85785)
+* [Why ServiceStack?](/wiki/Why-Servicestack.md)
+   * [Important role of DTOs](Important-role-of-DTOs.md)
    * [What is a message based web service?](/wiki/Messaged-based-web-service.md)
    * [Advantages of message based web services](/wiki/Advantages-of-message-based-web-services.md)
    * [Why remote services should use separate DTOs](http://stackoverflow.com/a/15369736/85785)

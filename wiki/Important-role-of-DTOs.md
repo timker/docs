@@ -65,7 +65,8 @@ Effectively this means POCOs in ServiceStack are extremely resilient and interop
 re-use the same DTOs in OrmLite and vice-versa without issue. If the DTO and Data models only deviate slightly, 
 you can [hide them from being serialized](http://stackoverflow.com/a/14859968/85785) or stored in OrmLite with 
 the attributes below:
-``` csharp
+
+````
     public class Poco
     {
         [Ignore]
@@ -74,16 +75,17 @@ the attributes below:
         [IgnoreDataMember]
         public int IgnoreInSerialization { get; set; }
     }
-```
+````
+
 Otherwise when you need to separate them, e.g. more fields were added to the RDBMS table than you want to 
 return, the DTO includes additional fields populated from alternative sources, or you just want your Services
 to project them differently. At that point (YAGNI) you can take a copy of the DTO and add it to your Services 
 Implementation so they can grow separately, unimpeded by their different concerns. 
 You can then effortlessly convert between them using  
 [ServiceStack's built-in Auto Mapping](https://github.com/ServiceStack/ServiceStack/wiki/Auto-mapping), e.g:
-``` csharp
+````
     var dto = dbPoco.ConvertTo<Poco>();
-```
+````
 > The built-in Auto Mapping is also very tolerant and can co-erce properties with different types,
  e.g. to/from strings, different collection types, etc.
 
@@ -139,21 +141,21 @@ goes to very essence of what a Service is and the value it provides.
 As for which DTOs make good candidates for re-use as Data Models, you don't want to use **Request DTOs**
 for anything other than defining your external Services API which is typically a **Verb** that's ideally 
 [grouped by Call Semantics and Response Types](http://stackoverflow.com/a/15941229/85785), e.g:
-``` csharp
+````
     public class SearchProducts : IReturn<SearchProductsResponse> 
     {
         public string Category { get; set; }
         public decimal? PriceGreaterThan { get; set; }
     }
-```
+````
 Your RDBMS tables are normally entities defined as **Nouns**, i.e. what your Service returns:
-``` csharp    
+````    
     public class SearchProductsResponse
     {
         public List<Product> Results { get; set; }        
         public ResponseStatus ResponseStatus { get; set; }
     }
-```
+````
 Even the containing **Response DTO** which defines what your Service returns isn't a good candidate for re-use 
 as a Data Model. I'd typically use discrete DTOs for Service Responses as it allows freely extending existing 
 Services to return extra data or metadata without breaking existing clients.
