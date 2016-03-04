@@ -1,5 +1,16 @@
 {
+  "gitbook": "2.4.3",
   "styles": {
     "website": "styles/website.css"
+  },
+  "plugins": ["edit-link", "github"],
+  "pluginsConfig": {
+    "edit-link": {
+      "base": "https://github.com/ServiceStack/docs/tree/master",
+      "label": "Edit This Page"
+    },
+    "github": {
+      "url": "https://github.com/ServiceStack/ServiceStack/"
+    }
   }
 }
