@@ -173,6 +173,8 @@ public class Custom401Exception : Exception, IHasStatusCode
 }
 ```
 
+Likewise `IHasStatusDescription` can be used to customize the `StatusDescription` and `IHasErrorCode` for customizing the `ErrorCode` returned, instead of its Exception Type.
+
 ### Overriding OnExceptionTypeFilter in your AppHost
 
 You can also catch and modify the returned `ResponseStatus` returned by overriding `OnExceptionTypeFilter` in your AppHost, e.g. [ServiceStack uses this](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/ServiceStackHost.Runtime.cs#L310) to customize the returned ResponseStatus to automatically add a custom field error for `ArgumentExceptions` with the specified `ParamName`, e.g:

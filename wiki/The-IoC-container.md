@@ -38,7 +38,7 @@ In addition to Auto-wiring Funq allows you to customize the creation of your ins
 ```csharp
 container.Register(c => new MyType(c.Resolve<IDependency>(), connectionString));
 container.Register<IMyType>(c => new MyType(c.Resolve<IDependency>(), connectionString));
-container.Register(c => CreateAndInitialzeMyType(c.Resolve<IDependency1>(), c.Resolve<IDependency2>));
+container.Register(c => CreateAndInitializeMyType(c.Resolve<IDependency1>(), c.Resolve<IDependency2>));
 ```
 
 ### Register instances
@@ -294,6 +294,47 @@ Container container = new Container();
 
 //Register SimpleInjector IoC container, so ServiceStack can use it
 container.Adapter = new SimpleInjectorIocAdapter (container);
+```
+
+### Use Unity
+
+```csharp
+public class UnityIocAdapter : IContainerAdapter
+{
+    private readonly IUnityContainer container;
+
+    public UnityIocAdapter(IUnityContainer container)
+    {
+        this.container = container;
+    }
+
+    public T Resolve<T>()
+    {
+        return container.Resolve<T>();
+    }
+
+    public T TryResolve<T>()
+    {
+        if(container.IsRegistered<T>())
+        {
+            return container.Resolve<T>();
+        }
+
+        return default(T);
+    }
+}
+```
+
+Then in the `AppHost` `Configure(Container container)` method you need to enable this adapter:
+
+```csharp
+//Create Unity IoC container
+var unityContainer = new UnityContainer();
+//Now register all depedencies to your custom IoC container
+//...
+
+//Register SimpleInjector IoC container, so ServiceStack can use it
+container.Adapter = new UnityIocAdapter(unityContainer);
 ```
 
 ### Disposing of your services

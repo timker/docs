@@ -1,4 +1,4 @@
-ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET. 
+ ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET. 
 
 Add ServiceStack Reference now supports 
 [Swift](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference), 
@@ -8,7 +8,7 @@ Add ServiceStack Reference now supports
 [TypeScript](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference), 
 [F#](https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference) and 
 [VB.NET](https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference) 
-including integration with most leading IDE's, effectively providing a flexible alternative than sharing your DTO assembly with clients, now clients can easily add a reference to a remote ServiceStack instance and update DTO's directly from within VS.NET, Xcode, Android Studio, IntelliJ and Eclipse. This also lays the groundwork and signals our approach on adding support for typed API's in other languages in future. Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
+including integration with most leading IDE's to provide a flexible alternative than sharing your DTO assembly with clients. Clients can now easily add a reference to a remote ServiceStack url and update DTOs directly from within VS.NET, Xcode, Android Studio, IntelliJ and Eclipse. We plan on expanding on this foundation into adding seamless, typed, end-to-end integration with other languages - Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
 
 Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a remote url within their favorite IDE - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.
 
@@ -70,13 +70,13 @@ Executing the above command fetches the C# DTOs and saves them in a local file n
  - Swift
  - Java
  - Kotlin
- - TypeScript.d
+ - TypeScript / TypeScript.d
  - FSharp
  - VbNet
 
 **Update existing ServiceStack Reference**
 
-Updating a ServiceStack Reference is even easier we just specify the path to the existing generated DTO's. E.g. Update the `TechStacks.dtos.cs` we just created with:
+Updating a ServiceStack Reference is even easier we just specify the path to the existing generated DTOs. E.g. Update the `TechStacks.dtos.cs` we just created with:
 
     ssutil TechStacks.dtos.cs
 
@@ -92,7 +92,7 @@ Updating a ServiceStack Reference is even easier we just specify the path to the
 
  - **Simple** Server provides DTOs based on metadata and options provided. No heavy client side tools, just a HTTP request!
  - **Versatile** Clean DTOs works in all JSON, XML, JSV, MsgPack and ProtoBuf [generic service clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#built-in-clients)
- - **Reusable** Generated DTO's are not coupled to any endpoint or format. Defaults are both partial and virtual for maximum re-use 
+ - **Reusable** Generated DTOs are not coupled to any endpoint or format. Defaults are both partial and virtual for maximum re-use 
  - **Resilient** Messaging-based services offer a number of [advantages over RPC Services](https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services)
  - **Flexible** DTO generation is customizable, Server and Clients can override built-in defaults
  - **Integrated** Rich Service metadata annotated on DTO's, [Internal Services](https://github.com/ServiceStack/ServiceStack/wiki/Restricting-Services) are excluded when accessed externally
@@ -112,9 +112,9 @@ A small part of a WSDL is the XSD definitions of Types used in the Services. Had
 
 ### Unnecessary Complexity of XSDs
 
-Despite being much simper, even XSD's by themselves are more complex than it needs to be. The XML Schema specification is itself several hundred pages long and contains many elements which make it a poor programmatic fit for any programming language. E.g. use of XML namespaces and attributes in addition to elements does not naturally map to any language type system and causes unnecessary friction and additional boilerplate to handle this mismatch during serialization. 
+Despite being much simpler, even XSD's by themselves are more complex than it needs to be. The XML Schema specification is itself several hundred pages long and contains many elements which make it a poor programmatic fit for any programming language. E.g. use of XML namespaces and attributes in addition to elements does not naturally map to any language type system and causes unnecessary friction and additional boilerplate to handle this mismatch during serialization. 
 
-This is in stark contrast with the JSON spec which [fits on a single page](http://www.json.org/) yet manages to include most of the core elements required for data interchange consisting of `Arrays`, `Objects` and primitive `number`, `string`, `boolean` and `null` types. It's also a prefect fit for most languages where all valid JSON is always convertible to a valid JavaScript object. When more specialized types are required, you have access to the full power of the host programming language to perform custom conversions, providing a more flexible alternative than otherwise breaking clients requests on minor schema changes. 
+This is in stark contrast with the JSON spec which [fits on a single page](http://www.json.org/) yet manages to include most of the core elements required for data interchange consisting of `Arrays`, `Objects` and primitive `number`, `string`, `boolean` and `null` types. It's also a perfect fit for most languages where all valid JSON is always convertible to a valid JavaScript object. When more specialized types are required, you have access to the full power of the host programming language to perform custom conversions, providing a more flexible alternative than otherwise breaking clients requests on minor schema changes. 
 
 ## ServiceStack's Native Types Feature
 
@@ -122,7 +122,7 @@ As with any ServiceStack feature one of our primary goals is to [minimize unnece
 
 We can already see from the WCF scenario how ServiceStack already benefits from its message-based design, where as it's able to reuse any [Generic Service Client](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview), only application-specific DTO's ever need to be generated, resulting in a much cleaner, simpler and friction-less solution.
 
-Code-first is another approach that lends itself to simpler solutions, which saves the effort and inertia from adapting to interim schemas/specs, often with impedance mismatches and reduced/abstract functionality. In ServiceStack your code-first DTO's are the master authority where all other features are projected off. 
+Code-first is another approach that lends itself to simpler solutions, which saves the effort and inertia from adapting to interim schemas/specs, often with impedance mismatches and reduced/abstract functionality. In ServiceStack your code-first DTOs are the master authority where all other features are projected off. 
 
 C# also has great language support for defining POCO Data Models, that's as terse as a DSL but benefits from great IDE support and minimal boilerplate, e.g:
 
@@ -148,7 +148,7 @@ Plugins.RemoveAll(x => x is NativeTypesFeature);
 
 ### Generating Types from Metadata
 
-Behind the scenes ServiceStack captures all metadata on your Services DTO's including Sub classes, Routes, `IReturn` marker, C# Attributes, textual Description as well as desired configuration into a serializable object model accessible from `/types/metadata`: 
+Behind the scenes ServiceStack captures all metadata on your Services DTOs including Sub -classes, Routes, `IReturn` marker, C# Attributes, textual Description as well as desired configuration into a serializable object model accessible from `/types/metadata`: 
 
 #### Live examples
 
@@ -159,7 +159,7 @@ This model is then used to generate the generated types, which for C# is at `/ty
 
 ### Excluding Types from Add ServiceStack Reference
 
-To remove a type from the metadata and code generation you can annotate Request DTO's with `[Exclude(Feature.Metadata)]`, e.g:
+To remove a type from the metadata and code generation you can annotate Request DTOs with `[Exclude(Feature.Metadata)]`, e.g:
 
 ```csharp
 [Exclude(Feature.Metadata)]
@@ -209,14 +209,15 @@ The Add ServiceStack Reference dialog just takes the URL provided and requests t
 - `/types/swift` - Swift 
 - `/types/java` - Java 
 - `/types/kotlin` - Kotlin 
-- `/types/typescript.d` - TypeScript 
+- `/types/typescript` - TypeScript 
+- `/types/typescript.d` - Ambient TypeScript Definitions
 - `/types/fsharp` - F# 
 - `/types/vbnet` - VB.NET 
 - `/types/metadata` - Metadata 
 
 ## Limitations
 
-In order for Add ServiceStack Reference to work consistently across all supported languages without .NET semantic namespaces, DTO's includes an additional restriction where each Type must be uniquely named. You can get around this restriction by sharing the ServiceModel.dll where your DTO's are defined instead.
+In order for Add ServiceStack Reference to work consistently across all supported languages without .NET semantic namespaces, DTOs includes an additional restriction where each Type must be uniquely named. You can get around this restriction by sharing the ServiceModel.dll where your DTOs are defined instead.
 
 ## Using with IIS Windows Authentication
 

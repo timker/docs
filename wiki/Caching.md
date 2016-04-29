@@ -131,6 +131,30 @@ public class CachedOrdersService : Service
 
 If now the client calls the webservice to request the order, he'll get the latest version.
 
+### Local MemoryCacheClient
+
+As it sometimes beneficial to have access to a local in-memory Cache in addition to your registered `ICacheClient` 
+[Caching Provider](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
+we also pre-register a `MemoryCacheClient` that all your Services now have access to from the `LocalCache` 
+property, i.e:
+
+```csharp
+    MemoryCacheClient LocalCache { get; }
+```
+
+This doesn't affect any existing functionality that utilizes a cache like Sessions which continue to use
+your registered `ICacheClient`, but it does let you change which cache you want different responses to use, e.g: 
+
+```csharp
+var cacheKey = "unique_key_for_this_request";
+return base.Request.ToOptimizedResultUsingCache(LocalCache, cacheKey, () => {
+    //Delegate is executed if item doesn't exist in cache 
+});
+```
+
+If you don't register a `ICacheClient` ServiceStack automatically registers a `MemoryCacheClient` for you 
+which will also refer to the same instance registered for `LocalCache`.
+
 ## [ICacheClientExtended](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClientExtended.cs)
 
 The [ICacheClientExtended](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClientExtended.cs)

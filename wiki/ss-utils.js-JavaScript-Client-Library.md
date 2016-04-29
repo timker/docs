@@ -4,6 +4,22 @@ An Embedded Resource inside **ServiceStack.dll** is ServiceStack's JavaScript ut
 <script type="text/javascript" src="/js/ss-utils.js"></script>
 ```
 
+### DefinitelyTyped and npm
+
+To make it easier to develop with **ss-utils** in any of the npm-based Single Page Apps templates we're also
+maintaining a copy of [ss-utils in npm](https://www.npmjs.com/package/ss-utils) and have also added it to JSPM 
+and DefinitelyTyped registry so you can now add it to your project like any other external dependency using JSPM:
+
+    C:\> jspm install ss-utils
+
+If you're using TypeScript, you can also download the accompanying TypeScript definition from:
+
+    C:\>typings install ss-utils --ambient --save
+    
+Or if you're using the older tsd package manager: `tsd install ss-utils --save`.
+
+## Usage
+
 To showcase how it simplifies general web development, we'll walkthrough the JavaScript needed to provide all the behavior for the [entire UI of Email Contacts](https://github.com/ServiceStack/EmailContacts/blob/master/src/EmailContacts/default.cshtml) that uses just jQuery and bootstrap.js:
 
 ## Bootstrap Forms
@@ -403,4 +419,42 @@ $.ss.queryString(url)              // Return a map of key value pairs
 
 $.fn.handleServerEvents()          // Handle ServiceStack ServerEvents
 $.ss.eventReceivers = {}           // Specify global receivers for ServerEvents
+```
+
+#### combinePaths and createUrl
+
+The `combinePaths` and `createUrl` API's help with constructing urls, e.g:
+
+```javascript
+$.ss.combinePaths("path","to","..","join")   //= path/join
+$.ss.createPath("path/{foo}", {foo:1,bar:2}) //= path/1
+
+$.ss.createUrl("http://host/path/{foo}",{foo:1,bar:2}) //= http://host/path/1?bar=2
+```
+
+#### normalize and normalizeKey
+
+`normalizeKey` and `normalize` APIs helps with normalizing JSON responses with different naming 
+conventions by converting each property into lowercase with any `_` separators removed - `normalizeKey()` 
+converts a single string whilst `normalize()` converts an entire object graph, e.g:
+
+```javascript
+$.ss.normalizeKey("THE_KEY") //= thekey
+
+JSON.stringify(
+    $.ss.normalize({THE_KEY:"key",Foo:"foo",bar:{A:1}})
+)   //= {"thekey":"key","foo":"foo","bar":{"A":1}}
+
+const deep = true;
+JSON.stringify(
+    $.ss.normalize({THE_KEY:"key",Foo:"foo",bar:{A:1}}, deep) 
+)   //= {"thekey":"key","foo":"foo","bar":{"a":1}}
+```
+
+#### postJSON
+
+`postJSON` is jQuery's missing equivalent to `$.getJSON`, but for POST's, eg:
+
+```javascript
+$.ss.postJSON(url, {data:1}, response => ..., error => ...);
 ```

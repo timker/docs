@@ -267,19 +267,49 @@ $.ss.eventReceivers["window"] = window;
 
 Whilst Named Receivers are used to handle messages sent to a specific namespaced selector, the client also supports registering a **Global Receiver** for handling messages sent with the special `cmd.*` selector.
 
-## ServerEvent JavaScript Examples
+### UpdateSubscriber APIs
+
+You can use any of the APIs below in the
+[ss-utils JavaScript library](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library)
+to update an active Subscriptions Channels:
+
+```javascript
+$.ss.updateSubscriber({ 
+    SubscribeChannels: "chan1,chan2",
+    UnsubscribeChannels: "chan3,chan4"
+});
+
+$.ss.subscribeToChannels(["chan1","chan2"], response => ..., error => ...);
+$.ss.unsubscribeFromChannels(["chan3","chan4"], response => ..., error => ...);
+```
+
+
+# ServerEvent JavaScript Examples
+
+## [React Chat](https://github.com/ServiceStackApps/ReactChat)
+
+React Chat is a port of [ServiceStack Chat](https://github.com/ServiceStackApps/Chat) ES5, jQuery Server Events 
+demo into a [TypeScript](http://www.typescriptlang.org/), [React](http://facebook.github.io/react/) and 
+[Redux](https://github.com/reactjs/redux) App:
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat-react/screenshot.png)](http://react-chat.servicestack.net/)
+
+## [Networked Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-9---real-time-networked-time-traveller)
+
+A network-enhanced version of the
+[stand-alone Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-8---time-travelling-using-state-snapshots)
+that allows users to **connect to** and **watch** other users using the App in real-time similar 
+to how users can use Remote Desktop to watch another computer's screen: 
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/redux-chrome-safari.png)](http://redux.servicestack.net)
+
+> Live demo: http://redux.servicestack.net
 
 ## [Chat](https://github.com/ServiceStackApps/Chat)
 
 > Feature-rich Single Page Chat App, showcasing Server Events support in 170 lines of JavaScript!
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat.png)](http://chat.servicestack.net)
-
-## [React Chat](https://github.com/ServiceStackApps/Chat-React)
-
-> React.js port of ServerEvents Chat using React, Reflux and new **ReactJS App** VS.NET Template
-
-[![React Chat](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat-react-multichannels.png)](http://react-chat.servicestack.net?channels=home,work,play)
 
 ## [React Chat Desktop](https://github.com/ServiceStackApps/ReactChatApps)
 

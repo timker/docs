@@ -8,7 +8,7 @@ Optionally it can be downloaded and installed from the [VS.NET Gallery](http://v
 
 [![VS.NET Gallery Download](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/vsgallery-download.png)](http://visualstudiogallery.msdn.microsoft.com/5bd40817-0986-444d-a77d-482e43a48da7)
 
-ServiceStackVS supports both VS.NET 2013 and 2012.
+ServiceStackVS supports both VS.NET 2012-2015.
 
 ### VS.NET 2012 Prerequisites
 

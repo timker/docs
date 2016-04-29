@@ -2,6 +2,65 @@ Add an In-Memory `IRequestLogger` and service with the default route at `/reques
 
     Plugins.Add(new RequestLogsFeature());
 
+### CSV Request Logger
+
+Flipping the switch on CSV Deserialization has opened up the potential for a lot more useful features.
+One of the areas we thought to be particularly valuable is being able to store daily Request Logs in a 
+plain-text structured format, that way they could be immediately inspectable with a text editor or for even 
+better inspection, opened in a spreadsheet and benefit from its filterable, movable, resizable and 
+sortable columns.
+
+To enable CSV Request Logging you just need to register the `RequestLogsFeature` and configure it to use the
+[CsvRequestLogger](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/CsvRequestLogger.cs):
+
+```csharp
+Plugins.Add(new RequestLogsFeature {
+    RequestLogger = new CsvRequestLogger(),
+});
+```
+
+This will register the CSV Request logger with the following overridable defaults:
+
+```csharp
+Plugins.Add(new RequestLogsFeature {
+    RequestLogger = new CsvRequestLogger(
+        files = new FileSystemVirtualPathProvider(this, Config.WebHostPhysicalPath),
+        requestLogsPattern = "requestlogs/{year}-{month}/{year}-{month}-{day}.csv",
+        errorLogsPattern = "requestlogs/{year}-{month}/{year}-{month}-{day}-errors.csv"
+        appendEvery = TimeSpan.FromSeconds(1)
+    ),
+});
+```
+
+Where Request Logs are flushed every **1 second** using a background Timer to a daily log maintained in
+the logical date format structure above. As it would be useful to be able to inspect any errors in isolation, 
+errors are also written to a separate `YYYY-MM-DD-errors.csv` format, in addition to the main Request logs.
+
+### [Custom CSV AutoQuery Data implementation](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Service#custom-autoquery-data-implementation)
+
+The AutoQuery Service example shows you can quickly create an AutoQuery Data Service that lets you inspect your CSV Request and Error Logs with AutoQuery, which in addition to the rich querying benefits also gives you access to an instant UI in [AutoQuery Viewer](https://github.com/ServiceStack/Admin) to be able to [View your Request Logs](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Service#view-request-logs-in-autoquery-viewer).
+
+## Redis Request Logger
+
+The HTTP Request logs can also be configured to persist to a distributed [Redis](redis.io) data store instead by configuring the `RequestLogsFeature` plugin to use the `RedisRequestLogger`. Persisting logs in redis will allow them to survive and be view-able across App Domain restarts.
+
+### Install
+
+To use `RedisRequestLogger` first install the **ServiceStack.Server** NuGet package:
+
+    PM> Install-Package ServiceStack.Server
+
+Then configure `RequestLogsFeature` to use the `RedisRequestLogger` which can make use of your existing `IRedisClientsManager` registered IOC dependency, e.g:
+
+```csharp
+Plugins.Add(new RequestLogsFeature {
+    RequestLogger = new RedisRequestLogger(
+	    container.Resolve<IRedisClientsManager>(), capacity:1000)
+});
+```
+
+> The optional `capacity` configures the Redis Request Logger to work as a rolling log where it will only keep the most recent 1000 entries.
+
 ### Configuration
 
 Like other ServiceStack [[Plugins]] the `RequestLogsFeature` has a number of configuration options that can be specified at registration to customize Request Logging:
@@ -79,24 +138,3 @@ It supports multiple queryString filters and switches so you filter out related 
 ![Request Logs Usage](http://mono.servicestack.net/img/request-logs-02.png)
 
 The [RequestLogsService](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Admin/RequestLogsService.cs) is just a simple C# service under-the-hood but is a good example of how a little bit of code can provide a lot of value in ServiceStack's by leveraging its generic, built-in features.
-
-## Redis Request Logger
-
-The HTTP Request logs can also be configured to persist to a distributed [Redis](redis.io) data store instead by configuring the `RequestLogsFeature` plugin to use the `RedisRequestLogger`. Persisting logs in redis will allow them to survive and be viewable across App Domain restarts.
-
-### Install
-
-To use `RedisRequestLogger` first install the **ServiceStack.Server** NuGet package:
-
-    PM> Install-Package ServiceStack.Server
-
-Then configure `RequestLogsFeature` to use the `RedisRequestLogger` which can make use of your existing `IRedisClientsManager` registered IOC dependency, e.g:
-
-```csharp
-Plugins.Add(new RequestLogsFeature {
-    RequestLogger = new RedisRequestLogger(
-	    container.Resolve<IRedisClientsManager>(), capacity:1000)
-});
-```
-
-> The optional `capacity` configures the Redis Request Logger to work as a rolling log where it will only keep the most recent 1000 entries.

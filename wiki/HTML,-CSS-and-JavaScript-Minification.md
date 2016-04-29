@@ -51,7 +51,7 @@ With nothing other than the new minifiers, we can leverage the flexibility in Se
 ```csharp
 public override List<IVirtualPathProvider> GetVirtualFileSources()
 {
-    var existingProviders = base. GetVirtualFileSources();
+    var existingProviders = base.GetVirtualFileSources();
     var memFs = new InMemoryVirtualPathProvider(this);
 
     //Get existing Local FileSystem Provider

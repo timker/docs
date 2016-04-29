@@ -10,7 +10,7 @@ For bonus REST Internet points the most appropriate HTTP Status code is returned
 The error handling support works end-to-end where all errors get auto-serialized into your Response DTO and re-hydrated into a C# Exception on ServiceStack's generic Service Clients. This allows you to idiomatically treat errors like normal C# Exceptions - providing easy access to rich, structured error messages in your clients. 
 
 ### JavaScript support included
-To make it trivial to consume errors in JavaScript, you can use the lightweight [ss-validation.js](https://github.com/ServiceStack/ServiceStack/blob/master/NuGet/ServiceStack.Host.Mvc/content/Content/js/ss-validation.js) JavaScript library to trivially bind your response errors to your **HTML form fields** with a **single line of code**.
+To make it trivial to consume errors in JavaScript, you can use the lightweight [ss-utils.js](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/js/ss-utils.js) JavaScript library to trivially bind your response errors to your **HTML form fields** with a **single line of code**.
 
 ***
 
@@ -95,7 +95,7 @@ If you want even finer grained control of your HTTP errors you can either **thro
 
 ```csharp 
 public object Get(User request) {
-       throw HttpError.NotFound("User {0} does not exist".Fmt(requst.Name));
+       throw HttpError.NotFound("User {0} does not exist".Fmt(request.Name));
 }
 ```
 

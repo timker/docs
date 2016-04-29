@@ -1,5 +1,3 @@
-# Service from scratch
-
 > Fastest way to get started is to [create a project with ServiceStack's VS.NET Templates](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project).
 In addition to this, there are a number of great walk-thru's into ServiceStack in the 
 [Community Resources](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice#community-resources) section below. Like this [detailed walk-thru with Screenshots](http://nilsnaegele.com/codeedge/servicestack.html) by [@nilsnagele](https://twitter.com/nilsnagele).
@@ -48,7 +46,7 @@ If you want to host ServiceStack at root path (`/`), you should use this configu
 </system.webServer>
 ```
 
-> **Tip:** If you want to host your webservice on a custom path to avoid conflicts with another web framework (eg ASP.Net MVC), see https://github.com/ServiceStack/ServiceStack/wiki/Run-servicestack-side-by-side-with-another-web-framework.
+> **Tip:** If you want to host your webservice on a custom path to avoid conflicts with another web framework (eg ASP.Net MVC), see [Run ServiceStack side-by-side with another web framework](https://github.com/ServiceStack/ServiceStack/wiki/Run-servicestack-side-by-side-with-another-web-framework).
 
 > **Note:** Due to limitations in IIS 6 - host [ServiceStack at a /custompath](http://mono.servicestack.net/ServiceStack.Hello/#custompath) which must end with `.ashx`, e.g: `path="api.ashx"`
 
@@ -66,7 +64,7 @@ Each service in ServiceStack consists of three parts:
 
 That's the core philosophy in ServiceStack. Each service has a strongly-typed, code-first (normal POCOs) request DTO and response DTO. You can read a detailed explanation what advantages exist if you're using DTOs in the [ReadMe](https://github.com/ServiceStack/ServiceStack/blob/master/README.md) or in [Why should I use ServiceStack?] (https://github.com/ServiceStack/ServiceStack/wiki/Why-Servicestack).
 
-1. Create the name of your Web Service (i.e. the Request DTO)
+1) Create the name of your Web Service (i.e. the Request DTO)
 ```csharp
 [Route("/hello")]
 [Route("/hello/{Name}")]
@@ -76,7 +74,7 @@ public class Hello
 }
 ```
 
-2. Define what your Web Service will return (i.e. Response DTO)
+2) Define what your Web Service will return (i.e. Response DTO)
 ```csharp
 public class HelloResponse
 {
@@ -84,7 +82,7 @@ public class HelloResponse
 }
 ```
 
-3. Create your Web Service implementation
+3) Create your Web Service implementation
 ```csharp
 public class HelloService : Service
 {

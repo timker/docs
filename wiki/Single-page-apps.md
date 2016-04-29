@@ -1,5 +1,14 @@
 ServiceStack with its strong foundations as a remote services framework and it's [easy and versatile HTML support](http://razor.servicestack.net/) makes it the ideal services framework to create Single Page Apps.
 
+## [TypeScript React VS.NET Template](https://github.com/ServiceStackApps/typescript-react-template/)
+
+TypeScript React incorporates today's best-in-class technologies for developing rich, complex
+JavaScript Apps within VS.NET and encapsulated within ServiceStack's new
+[TypeScript React VS.NET Template](https://github.com/ServiceStackApps/typescript-react-template/)
+providing an instant integrated client and .NET server solution where you'll be immediately productive 
+out-of-the-box whilst enabling an optimal iterative development experience with pre-configured Gulp tasks 
+that takes care of effortlessly packaging, bundling and deploying your next App. 
+
 ## [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)
 
 React Desktop Apps take advantage of the adaptability, navigation and deep-linking benefits of a Web-based UI, the productivity and responsiveness of the 

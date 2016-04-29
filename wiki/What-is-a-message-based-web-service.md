@@ -1,6 +1,8 @@
-# Message-based design in ServiceStack
+Answer from [ServiceStack's interview on InfoQ](http://www.infoq.com/articles/interview-servicestack-2):
 
 In essence, a message-based service is one that passes messages to facilitate its communication. A good metaphor for illustrating the differences between a RPC method and a message-based API can be seen in Smalltalk or [Objective-C's message dispatch mechanism](http://stackoverflow.com/a/982356/85785) vs a normal static C method call. Method invocations are coupled to instance they are invoked on, in a message-based system the request is captured in the message and sent to a receiver. The receiver doesn't have to handle the message as it can optionally delegate the request to an alternative receiver to process instead. 
+
+### Message-based design in ServiceStack
 
 Message-based design is enabled in ServiceStack by capturing the Services Request Query into a Request DTO that's completely de-coupled from any one implementation. You can think of making a ServiceStack request as a Smalltalk runtime method dispatch at a Macro scale, where the ServiceStack host is the Receiver, the HTTP Verb is the selector and Request DTO is the message. 
 
@@ -27,5 +29,3 @@ This is an especially important approach to take whenever implementing service-i
 ### Adopted by most leading distributed frameworks
 
 Benefits of message-based designs are already well-known to developers of [leading distributed frameworks](http://www.servicestack.net/files/messaging.htm) who have adopted message-based designs in leading platforms, e.g: Google's Protocol Buffers, Amazon's Web Services platform, Erlang processes, F# mailboxes, Scala's Actors, Go's Channels, Dart's Isolates and Clojure's agents, etc.
-
-> Answer from [ServiceStack's interview on InfoQ](http://www.infoq.com/articles/interview-servicestack-2):

@@ -1,50 +1,26 @@
-If you want to support SOAP, you have to note some important things, because of the lack of other HTTP verbs except for `POST` in SOAP.
-
-## Rest only
-If you only want to support REST, you can take the easy route:
-
-
-```csharp
-//Request DTO
-public class Customers {...}
-```
-
-```csharp
-public class CustomersService : Service
-{
-    //Get customers
-    public object Get(Customers request) {...}
-    
-    //Add customer
-    public object Post(Customers request) {...}
-    
-    //Update customer
-    public object Put(Customers request) {...}
-    
-    //Delete customer
-    public object Delete(Customers request) {...}
-}
-```
-
-```csharp
-//In the AppHost's configure method
-Routes.Add<Customers>("/customers")
-      .Add<Customers>("/customers/{Id}");
-```
+If you want to support SOAP, you have to ensure you adhere to some additional constraints where each method needs to be defined with the `Any()` endpoint and each DTO needs to be decorated with `[DataContract]` and `[DataMember]` attributes so their metadata is generated in your Services XSD and WSDL metadata.
 
 ## Soap + Rest
 
-SOAP only supports `POST` requests. But the REST example makes use of `GET`, `DELETE` (...) requests, which aren't available with SOAP. So if you want to support SOAP and REST, you need to create one service for each operation:
+SOAP only supports a single `POST` request but REST services also make use of `GET`, `PUT`, `DELETE`, etc requests, which aren't used in SOAP. So if you want to support SOAP and REST, you need to create one service for each operation which is also the [recommended API structure](http://stackoverflow.com/a/15235822/85785) for creating [message-based Services](http://stackoverflow.com/a/15941229/85785). The difference to be able to support SOAP is that Service implementations need to be defined with `Any()`, e.g:
 
 ```csharp
 //Request DTO - Add DataMember attribute for all properties.
 [DataContract]
+[Route("/customers", "GET")]
+[Route("/customers/{Id}", "GET")]
 public class GetCustomers {...}
+
 [DataContract]
-public class UpdateCustomer {...}
-[DataContract]
+[Route("/customers", "POST")]
 public class AddCustomer {...}
+
 [DataContract]
+[Route("/customers/{Id}", "PUT")]
+public class UpdateCustomer {...}
+
+[DataContract]
+[Route("/customers/{Id}", "DELETE")]
 public class DeleteCustomer {...}
 
 //Service
@@ -53,31 +29,23 @@ public class CustomersService : Service
    public object Any(GetCustomers request){...}
    public object Any(AddCustomer request){...}
    public object Any(UpdateCustomer request){...}
-   public object Post(UpdateCustomer request){...}
    public object Any(DeleteCustomer  request){...}
 }
 ```
 
-The method `Any` gets executed on each HTTP verb and on each endpoint. Make sure that **all DTO models** have `[DataContract]` attribute (and `[DataMember]` attribute for **all properties**) otherwise the XSD-schema embedded within the WSDL will be partially incomplete.  
-
-> **Note**: SOAP uses the HTTP POST verb. Therefore, each service must have `Any()` or `Post()` methods to support SOAP.
+Using `Any` will allow the Service to be executed on each HTTP Verb which is required for SOAP since all SOAP Requests are made with a HTTP POST Request wrapped inside a SOAP message and sent to the fixed `/soap11` or `/soap12` endpoints. You also want to make sure that **all DTO models** have `[DataContract]` attribute (and `[DataMember]` attribute for **all properties**) otherwise the XSD-schema embedded within the WSDL will be partially incomplete.  
 
 ### REST-ful registration of multiple services
 
-Now that you have multiple web services you can register them all together to expose them as a single REST-ful resource (as seen with the REST service above):
+The Custom `[Route]` definitions are used to control how you want services exposed in REST APIs which all logically appear to exposed them under a single REST-ful resource, i.e:
 
-```csharp
-//In the AppHost's configure method
-Routes.Add<GetCustomers>("/customers", "GET")
-      .Add<GetCustomers>("/customers/{Id}", "GET")
-      .Add<AddCustomer>("/customers", "POST")
-      .Add<UpdateCustomer>("/customers/{Id}", "PUT")
-      .Add<DeleteCustomer>("/customers/{Id}", "DELETE")
-```
+    GET /customers    - Get All Customers
+    GET /customers/1  - Get Customer #1
+    POST /customers   - Add New Customer
+    PUT /customers/1  - Update Customer #1 
+    DELETE /customers - Delete Customer #1
 
-> **Note:** Don't forget to specify the HTTP verb filters!
-
-Now this webservice supports **REST and SOAP** and has the same REST endpoint as the above service, they equal 1:1.
+This Web Service now supports both **REST and SOAP** with REST API's using the above custom routes and SOAP requests posting WSDL Requests to their fixed `/soap11` or `/soap12` endpoints.
 
 ### Raw Access to WCF SOAP Message
 

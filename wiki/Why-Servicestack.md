@@ -88,7 +88,7 @@ Comparatively there is almost no win for a remote RPC API, except to maybe [hide
     / [Part II](http://www.infoq.com/articles/interview-servicestack-2) by [@infoq](http://twitter.com/infoq)
   - [Great example showing how you can re-use ServiceStack services in Websites and REST APIs](http://northwind.mattjcowan.com/customers) by [@mattjcowan](https://twitter.com/mattjcowan)
   - [RESTful Data Services in .NET](https://coldie.net/?tag=servicestack)
-  - [Making mPACT API Better](http://blog.mblast.com/mbwordpress/mpact-api/making-mpact-api-better/) by [@mBLAST](https://twitter.com/mBLAST)
+  - [Making mPACT API Better](https://web.archive.org/web/20130401041733/http://blog.mblast.com/mbwordpress/mpact-api/making-mpact-api-better/) by [@mBLAST](https://twitter.com/mBLAST)
   - ["Service Stack" framework](http://dragansr.blogspot.com/2012/12/service-stack-framework.html) by [@dragansr](https://twitter.com/dragansr)
   - [servicestack.net – Skip WCF and use this](http://fafx.wordpress.com/category/tools/servicestack-net/) by [thefafxproject](http://fafx.wordpress.com/)
   - [Libraries and components used by DiceFeud](http://dicefeud.blogspot.se/2012/08/libraries-and-components.html) by [John Hård](http://www.blogger.com/profile/17364481663076074340)

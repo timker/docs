@@ -34,13 +34,19 @@ class ServerEventsFeature
     StreamPath = "/event-stream";            // The entry-point for Server Sent Events
     HeartbeatPath = "/event-heartbeat";      // Where to send heartbeat pulses
     UnRegisterPath = "/event-unregister";    // Where to unregister your subscription
-    SubscribersPath = "/event-subscribers";  // Where to view public info of channel subscribers 
+    SubscribersPath = "/event-subscribers";  // View public info of channel subscribers 
 
-    LimitToAuthenticatedUsers = false;       // Return `401 Unauthorized` to non-authenticated clients
-    IdleTimeout = TimeSpan.FromSeconds(30);      // How long to wait for heartbeat before unsubscribing
-    HeartbeatInterval = TimeSpan.FromSeconds(10); // Client Interval for sending heartbeat messages
+    // Return `401 Unauthorized` to non-authenticated clients
+    LimitToAuthenticatedUsers = false;
 
-    NotifyChannelOfSubscriptions = true;          // Send notifications when subscribers join/leave
+    // How long to wait for heartbeat before unsubscribing
+    IdleTimeout = TimeSpan.FromSeconds(30);  
+
+    // Client Interval for sending heartbeat messages
+    HeartbeatInterval = TimeSpan.FromSeconds(10);
+
+    // Send notifications when subscribers join/leave
+    NotifyChannelOfSubscriptions = true;
 }
 ```
 
@@ -51,11 +57,13 @@ There are also a number of hooks available providing entry points where custom l
 ```csharp
 class ServerEventsFeature
 {
-    Action<IEventSubscription, Dictionary<string, string>> OnConnect; //Filter OnConnect messages
+     //Filter OnConnect messages
+    Action<IEventSubscription, Dictionary<string, string>> OnConnect;
 
-    Action<IEventSubscription, IRequest> OnCreated;  // Fired when an Subscription is created
-    Action<IEventSubscription> OnSubscribe;          // Fired when subscription is registered 
-    Action<IEventSubscription> OnUnsubscribe;        // Fired when subscription is unregistered
+    // Events fired when 
+    Action<IEventSubscription, IRequest> OnCreated;  // Subscription is created
+    Action<IEventSubscription> OnSubscribe;          // Subscription is registered 
+    Action<IEventSubscription> OnUnsubscribe;        // Subscription is unregistered
 }
 ```
 
@@ -70,31 +78,29 @@ public interface IServerEvents : IDisposable
 {
     // External API's
     void NotifyAll(string selector, object message);
-
     void NotifyChannel(string channel, string selector, object message);
-
     void NotifySubscription(string subscriptionId, string selector, object message, string channel = null);
-
     void NotifyUserId(string userId, string selector, object message, string channel = null);
-
     void NotifyUserName(string userName, string selector, object message, string channel = null);
-
     void NotifySession(string sspid, string selector, object message, string channel = null);
 
     SubscriptionInfo GetSubscriptionInfo(string id);
-
     List<SubscriptionInfo> GetSubscriptionInfosByUserId(string userId);
 
     // Admin API's
     void Register(IEventSubscription subscription, Dictionary<string, string> connectArgs = null);
-
     void UnRegister(string subscriptionId);
 
     long GetNextSequence(string sequenceId);
 
-    // Client API's
-    List<Dictionary<string, string>> GetSubscriptionsDetails(string channel = null);
+    int RemoveExpiredSubscriptions();
 
+    void SubscribeToChannels(string subscriptionId, string[] channels);
+    void UnsubscribeFromChannels(string subscriptionId, string[] channels);
+
+    // Client API's
+    List<Dictionary<string, string>> GetSubscriptionsDetails(params string[] channels);
+    List<Dictionary<string, string>> GetAllSubscriptionsDetails();
     bool Pulse(string subscriptionId);
 
     // Clear all Registrations
@@ -370,6 +376,64 @@ public class ServerEventsServices : Service
 }
 ```
 
+## Updating Channels on Live Subscriptions
+
+You can update a live Server Events connection with Channels you want to Join or Leave using the 
+built-in ServerEvents `UpdateEventSubscriber` Service:
+
+```csharp
+[Route("/event-subscribers/{Id}", "POST")]
+public class UpdateEventSubscriber : IReturn<UpdateEventSubscriberResponse>
+{
+    public string Id { get; set; }
+    public string[] SubscribeChannels { get; set; }
+    public string[] UnsubscribeChannels { get; set; }
+}
+```
+
+This lets you modify your active subscription with channels you want to join or leave with a HTTP POST Request, e.g:
+
+    POST /event-subscribers/{subId}
+    SubscribeChannels=chan1,chan2&UnsubscribeChannels=chan3,chan4
+
+### onUpdate Notification
+
+As this modifies the active subscription it also publishes a new **onUpdate** notification to all channel 
+subscribers so they're able to maintain up-to-date info on each subscriber. 
+
+In C# `ServerEventsClient` this can be handled together with **onJoin** and **onLeave** events using `OnCommand`:
+
+```csharp
+client.OnCommand = msg => ...; //= ServerEventJoin, ServerEventLeave or ServerEventUpdate
+```
+
+In the ss-utils JavaScript Client this can be handled with a Global Event Handler, e.g:
+
+```javascript
+$(source).handleServerEvents({
+    handlers: {
+        onConnect: connectedUserInfo => { ... },
+        onJoin: userInfo => { ... },
+        onLeave: userInfo => { ... },
+        onUpdate: userInfo => { ... }
+    }
+});
+```
+
+### ServerEvents Update Channel APIs
+
+Whilst internally, from within ServiceStack you can update a channel's subscription using the
+[IServerEvents](https://github.com/ServiceStack/ServiceStack/blob/b9a33c34d0b0eedbcc6b3483257f1dc37bbf713f/src/ServiceStack/ServerEventsFeature.cs#L1004) APIs:
+
+```csharp
+public interface IServerEvents 
+{
+    ...
+    void SubscribeToChannels(string subscriptionId, string[] channels);
+    void UnsubscribeFromChannels(string subscriptionId, string[] channels);
+}
+```
+
 ## Troubleshooting
 
 ### Response Buffering delaying events
@@ -384,19 +448,44 @@ If your web server is configured to automatically buffer the response it will de
 
 Alternatively you can switch to use Visual Studio Development Server which doesn't buffer by default.
 
-## ServerEvent Examples
+# ServerEvent Examples
+
+## [React Chat](https://github.com/ServiceStackApps/ReactChat)
+
+React Chat is a port of [ServiceStack Chat](https://github.com/ServiceStackApps/Chat) ES5, jQuery Server Events 
+demo into a [TypeScript](http://www.typescriptlang.org/), [React](http://facebook.github.io/react/) and 
+[Redux](https://github.com/reactjs/redux) App:
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat-react/screenshot.png)](http://react-chat.servicestack.net/)
+
+## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
+
+Xamarin.Android Chat utilizes the 
+[.NET PCL Server Events Client](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client)
+to create an Android Chat App connecting to the existing 
+[chat.servicestack.net](http://chat.servicestack.net/) Server Events back-end where it's able to communicate 
+with existing Ajax clients and other connected Android Chat Apps. 
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/xamarin-android-server-events.png)](https://www.youtube.com/watch?v=tImAm2LURu0)
+
+> [YouTube Video](https://www.youtube.com/watch?v=tImAm2LURu0) and [AndroidXamarinChat Repo](https://github.com/ServiceStackApps/AndroidXamarinChat)
+
+## [Networked Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-9---real-time-networked-time-traveller)
+
+A network-enhanced version of the
+[stand-alone Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-8---time-travelling-using-state-snapshots)
+that allows users to **connect to** and **watch** other users using the App in real-time similar 
+to how users can use Remote Desktop to watch another computer's screen: 
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/redux-chrome-safari.png)](http://redux.servicestack.net)
+
+> Live demo: http://redux.servicestack.net
 
 ## [Chat](https://github.com/ServiceStackApps/Chat)
 
 > Feature-rich Single Page Chat App, showcasing Server Events support in 170 lines of JavaScript!
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat.png)](http://chat.servicestack.net)
-
-## [React Chat](https://github.com/ServiceStackApps/Chat-React)
-
-> React.js port of ServerEvents Chat using React, Reflux and new **ReactJS App** VS.NET Template
-
-[![React Chat](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat-react-multichannels.png)](http://react-chat.servicestack.net?channels=home,work,play)
 
 ## [React Chat Desktop](https://github.com/ServiceStackApps/ReactChatApps)
 

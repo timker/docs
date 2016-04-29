@@ -351,3 +351,44 @@ client.ServiceClient.Post(new Authenticate {
 });
 ```
 
+## .NET UpdateSubscriber APIs
+
+The sync/async APIs below built into the C# `ServerEventsClient` will let you modify an active Server Events
+subscription to join new or leave existing channels:
+
+```csharp
+client.UpdateSubscriber(new UpdateEventSubscriber { 
+    SubscribeChannels = new[]{ "chan1", "chan2" },
+    UnsubscribeChannels = new[]{ "chan3", "chan4" },
+});
+
+client.SubscribeToChannels("chan1", "chan2");
+client.UnsubscribeFromChannels("chan3", "chan4");
+
+await client.SubscribeToChannelsAsync("chan1", "chan2");
+await client.UnsubscribeFromChannelsAsync("chan3", "chan4");
+```
+
+### onUpdate Notification
+
+As this modifies the active subscription it also publishes a new **onUpdate** notification to all channel 
+subscribers so they're able to maintain up-to-date info on each subscriber. 
+This can be handled together with **onJoin** and **onLeave** events using `OnCommand`:
+
+```csharp
+client.OnCommand = msg => ...; //= ServerEventJoin, ServerEventLeave or ServerEventUpdate
+```
+
+# ServerEvent .NET Examples
+
+## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
+
+Xamarin.Android Chat utilizes the 
+[.NET PCL Server Events Client](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client)
+to create an Android Chat App connecting to the existing 
+[chat.servicestack.net](http://chat.servicestack.net/) Server Events back-end where it's able to communicate 
+with existing Ajax clients and other connected Android Chat Apps. 
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/xamarin-android-server-events.png)](https://www.youtube.com/watch?v=tImAm2LURu0)
+
+> [YouTube Video](https://www.youtube.com/watch?v=tImAm2LURu0) and [AndroidXamarinChat Repo](https://github.com/ServiceStackApps/AndroidXamarinChat)

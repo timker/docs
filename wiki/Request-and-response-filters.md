@@ -1,7 +1,9 @@
 A recent addition to ServiceStack is the ability to register custom Request and Response filters. These should be registered in your `AppHost.Configure()` onload script: 
 
-- The Request Filters are applied before the service gets called and accepts:
-_([IRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs), [IResponse](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IResponse.cs), RequestDto)_ e.g:
+### Global Request Filters
+
+The Request Filters are applied before the service gets called and accepts:
+([IRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs), [IResponse](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IResponse.cs), RequestDto) e.g:
     
 ```csharp
 //Add a request filter to check if the user has a session initialized
@@ -14,8 +16,10 @@ this.GlobalRequestFilters.Add((req, res, requestDto) => {
 });
 ```
 
-- The Response Filters are applied after your service is called and accepts:
-_([IRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs), [IResponse](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IResponse.cs), ResponseDto)_ e.g:
+### Global Response Filters
+
+The Response Filters are applied after your service is called and accepts:
+([IRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs), [IResponse](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IResponse.cs), ResponseDto) e.g:
 
 ```csharp
 //Add a response filter to add a 'Content-Disposition' header so browsers treat it as a native .csv file

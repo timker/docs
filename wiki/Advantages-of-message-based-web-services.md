@@ -1,6 +1,4 @@
-# Advantages of message based web services
-
-#### This is in response to a recent question from [mailing group](https://groups.google.com/forum/?fromgroups#!topic/servicestack/qkV5fzdnzt8):
+### This is in response to a recent question from [mailing group](https://groups.google.com/forum/?fromgroups#!topic/servicestack/qkV5fzdnzt8):
 
     It seems like ServiceStack is designed for use primarily in a greenfield 
     SOA implementation where the technology environment is quite homogeneous, 
@@ -64,7 +62,7 @@ From this they use their `protoc` command-line utility to generate native types 
 
 ## A Productivity Win 
 
-We've been building SOA systems like this with ServiceStack for years: the productivity boost you get from using typed, end-to-end, resilient, message-based API is unmatched. An example of this was having developed over 100+ Web Services for the [Redis WebServices](http://www.servicestack.net/RedisAdminUI/redis/metadata) project in just 1 weekend. Others that have tried ServiceStack also agree its ease-of-development and **"pit of success"** design it promotes ultimately yields a productivity win - this positive sentiment is captured in [@ServiceStack's favourites](https://twitter.com/#!/ServiceStack/favorites) and throughout the [mailing group](https://groups.google.com/forum/?fromgroups#!forum/servicestack).
+We've been building SOA systems like this with ServiceStack for years: the productivity boost you get from using typed, end-to-end, resilient, message-based API is unmatched. An example of this was having developed over 100+ Web Services for the [Redis WebServices](http://redisadminui.servicestack.net/redis/metadata) project in just 1 weekend. Others that have tried ServiceStack also agree its ease-of-development and **"pit of success"** design it promotes ultimately yields a productivity win - this positive sentiment is captured in [@ServiceStack's favourites](https://twitter.com/#!/ServiceStack/favorites) and throughout the [mailing group](https://groups.google.com/forum/?fromgroups#!forum/servicestack).
 
 ### The anatomy of a ServiceStack service
 
@@ -78,23 +76,18 @@ By contrast we've witnessed .NET devs struggling to implement much fewer SOAP we
 
 Unfortunately despite Microsoft having hosted Martin Fowler's respected [Data Transfer Object](http://msdn.microsoft.com/en-us/library/ff649585.aspx) and [Service Gateway](http://msdn.microsoft.com/en-us/library/ff650101.aspx) patterns on MSDN for years - none of their web frameworks have encouraged their use. Instead in .NET we've been forced to code against the multiple generation of replacement web service frameworks they've churned out over the years like .asmx, CSF, WCF, WCF/REST, WSE, WCF DataServices, RIA, MVC (escaping earlier cruft) and now WebApi. Each of these frameworks share the same mistake of mapping to C# methods, which we believe is a terrible idea for network  services since it promotes chatty and brittle remote interfaces, that fail to facilitate the easy creation of SOA-like Apis. 
 
-Throughout all these generations of frameworks ServiceStack's underlying core [IService<T> interface](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IService.cs) has remained constant - with its simple Execute method:
+Throughout all these generations of frameworks ServiceStack's underlying core [IService<T> interface](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IService.cs) has remained constant - with its simple Execute method:
 
-```` csharp
     public interface IService<T> {
         object Execute(T request);
     }
-````
 
 Which we've simplified even further in the [[New API]] to just an empty marker interface:
 
-```` csharp
     public interface IService { }
-````
 
 Which lets you handle any HTTP Verb, as well as a 'Catch All' **Any** fall-back to handle any un-specified HTTP verbs, e.g:
 
-```` csharp
     public class MyService : IService 
     {
          public Response Get(Request request){...}
@@ -103,7 +96,6 @@ Which lets you handle any HTTP Verb, as well as a 'Catch All' **Any** fall-back 
          //Fallback for Anything else e.g DELETE, PUT, PATCH, OPTIONS, etc.
          public Response Any(Request request){...} 
     }
-````
 
 It simply accepts any user-defined Request DTO and returns any Response DTO - that you're given complete freedom to create. If ever more customization/headers is needed you can return the decorated response inside a `HttpResult` or `HttpError` to maintain full control over the HTTP output.
 
@@ -135,9 +127,7 @@ It encourages developers to treat web services as just another method call even 
 
 But the main disadvantage of method signature service APIs is that they mandate the use of code-gen in order to provide a typed client API. Using messages allows you to re-use generic service clients for all your service communications. This is how, even up to this day ServiceStack remains the only .NET framework to maintain a terse, (both sync and async), typed, end-to-end client libraries without any code-gen, e.g:
 
-```` csharp
     Todo createdTodo = client.Post(new Todo { Content = "New Todo", Order = 1 });
-````
 
 ### Code-gen'ing service clients is evil
 
@@ -174,7 +164,7 @@ Although none of these qualities are new, message-based designs have been very w
 
 They're just weak in .NET since Microsoft has an un-naturally strong influence over .NET developer mindshare and have been able to steer mainstream .NET into using SOAP Web Services at the expense of MQ's and message-based solutions. Our guess for this was because they've only had a poor, outdated MQ option in MSMQ and that the 1) right-click 'Add Service Reference' and 2) call a remote service like a c# method, demos very well. 
 
-This could change with the advent of [Azure Service Bus](http://www.windowsazure.com/en-us/home/features/messaging/) if Microsoft devotes some attention into pointing mainstream .NET devs towards a messaging approach. Although with the imminent release of WebApi and Microsoft's full marketing force, army of employees and full-time developer advocates behind it, they will likely be once again successful into moving most of mainstream .NET onto yet another replacement web-service framework for all their remote communication needs - when often message-based / SOA designs provide a better fit.
+This could change with the advent of [Azure Service Bus](https://azure.microsoft.com/en-us/services/service-bus/) if Microsoft devotes some attention into pointing mainstream .NET devs towards a messaging approach. Although with the imminent release of WebApi and Microsoft's full marketing force, army of employees and full-time developer advocates behind it, they will likely be once again successful into moving most of mainstream .NET onto yet another replacement web-service framework for all their remote communication needs - when often message-based / SOA designs provide a better fit.
 
 For those interested in discovering advantages of MQ's and message-based designs and their abilities in enabling loosely coupled distributed systems, we recommend the excellent book from Martin Fowler's signature series - [Enterprise Integration Patterns](http://www.eaipatterns.com/).
 
@@ -184,7 +174,7 @@ This is fairly inaccurate considering ServiceStack's mission is close to the exa
 
 ### Excellent built-in support of HTTP on most open and popular formats
 
-Not only do all ServiceStack services accept a Request DTO populated with any combination of Custom Routes, QueryString and HTML FormData. You can also POST the serialized Request DTO in any of the in-built formats: i.e. XML, JSON, JSV, SOAP 1.1/1.2, ProtoBuf (when enabled) or your own [custom format](http://www.servicestack.net/ServiceStack.Northwind/vcard-format.htm). All services immediately support JSONP and its trivial to [enable CORS on all services](http://stackoverflow.com/questions/8211930/servicestack-rest-api-and-cors). Should you wish, you're also able to have all HTTP Verbs execute the same service. 
+Not only do all ServiceStack services accept a Request DTO populated with any combination of Custom Routes, QueryString and HTML FormData. You can also POST the serialized Request DTO in any of the in-built formats: i.e. XML, JSON, JSV, SOAP 1.1/1.2, ProtoBuf (when enabled) or your own [custom format](http://northwind.servicestack.net/vcard-format.htm). All services immediately support JSONP and its trivial to [enable CORS on all services](http://stackoverflow.com/questions/8211930/servicestack-rest-api-and-cors). Should you wish, you're also able to have all HTTP Verbs execute the same service. 
 
 Support is included for registering raw custom IHttpHandler's, [Request / Response Filters](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters) and HttpResult/HttpError results - giving you a multitude of options to maintain full control over the entire HTTP Output - should you need to meet any extraneous external requirements. 
 
@@ -192,9 +182,7 @@ Support is included for registering raw custom IHttpHandler's, [Request / Respon
 
 ServiceStack's JSON & JSV serializers are **case-insensitive** (i.e. supports both camelCase and PascalCase properties) and the 1-line below (already included in most Example templates) emits idiomatic camelCase JSON output:
 
-```` csharp
     ServiceStack.Text.JsConfig.EmitCamelCaseNames = true;
-````
 
 They're both [very resilient and can withstand extreme versioning without error](https://github.com/ServiceStack/ServiceStack.Redis/wiki/MigrationsUsingSchemalessNoSql) making it easy to consume [3rd party APIs](https://github.com/ServiceStack/ServiceStack.Text/tree/master/tests/ServiceStack.Text.Tests/UseCases)
 
@@ -218,25 +206,19 @@ But even without this, ServiceStack services are just as consumable as any other
 
 The earlier typed API example of creating a new TODO in C#:
 
-```` csharp
     var client = new JsonServiceClient(baseUrl);
     Todo createdTodo = client.Send<Todo>(new Todo { Content = "New Todo", Order = 1 });
-````
 
 Is like this in Dart (using the [Dart JSON Client](https://github.com/mythz/DartJsonClient)):
 
-```` dart
     var client = new JsonClient(baseUrl);
     client.todos({'content':'New Todo', 'order':1})
           .then((createdTodo) => ...);
-````
 
 Or in jQuery:
 
-```` javascript
     $.post(baseUrl + '/todos', {content:'New Todo', order:1}, 
          function(createdTodo) { ... }, 'json');
-````
 
 And you still have the option to consume all services in other Content-Types. Some languages may prefer to deal with XML - which can easily be accessed by adding the appropriate `Accept` and `Content-Type` headers.
 

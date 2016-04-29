@@ -10,6 +10,28 @@ Alternatively you can use the [HttpClient-based JsonHttpClient](https://github.c
 
 These packages also contain PCL versions of the Service Clients available with support for [Xamarin.iOS, Xamarin.Android, Windows Store, WPF and Silverlight 5](https://github.com/ServiceStackApps/HelloMobile) platforms.
 
+### [Cache Aware Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Cache-Aware-Clients)
+
+When [caching is enabled on Services](https://github.com/ServiceStack/ServiceStack/wiki/HTTP-Caching), the Cache-aware Service Clients can dramatically improve performance by eliminating server requests entirely as well as reducing bandwidth for re-validated requests. They also offer an additional layer of resiliency as re-validated requests that result in Errors will transparently fallback to using pre-existing locally cached responses. For bandwidth-constrained environments like Mobile Apps they can dramatically improve the User Experience.
+
+The Cache-Aware clients implement the full `IServiceClient` interface so they should be an easy drop-in enhancement for existing Apps:
+
+```csharp
+IServiceClient client = new JsonServiceClient(baseUrl).WithCache(); 
+
+//equivalent to:
+IServiceClient client = new CachedServiceClient(new JsonServiceClient(baseUrl));
+```
+
+Likewise for the HttpClient-based `JsonHttpClient`:
+
+```csharp
+IServiceClient client = new JsonHttpClient(baseUrl).WithCache(); 
+
+//equivalent to:
+IServiceClient client = new CachedHttpClient(new JsonHttpClient(baseUrl));
+```
+
 ## REST API
 
 All ServiceStack's C# clients share the same interfaces and are created by passing in the **Base URI** of your ServiceStack service in the clients constructor, e.g. if your ServiceStack instance was hosted on the root path `/` on the 8080 custom port:
@@ -221,10 +243,15 @@ public class BuiltInTypesService : Service
 }
 ```
 
+### Accessing client raw responses
+
 Which let you access the results as you would a normal response:
+
 ```csharp
-HttpWebResponse response = client.Get(new Headers { Text = "World" });
-response.Headers["X-Response"] // "World"
+using (HttpWebResponse response = client.Get(new Headers { Text = "World" }))
+{
+    response.Headers["X-Response"] // "World"
+}
 
 string response = client.Get(new Strings { Text = "World" });
 response // Hello, World
@@ -234,18 +261,18 @@ byte[] response = client.Get(new Bytes {
 });
 var guid = new Guid(response);
 
-Stream response = client.Get(new Streams { 
-    Text = Guid.NewGuid().ToString() 
-});
-using (response)
+using (Stream stream = client.Get(new Streams { Text = Guid.NewGuid().ToString() })) 
+{
     var guid = new Guid(response.ReadFully());
+}
 ```
 
 All these APIs are also available asynchronously as well:
 ```csharp
-HttpWebResponse response = await client.GetAsync(
-    new Strings { Text = "Test" });
-response.Headers["X-Response"] // "World"
+using (HttpWebResponse response = await client.GetAsync(
+    new Strings { Text = "Test" })) {
+    response.Headers["X-Response"] // "World"
+}
 
 string response = await client.GetAsync(
     new Strings { Text = "World" });
@@ -256,14 +283,15 @@ byte[] response = await client.GetAsync(new Bytes {
 });
 var guid = new Guid(response);
 
-Stream response = await client.GetAsync(new Streams { 
+using (Stream stream = await client.GetAsync(new Streams { 
     Text = Guid.NewGuid().ToString() 
-});
-using (response) 
+})) 
 {
     var guid = new Guid(response.ReadFully());
 }
 ```
+
+> Note: You must explicitly dispose all APIs returning either `HttpWebResponse` or `Stream` as seen in the above examples.
 
 They all behave the same as the sync versions except for `HttpWebResponse` which gets returned just after
 the request is sent (asynchronously) and before any response is read so you can still access the HTTP Headers e.g:
@@ -436,6 +464,88 @@ Interface markers is supported in all .NET Service Clients, they're also include
 Whilst a simple feature, it enables treating your remote services as a message-based API 
 [yielding its many inherent advantages](https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services#advantages-of-message-based-designs) 
 where your Application API's need only pass Request DTO models around to be able to invoke remote Services, decoupling the Service Request from its implementation which can be now easily managed by a high-level adapter that takes care of proxying the Request to the underlying Service Client. The adapter could also add high-level functionality of it's own including auto retrying of failed requests, generic error handling, logging/telemetrics, event notification, throttling, offline queuing/syncing, etc.
+
+### Multiple File Uploads
+
+The `PostFilesWithRequest` APIs available in all .NET Service Clients allow you to easily upload multiple 
+streams within a single HTTP request. It supports populating Request DTO with any combination of QueryString 
+and POST'ed FormData in addition to multiple file upload data streams:
+
+```csharp
+using (var stream1 = uploadFile1.OpenRead())
+using (var stream2 = uploadFile2.OpenRead())
+{
+    var client = new JsonServiceClient(baseUrl);
+    var response = client.PostFilesWithRequest<MultipleFileUploadResponse>(
+        "/multi-fileuploads?CustomerId=123",
+        new MultipleFileUpload { CustomerName = "Foo,Bar" },
+        new[] {
+            new UploadFile("upload1.png", stream1),
+            new UploadFile("upload2.png", stream2),
+        });
+}
+```
+
+Example using only a Typed Request DTO. The `JsonHttpClient` also includes async equivalents for each of the 
+`PostFilesWithRequest` APIs:
+
+```csharp
+using (var stream1 = uploadFile1.OpenRead())
+using (var stream2 = uploadFile2.OpenRead())
+{
+    var client = new JsonHttpClient(baseUrl);
+    var response = await client.PostFilesWithRequestAsync<MultipleFileUploadResponse>(
+        new MultipleFileUpload { CustomerId = 123, CustomerName = "Foo,Bar" },
+        new[] {
+            new UploadFile("upload1.png", stream1),
+            new UploadFile("upload2.png", stream2),
+        });
+}
+```
+
+### ServiceClient URL Resolvers
+
+The urls used in all .NET Service Clients are now customizable with the new `UrlResolver` and `TypedUrlResolver` 
+delegates. 
+
+E.g. you can use this feature to rewrite the URL used with the Request DTO Type Name used as the subdomain by:
+
+```csharp
+[Route("/test")] 
+class Request {}
+
+var client = JsonServiceClient("http://example.org/api") {
+    TypedUrlResolver =  (meta, httpMethod, dto) => 
+        meta.BaseUri.Replace("example.org", dto.GetType().Name + ".example.org")
+            .CombineWith(dto.ToUrl(httpMethod, meta.Format)));
+};
+
+var res = client.Get(new Request());  //= http://Request.example.org/api/test
+var res = client.Post(new Request()); //= http://Request.example.org/api/test
+```
+
+This feature is also implemented in `JsonHttpClient`, examples below shows rewriting APIs that use custom urls:
+
+```csharp
+var client = JsonHttpClient("http://example.org/api") {
+    UrlResolver = (meta, httpMethod, url) => 
+        meta.BaseUri.Replace("example.org", "111.111.111.111").CombineWith(url))
+};
+
+await client.DeleteAsync<MockResponse>("/dummy"); 
+//=http://111.111.111.111/api/dummy
+
+await client.PutAsync<MockResponse>("/dummy", new Request()); 
+//=http://111.111.111.111/api/dummy
+```
+
+## [ServiceStack.Discovery.Consul](https://github.com/wwwlicious/servicestack-discovery-consul)
+
+This feature makes it easier to support features like
+[ServiceStack.Discovery.Consul](https://github.com/wwwlicious/servicestack-discovery-consul)
+plugin which enables external RequestDTO endpoint discovery 
+by integrating with [Consul.io](http://consul.io) to provide automatic service registration and health checking.
+
 
 *** 
 

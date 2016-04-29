@@ -3,7 +3,7 @@
 ***  
 
  - [Why ServiceStack?](https://github.com/ServiceStack/ServiceStack/wiki/Why-Servicestack)
-  - [[What is a message based web service?]]
+  - [What is a message based web service](https://github.com/ServiceStack/ServiceStack/wiki/What-is-a-message-based-web-service)
   - [[Advantages of message based web services]]
   - [Why remote services should use separate DTOs](http://stackoverflow.com/a/15369736/85785)
 

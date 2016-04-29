@@ -1,5 +1,6 @@
 ### Blog posts
 
+  - [Crossing The Chasm with ServiceStack and RestAngular](http://thunk.technology/blog/chasm-restangular-servicestack/) by [thunk.technology](http://thunk.technology)
   - [GeniusLink Full Tech Stack](http://blog.geni.us/2016/02/25/the-geniuslink-technology-stack/) by [@geniuslink](https://twitter.com/geniuslink)
   - [ServiceStack and Razor Forms](https://visualstudiomagazine.com/Articles/2016/02/01/ServiceStack-and-Razor-Forms.aspx) by [@dotnetmvp](https://twitter.com/dotnetmvp)
   - [Using IdentityServer 4 with ServiceStack and Angular](http://estynedwards.com/blog/2016/01/30/ServiceStack-IdentityServer-Angular/) by [@estynedwards](https://twitter.com/estynedwards)
@@ -7,6 +8,7 @@
   - [ElasticSearch and ServiceStack](http://buildclassifieds.com/2016/01/22/elasticsearch-and-servicestack/) by [@markholdt](https://twitter.com/markholdt)
   - [Adding Facebook Authentication using ServiceStack](http://buildclassifieds.com/2016/01/14/facebookauth/) by [@markholdt](https://twitter.com/markholdt)
   - [Uploading Images – ServiceStack and Dropzone](http://buildclassifieds.com/2016/01/08/uploading-images-servicestack-and-dropzone/) by [@markholdt](https://twitter.com/markholdt)
+  - [Achieving Delayed Messaging in ServiceStack with RabbitMQ and EasyNetQ](http://kevinkallberg.com/blog/post/2015/06/07/Achieving-Delayed-Messaging-in-ServiceStack-with-RabbitMQ-and-EasyNetQ) by [@kkallberg](https://twitter.com/kkallberg)
   - [AndroidServiceClient with Authentication](http://www.codeproject.com/Articles/1006484/AndroidServiceClient-with-Authentication) by [@NormDroid](http://www.codeproject.com/script/Membership/View.aspx?mid=164)
   - [Reactive Services with Servicestack and F#](http://kunjan.in/2015/11/reactive-services-with-servicestack-and-fsharp/) by [@kunjee](https://twitter.com/kunjee)
   - [Logging ServiceStack requests with Seq](http://www.wwwlicious.com/2015/10/25/logging-servicestack-requests-with-seq/) by [@wwwlicious](https://twitter.com/wwwlicious)
@@ -195,6 +197,7 @@
   - [GithubSharp with ServiceStack.Text](http://xtzgzorex.wordpress.com/2012/01/30/githubsharp-with-servicestack-text/) by [@XTZGZoReX](https://twitter.com/XTZGZoReX)
   - [ServiceStack.net](http://fir3pho3nixx.blogspot.com/2011/04/servicestacknet.html)
   - [Redis vs RavenDB – Benchmarks for .NET Client NoSQL Solutions](http://www.servicestack.net/mythz_blog/?p=474) by [@demisbellot](https://twitter.com/demisbellot)
+  - [Creating a ServiceStack Windows Service that uses Quartz](http://michaelclark.tech/2016/04/16/creating-a-servicestack-windows-service-that-uses-quartz/) by [CodeRevver](http://michaelclark.tech)
 
 ### Related Community Projects
 

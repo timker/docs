@@ -10,11 +10,11 @@ The easiest way to Add a ServiceStack reference to your project is to right-clic
 
 [![Add ServiceStack Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)
 
-After clicking OK, the servers DTO's and [ServiceStack.Client](https://www.nuget.org/packages/ServiceStack.Client) NuGet package are added to the project, providing an instant typed API:
+After clicking OK, the servers DTOs and [ServiceStack.Client](https://www.nuget.org/packages/ServiceStack.Client) NuGet package are added to the project, providing an instant typed API:
 
 [![Calling ServiceStack Service](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png)
 
-With the C# code generated on the Server, the role of [ServiceStackVS's](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project) **Add ServiceStack Reference** is then just to integrate the remote C# DTO's into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
+With the C# code generated on the Server, the role of [ServiceStackVS's](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project) **Add ServiceStack Reference** is then just to integrate the remote C# DTOs into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
 
 ![Add CSharp ServiceStack Reference Demo](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-csharp.gif)
 
@@ -31,7 +31,7 @@ Thanks to [ServiceStack.Client](https://www.nuget.org/packages/ServiceStack.Clie
 
 ## DTO Customization Options 
 
-The header comments in the generated DTO's allows for further customization of how they're generated where ServiceStackVS automatically watches for any file changes and updates the generated DTO's with any custom Options provided. Options that are preceded by a C# single line comment `//` are defaults from the server that can be overridden, e.g:
+The header comments in the generated DTOs allows for further customization of how they're generated where ServiceStackVS automatically watches for any file changes and updates the generated DTOs with any custom Options provided. Options that are preceded by a C# single line comment `//` are defaults from the server that can be overridden, e.g:
 
 ```csharp
 /* Options:
@@ -93,11 +93,11 @@ nativeTypes.MetadataTypesConfig.MakeVirtual = false;
 ...
 ```
 
-We'll go through and cover each of the above options to see how they affect the generated DTO's:
+We'll go through and cover each of the above options to see how they affect the generated DTOs:
 
 ### MakePartial
 
-Adds the `partial` modifier to all types, letting you extend generated DTO's with your own class separate from the generated types:
+Adds the `partial` modifier to all types, letting you extend generated DTOs with your own class separate from the generated types:
 
 ```csharp
 public partial class GetAnswers { ... }
@@ -129,7 +129,7 @@ public partial class GetAnswers
 
 ### AddReturnMarker
 
-AddReturnMarker annotates Request DTO's with an `IReturn<TResponse>` marker referencing the Response type ServiceStack infers your Service to return:
+When true, annotates Request DTOs with an `IReturn<TResponse>` marker referencing the Response type ServiceStack infers your Service to return:
 
 ```csharp
 public class GetAnswers
@@ -170,7 +170,7 @@ public partial class GetAnswers
 
 ### AddIndexesToDataMembers
 
-Populates a DataMember Order index for all properties:
+Populates a `DataMember` Order index for all properties:
 
 ```csharp
 [DataContract]
@@ -194,7 +194,7 @@ public partial class GetAnswers { ... }
 
 ### AddResponseStatus
 
-Automatically add a `ResponseStatus` property on all Response DTO's, regardless if it wasn't already defined:
+Automatically add a `ResponseStatus` property on all Response DTOs, regardless if it wasn't already defined:
 
 ```csharp
 public class GetAnswersResponse
@@ -206,7 +206,7 @@ public class GetAnswersResponse
 
 ### AddImplicitVersion
 
-Lets you specify the Version number to be automatically populated in all Request DTO's sent from the client: 
+Lets you specify the Version number to be automatically populated in all Request DTOs sent from the client: 
 
 ```csharp
 public partial class GetAnswers
@@ -226,7 +226,13 @@ This lets you know what Version of the Service Contract that existing clients ar
 
 ### InitializeCollections
 
-Lets you automatically initialize collections in Request DTO's:
+Usage: 
+```
+/* Options:
+InitializeCollections: True
+```
+
+Lets you automatically initialize collections in Request DTOs:
 
 ```csharp
 public class SearchQuestions
@@ -241,7 +247,7 @@ public class SearchQuestions
 }
 ```
 
-Intialized collections lets you take advantage of C#'s collection initializers for a nicer client API:
+Initialized collections lets you take advantage of C#'s collection initializers for a nicer client API:
 
 ```csharp
 var response = client.Get(new SearchQuestions { 
@@ -250,7 +256,7 @@ var response = client.Get(new SearchQuestions {
 ```
 
 ### IncludeTypes
-Is used as a Whitelist that can be used to specify only the types you would like to have code-generated:
+Is used as a Whitelist to specify only the types you would like to have code-generated:
 ```
 /* Options:
 IncludeTypes: GetTechnology,GetTechnologyResponse
@@ -262,12 +268,12 @@ public class GetTechnologyResponse { ... }
 ```
 
 ### ExcludeTypes
-Is used as a Blacklist where you can specify which types you would like to exclude from being generated:
+Is used as a Blacklist to specify which types you would like excluded from being generated:
 ```
 /* Options:
 ExcludeTypes: GetTechnology,GetTechnologyResponse
 ```
-Will exclude `GetTechnology` and `GetTechnologyResponse` DTO's from being generated.
+Will exclude `GetTechnology` and `GetTechnologyResponse` DTOs from being generated.
 
 ### AddDefaultXmlNamespace
 
@@ -284,7 +290,7 @@ This lets you change the default DataContract XML namespace used for all C# name
 
 ## Xamarin Studio
 
-With the new [ServiceStackXS Add-In](http://addins.monodevelop.com/Project/Index/154) your Service Consumers can now generate typed DTO's of your remote ServiceStack Services directly from within Xamarin Studio, which together with the **ServiceStack.Client** NuGet package provides an effortless way to enable an end-to-end Typed API from within Xamarin C# projects.
+With the new [ServiceStackXS Add-In](http://addins.monodevelop.com/Project/Index/154) your Service Consumers can now generate typed DTOs of your remote ServiceStack Services directly from within Xamarin Studio, which together with the **ServiceStack.Client** NuGet package provides an effortless way to enable an end-to-end Typed API from within Xamarin C# projects.
 
 ### Installing ServiceStackXS
 
@@ -303,7 +309,7 @@ Once installed, adding a ServiceStack Reference is very similar to [ServiceStack
 
 ### Updating the ServiceStack Reference
 
-As file watching isn't supported yet, to refresh the generated DTO's you'll need to click on its `Update ServiceStack Reference` from the items context menu.
+As file watching isn't supported yet, to refresh the generated DTOs, you'll need to right-click on it in the solution explorer and select `Update ServiceStack Reference` from the items context menu.
 
 ### Xamarin Studio for Linux
 

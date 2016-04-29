@@ -3,7 +3,7 @@
 
  - [Why ServiceStack?](https://github.com/ServiceStack/ServiceStack/wiki/Why-Servicestack)
   - [Important role of DTOs](http://stackoverflow.com/a/32940275/85785)
-  - [[What is a message based web service?]]
+  - [What is a message based web service?](https://github.com/ServiceStack/ServiceStack/wiki/What-is-a-message-based-web-service)
   - [[Advantages of message based web services]]
   - [Why remote services should use separate DTOs](http://stackoverflow.com/a/15369736/85785)
 
@@ -13,7 +13,7 @@
     1. [Creating your first project](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project)
       1. [Create Service from scratch](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice)
     2. [[Your first webservice explained]]
-    3. [ServiceStack's new API Design](https://github.com/ServiceStack/ServiceStack/wiki/New-API)
+    3. [API Design](https://github.com/ServiceStack/ServiceStack/wiki/New-API)
     4. [Designing a REST-ful service with ServiceStack](http://stackoverflow.com/a/15235822/85785)
     5. [Example Projects Overview](http://stackoverflow.com/a/15869816/85785)
     6. [Learning Resources](https://github.com/ServiceStack/ServiceStack/wiki/Learning-ServiceStack)
@@ -28,12 +28,13 @@
     7. [[Routing]]
     8. [[Service return types]]
     9. [[Customize HTTP Responses]]
-    10. [[Plugins]]
-    11. [Validation](https://github.com/ServiceStack/ServiceStack/wiki/Validation)
-    12. [[Error Handling]]
-    13. [[Security]]
-    14. [[Debugging]]
-    15. [JavaScript Client Library (ss-utils.js)](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library)
+    10. [[Customize JSON Responses]]
+    11. [[Plugins]]
+    12. [Validation](https://github.com/ServiceStack/ServiceStack/wiki/Validation)
+    13. [[Error Handling]]
+    14. [[Security]]
+    15. [[Debugging]]
+    16. [JavaScript Client Library (ss-utils.js)](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library)
 
 3. Clients
     1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview)
@@ -53,8 +54,8 @@
 4. Formats
     1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Formats)
     2. [[JSON/JSV and XML]]
-    3. [ServiceStack's new HTML5 Report Format](https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat)
-    4. [ServiceStack's new CSV Format](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format)
+    3. [HTML5 Report Format](https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat)
+    4. [[CSV Format]]
     5. [[MessagePack Format]]
     6. [[ProtoBuf Format]]
 
@@ -95,7 +96,6 @@
     5. [Request/response filters](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters)
     6. [Filter attributes](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes)
     7. [[Concurrency Model]]
-    8. [Built-in caching options](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
     9. [Built-in profiling](https://github.com/ServiceStack/ServiceStack/wiki/Built-in-profiling)
     10. [[Form Hijacking Prevention]]
     11. [[Auto-Mapping]]
@@ -109,18 +109,38 @@
     19. [Embedded Native Desktop Apps](https://github.com/ServiceStack/ServiceStack.Gap)
     20. [[Auto Batched Requests]]
     21. [[Versioning]]
+    22. [[Multitenancy]]
 
-9. Server Events
+9. Caching
+  1. [Caching Providers](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
+  2. [[HTTP Caching]]
+    1. [[CacheResponse Attribute]]
+    2. [[Cache Aware Clients]]
+
+10. Auto Query
+  1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query)
+  1. [[Why Not OData]]
+  2. [[AutoQuery RDBMS]]
+  3. [[AutoQuery Data]]
+    1. [[AutoQuery Memory]]
+    2. [[AutoQuery Service]]
+    3. [[AutoQuery DynamoDB]] 
+
+11. Server Events
     1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events)
     2. [JavaScript Client](https://github.com/ServiceStack/ServiceStack/wiki/JavaScript-Server-Events-Client)
     3. [[C# Server Events Client]]
     4. [[Redis Server Events]]
 
-10. Encrypted Messaging
+12. Service Gateway
+    1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Service-Gateway)
+    2. [[Service Discovery]]
+
+13. Encrypted Messaging
     1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Encrypted-Messaging)
     2. [Encrypted Client](https://github.com/ServiceStack/ServiceStack/wiki/Encrypted-Messaging#encrypted-service-client)
   
-11. Plugins
+14. Plugins
     1. [[Auto Query]]
     2. [Server Sent Events](https://github.com/ServiceStackApps/Chat#server-sent-events)
     3. [[Swagger API]]
@@ -130,17 +150,18 @@
     7. [[Cancellable Requests]]
     8. [[CorsFeature]]
 
-12. Tests
+15. Tests
     1. [[Testing]] 
     2. [HowTo write unit/integration tests](https://github.com/ServiceStack/ServiceStack/wiki/HowTo-write-unit-integration-tests)
 
-13. ServiceStackVS
+16. ServiceStackVS
     1. [[Install ServiceStackVS]]
     2. [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference)
-    3. [AngularJS App Template](https://github.com/ServiceStack/ServiceStackVS/blob/master/angular-spa.md)
-    4. [ReactJS App Template](https://github.com/ServiceStackApps/Chat-React)
+    3. [TypeScript React Template](https://github.com/ServiceStackApps/typescript-react-template/)
+    4. [AngularJS App Template](https://github.com/ServiceStack/ServiceStackVS/blob/master/docs/angular-spa.md)
+    5. [ReactJS App Template](https://github.com/ServiceStackApps/Chat-React)
 
-14. Other Languages
+17. Other Languages
     1. [[FSharp]]
         1. [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference)
     2. [[VB.NET]]
@@ -153,22 +174,22 @@
         3. [Eclipse](https://github.com/ServiceStack/ServiceStack.Java/tree/master/src/ServiceStackEclipse#eclipse-integration-with-servicestack)
 
 
-15. Amazon Web Services
+18. Amazon Web Services
   1. [ServiceStack.Aws](https://github.com/ServiceStack/ServiceStack.Aws)
   2. [PocoDynamo](https://github.com/ServiceStack/PocoDynamo)
   3. [AWS Live Demos](http://awsapps.servicestack.net)
   4. [Getting Started with AWS](https://github.com/ServiceStackApps/AwsGettingStarted)
 
-16. Deployment
+19. Deployment
     1. [[Deploy Multiple Sites to single AWS Instance]]
         1. [[Simple Deployments to AWS with WebDeploy]]
     2. [[Advanced Deployments with OctopusDeploy]]
 
-17. Install 3rd Party Products
+20. Install 3rd Party Products
     1. [Redis on Windows](https://github.com/ServiceStack/redis-windows)
     2. [RabbitMQ on Windows](https://github.com/ServiceStack/rabbitmq-windows)
 
-18. Use Cases
+21. Use Cases
     1. [[Single Page Apps]] 
       1. [HTML, CSS and JS Minifiers](https://github.com/ServiceStack/ServiceStack/wiki/HTML%2C-CSS-and-JavaScript-Minification)
     2. [[Azure]]
@@ -177,13 +198,13 @@
     4. [[Bundling and Minification]]
     5. [[NHibernate]] 
 
-19. Performance
+22. Performance
     1. [[Real world performance]] 
 
-20. Other Products
+23. Other Products
     1. [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
     2. [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
     3. [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text)
 
-21. Future
+24. Future
     1. [[Roadmap]]
