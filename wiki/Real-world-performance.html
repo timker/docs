@@ -1,0 +1,59 @@
+<p>We maintain a list of external benchmark results here people have been experiencing to provide an idea of the relative performance you can expect from real-world usage:</p>
+
+<h4>
+<a id="user-content-get-25k-rows-from-ms-sql-express-and-convert-to-json" class="anchor" href="#get-25k-rows-from-ms-sql-express-and-convert-to-json" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://twitter.com/lukaszgasior/status/331704240085028864">Get 25k rows from MS SQL Express and convert to JSON</a>
+</h4>
+
+<pre><code>EF &amp; JSON.NET                         2300ms
+EF [AsNoTracking] &amp; JSON.NET           973ms
+EF [AsNoTracking] &amp; ServiceStack       809ms
+Simple.Data &amp; JSON.NET                1598ms
+Simple.Data &amp; ServiceStack             933ms
+ServiceStack.OrmLite &amp; JSON.NET        405ms
+ServiceStack.OrmLite &amp; ServiceStack    245ms
+</code></pre>
+
+<h4>
+<a id="user-content-servicestack-vs-webapi-client--server-end-to-end-results" class="anchor" href="#servicestack-vs-webapi-client--server-end-to-end-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://twitter.com/anilmujagic/status/272544925478973440">ServiceStack vs WebApi client / server end-to-end results</a>
+</h4>
+
+<pre><code>ServiceStack                 9667ms
+WebApi                      30407ms
+</code></pre>
+
+<p>GitHub project for the benchmarks are at:
+<a href="https://github.com/anilmujagic/ServiceBenchmark">https://github.com/anilmujagic/ServiceBenchmark</a></p>
+
+<h4>
+<a id="user-content-servicestack-a-good-alternative-to-wcf-french" class="anchor" href="#servicestack-a-good-alternative-to-wcf-french" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://sgbd.arbinada.com/node/77">ServiceStack: a good alternative to WCF (French)</a>
+</h4>
+
+<pre><code>ServiceStack                    19s
+WCF Data Services (Optimized)   28s
+WCF Data Services               48s
+</code></pre>
+
+<h4>
+<a id="user-content-servicestacknet" class="anchor" href="#servicestacknet" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://fir3pho3nixx.blogspot.com/2011/04/servicestacknet.html">ServiceStack.net</a>
+</h4>
+
+<blockquote>
+<p>One thing that I was completely surprised by today was the performance of the open source ServiceStack.NET frameworks. Even with the performance tuned release of JSON.NET I found that ServiceStack.Text beat it by a rediculous margin. It serialises 2x faster and deserialises 4x faster.</p>
+</blockquote>
+
+<h4>
+<a id="user-content-redis-vs-ravendb--benchmarks-for-net-client-nosql-solutions" class="anchor" href="#redis-vs-ravendb--benchmarks-for-net-client-nosql-solutions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://www.servicestack.net/mythz_blog/?p=474">Redis vs RavenDB – Benchmarks for .NET Client NoSQL Solutions</a>
+</h4>
+
+<pre><code>Redis (Cygwin)                254ms
+Redis (Cygwin + fsync)        543ms
+Raven DB                     2983ms
+</code></pre>
+
+<h4>
+<a id="user-content-mymedialite--servicestack" class="anchor" href="#mymedialite--servicestack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://www.marrk.nl/post/mymedialite-servicestack/">MyMediaLite + ServiceStack</a>
+</h4>
+
+<hr>
+
+<p>We've also previously graphed comprehensive 3rd Party benchmarks and a couple of our own at: <a href="http://mono.servicestack.net/benchmarks/">servicestack.net/benchmarks/</a>.</p>

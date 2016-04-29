@@ -1,0 +1,264 @@
+<h2>
+<a id="user-content-api" class="anchor" href="#api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>API</h2>
+
+<p>ServiceStack provides a <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/">high-level Messaging API</a> exposing a number of essential messaging features in order to publish and receive messages as well as registering and processing handlers for different message types. A class diagram of the core interfaces is below:</p>
+
+<p><a href="https://camo.githubusercontent.com/cd39a5c80f9f72ad828917ad4dddef664c6446bc/68747470733a2f2f7261772e6769746875622e636f6d2f6d7974687a2f7261626269746d712d77696e646f77732f6d61737465722f696d672f6d6573736167696e672d6170692e706e67" target="_blank"><img src="https://camo.githubusercontent.com/cd39a5c80f9f72ad828917ad4dddef664c6446bc/68747470733a2f2f7261772e6769746875622e636f6d2f6d7974687a2f7261626269746d712d77696e646f77732f6d61737465722f696d672f6d6573736167696e672d6170692e706e67" alt="Messaging API" data-canonical-src="https://raw.github.com/mythz/rabbitmq-windows/master/img/messaging-api.png" style="max-width:100%;"></a></p>
+
+<p>There are currently 4 supported MQ Server options:</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Rabbit-MQ">Rabbit MQ Server</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-Redis">Redis MQ Server</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver">Amazon SQS MQ Server</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Messaging/InMemoryTransientMessageService.cs">InMemory MQ Service</a></li>
+</ul>
+
+<p>Like other ServiceStack providers, all MQ Servers are interchangeable, visible in the shared MQ Server tests below:</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs">MqServerIntroTests.cs</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Common.Tests/Messaging/MqServerAppHostTests.cs">MqServerAppHostTests.cs</a></li>
+</ul>
+
+<h2>
+<a id="user-content-benefits-of-message-queues" class="anchor" href="#benefits-of-message-queues" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Benefits of Message Queues</h2>
+
+<p>One of the benefits of using ServiceStack is its integrated support for hosting MQ Servers
+allowing your Services to be invoked via a MQ Broker. There are a number of reasons why you'd want 
+to use a MQ as an alternative to HTTP including:</p>
+
+<ul>
+<li>Sender is decoupled from Receiver, eliminating point-to-point coupling and configuration</li>
+<li>Allows no-touch deploy of new clients and servers without updating any configuration</li>
+<li>Removes time-coupling allowing clients and servers to be deployed independently without downtime</li>
+<li>Better reliability, consumers can still send messages when servers are down and vice-versa</li>
+<li>Durable, messages can be persisted and survive application or server reboots</li>
+<li>Allows for CPU Intensive or long operations without disrupting message workflow</li>
+<li>Instant response times by queuing slow operations and executing them in the background</li>
+<li>Allows for natural load-balancing where throughput can be increased by simply adding more processors or servers</li>
+<li>Message-based design allows for easier parallelization and introspection of computations</li>
+<li>Greater throttling and control of message throughput, message execution can be determined by server</li>
+<li>Reduces request contention and can defer execution of high load spikes over time</li>
+<li>Better recovery, messages generating server exceptions can be retried and maintained in a dead-letter-queue</li>
+<li>DLQ messages can be introspected, fixed and later replayed after server updates and rejoin normal message workflow</li>
+</ul>
+
+<p>More details of these and other advantages can be found in the definitive
+<a href="http://www.eaipatterns.com">Enterprise Integration Patterns</a>.</p>
+
+<h3>
+<a id="user-content-oneway-mq-and-http-service-clients-are-substitutable" class="anchor" href="#oneway-mq-and-http-service-clients-are-substitutable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OneWay MQ and HTTP Service Clients are Substitutable</h3>
+
+<p>Service Clients and MQ Clients are also interoperable where all MQ Clients implement the Service Clients <code>IOneWayClient</code> API which enables writing code that works with both HTTP and MQ Clients:</p>
+
+<div class="highlight highlight-source-cs"><pre>IOneWayClient client = GetClient();
+client.SendOneWay(<span class="pl-k">new</span> RequestDto { ... });</pre></div>
+
+<p>Likewise the HTTP Service Clients implement the Messaging API <code>IMessageProducer</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">void</span> Publish&lt;T&gt;(T requestDto);
+<span class="pl-k">void</span> Publish&lt;T&gt;(IMessage&lt;T&gt; message);</pre></div>
+
+<p>When publishing a <code>IMessage&lt;T&gt;</code> the message metadata are sent as HTTP Headers with an <code>X-</code> prefix.</p>
+
+<h2>
+<a id="user-content-mq-client-architecture" class="anchor" href="#mq-client-architecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MQ Client Architecture</h2>
+
+<p>By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable from non-http contexts like MQ Services. </p>
+
+<p>Within MQ Services, Request DTO's get wrapped and sent within the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/IMessage.cs">IMessage</a> body, which looks like:</p>
+
+<p><a href="https://camo.githubusercontent.com/696024c9c9acb3c96ccfdb45953af88185d4c5b7/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6d71636c69656e74732e706e67" target="_blank"><img src="https://camo.githubusercontent.com/696024c9c9acb3c96ccfdb45953af88185d4c5b7/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6d71636c69656e74732e706e67" alt="ServiceStack MQ Client Architecture" data-canonical-src="http://mono.servicestack.net/files/servicestack-mqclients.png" style="max-width:100%;"></a> </p>
+
+<h2>
+<a id="user-content-mq-server-architecture" class="anchor" href="#mq-server-architecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MQ Server Architecture</h2>
+
+<p>The Server Architecture shows where MQ Hosts (in green) fits within the context of ServiceStack's Request Pipeline.
+Effectively MQ Services are treated as "internal Services" bypassing HTTP Web Services Content Negotiation and Global Request/Response Filters:</p>
+
+<p><a href="https://camo.githubusercontent.com/55b081a21003e75a7d4787b9d93db101d0614146/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6c6f676963616c2d766965772d30322e706e67" target="_blank"><img src="https://camo.githubusercontent.com/55b081a21003e75a7d4787b9d93db101d0614146/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6c6f676963616c2d766965772d30322e706e67" alt="ServiceStack Logical Architecture View" data-canonical-src="http://mono.servicestack.net/files/servicestack-logical-view-02.png" style="max-width:100%;"></a> </p>
+
+<p>MQ Services also have their own distinct <code>GlobalMessageRequestFilters</code> and <code>GlobalMessageResponseFilters</code> for registering custom logic that only applies to MQ Requests. Plugins like <a href="https://github.com/ServiceStack/ServiceStack/wiki/Validation#validation-feature">Validation Feature</a> can execute custom behavior for both HTTP and MQ Services by registering it in <a href="https://github.com/ServiceStack/ServiceStack/blob/fc191835d97e5b6d89d3cd7a4742793af44eb8c3/src/ServiceStack/Validation/ValidationFeature.cs#L25-L29">both HTTP GlobalRequestFilters and MQ GlobalMessageRequestFilters</a>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>appHost.GlobalRequestFilters.Add(ValidationFilters.RequestFilter);
+appHost.GlobalMessageRequestFilters.Add(ValidationFilters.RequestFilter);</pre></div>
+
+<h2>
+<a id="user-content-authenticated-requests-via-mq" class="anchor" href="#authenticated-requests-via-mq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticated Requests via MQ</h2>
+
+<p>As MQ Requests aren't executed within the Context of a HTTP Request they don't have access to any HTTP Info like HTTP Cookies, Headers, FormData, etc. This also means the Users Session isn't typically available as it's based on the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Sessions">ss-id Session Ids in Cookies</a>.</p>
+
+<p>As ServiceStack also lets you specify a Users Session ids using HTTP Headers (with <code>X-</code> prefix), we can instead specify Session Ids using Request Headers. To do this we can create a custom Request Context that the MQ Service is executed within and set the SessionId in the Headers:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> req = <span class="pl-k">new</span> BasicRequest { Verb = HttpMethods.Post };
+req.Headers[<span class="pl-s"><span class="pl-pds">"</span>X-ss-id<span class="pl-pds">"</span></span>] = sessionId;</pre></div>
+
+<p>Alternatively we can inject the Session itself. As a Users Session is just a <code>AuthUserSession</code> POCO persisted against the SessionId, we can access the Users Session from the CacheClient directly ourselves, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//i.e. urn:iauthsession:{sessionId}</span>
+<span class="pl-k">var</span> sessionKey = SessionFeature.GetSessionKey(sessionId); 
+<span class="pl-k">var</span> usersSession  = HostContext.TryResolve&lt;ICacheClient&gt;()
+    .Get&lt;IAuthUserSession&gt;(sessionKey);</pre></div>
+
+<p>And inject to use this Session with:</p>
+
+<div class="highlight highlight-source-cs"><pre>req.Items[<span class="pl-s"><span class="pl-pds">"</span>__session<span class="pl-pds">"</span></span>] = usersSession;</pre></div>
+
+<p>We can then Execute the MQ Service with this custom Request Context with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">return</span> <span class="pl-c1">this</span>.ServiceController.ExecuteMessage(m, req);</pre></div>
+
+<blockquote>
+<p>See the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Sessions%EF%BB%BF">Session docs</a> for more info about Sessions in ServiceStack</p>
+</blockquote>
+
+<p>We'll walk-through a minimal example using this approach to make authenticated Requests and access the Users Session in a Service that's accessible via both HTTP and MQ transports.</p>
+
+<p>To start we'll configure an Authentication-enabled ServiceStack MQ and HTTP Self-Hosted Application:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AppHost</span> : <span class="pl-k">AppSelfHostBase</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">Configure</span>(<span class="pl-k">Container</span> <span class="pl-smi">container</span>)
+    {
+        <span class="pl-c">//Enable Authentication</span>
+        Plugins.Add(<span class="pl-k">new</span> AuthFeature(() =&gt; <span class="pl-k">new</span> AuthUserSession(), 
+            <span class="pl-k">new</span> IAuthProvider[] {
+                <span class="pl-k">new</span> CredentialsAuthProvider(AppSettings),  <span class="pl-c">// Enable Username/Password Authentication</span>
+            }));
+
+        <span class="pl-c">//Use an InMemory Repository to persist User Authenticaiton Info</span>
+        container.Register&lt;IUserAuthRepository&gt;(c =&gt; <span class="pl-k">new</span> InMemoryAuthRepository());
+
+        <span class="pl-c">//Create a new User on Startup</span>
+        <span class="pl-k">var</span> authRepo = container.Resolve&lt;IUserAuthRepository&gt;();
+        authRepo.CreateUserAuth(<span class="pl-k">new</span> UserAuth {
+            Id = <span class="pl-c1">1</span>,
+            UserName = <span class="pl-s"><span class="pl-pds">"</span>mythz<span class="pl-pds">"</span></span>,
+            FirstName = <span class="pl-s"><span class="pl-pds">"</span>John<span class="pl-pds">"</span></span>,
+            LastName = <span class="pl-s"><span class="pl-pds">"</span>Doe<span class="pl-pds">"</span></span>,
+            DisplayName = <span class="pl-s"><span class="pl-pds">"</span>John Doe<span class="pl-pds">"</span></span>,
+        }, <span class="pl-s"><span class="pl-pds">"</span>p@55word<span class="pl-pds">"</span></span>);
+
+        <span class="pl-c">//Register to use a Rabbit MQ Server</span>
+        container.Register&lt;IMessageService&gt;(c =&gt; <span class="pl-k">new</span> RabbitMqServer());
+
+        <span class="pl-k">var</span> mqServer = container.Resolve&lt;IMessageService&gt;();
+
+        mqServer.RegisterHandler&lt;AuthOnly&gt;(m =&gt; {
+            <span class="pl-k">var</span> req = <span class="pl-k">new</span> BasicRequest { Verb = HttpMethods.Post };
+            req.Headers[<span class="pl-s"><span class="pl-pds">"</span>X-ss-id<span class="pl-pds">"</span></span>] = m.GetBody().SessionId;
+            <span class="pl-k">var</span> response = ServiceController.ExecuteMessage(m, req);
+            <span class="pl-k">return</span> response;
+        });
+
+        <span class="pl-c">//Start the Rabbit MQ Server listening for incoming MQ Requests</span>
+        mqServer.Start();
+    }
+}</pre></div>
+
+<p>and now add the Service Implementation:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AuthOnly</span> : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">AuthOnlyResponse</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">SessionId</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AuthOnlyResponse</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Result</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AuthOnlyService</span> : <span class="pl-k">Service</span> 
+{
+    [Authenticate] <span class="pl-c">//Only allow Authenticated Requests</span>
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">AuthOnly</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> session = <span class="pl-c1">base</span>.SessionAs&lt;AuthUserSession&gt;(); <span class="pl-c">// Get the User Session for this Request</span>
+
+        <span class="pl-k">return</span> <span class="pl-k">new</span> AuthOnlyResponse {
+            Result = <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}! Your UserName is {1}<span class="pl-pds">"</span></span>
+                .Fmt(request.Name, session.UserAuthName)
+        };
+    }
+}</pre></div>
+
+<p>With the ServiceStack Host and Service implemented, we can start listening to both HTTP and Rabbit MQ Requests by starting the AppHost:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">new</span> AppHost().Start(<span class="pl-s"><span class="pl-pds">"</span>http://localhost:1337/<span class="pl-pds">"</span></span>);</pre></div>
+
+<p>Then on the Client we can authenticate using UserName/Password credentials using the HTTP <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client">Service Client</a>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> client = <span class="pl-k">new</span> JsonServiceClient(<span class="pl-s"><span class="pl-pds">"</span>http://localhost:1337/<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">var</span> response = client.Post(<span class="pl-k">new</span> Authenticate {
+    UserName = <span class="pl-s"><span class="pl-pds">"</span>mythz<span class="pl-pds">"</span></span>,
+    Password = <span class="pl-s"><span class="pl-pds">"</span>p@55word<span class="pl-pds">"</span></span>,
+    RememberMe = <span class="pl-c1">true</span>,
+});
+
+<span class="pl-k">var</span> sessionId = response.SessionId;</pre></div>
+
+<p>The above Request establishes an authenticated Session with the <code>JsonServiceClient</code> instance which has its Cookies populated with the Users SessionIds - allowing it to make subsequent authenticated requests as that User. </p>
+
+<p>To make Authenticated Requests via MQ we can pass the returned <code>sessionId</code> into the MQ Request:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> mqFactory = RabbitMqMessageFactory();
+<span class="pl-k">using</span> (var mqClient = mqFactory.CreateMessageQueueClient())
+{
+    mqClient.Publish(<span class="pl-k">new</span> AuthOnly {                        
+        Name = <span class="pl-s"><span class="pl-pds">"</span>RabbitMQ Request<span class="pl-pds">"</span></span>,
+        SessionId = sessionId,
+    });
+
+    <span class="pl-c">//Block until the Response is Received:</span>
+    <span class="pl-k">var</span> responseMsg = mqClient.Get&lt;AuthOnlyResponse&gt;(QueueNames&lt;AuthOnlyResponse&gt;.In);
+    mqClient.Ack(responseMsg); <span class="pl-c">//Acknowledge the message was received</span>
+
+    Console.WriteLine(responseMsg.GetBody().Result); <span class="pl-c">//"Hello, RabbitMQ Request! Your UserName is mythz"</span>
+}</pre></div>
+
+<p>This works since we're extracting the SessionId and injecting into a Custom Request Context used by the MQ Service:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqServer.RegisterHandler&lt;AuthOnly&gt;(m =&gt; {
+    <span class="pl-k">var</span> req = <span class="pl-k">new</span> BasicRequest { Verb = HttpMethods.Post };
+    req.Headers[<span class="pl-s"><span class="pl-pds">"</span>X-ss-id<span class="pl-pds">"</span></span>] = m.GetBody().SessionId;
+    <span class="pl-k">var</span> response = ServiceController.ExecuteMessage(m, req);
+    <span class="pl-k">return</span> response;
+});</pre></div>
+
+<h3>
+<a id="user-content-global-filters-vs-action-filters" class="anchor" href="#global-filters-vs-action-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Global Filters vs Action Filters</h3>
+
+<p>One important difference worth re-iterating is that Filter Attribute declared on the Service class are top-level filters executed during Global Request filters which are only executed for HTTP Requests:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Authenticate] <span class="pl-c">//Top-level Filter Attribute - only executed for HTTP Requests</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MqAuthOnlyService</span> : <span class="pl-k">Service</span> 
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">AuthOnly</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> session = <span class="pl-c1">base</span>.SessionAs&lt;AuthUserSession&gt;();
+        <span class="pl-k">return</span> <span class="pl-k">new</span> AuthOnlyResponse {
+            Result = <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}! Your UserName is {1}<span class="pl-pds">"</span></span>
+                .Fmt(request.Name, session.UserAuthName)
+        };
+    }
+}</pre></div>
+
+<p>This will allow you to separate behavior for external HTTP Requests from internal MQ Requests.</p>
+
+<p>To validate both HTTP and MQ Requests, place the <code>[Authenticate]</code> attribute on the method itself, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AuthOnlyService</span> : <span class="pl-k">Service</span> 
+{
+    [Authenticate] <span class="pl-c">//Authenticate both HTTP and MQ Requests</span>
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">AuthOnly</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> session = <span class="pl-c1">base</span>.SessionAs&lt;AuthUserSession&gt;(); 
+        <span class="pl-k">return</span> <span class="pl-k">new</span> AuthOnlyResponse {
+            Result = <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}! Your UserName is {1}<span class="pl-pds">"</span></span>
+                .Fmt(request.Name, session.UserAuthName)
+        };
+    }
+}</pre></div>

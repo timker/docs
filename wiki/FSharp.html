@@ -1,0 +1,76 @@
+<p>Thanks to the simplicity, elegance, strong typing and philosophy of both solutions, FSharp and ServiceStack are quickly becoming a popular choice for creating friction-less REST and message-based remote services.</p>
+
+<h3>
+<a id="user-content-complete-f-console-self-host-example" class="anchor" href="#complete-f-console-self-host-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/Test/blob/713f1e2c9fce2351446b168d39fe8b0248f252fc/src/VS.FSharp.SelfHost/Program.fs">Complete F# Console Self-Host Example</a>
+</h3>
+
+<div class="highlight highlight-source-fsharp"><pre><span class="pl-k">open</span> <span class="pl-en">System</span>
+<span class="pl-k">open</span> <span class="pl-en">ServiceStack</span>
+
+<span class="pl-k">type</span> <span class="pl-en">Hello </span><span class="pl-k">=</span> <span class="pl-k">{</span> mutable Name<span class="pl-k">:</span> string<span class="pl-k">;</span> <span class="pl-k">}</span>
+<span class="pl-k">type</span> <span class="pl-en">HelloResponse </span><span class="pl-k">=</span> <span class="pl-k">{</span> mutable Result<span class="pl-k">:</span> string<span class="pl-k">;</span> <span class="pl-k">}</span>
+<span class="pl-k">type</span> <span class="pl-en">HelloService</span><span class="pl-c1">()</span> <span class="pl-k">=</span>
+    <span class="pl-k">interface</span> IService
+    <span class="pl-k">member</span> <span class="pl-smi">this.Any</span> (<span class="pl-v">req</span>:<span class="pl-v">Hello</span>) <span class="pl-k">=</span> <span class="pl-k">{</span> Result <span class="pl-k">=</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, <span class="pl-pds">"</span></span> <span class="pl-k">+</span> req.Name <span class="pl-k">}</span>
+
+<span class="pl-c">//Define the Web Services AppHost</span>
+<span class="pl-k">type</span> <span class="pl-en">AppHost </span><span class="pl-k">=</span>
+    <span class="pl-k">inherit</span> AppSelfHostBase
+    <span class="pl-k">new</span><span class="pl-c1">()</span> <span class="pl-k">=</span> <span class="pl-k">{</span> <span class="pl-k">inherit</span> AppSelfHostBase(<span class="pl-s"><span class="pl-pds">"</span>Hi F#!<span class="pl-pds">"</span></span>, typeof<span class="pl-k">&lt;</span>HelloService<span class="pl-k">&gt;</span>.Assembly) <span class="pl-k">}</span>
+    <span class="pl-k">override</span> <span class="pl-smi">this.Configure</span> <span class="pl-v">container</span> <span class="pl-k">=</span>
+        base.Routes
+            .Add<span class="pl-k">&lt;</span>Hello<span class="pl-k">&gt;</span>(<span class="pl-s"><span class="pl-pds">"</span>/hello<span class="pl-pds">"</span></span>)
+            .Add<span class="pl-k">&lt;</span>Hello<span class="pl-k">&gt;</span>(<span class="pl-s"><span class="pl-pds">"</span>/hello/{Name}<span class="pl-pds">"</span></span>) <span class="pl-k">|&gt;</span> ignore
+
+<span class="pl-c">//Run it!</span>
+<span class="pl-c1">[&lt;EntryPoint&gt;]</span>
+<span class="pl-k">let</span> <span class="pl-smi">main</span> <span class="pl-v">args</span> <span class="pl-k">=</span>
+    <span class="pl-k">let</span> <span class="pl-smi">host</span> <span class="pl-k">=</span> <span class="pl-k">if</span> args.Length <span class="pl-k">=</span> <span class="pl-c1">0</span> <span class="pl-k">then</span> <span class="pl-s"><span class="pl-pds">"</span>http://*:1337/<span class="pl-pds">"</span></span> <span class="pl-k">else</span> args.<span class="pl-k">[</span><span class="pl-c1">0</span><span class="pl-k">]</span>
+    printfn <span class="pl-pds">"</span><span class="pl-s">listening on <span class="pl-c1">%s</span> ...</span><span class="pl-pds">"</span> host
+    <span class="pl-k">let</span> <span class="pl-smi">appHost</span> <span class="pl-k">=</span> <span class="pl-k">new</span> AppHost<span class="pl-c1">()</span>
+    appHost.Init<span class="pl-c1">()</span> <span class="pl-k">|&gt;</span> ignore
+    appHost.Start host <span class="pl-k">|&gt;</span> ignore
+    Console.ReadLine<span class="pl-c1">()</span> <span class="pl-k">|&gt;</span> ignore
+    <span class="pl-c1">0</span></pre></div>
+
+<h1>
+<a id="user-content-community-resources" class="anchor" href="#community-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Resources</h1>
+
+<ul>
+<li>
+<a href="http://kunjan.in/2014/06/signalr-servicestack-azure-with-fsharp/">SignalR + Servciestack with F# hosted on Azure</a> by <a href="https://twitter.com/kunjee">@kunjee</a>
+</li>
+<li>
+<a href="http://kunjan.in/2014/02/servicestack-fsharp-template-starting-from-start/">Servicestack F# template. Starting from the Start</a> by <a href="https://twitter.com/kunjee">@kunjee</a>
+</li>
+<li>
+<a href="http://bloggemdano.blogspot.co.uk/2013/12/simpleweb-and-servicestack-templates.html">Simple.Web and ServiceStack F# Templates</a> by <a href="https://twitter.com/dmohl">@dmohl</a>
+</li>
+<li>
+<a href="https://github.com/chirdeeptomar/ServiceStackFSharpSample">Web services using ServiceStack framework in F#</a> by <a href="https://twitter.com/chirdeeptomar">@chirdeeptomar</a>
+</li>
+<li>
+<a href="http://pinksquirrellabs.com/post/2013/07/04/Last-Fi.aspx">Last-Fi (F#, Raspberry Pi, Last.Fm, FunScript and ServiceStack)</a> by <a href="https://twitter.com/pezi_pink">@pezi_pink</a>
+</li>
+<li>
+<a href="http://saxonmatt.co.uk/2013/07/service-stack-fsharp-mono-fastcgi-nginx.html">ServiceStack, With F# on Linux (inc Vagrant / Puppet)</a> by <a href="https://twitter.com/MattDrivenDev">@mattdrivendev</a>
+</li>
+<li>
+<a href="http://sergeytihon.wordpress.com/2013/06/28/declarative-authorization-in-rest-services-in-sharepoint-with-f-and-servicestack/">Declarative authorization in REST services in SharePoint with F#</a> by <a href="https://twitter.com/sergey_tihon">@sergey_tihon</a>
+</li>
+<li>
+<a href="https://github.com/kunjee17/ServiceStackHeroku">ServiceStack and F# on Heroku (GitHub)</a> by <a href="https://twitter.com/kunjee">@kunjee</a>
+</li>
+<li>
+<a href="http://d4dilip.wordpress.com/2013/04/09/first-hand-experience-with-f/">First hand experience with F#</a> by <a href="https://twitter.com/d4dilip">@d4dilip</a>
+</li>
+<li>
+<a href="http://sergeytihon.wordpress.com/2013/02/28/servicestack-new-api-f-sample-web-service-out-of-a-web-server/">ServiceStack: New API – F# Sample</a> by <a href="https://twitter.com/sergey_tihon">@sergey_tihon</a>
+</li>
+<li>
+<a href="http://www.servicestack.net/mythz_blog/?p=811">Async, Cached Twitter API Proxy in F#</a> by <a href="https://twitter.com/demisbellot">@demisbellot</a>
+</li>
+<li>
+<a href="http://www.servicestack.net/mythz_blog/?p=785">F# Web Services on any platform in and out of a web server!</a> by <a href="https://twitter.com/demisbellot">@demisbellot</a>
+</li>
+</ul>

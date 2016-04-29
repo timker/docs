@@ -1,0 +1,61 @@
+<p>ServiceStack only allows a <strong>single App Host</strong> for each App Domain. As you might be able to infer from the name, the role of the <strong>Host</strong> project is to be the conduit for binding all your services concrete dependencies, plugins, filters and everything else your service needs. The configuration of your service should be immutable after everything is initialized in your <code>AppHost.Configure()</code> method. The <a href="https://github.com/ServiceStack/ServiceStack/wiki/Physical-project-structure">Physical project structure wiki page</a> wiki shows the recommended physical project structure for typical solutions.</p>
+
+<h3>
+<a id="user-content-modularizing-services-in-multiple-assemblies" class="anchor" href="#modularizing-services-in-multiple-assemblies" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modularizing services in multiple assemblies</h3>
+
+<p>Whilst you can only have 1 AppHost, you can have multiple services spread across multiple assemblies. In that case you have to provide a list of assemblies containing the services to the AppHostBase constructor, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AppHost</span> : <span class="pl-k">AppHostBase</span>
+{
+    <span class="pl-c">//Tell ServiceStack the name of your app and which assemblies to scan for services</span>
+    <span class="pl-k">public</span> <span class="pl-en">AppHost</span>() : <span class="pl-c1">base</span>("Hello ServiceStack!", 
+       typeof(ServicesFromDll1).Assembly,
+       <span class="pl-en">typeof</span>(ServicesFromDll2).Assembly
+       /*, etc */) {}
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">Configure</span>(<span class="pl-k">Container</span> <span class="pl-smi">container</span>) {}
+}</pre></div>
+
+<p>You can also provide your own strategy for discovering and resolving the service types that ServiceStack should auto-wire by overriding <code>CreateServiceManager</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AppHost</span> : <span class="pl-k">AppHostBase</span>
+{
+    <span class="pl-k">public</span> <span class="pl-en">AppHost</span>(): <span class="pl-c1">base</span>("Hello ServiceStack!", typeof(ServicesFromDll1).Assembly) {}
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">Configure</span>(<span class="pl-k">Container</span> <span class="pl-smi">container</span>) {}
+
+    <span class="pl-c">//Provide Alternative way to inject IOC Container + Service Resolver strategy</span>
+    <span class="pl-k">protected</span> <span class="pl-k">override</span> ServiceManager <span class="pl-en">CreateServiceManager</span>(
+        <span class="pl-k">params</span> <span class="pl-k">Assembly[]</span> <span class="pl-smi">assembliesWithServices</span>)
+    {       
+        <span class="pl-k">return</span> <span class="pl-k">new</span> ServiceManager(<span class="pl-k">new</span> Container(),
+            <span class="pl-k">new</span> ServiceController(() =&gt; assembliesWithServices.ToList()
+                .SelectMany(x =&gt; x.GetTypes())));
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-encapsulating-services-inside-plugins" class="anchor" href="#encapsulating-services-inside-plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Encapsulating Services inside Plugins</h3>
+
+<p>One way of modularizing services is to encapsulate them inside <a href="https://github.com/ServiceStack/ServiceStack/wiki/Plugins">Plugins</a> which allows you to manually register services, custom routes, filters, content types, allow customization and anything else your module needs.</p>
+
+<p>To illustrate this point, we'll show what a Basic <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AuthFeature.cs">Auth Feature</a> example might look like:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">BasicAuthFeature</span> : <span class="pl-k">IPlugin</span> 
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">HtmlRedirect</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }   <span class="pl-c">//User-defined configuration</span>
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">Register</span>(<span class="pl-k">IAppHost</span> <span class="pl-smi">appHost</span>)
+    {
+        <span class="pl-c">//Register Services exposed by this module</span>
+        appHost.RegisterService&lt;AuthService&gt;(<span class="pl-s"><span class="pl-pds">"</span>/auth<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>/auth/{provider}<span class="pl-pds">"</span></span>);
+        appHost.RegisterService&lt;AssignRolesService&gt;(<span class="pl-s"><span class="pl-pds">"</span>/assignroles<span class="pl-pds">"</span></span>);
+        appHost.RegisterService&lt;UnAssignRolesService&gt;(<span class="pl-s"><span class="pl-pds">"</span>/unassignroles<span class="pl-pds">"</span></span>);
+
+        <span class="pl-c">//Load dependent plugins</span>
+        appHost.LoadPlugin(<span class="pl-k">new</span> SessionFeature());
+    }
+}</pre></div>
+
+<p>With everything encapsulated inside a plugin, your users can easily enable them in your AppHost with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> BasicAuthFeature { HtmlRedirect = <span class="pl-s"><span class="pl-pds">"</span>~/login<span class="pl-pds">"</span></span> });</pre></div>

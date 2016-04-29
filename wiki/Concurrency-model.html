@@ -1,0 +1,30 @@
+<p>ServiceStack doesn't have a configurable concurrency model per AppHost, it is dependent upon the AppHost that your ServiceStack services are hosted with:</p>
+
+<h3>
+<a id="user-content-aspnet-host-apphostbase" class="anchor" href="#aspnet-host-apphostbase" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ASP.NET Host (AppHostBase)</h3>
+
+<p>For ASP.NET web hosts, ServiceStack <strong>doesn't create any new threads</strong> itself, the requests are simply handled on the same IIS/Nginx/etc ASP.NET HTTP WebWorker that handles the request.</p>
+
+<h3>
+<a id="user-content-httplistener-self-host-appselfhostbase" class="anchor" href="#httplistener-self-host-appselfhostbase" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HttpListener Self-Host (AppSelfHostBase)</h3>
+
+<p>The default Self-Host HttpListener option for ServiceStack that executes requests on the <a href="http://www.codeproject.com/Articles/7933/Smart-Thread-Pool">SmartThreadPool</a> managed ThreadPool. By default it executes on <code>Environment.ProcessorCount * 2</code> or maximum of 16 worker threads. See this chart for the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/release-notes.md#new-much-faster-self-host">performance of the different ServiceStack Hosts</a>.</p>
+
+<h3>
+<a id="user-content-httplistener-pool-self-host-apphosthttplistenerpoolbase" class="anchor" href="#httplistener-pool-self-host-apphosthttplistenerpoolbase" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HttpListener Pool Self-Host (AppHostHttpListenerPoolBase)</h3>
+
+<p>This is another Self-Host HttpListener option for ServiceStack that uses its own managed ThreadPool to execute requests on (free-ing up the HttpListener async callback thread). The default poolSize of the ThreadPool is <strong>500</strong> threads, though this is configurable in the <code>AppHostHttpListenerPoolBase(serviceName, handlerPath, poolSize, assembliesWithServices)</code> constructor.</p>
+
+<h3>
+<a id="user-content-httplistener-single-self-host-apphosthttplistenerbase" class="anchor" href="#httplistener-single-self-host-apphosthttplistenerbase" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HttpListener Single Self-Host (AppHostHttpListenerBase)</h3>
+
+<p>ServiceStack only creates a new thread on <strong>Startup</strong> when you call <code>new AppHost().Start(url)</code>. There are no new threads created at run-time, i.e. the request is handled on the HttpListener async callback thread.</p>
+
+<h3>
+<a id="user-content-redismq-host-redismqserver" class="anchor" href="#redismq-host-redismqserver" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RedisMQ Host (RedisMqServer)</h3>
+
+<p>A good option for managing long-running tasks is to delegate requests to a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-redis">Redis MQ Host</a> which is a light-weight MQ Server allowing you to defer and process requests in managed background threads. By default the RedisMqServer spawns a single background thread for each Message type (i.e. Request), though this is configurable on start-up, e.g: in the example below <strong>2 background threads</strong> are used to handle <code>PostTwitter</code> requests, whilst only 1 background thread each is used to process <code>CallFacebook</code> and <code>EmailMessage</code> requests:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqServer.RegisterHandler&lt;PostTwitter&gt;(ServiceController.ExecuteMessage, noOfThreads:<span class="pl-c1">2</span>);
+mqServer.RegisterHandler&lt;CallFacebook&gt;(ServiceController.ExecuteMessage);
+mqServer.RegisterHandler&lt;EmailMessage&gt;(ServiceController.ExecuteMessage);</pre></div>

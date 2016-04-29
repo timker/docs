@@ -1,0 +1,223 @@
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png" alt="VB.NET Header" style="max-width:100%;"></a></p>
+
+<p>ServiceStack's <strong>Add ServiceStack Reference</strong> feature allows clients to generate Native Types from directly within VS.NET using <a href="https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project">ServiceStackVS VS.NET Extension</a> - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that's built into VS.NET.</p>
+
+<p>The article outlines ServiceStack's support generating VB.Net DTO's - providing a flexible alternative than sharing your compiled DTO .NET assembly with clients. Now VB.Net clients can easily add a reference to a remote ServiceStack instance and update typed DTO's directly from within VS.NET - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback. </p>
+
+<h2>
+<a id="user-content-add-servicestack-reference" class="anchor" href="#add-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Add ServiceStack Reference]]</h2>
+
+<p>The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up <a href="https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project">ServiceStackVS's</a> <code>Add ServiceStack Reference</code> context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png" alt="Add ServiceStack Reference" style="max-width:100%;"></a></p>
+
+<p>After clicking OK, the servers DTO's and <a href="https://www.nuget.org/packages/ServiceStack.Client">ServiceStack.Client</a> NuGet package are added to the project, providing an instant typed API:
+<a href="https://github.com/ServiceStack/Assets/raw/master/img/apps/StackApis/call-service-vb.png" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/apps/StackApis/call-service-vb.png" alt="VB.Net Console client" style="max-width:100%;"></a></p>
+
+<p>With the VB.Net code generated on the Server, the role of <a href="https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project">ServiceStackVS's</a> <strong>Add ServiceStack Reference</strong> is there just to integrate the remote VB.Net DTO's into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-vbnet.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-vbnet.gif" alt="Add VB.Net ServiceStack Reference Demo" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-update-servicestack-reference" class="anchor" href="#update-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update ServiceStack Reference</h2>
+
+<p>If your server has been updated and you want to update to client DTOs, simply right-click on the DTO file within VS.NET and select <code>Update ServiceStack Reference</code>. </p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/updateref-vbnet.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/updateref-vbnet.gif" alt="VBNet update demo" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-dto-customization-options" class="anchor" href="#dto-customization-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DTO Customization Options</h2>
+
+<p>The header comments in the generated DTO's allows for further customization of how they're generated where ServiceStackVS automatically watches for any file changes and updates the generated DTO's with any custom Options provided. Options that are preceded by a VB.Net Class comment <code>'''</code> are defaults from the server that can be overridden, e.g:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c">' Options:</span>
+<span class="pl-c">'Date: 2014-10-21 00:45:05</span>
+<span class="pl-c">'Version: 1</span>
+<span class="pl-c">'BaseUrl: http://stackapis.servicestack.net</span>
+<span class="pl-c">'</span>
+<span class="pl-c">'''MakePartial: True</span>
+<span class="pl-c">'''MakeVirtual: True</span>
+<span class="pl-c">'''MakeDataContractsExtensible: False</span>
+<span class="pl-c">'''AddReturnMarker: True</span>
+<span class="pl-c">'''AddDescriptionAsComments: True</span>
+<span class="pl-c">'''AddDataContractAttributes: False</span>
+<span class="pl-c">'''AddIndexesToDataMembers: False</span>
+<span class="pl-c">'''AddGeneratedCodeAttributes: False</span>
+<span class="pl-c">'''AddResponseStatus: False</span>
+<span class="pl-c">'''AddImplicitVersion: </span>
+<span class="pl-c">'''InitializeCollections: True</span>
+<span class="pl-c">'''AddDefaultXmlNamespace: http://schemas.servicestack.net/types</span></pre></div>
+
+<p>To override these options on the client, the comment has to be changed to start with a single <code>'</code> instead of triple <code>'''</code>. This convention is due to VB.Net not having block quotes. For example, if we did't want our classes to be partial by default for the VB.Net client, our options would look like below.</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c">' Options:</span>
+<span class="pl-c">'Date: 2014-10-21 00:45:05</span>
+<span class="pl-c">'Version: 1</span>
+<span class="pl-c">'BaseUrl: http://stackapis.servicestack.net</span>
+<span class="pl-c">'</span>
+<span class="pl-c">'MakePartial: False</span>
+<span class="pl-c">'''MakeVirtual: True</span>
+<span class="pl-c">'''MakeDataContractsExtensible: False</span>
+<span class="pl-c">'''AddReturnMarker: True</span>
+<span class="pl-c">'''AddDescriptionAsComments: True</span>
+<span class="pl-c">'''AddDataContractAttributes: False</span>
+<span class="pl-c">'''AddIndexesToDataMembers: False</span>
+<span class="pl-c">'''AddGeneratedCodeAttributes: False</span>
+<span class="pl-c">'''AddResponseStatus: False</span>
+<span class="pl-c">'''AddImplicitVersion: </span>
+<span class="pl-c">'''InitializeCollections: True</span>
+<span class="pl-c">'''AddDefaultXmlNamespace: http://schemas.servicestack.net/types</span></pre></div>
+
+<p>Options that do not start with a <code>'''</code> are sent to the server to override any defaults set by the server.</p>
+
+<h3>
+<a id="user-content-change-default-server-configuration" class="anchor" href="#change-default-server-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Change Default Server Configuration</h3>
+
+<p>The above defaults are also overridable on the ServiceStack Server by modifying the default config on the <code>NativeTypesFeature</code> Plugin, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Server example in CSharp</span>
+<span class="pl-k">var</span> nativeTypes = <span class="pl-c1">this</span>.GetPlugin&lt;NativeTypesFeature&gt;();
+nativeTypes.MetadataTypesConfig.MakeVirtual = <span class="pl-c1">false</span>;
+...</pre></div>
+
+<p>We'll go through and cover each of the above options to see how they affect the generated DTO's:</p>
+
+<h3>
+<a id="user-content-makepartial" class="anchor" href="#makepartial" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MakePartial</h3>
+
+<p>Adds the <code>partial</code> modifier to all types, letting you extend generated DTO's with your own class separate from the generated types:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span></pre></div>
+
+<h3>
+<a id="user-content-makevirtual" class="anchor" href="#makevirtual" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MakeVirtual</h3>
+
+<p>Adds the <code>virtual</code> modifier to all properties:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span>
+    <span class="pl-k">...</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">QuestionId</span> <span class="pl-k">As </span><span class="pl-c1">Integer</span>
+<span class="pl-k">End Class</span></pre></div>
+
+<h3>
+<a id="user-content-makedatacontractsextensible" class="anchor" href="#makedatacontractsextensible" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MakeDataContractsExtensible</h3>
+
+<p>Add .NET's DataContract's <a href="http://msdn.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject(v=vs.110).aspx">ExtensionDataObject</a> to all DTO's:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">Hello</span>
+            <span class="pl-k">...</span>
+    <span class="pl-k">Implements </span>IExtensibleDataObject
+            <span class="pl-k">...</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">ExtensionData</span> <span class="pl-k">As </span>ExtensionDataObject <span class="pl-k">Implements </span>IExtensibleDataObject<span class="pl-k">.</span>ExtensionData
+<span class="pl-k">End Class</span></pre></div>
+
+<h3>
+<a id="user-content-addreturnmarker" class="anchor" href="#addreturnmarker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddReturnMarker</h3>
+
+<p>AddReturnMarker annotates Request DTO's with an <code>IReturn(Of T)</code> marker referencing the Response type ServiceStack infers your Service to return:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span>
+    <span class="pl-k">Implements </span>IReturn(<span class="pl-k">Of </span>GetAnswersResponse)</pre></div>
+
+<blockquote>
+<p>Original DTO doesn't require a return marker as response type can be inferred from Services return type or when using the <code>%Response</code> DTO Naming convention</p>
+</blockquote>
+
+<h3>
+<a id="user-content-adddescriptionascomments" class="anchor" href="#adddescriptionascomments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddDescriptionAsComments</h3>
+
+<p>Converts any textual Description in <code>&lt;Description&gt;</code> attributes as VB.Net class Doc comments which allows your API to add intellisense in client projects:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-c">'''&lt;Summary&gt;</span>
+<span class="pl-c">'''Get a list of Answers for a Question</span>
+<span class="pl-c">'''&lt;/Summary&gt;</span>
+<span class="pl-k">Public</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span></pre></div>
+
+<h3>
+<a id="user-content-adddatacontractattributes" class="anchor" href="#adddatacontractattributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddDataContractAttributes</h3>
+
+<p>Decorates all DTO types with <code>&lt;DataContract&gt;</code> and properties with <code>&lt;DataMember&gt;</code> as well as adding default XML namespaces for all VB.Net namespaces used:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">&lt;</span>Assembly: ContractNamespace(<span class="pl-s">"http://schemas.servicestack.net/types"</span>, ClrNamespace<span class="pl-k">:=</span><span class="pl-s">"StackApis.ServiceModel.Types"</span>)<span class="pl-k">&gt;</span>
+<span class="pl-k">&lt;</span>Assembly: ContractNamespace(<span class="pl-s">"http://schemas.servicestack.net/types"</span>, ClrNamespace<span class="pl-k">:=</span><span class="pl-s">"StackApis.ServiceModel"</span>)<span class="pl-k">&gt;</span>
+<span class="pl-k">...</span>
+<span class="pl-k">&lt;</span>DataContract<span class="pl-k">&gt;</span>
+<span class="pl-k">Partial</span> <span class="pl-k">Public</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span>
+    <span class="pl-k">Implements </span>IReturn(<span class="pl-k">Of </span>GetAnswersResponse)
+    <span class="pl-k">&lt;</span>DataMember<span class="pl-k">&gt;</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">QuestionId</span> <span class="pl-k">As </span><span class="pl-c1">Integer</span>
+<span class="pl-k">End Class</span></pre></div>
+
+<h3>
+<a id="user-content-addindexestodatamembers" class="anchor" href="#addindexestodatamembers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddIndexesToDataMembers</h3>
+
+<p>Populates a DataMember Order index for all properties:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">&lt;</span>DataContract<span class="pl-k">&gt;</span>
+<span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span>
+    <span class="pl-k">...</span>
+    <span class="pl-k">&lt;</span>DataMember(Order<span class="pl-k">:=</span><span class="pl-c1">1</span>)<span class="pl-k">&gt;</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">QuestionId</span> <span class="pl-k">As </span><span class="pl-c1">Integer</span>
+<span class="pl-k">End Class</span></pre></div>
+
+<blockquote>
+<p>Requires <strong>AddDataContractAttributes=true</strong></p>
+</blockquote>
+
+<h3>
+<a id="user-content-addgeneratedcodeattributes" class="anchor" href="#addgeneratedcodeattributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddGeneratedCodeAttributes</h3>
+
+<p>Emit <code>&lt;GeneratedCode&gt;</code> attribute on all generated Types:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">&lt;</span>GeneratedCode<span class="pl-k">&gt;</span>
+<span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span> <span class="pl-k">...</span></pre></div>
+
+<h3>
+<a id="user-content-addresponsestatus" class="anchor" href="#addresponsestatus" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddResponseStatus</h3>
+
+<p>Automatically add a <code>ResponseStatus</code> property on all Response DTO's, regardless if it wasn't already defined:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span>
+    <span class="pl-k">...</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">ResponseStatus</span> <span class="pl-k">As </span>ResponseStatus
+<span class="pl-k">End Class</span></pre></div>
+
+<h3>
+<a id="user-content-addimplicitversion" class="anchor" href="#addimplicitversion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddImplicitVersion</h3>
+
+<p>Lets you specify the Version number to be automatically populated in all Request DTO's sent from the client: </p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">GetAnswers</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">Version</span> <span class="pl-k">As </span><span class="pl-c1">Integer</span>
+    <span class="pl-k">Public</span> <span class="pl-c1">Sub</span> <span class="pl-en">New</span>()
+                Version <span class="pl-k">=</span> <span class="pl-c1">1</span>
+<span class="pl-k">    End Sub</span>
+    <span class="pl-k">...</span>
+<span class="pl-k">End Class</span></pre></div>
+
+<p>This lets you know what Version of the Service Contract that existing clients are using making it easy to implement ServiceStack's <a href="http://stackoverflow.com/a/12413091/85785">recommended versioning strategy</a>. </p>
+
+<h3>
+<a id="user-content-initializecollections" class="anchor" href="#initializecollections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>InitializeCollections</h3>
+
+<p>Lets you automatically initialize collections in Request DTO's:</p>
+
+<div class="highlight highlight-source-vbnet"><pre><span class="pl-k">Public</span> <span class="pl-k">Partial</span> <span class="pl-k">Class</span> <span class="pl-en">SearchQuestions</span>
+    <span class="pl-k">Public</span> <span class="pl-c1">Sub</span> <span class="pl-en">New</span>()
+        Tags <span class="pl-k">=</span> <span class="pl-c1">New</span> List(<span class="pl-k">Of </span><span class="pl-c1">String</span>)
+<span class="pl-k">    End Sub</span>
+    <span class="pl-k">Public</span> <span class="pl-k">Overridable</span> <span class="pl-k">Property</span> <span class="pl-en">Tags</span> <span class="pl-k">As </span>List(<span class="pl-k">Of </span><span class="pl-c1">String</span>)
+    <span class="pl-k">...</span>
+}</pre></div>
+
+<h3>
+<a id="user-content-adddefaultxmlnamespace" class="anchor" href="#adddefaultxmlnamespace" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddDefaultXmlNamespace</h3>
+
+<p>This lets you change the default DataContract XML namespace used for all namespaces:</p>
+
+<div class="highlight highlight-source-cs"><pre>&lt;Assembly: ContractNamespace(<span class="pl-s"><span class="pl-pds">"</span>http://my.types.net<span class="pl-pds">"</span></span>, ClrNamespace:=<span class="pl-s"><span class="pl-pds">"</span>StackApis.ServiceModel.Types<span class="pl-pds">"</span></span>)&gt;
+&lt;Assembly: ContractNamespace(<span class="pl-s"><span class="pl-pds">"</span>http://my.types.net<span class="pl-pds">"</span></span>, ClrNamespace:=<span class="pl-s"><span class="pl-pds">"</span>StackApis.ServiceModel<span class="pl-pds">"</span></span>)&gt;</pre></div>
+
+<blockquote>
+<p>Requires AddDataContractAttributes=true</p>
+</blockquote>

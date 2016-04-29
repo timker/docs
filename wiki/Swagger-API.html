@@ -1,0 +1,136 @@
+<p><a href="http://swagger.io/">Swagger</a> is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
+<a href="https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md">Swagger 1.2 Spec</a> back-end and embeds the Swagger UI front-end in a separate plugin which is available under NuGet package: <a href="http://nuget.org/packages/ServiceStack.Api.Swagger/">ServiceStack.Api.Swagger</a>.</p>
+
+<h2>
+<a id="user-content-installation" class="anchor" href="#installation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installation</h2>
+
+<p>Default configuration expects that ServiceStack services are available under '/api' path. For services hosted at custom paths, e.g. '/service-stack', set the 'discoveryUrl' configuration property of swagger initialization script (located in your /swagger-ui/index.html file) as given below:</p>
+
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-s1">&lt;<span class="pl-ent">script</span> <span class="pl-e">type</span>=<span class="pl-s"><span class="pl-pds">"</span>text/javascript<span class="pl-pds">"</span></span>&gt;</span>
+<span class="pl-s1"><span class="pl-en">$</span>(<span class="pl-k">function</span> () {</span>
+<span class="pl-s1">    <span class="pl-c1">window</span>.<span class="pl-smi">swaggerUi</span> <span class="pl-k">=</span> <span class="pl-k">new</span> <span class="pl-en">SwaggerUi</span>({</span>
+<span class="pl-s1">     <span class="pl-c">// discoveryUrl:'../api/resources' /* old value */</span></span>
+<span class="pl-s1">        discoveryUrl<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">'</span>../service-stack/resources<span class="pl-pds">'</span></span>,  <span class="pl-c">/* new value */</span></span>
+<span class="pl-s1">        apiKey<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">        dom_id<span class="pl-k">:</span><span class="pl-s"><span class="pl-pds">"</span>swagger-ui-container<span class="pl-pds">"</span></span>,</span>
+<span class="pl-s1">        supportHeaderParams<span class="pl-k">:</span> <span class="pl-c1">false</span>,</span>
+<span class="pl-s1">        supportedSubmitMethods<span class="pl-k">:</span> [<span class="pl-s"><span class="pl-pds">'</span>get<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>post<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>put<span class="pl-pds">'</span></span>]</span>
+<span class="pl-s1">    });</span>
+<span class="pl-s1"></span>
+<span class="pl-s1">    <span class="pl-c1">window</span>.<span class="pl-smi">swaggerUi</span>.<span class="pl-c1">load</span>();</span>
+<span class="pl-s1">});</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">script</span>&gt;</span>
+...</pre></div>
+
+<p>If it's a brand new MVC project install NuGet Package: (<a href="http://nuget.org/packages/ServiceStack.Host.Mvc/">http://nuget.org/packages/ServiceStack.Host.Mvc/</a>) which prepares ServiceStack default services. Make sure that you added ignore for MVC routes:</p>
+
+<div class="highlight highlight-source-cs"><pre>routes.IgnoreRoute(<span class="pl-s"><span class="pl-pds">"</span>api/{*pathInfo}<span class="pl-pds">"</span></span>); </pre></div>
+
+<p>If it's MVC4 project, then don't forget to disable WebAPI:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//WebApiConfig.Register(GlobalConfiguration.Configuration);</span></pre></div>
+
+<p>Enable Swagger plugin in AppHost.cs with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    ...
+    Plugins.Add(<span class="pl-k">new</span> SwaggerFeature());
+
+    <span class="pl-c">// uncomment CORS feature if it's has to be available from external sites </span>
+    <span class="pl-c">//Plugins.Add(new CorsFeature()); </span>
+    ...
+}</pre></div>
+
+<p>Compile it. Now you can access swagger UI with:</p>
+
+<p><a href="http://localhost:port/swagger-ui/index.html">http://localhost:port/swagger-ui/index.html</a></p>
+
+<p>or</p>
+
+<p><a href="http://yoursite/swagger-ui/index.html">http://yoursite/swagger-ui/index.html</a></p>
+
+<h2>
+<a id="user-content-swagger-attributes" class="anchor" href="#swagger-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Swagger Attributes</h2>
+
+<p>Each route could have a separate summary and description. You can set it with <code>Route</code> attribute:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/hello<span class="pl-pds">"</span></span>, Summary = <span class="pl-s"><span class="pl-pds">@"Default hello service."</span></span>, 
+    Notes = <span class="pl-s"><span class="pl-pds">"</span>Longer description for hello service.<span class="pl-pds">"</span></span>)]</pre></div>
+
+<p>You can set specific description for each HTTP method like shown below:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/hello/{Name}<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span>, Summary=<span class="pl-s"><span class="pl-pds">"</span>Says 'Hello' to provided Name<span class="pl-pds">"</span></span>, 
+    Notes = <span class="pl-s"><span class="pl-pds">"</span>Longer description of the GET method which says 'Hello'<span class="pl-pds">"</span></span>)]
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/hello/{Name}<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>, Summary=<span class="pl-s"><span class="pl-pds">"</span>Says 'Hello' to provided Name<span class="pl-pds">"</span></span>, 
+    Notes = <span class="pl-s"><span class="pl-pds">"</span>Longer description of the POST method which says 'Hello'<span class="pl-pds">"</span></span>)]</pre></div>
+
+<p>You can further document your services in the Swagger UI with the new <code>[Api]</code> and <code>[ApiMember]</code> annotation attributes, e,g: Here's an example of a fully documented service:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Api(<span class="pl-s"><span class="pl-pds">"</span>Service Description<span class="pl-pds">"</span></span>)]
+[ApiResponse(HttpStatusCode.BadRequest, <span class="pl-s"><span class="pl-pds">"</span>Your request was not understood<span class="pl-pds">"</span></span>)]
+[ApiResponse(HttpStatusCode.InternalServerError, <span class="pl-s"><span class="pl-pds">"</span>Oops, something broke<span class="pl-pds">"</span></span>)]
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/swagger/{Name}<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span>, Summary = <span class="pl-s"><span class="pl-pds">"</span>GET Summary<span class="pl-pds">"</span></span>, Notes = <span class="pl-s"><span class="pl-pds">"</span>Notes<span class="pl-pds">"</span></span>)]
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/swagger/{Name}<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>, Summary = <span class="pl-s"><span class="pl-pds">"</span>POST Summary<span class="pl-pds">"</span></span>, Notes=<span class="pl-s"><span class="pl-pds">"</span>Notes<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyRequestDto</span>
+{
+    [ApiMember(Name=<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, Description = <span class="pl-s"><span class="pl-pds">"</span>Name Description<span class="pl-pds">"</span></span>,
+        ParameterType = <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span>, DataType = <span class="pl-s"><span class="pl-pds">"</span>string<span class="pl-pds">"</span></span>, IsRequired = <span class="pl-c1">true</span>)]
+    [ApiAllowableValues(<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, typeof(Color))] <span class="pl-c">//Enum</span>
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>You can Exclude <strong>properties</strong> from being listed in Swagger with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[IgnoreDataMember]</pre></div>
+
+<p>Exclude <strong>properties</strong> from being listed in Swagger Schema Body with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[ApiMember(ExcludeInSchema=<span class="pl-c1">true</span>)]</pre></div>
+
+<p>Or exclude entire Services from showing up in Swagger or any other Metadata Services (i.e. Metadata Pages, Postman, NativeTypes, etc) by annotating <strong>Request DTO's</strong> with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Exclude(Feature.Metadata)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyRequestDto</span> { ... }</pre></div>
+
+<h2>
+<a id="user-content-virtual-file-system" class="anchor" href="#virtual-file-system" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Virtual File System</h2>
+
+<p>The docs on the Virtual File System shows how to override embedded resources:</p>
+
+<h3>
+<a id="user-content-overriding-swaggers-embedded-resources" class="anchor" href="#overriding-swaggers-embedded-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overriding Swaggers Embedded Resources</h3>
+
+<p>ServiceStack's [[Virtual File System]] supports multiple file source locations where you can override Swagger's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the <a href="https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui">/swagger-ui</a> or <a href="https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui-bootstrap">/swagger-ui-bootstrap</a> files you want to customize and placing them in your Website Directory at:</p>
+
+<pre><code>/swagger-ui
+  /css
+  /images
+  /lib
+  index.html
+
+/swagger-ui-bootstrap
+  index.html
+  swagger-like-template.html
+</code></pre>
+
+<h3>
+<a id="user-content-basic-auth-added-to-swagger-ui" class="anchor" href="#basic-auth-added-to-swagger-ui" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Basic Auth added to Swagger UI</h3>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swagger-basicauth.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swagger-basicauth.png" alt="" style="max-width:100%;"></a></p>
+
+<p>Users can call protected Services using the Username and Password fields in Swagger UI. 
+Swagger sends these credentials with every API request using HTTP Basic Auth, 
+which can be enabled in your AppHost with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(...,
+      <span class="pl-k">new</span> IAuthProvider[] { 
+        <span class="pl-k">new</span> BasicAuthProvider(), <span class="pl-c">//Allow Sign-ins with HTTP Basic Auth</span>
+      }));</pre></div>
+
+<p>Alternatively users can login outside of Swagger, to access protected Services in Swagger UI.</p>
+
+<h2>
+<a id="user-content-demo-project" class="anchor" href="#demo-project" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Demo Project</h2>
+
+<p>ServiceStack.UseCases project contains example <a href="https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/SwaggerHelloWorld">SwaggerHelloWorld</a>. It demonstrates how to use and integrate <a href="http://nuget.org/packages/ServiceStack.Api.Swagger/">ServiceStack.Api.Swagger</a>. Take a look at <a href="https://github.com/ServiceStack/ServiceStack.UseCases/blob/master/SwaggerHelloWorld/README.txt">README.txt</a> for more details. </p>

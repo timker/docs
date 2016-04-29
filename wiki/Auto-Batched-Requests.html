@@ -1,0 +1,112 @@
+<p>One of the best ways to improve performance, efficiency and reduce latency is to minimize the number of network requests required, which is one of the reasons we've always encouraged <a href="https://github.com/ServiceStack/ServiceStack/wiki/Why-Servicestack#servicestack-encourages-development-of-message-style-re-usable-and-batch-full-web-services">Coarse-grained API designs</a> - which also lend themselves to better encapsulation and re-use. </p>
+
+<p>A common use-case that can be improved are clients making multiple requests to the same API, but due to the lack of a better alternative batched API or control over the server implementation, will default to making multiple N+1 web service requests. </p>
+
+<h3>
+<a id="user-content-all-services-support-batching" class="anchor" href="#all-services-support-batching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>All Services support Batching</h3>
+
+<p>Thanks to it's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services">message-based design</a>, ServiceStack is able to enable high-level generic functionality like Request Batching which is now implicitly available for all Services, without any additional effort - where multiple requests of the same type can be sent together in a single HTTP Request.</p>
+
+<p>This is enabled in all <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client">.NET Service Clients</a> via the new <code>SendAll()</code> and <code>SendAllOneWay()</code> API's, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> client = <span class="pl-k">new</span> JsonServiceClient(BaseUrl);
+<span class="pl-k">var</span> requests = <span class="pl-k">new</span>[]
+{
+    <span class="pl-k">new</span> Request { Id = <span class="pl-c1">1</span>, Name = <span class="pl-s"><span class="pl-pds">"</span>Foo<span class="pl-pds">"</span></span> },
+    <span class="pl-k">new</span> Request { Id = <span class="pl-c1">2</span>, Name = <span class="pl-s"><span class="pl-pds">"</span>Bar<span class="pl-pds">"</span></span> },
+    <span class="pl-k">new</span> Request { Id = <span class="pl-c1">3</span>, Name = <span class="pl-s"><span class="pl-pds">"</span>Baz<span class="pl-pds">"</span></span> },
+};
+
+List&lt;Response&gt; responses = client.SendAll(requests);</pre></div>
+
+<p>The API works as you would expect where multiple requests can be sent together and the Service Client will return a list of all responses in the same order as the requests were sent. </p>
+
+<p>And on the back-end, your Services are none the wiser, remaining focused on handling a single Request DTO. In the case below the Service does some work then stores the response in Redis before returning it:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Request</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> response = DoWork(request);
+        Redis.Store(response);
+        <span class="pl-k">return</span> response;
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-request-execution-flow" class="anchor" href="#request-execution-flow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request Execution Flow</h3>
+
+<p>From the Service's point of view nothing changes. Request DTO's still get executed one at a time, through all existing filters just as if they we're sent on their own. They're just delivered together within a single HTTP Request, in this case POST'ed as JSON to the <code>/json/reply/Request[]</code> <a href="https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes">pre-defined route</a>:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/auto-batched-requests.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/auto-batched-requests.png" alt="Auto Batched Requests" style="max-width:100%;"></a></p>
+
+<h3>
+<a id="user-content-custom-batched-requests-implementations" class="anchor" href="#custom-batched-requests-implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Batched Requests Implementations</h3>
+
+<p>If a client was previously calling the same API 100 times, the existing overhead of 100 HTTP Requests would be reduced to just <strong>1 HTTP Request</strong> when batched. Although the above Service would still be calling Redis 100 times to store each Response.</p>
+
+<p>If later this API has become really hot and you want to improve it even further, you can later add a custom implementation that accepts a <code>Request[]</code> and it will only get called once, with access to all the Request DTO's together. In this case we can use a custom implementation and take advantage of Redis's own batched API's and reduce this further to 1 Redis operation:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Request</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> response = DoWork(request);
+        Redis.Store(response);
+        <span class="pl-k">return</span> response;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Request[]</span> <span class="pl-smi">requests</span>)
+    {
+        <span class="pl-k">var</span> responses = requests.Map(DoWork);
+        Redis.StoreAll(responses);
+        <span class="pl-k">return</span> responses;
+    }
+}</pre></div>
+
+<p>So with this custom implementation we've gone from <strong>100 HTTP Requests + 100 Redis Operations</strong> to <strong>1 HTTP Request + 1 Redis Operation</strong>.</p>
+
+<p>Another scenario where you may consider using a <strong>Custom Batched Implementation</strong> is if you wanted to execute all requests within a single RDBMS transaction, which with <a href="https://github.com/ServiceStack/ServiceStack.OrmLite">OrmLite</a> would look something like:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Request</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> response = DoWork(request);
+        Db.Insert(request);
+        <span class="pl-k">return</span> response;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Request[]</span> <span class="pl-smi">requests</span>)
+    {
+        <span class="pl-k">using</span> (<span class="pl-k">var</span> trans = Db.OpenTransaction())
+        {
+            <span class="pl-k">var</span> responses = requests.Map(x =&gt; Any(x));  
+
+            trans.Commit();
+            <span class="pl-k">return</span> responses;
+        }
+    }
+}</pre></div>
+
+<p>Just like with normal Batched Requests, Custom Batched implementations are still executed one at a time through all request/response filters, taking advantage of any existing logic/validation. </p>
+
+<h3>
+<a id="user-content-defining-a-request-dto-to-accept-a-collection-of-types" class="anchor" href="#defining-a-request-dto-to-accept-a-collection-of-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Defining a Request DTO to accept a collection of Types</h3>
+
+<p>If you instead only wanted multiple Requests to be treated as a single Request through the entire pipeline you can create a new Request DTO that inherits from <code>List&lt;TRequest&gt;</code> which then gets treated as a normal Request DTO e, g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Requests</span> : <span class="pl-k">List</span>&lt;<span class="pl-k">Request</span>&gt; {}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyServices</span> : <span class="pl-k">Service</span>
+{
+    ...
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Requests</span> <span class="pl-smi">requests</span>)
+    {
+        <span class="pl-k">var</span> responses = requests.Map(DoWork);
+        Redis.StoreAll(responses);
+        <span class="pl-k">return</span> responses;
+    }
+}</pre></div>
+
+<p>More examples of Auto Batched Requests and its behavior can be found in the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/ReplyAllTests.cs">ReplyAllTests suite</a>.</p>

@@ -1,0 +1,197 @@
+<h3>
+<a id="user-content-autoquery-service-data-source" class="anchor" href="#autoquery-service-data-source" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoQuery Service Data Source</h3>
+
+<p>The next step after <a href="https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Memory">MemorySource</a> in querying for even richer result-sets, whether you want to add custom validation, access multiple dependencies, construct complex queries or other custom business logic, you can use a <strong>Service Source</strong> instead which lets you call a Service and use its Response as the dynamic Data Source that you can apply Auto Querying logic on.</p>
+
+<p><code>ServiceSource</code> is very similar to <code>MemorySource</code> however instead of passing in the in-memory collection 
+you want to query directly, you'll need to pass a <strong>Request DTO</strong> of the Service you want called instead.
+The response of the Service is then further queried just as if its results were passed into a MemorySource 
+directly.</p>
+
+<p>We'll illustrate with a few examples how to register and use ServiceSources, explore some of their capabilities 
+and provide some examples of when you may want to use them below. </p>
+
+<p>The <code>UserLogin</code> ServiceSouce shows you can just pass an empty Request DTO as-is to execute its Service. 
+The <code>RockstarAlbum</code> and <code>GithubRepo</code> Service Sources are however leveraging the built-in
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-mapping">Auto Mapping</a> to copy any matching 
+properties from the AutoQuery Request DTO to the downstream <code>GetRockstarAlbums</code> and <code>GetGithubRepos</code> 
+Request DTO's. Finally the responses for the <code>GithubRepo</code> Service is <strong>cached for 5 minutes</strong> so any 
+subsequent matching requests end up querying the cached result set instead of re-executing the <code>GetGithubRepos</code> 
+Service:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryDataFeature { MaxLimit = <span class="pl-c1">100</span> }
+    .AddDataSource(ctx =&gt; ctx.ServiceSource&lt;UserLogin&gt;(<span class="pl-k">new</span> GetTodaysUserActivity())),
+    .AddDataSource(ctx =&gt; ctx.ServiceSource&lt;RockstarAlbum&gt;(ctx.Dto.ConvertTo&lt;GetRockstarAlbums&gt;())),
+    .AddDataSource(ctx =&gt; ctx.ServiceSource&lt;GithubRepo&gt;(ctx.Dto.ConvertTo&lt;GetGithubRepos&gt;(), 
+        HostContext.Cache, TimeSpan.FromMinutes(<span class="pl-c1">5</span>)));
+);</pre></div>
+
+<p>The implementation of <code>GetTodaysUserActivity</code> Service uses an async OrmLite RDBMS call to get all User Logins 
+within the last day, fetches the Live Activity data from Redis, then 
+<a href="https://github.com/ServiceStack/ServiceStack.OrmLite#merge-disconnected-poco-result-sets">merges the disconnected POCO result sets</a>
+into the <code>UserLogin</code> POCO which it returns:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/useractivity/today<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryTodaysUserActivity</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">User</span>&gt; {}
+
+<span class="pl-k">public</span> <span class="pl-k">async</span> Task&lt;List&lt;UserLogin&gt;&gt; Any(GetTodaysUserActivity request)
+{
+    <span class="pl-k">var</span> logins = <span class="pl-k">await</span> Db.SelectAsync&lt;UserLogin&gt;(x =&gt; x.LastLogin &gt;= DateTime.UtcNow.AddDays(-<span class="pl-c1">1</span>));
+    <span class="pl-k">var</span> activities = Redis.As&lt;Activity&gt;().GetAll();
+    logins.Merge(activities);
+    <span class="pl-k">return</span> logins;
+}</pre></div>
+
+<p>The <code>GetRockstarAlbums</code> Service shows an example of a calling an existing ad hoc DB Service executing an 
+arbitrary custom Query. It uses the Request DTO Auto-Mapping at the <code>ServiceSource</code> registration to 
+first copy any matching properties from the initial <code>QueryRockstarAlbums</code> Request DTO to populate a new 
+<code>GetRockstarAlbums</code> instance which is what's used to execute the Service with. </p>
+
+<p>In this way the <code>QueryRockstarAlbums</code> AutoQuery Service is essentially decorating the underlying 
+<code>GetRockstarAlbums</code> Service giving it access to AutoQuery features where clients are able to apply 
+further post-querying server logic to an existing Service implementation which now lets them filter, 
+sort, select only a partial list of fields, include additional aggregate queries, etc.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstarAlbums</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">RockstarAlbum</span>&gt; 
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>[] <span class="pl-en">IdBetween</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">object</span> Any(GetRockstarAlbums request)
+{
+    <span class="pl-k">var</span> q = Db.From&lt;RockstarAlbum&gt;();
+
+    <span class="pl-k">if</span> (request.IdBetween != <span class="pl-c1">null</span>)
+        q.Where(x =&gt; x.Id &gt;= request.IdBetween[<span class="pl-c1">0</span>] &amp;&amp; x.Id &lt;= request.IdBetween[<span class="pl-c1">1</span>]);
+
+    <span class="pl-k">if</span> (request.Name != <span class="pl-c1">null</span>)
+        q.Where(x =&gt; x.Name == request.Name);
+
+    <span class="pl-k">return</span> <span class="pl-k">new</span> GetRockstarAlbumsResponse { Results = Db.Select(q) };
+}</pre></div>
+
+<p>One thing to notice is that ServiceSource still works whether the results are wrapped in a Response DTO 
+instead of a naked <code>IEnumerable&lt;RockstarAlbum&gt;</code> collection. This is transparently supported as <code>ServiceSource</code> 
+will use the first matching <code>IEnumerable&lt;T&gt;</code> property for Services that don't return a collection.</p>
+
+<p>It should be noted that decorating an existing OrmLite Service is rarely necessary as in most cases you'll
+be able to get by with just a simple AutoQuery RDBMS query as seen in the Service below which replaces 
+the above 2 Services:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstarAlbums</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">RockstarAlbum</span>&gt; {}</pre></div>
+
+<p>The final <code>GetGithubRepos</code> ServiceSource example shows an example of a slightly more complex implementation
+than a single 3rd Party API call where it adds custom validation logic and call different 3rd Party API 
+Endpoints depending on user input:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryGithubRepo</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">GithubRepo</span>&gt; 
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">User</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Organization</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">object</span> Get(GetGithubRepos request)
+{
+    <span class="pl-k">if</span> (request.User == <span class="pl-c1">null</span> &amp;&amp; request.Organization == <span class="pl-c1">null</span>)
+        <span class="pl-k">throw</span> <span class="pl-k">new</span> ArgumentNullException(<span class="pl-s"><span class="pl-pds">"</span>User<span class="pl-pds">"</span></span>);
+
+    <span class="pl-k">var</span> url = request.User != <span class="pl-c1">null</span>
+        ? <span class="pl-s"><span class="pl-pds">"</span>https://api.github.com/users/{0}/repos<span class="pl-pds">"</span></span>.Fmt(request.User)
+        : <span class="pl-s"><span class="pl-pds">"</span>https://api.github.com/orgs/{0}/repos<span class="pl-pds">"</span></span>.Fmt(request.Organization);
+
+    <span class="pl-k">return</span> url.GetJsonFromUrl(requestFilter:req =&gt; req.UserAgent = GetType().Name)
+        .FromJson&lt;List&lt;GithubRepo&gt;&gt;();
+}</pre></div>
+
+<p>A hidden feature ServiceSources are naturally able to take advantage of due to its behind-the-scenes usage 
+of the new <strong>ServiceGateway</strong> (announced later) is that the exact code above could still function if the
+<code>QueryGithubRepo</code> AutoQuery Data Service and underlying <code>GetGithubRepos</code> Service were moved to different
+hosts :)</p>
+
+<h3>
+<a id="user-content-custom-autoquery-data-implementation" class="anchor" href="#custom-autoquery-data-implementation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom AutoQuery Data Implementation</h3>
+
+<p>Just like you can 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#custom-autoquery-implementations">Create a Custom implementation</a>
+in AutoQuery, you can do the same in AutoQuery Data by just defining an implementation for your AutoQuery 
+Data Request DTO. But instead of <code>IAutoQueryDb</code> you'd reference the <code>IAutoQueryData</code> dependency to construct 
+and execute your custom AutoQuery Data query.</p>
+
+<p>When overriding the default implementation of an AutoQuery Data Service you also no longer need to register 
+a Data Source as you can specify the Data Source in-line when calling <code>AutoQuery.CreateQuery()</code>.</p>
+
+<p>For our custom AutoQuery Data implementation we'll look at creating a useful Service which reads the
+daily CSV Request and Error Logs from the new <code>CsvRequestLogger</code> (announced later) and queries it by 
+wrapping the POCO <code>RequestLogEntry</code> results into a <code>MemoryDataSource</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/query/requestlogs<span class="pl-pds">"</span></span>)]
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/query/requestlogs/{Date}<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRequestLogs</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">RequestLogEntry</span>&gt;
+{
+    <span class="pl-k">public</span> DateTime? <span class="pl-en">Date</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">bool</span> <span class="pl-en">ViewErrors</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomAutoQueryDataServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> IAutoQueryData <span class="pl-en">AutoQuery</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">QueryRequestLogs</span> <span class="pl-smi">query</span>)
+    {
+        <span class="pl-k">var</span> date = query.Date.GetValueOrDefault(DateTime.UtcNow);
+        <span class="pl-k">var</span> logSuffix = query.ViewErrors ? <span class="pl-s"><span class="pl-pds">"</span>-errors<span class="pl-pds">"</span></span> : <span class="pl-s"><span class="pl-pds">"</span><span class="pl-pds">"</span></span>;
+        <span class="pl-k">var</span> csvLogsFile = VirtualFileSources.GetFile(<span class="pl-s"><span class="pl-pds">"</span>requestlogs/{0}-{1}/{0}-{1}-{2}{3}.csv<span class="pl-pds">"</span></span>.Fmt(
+            date.Year.ToString(<span class="pl-s"><span class="pl-pds">"</span>0000<span class="pl-pds">"</span></span>),
+            date.Month.ToString(<span class="pl-s"><span class="pl-pds">"</span>00<span class="pl-pds">"</span></span>),
+            date.Day.ToString(<span class="pl-s"><span class="pl-pds">"</span>00<span class="pl-pds">"</span></span>),
+            logSuffix));
+
+        <span class="pl-k">if</span> (csvLogsFile == <span class="pl-c1">null</span>)
+            <span class="pl-k">throw</span> HttpError.NotFound(<span class="pl-s"><span class="pl-pds">"</span>No logs found on <span class="pl-pds">"</span></span> + date.ToShortDateString());
+
+        <span class="pl-k">var</span> logs = csvLogsFile.ReadAllText().FromCsv&lt;List&lt;RequestLogEntry&gt;&gt;();
+
+        <span class="pl-k">var</span> q = AutoQuery.CreateQuery(query, Request,
+            db: <span class="pl-k">new</span> MemoryDataSource&lt;RequestLogEntry&gt;(logs, query, Request));
+
+        <span class="pl-k">return</span> AutoQuery.Execute(query, q);
+    }
+}</pre></div>
+
+<p>This Service now lets you query the Request Logs of any given day, letting you filter, page and sort 
+through the Request Logs of the day. While we're at it, let's also create multiple Custom AutoQuery 
+Data implementations to act as canonical smart links for the above Service:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/logs/today<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TodayLogs</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">RequestLogEntry</span>&gt; { }
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/logs/today/errors<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">TodayErrorLogs</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">RequestLogEntry</span>&gt; { }
+
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/logs/yesterday<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YesterdayLogs</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">RequestLogEntry</span>&gt; { }
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/logs/yesterday/errors<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">YesterdayErrorLogs</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">RequestLogEntry</span>&gt; { }</pre></div>
+
+<p>The implementations of which just delegates to <code>QueryRequestLogs</code> with the selected Date and whether or 
+not to show just the error logs:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">object</span> Any(TodayLogs request) =&gt;
+    Any(<span class="pl-k">new</span> QueryRequestLogs { Date = DateTime.UtcNow });
+
+<span class="pl-k">public</span> <span class="pl-k">object</span> Any(TodayErrorLogs request) =&gt;
+    Any(<span class="pl-k">new</span> QueryRequestLogs { Date = DateTime.UtcNow, ViewErrors = <span class="pl-c1">true</span> });
+
+<span class="pl-k">public</span> <span class="pl-k">object</span> Any(YesterdayLogs request) =&gt;
+    Any(<span class="pl-k">new</span> QueryRequestLogs { Date = DateTime.UtcNow.AddDays(-<span class="pl-c1">1</span>) });
+
+<span class="pl-k">public</span> <span class="pl-k">object</span> Any(YesterdayErrorLogs request) =&gt;
+    Any(<span class="pl-k">new</span> QueryRequestLogs { Date = DateTime.UtcNow.AddDays(-<span class="pl-c1">1</span>), ViewErrors = <span class="pl-c1">true</span> });</pre></div>
+
+<h3>
+<a id="user-content-view-request-logs-in-autoquery-viewer" class="anchor" href="#view-request-logs-in-autoquery-viewer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>View Request Logs in AutoQuery Viewer</h3>
+
+<p>And with no more effort we can jump back to <code>/ss_admin/</code> and use AutoQuery Viewer's nice UI to quickly 
+inspect Todays and Yesterdays Request and Error Logs :)</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/autoqueryviewer-csv-logs.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/autoqueryviewer-csv-logs.png" alt="" style="max-width:100%;"></a></p>

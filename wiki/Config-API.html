@@ -1,0 +1,85 @@
+<p>Despite being avid protesters in the anti-XML config movement, we're still 100% for app Config in general though it should be <strong>limited to what's actually configurable by your application</strong>. Instead of building tiered configSection manatees we prefer to store structured data in Web.config's appSetting's values which are still able to express rich object config graphs but does so in a much more human-friendly and manageable size.</p>
+
+<h3>
+<a id="user-content-servicestacks-configuration-api" class="anchor" href="#servicestacks-configuration-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ServiceStack's Configuration API</h3>
+
+<p>To this end we provide our own pluggable <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResourceManager.cs">Configuration API</a> to provide high-level utility methods to read your Web.config's <code>&lt;appSetting/&gt;</code> values into a <code>List</code>, <code>Dictionary</code> or your own Custom POCO Type using the human friendly <a href="https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format">JSV format</a>.</p>
+
+<h3>
+<a id="user-content-benefits-over-xml-config" class="anchor" href="#benefits-over-xml-config" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Benefits over XML Config</h3>
+
+<p>Benefits over existing XML Configuration APIs include: </p>
+
+<ul>
+<li>The ability to store rich data structures in <strong>appSettings</strong> values</li>
+<li>Much easier and requires less effort and boilerplate to create </li>
+<li>Provides more succinct access to typed data</li>
+<li>Since they're just POCOs can be re-used in all of ServiceStack's libraries and built-in [[Auto Mapping]] </li>
+</ul>
+
+<p>and promotes less-coupling since its only an <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResourceManager.cs">interface</a> so can easily be swapped to have [[Plugins]] source their complex configuration from an different source (e.g. from a central DB) without a rewrite. </p>
+
+<p>[[OpenId]] providers like the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/Auth/FacebookAuthProvider.cs#L23">FacebookAuthProvider</a> is an example of Plugins that require multiple configuration settings but remain de-coupled from any one configuration source (e.g. Web.config).</p>
+
+<h3>
+<a id="user-content-example-appsettings-usage" class="anchor" href="#example-appsettings-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example AppSettings Usage</h3>
+
+<p>By default ServiceStack ships with an <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Configuration/AppSettings.cs">AppSettings</a> which reads from your Web.Config <code>&lt;appSettings/&gt;</code> and a <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Configuration/DictionarySettings.cs">DictionarySettings</a> provider which can be populated with a standard C# <code>Dictionary&lt;string,string&gt;</code>.</p>
+
+<p>Here's a quick example show-casing how to use the popular *<em>AppSettings</em>:</p>
+
+<pre><code>&lt;appSettings&gt;
+&lt;add key="LastUpdated" value="01/01/2012 12:00:00" /&gt;
+&lt;add key="AllowedUsers" value="Tom,Mick,Harry" /&gt;
+&lt;add key="RedisConfig" value="{Host:localhost,Port:6379,Database:1,Timeout:10000}" /&gt;
+&lt;/appSettings&gt;
+</code></pre>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> appSettings = <span class="pl-k">new</span> AppSettings();
+
+DateTime lastUpdate = appSettings.Get&lt;DateTime&gt;(<span class="pl-s"><span class="pl-pds">"</span>LastUpdated<span class="pl-pds">"</span></span>);
+IList&lt;<span class="pl-k">string</span>&gt; allowedUsers = appSettings.GetList(<span class="pl-s"><span class="pl-pds">"</span>AllowedUsers<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">var</span> redisConf = appSettings.Get&lt;RedisConfig&gt;(<span class="pl-s"><span class="pl-pds">"</span>RedisConf<span class="pl-pds">"</span></span>);
+
+<span class="pl-c">//use default value if no config exists</span>
+<span class="pl-k">var</span> searchUrl = appSettings.Get(<span class="pl-s"><span class="pl-pds">"</span>SearchUrl<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>http://www.google.com<span class="pl-pds">"</span></span>);</pre></div>
+
+<h3>
+<a id="user-content-default-configuration-in-code" class="anchor" href="#default-configuration-in-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default configuration in code</h3>
+
+<p>The default value support is nice as it allows having workable default options in code whilst still remaining overridable in the <strong>Web.config</strong> when it needs to. This allows local and test projects to work without duplicating and maintaining and their own Web.config files whilst allowing arbitrary settings to be overridable in different deployment environments.</p>
+
+<p>It also allows distributing Stand-alone Console applications like the <a href="https://github.com/ServiceStack/ServiceStack.UseCases/blob/master/PocoPower/Program.cs">PocoPower demo</a> but still provide the opportunity to override the settings without recompiling the source, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> appSettings = <span class="pl-k">new</span> AppSettings();
+<span class="pl-k">var</span> config = appSettings.Get(<span class="pl-s"><span class="pl-pds">"</span>my.config<span class="pl-pds">"</span></span>, 
+    <span class="pl-k">new</span> Config { GitHubName = <span class="pl-s"><span class="pl-pds">"</span>mythz<span class="pl-pds">"</span></span>, TwitterName = <span class="pl-s"><span class="pl-pds">"</span>ServiceStack<span class="pl-pds">"</span></span> });
+
+<span class="pl-k">var</span> github = <span class="pl-k">new</span> GithubGateway();
+<span class="pl-k">var</span> repos = github.GetAllUserAndOrgsReposFor(config.GitHubName);
+
+<span class="pl-k">var</span> twitter = <span class="pl-k">new</span> TwitterGateway();
+<span class="pl-k">var</span> tweets = twitter.GetTimeline(config.TwitterName);</pre></div>
+
+<h2>
+<a id="user-content-easy-to-implement" class="anchor" href="#easy-to-implement" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Easy to implement</h2>
+
+<p>Despite being so versatile, it's surprisingly easy to implement a new Configuration Provider, e.g. Here's the entire implementation for <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Configuration/DictionarySettings.cs">DictionarySettings</a> which just needs to implement <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Configuration/ISettings.cs">ISettings</a> as is able to re-use the built-in <code>AppSettingsBase</code> base class:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">DictionarySettings</span> : <span class="pl-k">AppSettingsBase</span>, <span class="pl-k">ISettings</span>
+{
+    <span class="pl-k">private</span> <span class="pl-k">readonly</span> Dictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt; map;
+
+    <span class="pl-k">public</span> <span class="pl-en">DictionarySettings</span>(Dictionary&lt;string, string&gt; map=<span class="pl-c1">null</span>)
+    {
+        <span class="pl-c1">this</span>.map = map ?? <span class="pl-k">new</span> Dictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt;();
+        settings = <span class="pl-c1">this</span>;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Get</span>(<span class="pl-k">string</span> <span class="pl-smi">key</span>)
+    {
+        <span class="pl-k">string</span> <span class="pl-k">value</span>;
+        <span class="pl-k">return</span> map.TryGetValue(key, out <span class="pl-k">value</span>) ? <span class="pl-k">value</span> : <span class="pl-c1">null</span>;
+    }
+}</pre></div>

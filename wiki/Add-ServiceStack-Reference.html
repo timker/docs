@@ -1,0 +1,278 @@
+<p>ServiceStack's <strong>Add ServiceStack Reference</strong> feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with <a href="https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project#step-1-download-and-install-servicestackvs">ServiceStackVS</a> - providing a simpler, cleaner and more versatile alternative to WCF's <strong>Add Service Reference</strong> feature that's built into VS.NET. </p>
+
+<p>Add ServiceStack Reference now supports 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference">Swift</a>, 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference">Java</a>, 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference">Kotlin</a>, 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference">C#</a>, 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference">TypeScript</a>, 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference">F#</a> and 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference">VB.NET</a> 
+including integration with most leading IDE's to provide a flexible alternative than sharing your DTO assembly with clients. Clients can now easily add a reference to a remote ServiceStack url and update DTOs directly from within VS.NET, Xcode, Android Studio, IntelliJ and Eclipse. We plan on expanding on this foundation into adding seamless, typed, end-to-end integration with other languages - Add a <a href="http://servicestack.uservoice.com/forums/176786-feature-requests">feature request for your favorite language</a> to prioritize support for it sooner!</p>
+
+<p>Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a remote url within their favorite IDE - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.</p>
+
+<p>ServiceStackVS offers the generation and updating of these clients through the same context for all supported languages giving developers a consistent way of creating and updating your DTOs regardless of their preferred language of choice.</p>
+
+<h3>
+<a id="user-content-supported-languages" class="anchor" href="#supported-languages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Supported Languages</h3>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference">C# Add ServiceStack Reference</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference">Swift Add ServiceStack Reference</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference">Java Add ServiceStack Reference</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference">Kotlin Add ServiceStack Reference</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference">TypeScript Add ServiceStack Reference</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference">F# Add ServiceStack Reference</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference">VB.NET Add ServiceStack Reference</a></li>
+</ul>
+
+<h2>
+<a id="user-content-example-usage" class="anchor" href="#example-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h2>
+
+<blockquote>
+<p>C# Android PCL Client example</p>
+</blockquote>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/android-add-ref-demo.gif" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/android-add-ref-demo.gif" alt="C# Android PCL Client example" style="max-width:100%;"></a></p>
+
+<blockquote>
+<p>VB.NET client talking with C# Server example</p>
+</blockquote>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/csharp-server-vb-client.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/csharp-server-vb-client.gif" alt="CSharp server with VB.Net client example" style="max-width:100%;"></a></p>
+
+<p>Options for the generated DTOs can be changed by updating the commented section in the header of the file. Each language will have different options based on what is applicable to that language. For details on these options, please see the specific language wiki page.</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference#change-default-server-configuration">C# Options</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference#swift-configuration">Swift Options</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference#java-configuration">Java Options</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference#kotlin-configuration">Kotlin Options</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference#change-default-server-configuration">TypeScript Options</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference#change-default-server-configuration">F# Options</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference">VB.Net Options</a></li>
+</ul>
+
+<h3>
+<a id="user-content-ssutilexe---command-line-servicestack-reference-tool" class="anchor" href="#ssutilexe---command-line-servicestack-reference-tool" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ssutil.exe - Command line ServiceStack Reference tool</h3>
+
+<p>Add ServiceStack Reference is also moving beyond our growing list of supported IDEs and is now available in a single cross-platform .NET command-line <strong>.exe</strong> making it easy for build servers and automated tasks or command-line runners of your favorite text editors to easily Add and Update ServiceStack References!</p>
+
+<p>To Get Started download <strong>ssutil.exe</strong> and open a command prompt to the containing directory:</p>
+
+<h4>
+<a id="user-content-download-ssutilexe" class="anchor" href="#download-ssutilexe" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Download <a href="https://github.com/ServiceStack/ServiceStackVS/raw/master/dist/ssutil.exe">ssutil.exe</a>
+</h4>
+
+<h4>
+<a id="user-content-ssutilexe-usage" class="anchor" href="#ssutilexe-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ssutil.exe Usage:</h4>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/ssutil-help.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/ssutil-help.png" alt="" style="max-width:100%;"></a></p>
+
+<p><strong>Adding a new ServiceStack Reference</strong></p>
+
+<p>To create a new ServiceStack Reference, pass the remote ServiceStack <strong>BaseUrl</strong> then specify both which <code>-file</code> and <code>-lang</code> you want, e.g:</p>
+
+<pre><code>ssutil http://techstacks.io -file TechStacks -lang CSharp
+</code></pre>
+
+<p>Executing the above command fetches the C# DTOs and saves them in a local file named <code>TechStacks.dtos.cs</code>.</p>
+
+<p><strong>Available Languages</strong></p>
+
+<ul>
+<li>CSharp</li>
+<li>Swift</li>
+<li>Java</li>
+<li>Kotlin</li>
+<li>TypeScript / TypeScript.d</li>
+<li>FSharp</li>
+<li>VbNet</li>
+</ul>
+
+<p><strong>Update existing ServiceStack Reference</strong></p>
+
+<p>Updating a ServiceStack Reference is even easier we just specify the path to the existing generated DTOs. E.g. Update the <code>TechStacks.dtos.cs</code> we just created with:</p>
+
+<pre><code>ssutil TechStacks.dtos.cs
+</code></pre>
+
+<h3>
+<a id="user-content-running-on-windows" class="anchor" href="#running-on-windows" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running on Windows</h3>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/ssutil-demo.gif"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/ssutil-demo.gif" alt="" style="max-width:100%;"></a></p>
+
+<h3>
+<a id="user-content-running-on-osx" class="anchor" href="#running-on-osx" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Running on OSX</h3>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/ssutil-demo-osx.gif"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/ssutil-demo-osx.gif" alt="" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-advantages-over-wcf" class="anchor" href="#advantages-over-wcf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advantages over WCF</h2>
+
+<ul>
+<li>
+<strong>Simple</strong> Server provides DTOs based on metadata and options provided. No heavy client side tools, just a HTTP request!</li>
+<li>
+<strong>Versatile</strong> Clean DTOs works in all JSON, XML, JSV, MsgPack and ProtoBuf <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#built-in-clients">generic service clients</a>
+</li>
+<li>
+<strong>Reusable</strong> Generated DTOs are not coupled to any endpoint or format. Defaults are both partial and virtual for maximum re-use </li>
+<li>
+<strong>Resilient</strong> Messaging-based services offer a number of <a href="https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services">advantages over RPC Services</a>
+</li>
+<li>
+<strong>Flexible</strong> DTO generation is customizable, Server and Clients can override built-in defaults</li>
+<li>
+<strong>Integrated</strong> Rich Service metadata annotated on DTO's, <a href="https://github.com/ServiceStack/ServiceStack/wiki/Restricting-Services">Internal Services</a> are excluded when accessed externally</li>
+</ul>
+
+<h2>
+<a id="user-content-in-contrast-with-wcfs-add-service-reference" class="anchor" href="#in-contrast-with-wcfs-add-service-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>In Contrast with WCF's Add Service Reference</h2>
+
+<p>WCF's <strong>Add Service Reference</strong> also allows generating a typed client from a single url, and whilst it's a great idea, the complexity upon what it's built-on and the friction it imposes were the primary reasons we actively avoided using it (pre-ServiceStack). We instead opted to reuse our server DTO types and created Generic WCF Proxies, to provide a cleaner and simpler solution when consuming our own WCF services. </p>
+
+<h3>
+<a id="user-content-complexity-of-wcfs-add-service-reference" class="anchor" href="#complexity-of-wcfs-add-service-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Complexity of WCF's Add Service Reference</h3>
+
+<p>To achieve this feature WCF generates its client proxies using a remote services WSDL. A WSDL is basically a machine-readable XML definition language for describing SOAP Services. It's abstract enough to cover different styles of services and introduces a number of artificial concepts to facilitate it, including: Service, Port, Binding, PortType, Operation, Message and Types. As WSDL's are complex they mandate the use of heavy tooling to generate and maintain both the WSDL file, the generated client proxies and its necessary client configuration. Despite all this complexity it's coupled and limited into using the verbose SOAP protocol and XML wire format which when coupled with WCF's promotion of RPC method signatures meant even minor changes would break existing clients, resulting in a heavy and fragile solution for evolving web services.</p>
+
+<h3>
+<a id="user-content-how-message-based-services-would-benefit-wcf" class="anchor" href="#how-message-based-services-would-benefit-wcf" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How Message based Services would benefit WCF</h3>
+
+<p>A small part of a WSDL is the XSD definitions of Types used in the Services. Had WCF only supported a message-based style it could dispense with the overhead of using a WSDL at all and just use XSD schema to generate the DTO's, eliminating the neeed for a SOAP envelope where it could just send <a href="http://en.wikipedia.org/wiki/Plain_Old_XML">Plain Old XML</a> across the wire. As an added benefit it would've got JSON support for free by reusing the generated types in .NET's JSON DataContract Serializer. </p>
+
+<h3>
+<a id="user-content-unnecessary-complexity-of-xsds" class="anchor" href="#unnecessary-complexity-of-xsds" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Unnecessary Complexity of XSDs</h3>
+
+<p>Despite being much simpler, even XSD's by themselves are more complex than it needs to be. The XML Schema specification is itself several hundred pages long and contains many elements which make it a poor programmatic fit for any programming language. E.g. use of XML namespaces and attributes in addition to elements does not naturally map to any language type system and causes unnecessary friction and additional boilerplate to handle this mismatch during serialization. </p>
+
+<p>This is in stark contrast with the JSON spec which <a href="http://www.json.org/">fits on a single page</a> yet manages to include most of the core elements required for data interchange consisting of <code>Arrays</code>, <code>Objects</code> and primitive <code>number</code>, <code>string</code>, <code>boolean</code> and <code>null</code> types. It's also a perfect fit for most languages where all valid JSON is always convertible to a valid JavaScript object. When more specialized types are required, you have access to the full power of the host programming language to perform custom conversions, providing a more flexible alternative than otherwise breaking clients requests on minor schema changes. </p>
+
+<h2>
+<a id="user-content-servicestacks-native-types-feature" class="anchor" href="#servicestacks-native-types-feature" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ServiceStack's Native Types Feature</h2>
+
+<p>As with any ServiceStack feature one of our primary goals is to <a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#why-not-complexity">minimize unnecessary complexity</a> by opting for approaches that yield maximum value and minimal complexity, favoring re-use and simple easy to reason about solutions over opaque heavy black-box tools.</p>
+
+<p>We can already see from the WCF scenario how ServiceStack already benefits from its message-based design, where as it's able to reuse any <a href="https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview">Generic Service Client</a>, only application-specific DTO's ever need to be generated, resulting in a much cleaner, simpler and friction-less solution.</p>
+
+<p>Code-first is another approach that lends itself to simpler solutions, which saves the effort and inertia from adapting to interim schemas/specs, often with impedance mismatches and reduced/abstract functionality. In ServiceStack your code-first DTOs are the master authority where all other features are projected off. </p>
+
+<p>C# also has great language support for defining POCO Data Models, that's as terse as a DSL but benefits from great IDE support and minimal boilerplate, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/path<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Request</span> : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">Response</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">Id</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    ...
+}</pre></div>
+
+<p>Starting from a C# model, whilst naturally a better programmatic fit also ends up being richer and more expressive than XSD's which supports additional metadata annotations like Attributes and Interfaces. </p>
+
+<h3>
+<a id="user-content-enabled-by-default-from-v4030-servicestack-projects" class="anchor" href="#enabled-by-default-from-v4030-servicestack-projects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enabled by default from v4.0.30+ ServiceStack Projects</h3>
+
+<p>Native Types is now available by default on all <strong>v4.0.30+</strong> ServiceStack projects. It can be disabled by removing the <code>NativeTypesFeature</code> plugin with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> NativeTypesFeature);</pre></div>
+
+<h3>
+<a id="user-content-generating-types-from-metadata" class="anchor" href="#generating-types-from-metadata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generating Types from Metadata</h3>
+
+<p>Behind the scenes ServiceStack captures all metadata on your Services DTOs including Sub -classes, Routes, <code>IReturn</code> marker, C# Attributes, textual Description as well as desired configuration into a serializable object model accessible from <code>/types/metadata</code>: </p>
+
+<h4>
+<a id="user-content-live-examples" class="anchor" href="#live-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Live examples</h4>
+
+<ul>
+<li>
+<a href="https://httpbenchmarks.servicestack.net/types/metadata">httpbenchmarks.servicestack.net/types/metadata</a> (<a href="https://httpbenchmarks.servicestack.net/types/metadata.json">JSON</a>)</li>
+<li>
+<a href="http://stackapis.servicestack.net/types/metadata">stackapis.servicestack.net/types/metadata</a> (<a href="http://stackapis.servicestack.net/types/metadata.json">JSON</a>)</li>
+</ul>
+
+<p>This model is then used to generate the generated types, which for C# is at <code>/types/csharp</code>.</p>
+
+<h3>
+<a id="user-content-excluding-types-from-add-servicestack-reference" class="anchor" href="#excluding-types-from-add-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Excluding Types from Add ServiceStack Reference</h3>
+
+<p>To remove a type from the metadata and code generation you can annotate Request DTOs with <code>[Exclude(Feature.Metadata)]</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Exclude(Feature.Metadata)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ExcludedFromMetadata</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">Id</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>An alternative is it add it to the <code>IgnoreTypes</code> collection in the NativeTypes Feature Metadata Config in your AppHost:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> nativeTypes = <span class="pl-c1">this</span>.GetPlugin&lt;NativeTypesFeature&gt;();
+nativeTypes.MetadataTypesConfig.IgnoreTypes.Add(<span class="pl-k">typeof</span>(TypeToIgnore));</pre></div>
+
+<p>If you only want to limit code generation based on where the reference is being added from you can use the 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Restricting-Services">Restrict Attribute</a>, 
+E.g you can limit types to only appear when the reference is added from localhost:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Restrict(LocalhostOnly = <span class="pl-c1">true</span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ResrtictedToLocalhost</span> { }</pre></div>
+
+<p>Or when added from within an internal network:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Restrict(InternalOnly = <span class="pl-c1">true</span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">RestrictedToInternalNetwork</span> { }</pre></div>
+
+<p>There's also the rarer option when you only want a service accessible from external requests with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Restrict(ExternalOnly = <span class="pl-c1">true</span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">RestrictedToExternalRequests</span> { }</pre></div>
+
+<h3>
+<a id="user-content-how-it-works" class="anchor" href="#how-it-works" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How it works</h3>
+
+<p>The Add ServiceStack Reference dialog just takes the URL provided and requests the appropriate route for the current project. Eg, for C#, the path used is at <code>/types/csharp</code>. The defaults are specified by the server and the resultant DTOs are saved and added the the project as {Name}.dtos.{LanguageExtension}. The <code>Update ServiceStack Reference</code> menu is available when any file matches same naming convention of {Name}.dtos.{LanguageExtension}. An update then looks at the comments at the top of the file and parses them to provide overrides when requesting new DTOs from the server. ServiceStackVS also watches these DTO files for updates, so just by saving them these files are updated from the server.</p>
+
+<h4>
+<a id="user-content-language-paths" class="anchor" href="#language-paths" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Language Paths</h4>
+
+<ul>
+<li>
+<code>/types/csharp</code> - C# </li>
+<li>
+<code>/types/swift</code> - Swift </li>
+<li>
+<code>/types/java</code> - Java </li>
+<li>
+<code>/types/kotlin</code> - Kotlin </li>
+<li>
+<code>/types/typescript</code> - TypeScript </li>
+<li>
+<code>/types/typescript.d</code> - Ambient TypeScript Definitions</li>
+<li>
+<code>/types/fsharp</code> - F# </li>
+<li>
+<code>/types/vbnet</code> - VB.NET </li>
+<li>
+<code>/types/metadata</code> - Metadata </li>
+</ul>
+
+<h2>
+<a id="user-content-limitations" class="anchor" href="#limitations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Limitations</h2>
+
+<p>In order for Add ServiceStack Reference to work consistently across all supported languages without .NET semantic namespaces, DTOs includes an additional restriction where each Type must be uniquely named. You can get around this restriction by sharing the ServiceModel.dll where your DTOs are defined instead.</p>
+
+<h2>
+<a id="user-content-using-with-iis-windows-authentication" class="anchor" href="#using-with-iis-windows-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using with IIS Windows Authentication</h2>
+
+<p>If you have configured your NativeTypes service to run on IIS with Windows Authentication enabled, you need to ensure that the <em>/types</em> routes are reachable and do not require the system-level authentication from IIS. To accomplish this, add the following to Web.config. </p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">configuration</span>&gt;
+    &lt;<span class="pl-ent">location</span> <span class="pl-e">path</span>=<span class="pl-s"><span class="pl-pds">"</span>types<span class="pl-pds">"</span></span>&gt;
+        &lt;<span class="pl-ent">system</span>.web&gt;
+            &lt;<span class="pl-ent">authorization</span>&gt;
+                &lt;<span class="pl-ent">allow</span> <span class="pl-e">users</span>=<span class="pl-s"><span class="pl-pds">"</span>?<span class="pl-pds">"</span></span> /&gt;
+            &lt;/<span class="pl-ent">authorization</span>&gt;
+        &lt;/<span class="pl-ent">system</span>.web&gt;
+    &lt;/<span class="pl-ent">location</span>&gt;
+&lt;/<span class="pl-ent">configuration</span>&gt;</pre></div>

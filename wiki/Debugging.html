@@ -1,0 +1,106 @@
+<h3>
+<a id="user-content-debugging-source-symbols-in-nuget-packages" class="anchor" href="#debugging-source-symbols-in-nuget-packages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debugging Source Symbols in NuGet packages</h3>
+
+<p>It's possible to debug into the ServiceStack source code when using the ServiceStack NuGet packages. You can enable this after <a href="http://www.symbolsource.org/Public/Home/VisualStudio">enabling SymbolSource integration in VisualStudio</a>:</p>
+
+<ol>
+<li>Go to <code>Tools -&gt; Options -&gt; Debugger -&gt; General</code>
+</li>
+<li>Uncheck <strong>Enable Just My Code</strong>, <strong>Enable .NET Framework source stepping</strong> and <strong>Require source files to exactly match the original version</strong>
+</li>
+<li>Check <strong>Enable source server support</strong>
+</li>
+<li>In the <code>Tools -&gt; Options -&gt; Debugger -&gt; Symbols</code> dialog, under the <strong>Symbol file (.pdb) locations</strong> section by clicking the New Folder icon and add the following urls (in order):
+
+<ul>
+<li><a href="http://referencesource.microsoft.com/symbols">http://referencesource.microsoft.com/symbols</a></li>
+<li><a href="http://srv.symbolsource.org/pdb/Public">http://srv.symbolsource.org/pdb/Public</a></li>
+<li><a href="http://srv.symbolsource.org/pdb/MyGet">http://srv.symbolsource.org/pdb/MyGet</a></li>
+<li><a href="http://msdl.microsoft.com/download/symbols">http://msdl.microsoft.com/download/symbols</a></li>
+</ul>
+</li>
+</ol>
+
+<p>And with that you should now be able to debug into the source code of any NuGet package (who publishes their Symbols) directly from within your application!</p>
+
+<h2>
+<a id="user-content-configuration" class="anchor" href="#configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration</h2>
+
+<h3>
+<a id="user-content-debugmode" class="anchor" href="#debugmode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DebugMode</h3>
+
+<p>ServiceStack allows additional debug information when in <strong>DebugMode</strong>, which is automatically set by default in <strong>Debug</strong> builds or explicitly with:</p>
+
+<div class="highlight highlight-source-cs"><pre>SetConfig(<span class="pl-k">new</span> HostConfig { DebugMode = <span class="pl-c1">true</span> });</pre></div>
+
+<p>In addition, users with the <strong>Admin</strong> role or Requests with an <strong>AuthSecret</strong> can also view Debug Info in production.</p>
+
+<h3>
+<a id="user-content-admin-role" class="anchor" href="#admin-role" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Admin Role</h3>
+
+<p>Users in the <code>Admin</code> role have super-user access giving them access to any services or plugins protected with Roles and Permissions.</p>
+
+<h3>
+<a id="user-content-authsecret" class="anchor" href="#authsecret" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AuthSecret</h3>
+
+<p>You can use <strong>Config.AdminAuthSecret</strong> to specify a special string to give you admin access without having to login by adding <code>?authsecret=xxx</code> to the query string, e.g:</p>
+
+<pre><code>SetConfig(new HostConfig { AdminAuthSecret = "secretz" });
+</code></pre>
+
+<p>By-pass protected services using query string:</p>
+
+<pre><code>/my-service?authsecret=secretz
+</code></pre>
+
+<h2>
+<a id="user-content-debug-links" class="anchor" href="#debug-links" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Debug Links</h2>
+
+<p>To provide better visibility to the hidden functionality in ServiceStack we've added <strong>Debug Info</strong> links section to the <code>/metadata</code> page which add links to any Plugins with Web UI's, e.g:</p>
+
+<p><a href="https://camo.githubusercontent.com/3576a6bf7a6c8ec6fcc0b5c058036cee7de2b77f/687474703a2f2f692e696d6775722e636f6d2f3248663350394c2e706e67" target="_blank"><img src="https://camo.githubusercontent.com/3576a6bf7a6c8ec6fcc0b5c058036cee7de2b77f/687474703a2f2f692e696d6775722e636f6d2f3248663350394c2e706e67" alt="Debug Info Links" data-canonical-src="http://i.imgur.com/2Hf3P9L.png" style="max-width:100%;"></a></p>
+
+<p>The <strong>Debug Links</strong> section is only available in <strong>DebugMode</strong>.</p>
+
+<p>You can add links to your own <a href="https://github.com/ServiceStack/ServiceStack/wiki/Plugins">Plugins</a> in the metadata pages with:</p>
+
+<div class="highlight highlight-source-cs"><pre>appHost.GetPlugin&lt;MetadataFeature&gt;()
+    .AddPluginLink(<span class="pl-s"><span class="pl-pds">"</span>swagger-ui/<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Swagger UI<span class="pl-pds">"</span></span>);
+
+appHost.GetPlugin&lt;MetadataFeature&gt;()
+    .AddDebugLink(<span class="pl-s"><span class="pl-pds">"</span>?debug=requestinfo<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Request Info<span class="pl-pds">"</span></span>);</pre></div>
+
+<p><code>AddPluginLink</code> adds links under the <strong>Plugin Links</strong> section and should be used if your plugin is publicly visible, otherwise use <code>AddDebugLink</code> for plugins only available during debugging or development.</p>
+
+<h2>
+<a id="user-content-plugins" class="anchor" href="#plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugins</h2>
+
+<p>There are a number of plugins that can help with debugging:</p>
+
+<h3>
+<a id="user-content-request-info" class="anchor" href="#request-info" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request Info</h3>
+
+<p>Provides ServiceStack's Request Info feature useful for debugging requests. Just add <strong>?debug=requestinfo</strong> in your <code>/pathinfo</code> and ServiceStack will return a dump of all the HTTP Request parameters to help with with debugging interoperability issues. The RequestInfoFeature is only enabled in <a href="https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode">DebugMode</a>.</p>
+
+<pre><code>var feature = Plugins.FirstOrDefault(x =&gt; x is RequestInfoFeature); 
+Plugins.RemoveAll(x =&gt; x is RequestInfoFeature); 
+</code></pre>
+
+<h3>
+<a id="user-content-request-logger" class="anchor" href="#request-logger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-logger">Request Logger</a>
+</h3>
+
+<p>Add an In-Memory <code>IRequestLogger</code> and service with the default route at <code>/requestlogs</code> which maintains a live log of the most recent requests (and their responses). Supports multiple config options incl. Rolling-size capacity, error and session tracking, hidden request bodies for sensitive services, etc.</p>
+
+<pre><code>Plugins.Add(new RequestLogsFeature());
+</code></pre>
+
+<p>The <code>IRequestLogger</code> is a great way to introspect and analyze your service requests in real-time. Here's a screenshot from the <a href="http://bootstrapapi.servicestack.net">http://bootstrapapi.servicestack.net</a> website:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/request-logs-01.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/request-logs-01.png" alt="Live Screenshot" style="max-width:100%;"></a></p>
+
+<p>It supports multiple queryString filters and switches so you filter out related requests for better analysis and debuggability:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/request-logs-02.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/request-logs-02.png" alt="Request Logs Usage" style="max-width:100%;"></a></p>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Admin/RequestLogsService.cs">RequestLogsService</a> is just a simple C# service under-the-hood but is a good example of how a little bit of code can provide a lot of value in ServiceStack's by leveraging its generic, built-in features.</p>

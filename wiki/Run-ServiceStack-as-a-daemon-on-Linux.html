@@ -1,0 +1,155 @@
+<p>When your web application is predominantly javascript with a REST service at the back-end there are many reasons why you might want to simply serve the static content through apache (or alternative) and run the service as a ...well... service.
+Some examples are:</p>
+
+<ul>
+<li>Faster start-up times</li>
+<li>Avoiding lengthy XML configuration files</li>
+<li>Problems with mono ASP.NET <a href="https://bugzilla.xamarin.com/show_bug.cgi?id=381">memory</a> <a href="http://minimalreadership.blogspot.co.uk/2011/07/why-is-aspnet-on-mono-like-new-pet-that.html">leaks</a> and <a href="http://teadriven.me.uk/2012/03/11/time-for-a-rest/">random exceptions</a>.</li>
+</ul>
+
+<p>Fortunately this is quite simple.</p>
+
+<h2>
+<a id="user-content-service-example" class="anchor" href="#service-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Service example</h2>
+
+<p>The earlier example of <a href="https://github.com/ServiceStack/ServiceStack/wiki/Self-hosting">self hosting</a> provides a good starting point, but needs to be modified slightly if running as a daemon. </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">using</span> System<span class="pl-k">;</span>
+<span class="pl-k">using</span> System.Reflection<span class="pl-k">;</span>
+<span class="pl-k">using</span> Mono.Unix<span class="pl-k">;</span>
+<span class="pl-k">using</span> Mono.Unix.Native<span class="pl-k">;</span>
+
+<span class="pl-k">using</span> Funq<span class="pl-k">;</span>
+<span class="pl-k">using</span> ServiceStack.ServiceHost<span class="pl-k">;</span>
+<span class="pl-k">using</span> ServiceStack.WebHost.Endpoints<span class="pl-k">;</span>
+
+
+<span class="pl-k">namespace</span> <span class="pl-en">ServiceStackExample</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AppHost</span> : <span class="pl-k">AppHostHttpListenerBase</span>
+    {
+        <span class="pl-k">public</span> <span class="pl-en">AppHost</span>() : <span class="pl-c1">base</span>("Example", Assembly.GetExecutingAssembly())
+        {
+        }
+
+        <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">Configure</span>(<span class="pl-k">Container</span> <span class="pl-smi">container</span>)
+        {
+        }
+    }
+
+    <span class="pl-k">class</span> <span class="pl-en">Program</span>
+    {
+        <span class="pl-k">static</span> <span class="pl-k">void</span> <span class="pl-en">Main</span>(<span class="pl-k">string[]</span> <span class="pl-smi">args</span>)
+        {
+            <span class="pl-c">//Initialize app host</span>
+            <span class="pl-k">var</span> appHost = <span class="pl-k">new</span> AppHost();
+            appHost.Init();
+            appHost.Start(<span class="pl-s"><span class="pl-pds">"</span>http://127.0.0.1:8080/<span class="pl-pds">"</span></span>);
+
+            UnixSignal [] signals = <span class="pl-k">new</span> UnixSignal[] { 
+                <span class="pl-k">new</span> UnixSignal(Signum.SIGINT), 
+                <span class="pl-k">new</span> UnixSignal(Signum.SIGTERM), 
+            };
+
+            <span class="pl-c">// Wait for a unix signal</span>
+            <span class="pl-k">for</span> (<span class="pl-k">bool</span> exit = <span class="pl-c1">false</span>; !exit; )
+            {
+                <span class="pl-k">int</span> id = UnixSignal.WaitAny(signals);
+
+                <span class="pl-k">if</span> (id &gt;= <span class="pl-c1">0</span> &amp;&amp; id &lt; signals.Length)
+                {
+                    <span class="pl-k">if</span> (signals[id].IsSet) exit = <span class="pl-c1">true</span>;
+                }
+            }
+        }
+    }
+}</pre></div>
+
+<p>Be aware that this makes use of posix functionality and will therefore not work under Windows. You will need to add the Mono.Posix library to your project references.</p>
+
+<h2>
+<a id="user-content-daemonising-the-application" class="anchor" href="#daemonising-the-application" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Daemonising the application</h2>
+
+<p>As it stands the project produces a console application that responds to unix signals (press ctrl-c to exit if you are running it from a terminal). If your target platform is Ubuntu then the simplest way to automatically run your application as a daemon is to use an upstart script.</p>
+
+<p>Create the following at /etc/init/example.conf</p>
+
+<pre><code># ServiceStack Example Application
+
+description "ServiceStack Example"
+author      "ServiceStack"
+
+start on started rc
+stop on stopping rc
+
+respawn
+
+exec start-stop-daemon --start -c username --exec mono /path/to/application.exe
+</code></pre>
+
+<p>Ideally we would start the service when apache is ready but apache does not yet emit upstart events. Additional conditions could include a database dependency if required, for example "start on started mysql". Replace "username" with that of an unprivileged user on the system; this avoids the dangers of running the application as root.</p>
+
+<p>You should now be able to start your application with</p>
+
+<pre><code>$ sudo start example
+</code></pre>
+
+<p>and access the default service information by visiting <a href="http://127.0.0.1:8080">http://127.0.0.1:8080</a> in your browser of choice.</p>
+
+<h2>
+<a id="user-content-configuring-apache" class="anchor" href="#configuring-apache" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring apache</h2>
+
+<p>The following example configuration uses proxying to expose the REST service through apache, so you must ensure that mod_proxy has been enabled first:</p>
+
+<pre><code>$ sudo a2enmod proxy
+</code></pre>
+
+<p>Next create a file at /etc/apache2/sites-available/example</p>
+
+<pre><code>ProxyPass /api http://127.0.0.1:8080/ retry=0 max=50
+ProxyPassReverse /api http://127.0.0.1:8080/
+
+&lt;VirtualHost *:80&gt;
+    DocumentRoot /path/to/static/content/
+
+    &lt;Directory /&gt;
+    &lt;/Directory&gt;
+
+    &lt;Directory /path/to/static/content/&gt;
+        Options Indexes MultiViews
+        AllowOverride None
+        Order allow,deny
+        allow from all
+    &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</code></pre>
+
+<p>Your site can then be enabled with</p>
+
+<pre><code>$ sudo a2ensite example
+</code></pre>
+
+<p>although you will need to disable the default sites if they are enabled. After restarting/reloading apache you should find your static content at <a href="http://127.0.0.1">http://127.0.0.1</a> and the REST service at <a href="http://127.0.0.1/api">http://127.0.0.1/api</a>.</p>
+
+<h2>
+<a id="user-content-alternative-nginx-configuration" class="anchor" href="#alternative-nginx-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Alternative nginx configuration</h2>
+
+<p>Create a file at /etc/nginx/sites-available/example</p>
+
+<pre><code>server {
+    listen 80;
+    root /path/to/static/content;
+    index index.html;
+
+    location /api/ {
+        proxy_pass http://127.0.0.1:8080/;
+    }
+}
+</code></pre>
+
+<p>To enable the site simply symlink from sites-available to sites-enabled (nginx does not have an equivalent a2ensite tool) and then restart/reload nginx. (N.B. The trailing forward slash on the proxy pass URL is important).</p>
+
+<h3>
+<a id="user-content-other-hosting-options-on-linux--mono" class="anchor" href="#other-hosting-options-on-linux--mono" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Other hosting options on Linux / Mono</h3>
+
+<p>This StackOverflow answer lists the different options for <a href="http://stackoverflow.com/questions/12188356/what-is-the-best-way-to-run-servicestack-on-linux-mono/12188358#12188358">hosting ServiceStack on Linux with Mono</a>.</p>

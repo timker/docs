@@ -1,0 +1,1129 @@
+<p>AutoQuery RDBMS enables the rapid development of high-performance, fully-queryable typed RDBMS data-driven services with just a POCO Request DTO class definition and <a href="https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget">supports most major RDBMS</a> courtesy of building on <a href="https://github.com/ServiceStack/ServiceStack.OrmLite">OrmLite's high-performance RDBMS-agnostic API's</a>.</p>
+
+<h3>
+<a id="user-content-autoquery-services-are-servicestack-services" class="anchor" href="#autoquery-services-are-servicestack-services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoQuery Services are ServiceStack Services</h3>
+
+<p>An important point to highlight is that AutoQuery Services are just normal ServiceStack Services, utilizing the same <a href="https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations">Request Pipeline</a>, which can be mapped to any <a href="https://github.com/ServiceStack/ServiceStack/wiki/Routing">user-defined route</a>, is available in all <a href="https://github.com/ServiceStack/ServiceStack/wiki/Formats">registered formats</a> and can be <a href="https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview">consumed from existing typed Service Clients</a>. </p>
+
+<p>In addition to leveraging ServiceStack's existing functionality, maximizing re-use in this way reduces the cognitive overhead required for developers who can re-use their existing knowledge in implementing, customizing, introspecting and consuming ServiceStack services. </p>
+
+<h3>
+<a id="user-content-getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h3>
+
+<p>Like ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Plugins">other composable features</a>, the AutoQuery Feature is enabled by registering a Plugin, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature { MaxLimit = <span class="pl-c1">100</span> });</pre></div>
+
+<p>Which is all that's needed to enable the AutoQuery feature. The AutoQueryFeature is inside <a href="https://servicestack.net/download#get-started">ServiceStack.Server</a> NuGet package which contains value-added features that utilize either OrmLite and Redis which can be added to your project with:</p>
+
+<pre><code>PM&gt; Install-Package ServiceStack.Server
+</code></pre>
+
+<p>If you don't have OrmLite configured it can be registered with a 1-liner by specifying your preferred DialectProvider and Connection String:</p>
+
+<div class="highlight highlight-source-cs"><pre>container.Register&lt;IDbConnectionFactory&gt;(
+    <span class="pl-k">new</span> OrmLiteConnectionFactory(<span class="pl-s"><span class="pl-pds">"</span>:memory:<span class="pl-pds">"</span></span>, SqliteDialect.Provider));</pre></div>
+
+<p>The above config registers an In Memory Sqlite database although as the AutoQuery test suite works in all <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#download">supported RDBMS providers</a> you're free to use your registered DB of choice.</p>
+
+<p>The <code>MaxLimit</code> option ensures each query returns a maximum limit of <strong>100</strong> rows. </p>
+
+<p>Now that everything's configured we can create our first service. To implement the ideal API for <a href="https://github.com/ServiceStack/ServiceStack/wiki/Why-not-OData">OData's movie ratings query</a> we just need to define the Request DTO for our service, i.e:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/movies<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">FindMovies</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Movie</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span>[] <span class="pl-en">Ratings</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>That's all the code needed! Which we can now call using the ideal route:</p>
+
+<pre><code>/movies?ratings=G,PG-13
+</code></pre>
+
+<h3>
+<a id="user-content-clients-continue-to-benefit-from-a-typed-api" class="anchor" href="#clients-continue-to-benefit-from-a-typed-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Clients continue to benefit from a typed API</h3>
+
+<p>and because it's a just regular Request DTO, we also get an end-to-end typed API for free with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> movies = client.Get(<span class="pl-k">new</span> FindMovies { Ratings = <span class="pl-k">new</span>[]{<span class="pl-s"><span class="pl-pds">"</span>G<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>PG-13<span class="pl-pds">"</span></span>} })</pre></div>
+
+<p>Whilst that gives us the ideal API we want, the minimum code required is to just declare a new Request DTO with the table you wish to query:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">FindMovies</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Movie</span>&gt; {}</pre></div>
+
+<p>Which just like other Request DTO's in ServiceStack falls back to using ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes">pre-defined routes</a></p>
+
+<p><code>QueryDb&lt;T&gt;</code> is just an abstract class that implements <code>IQuery&lt;T&gt;</code> and returns a typed <code>QueryResponse&lt;T&gt;</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">abstract</span> <span class="pl-k">class</span> <span class="pl-en">QueryDb</span>&lt;T&gt; : <span class="pl-k">QueryDb</span>, 
+    <span class="pl-k">IQuery</span>&lt;<span class="pl-k">T</span>&gt;, <span class="pl-k">IReturn</span>&lt;<span class="pl-k">QueryResponse</span>&lt;<span class="pl-k">T</span>&gt;&gt; { }
+
+<span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IQuery</span>
+{
+    <span class="pl-k">int</span>? <span class="pl-en">Skip</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">int</span>? <span class="pl-en">Take</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">OrderBy</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">OrderByDesc</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>The <code>IQuery</code> interface includes shared features that all Queries support and acts as a interface marker telling ServiceStack to create query services for each Request DTO. </p>
+
+<h3>
+<a id="user-content-custom-autoquery-implementations" class="anchor" href="#custom-autoquery-implementations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom AutoQuery Implementations</h3>
+
+<p>The behavior of queries can be completely customized by simply providing your own Service implementation instead, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyQueryServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> IAutoQuery <span class="pl-en">AutoQuery</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-c">//Override with custom implementation</span>
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">FindMovies</span> <span class="pl-smi">query</span>)
+    {
+        <span class="pl-k">var</span> q = AutoQuery.CreateQuery(query, <span class="pl-c1">base</span>.Request);
+        <span class="pl-k">return</span> AutoQuery.Execute(request, q);
+    }
+}</pre></div>
+
+<p>This is essentially what the AutoQuery feature generates for each <code>IQuery</code> Request DTO unless a Service for the Request DTO already exists, in which case it uses the existing implementation. </p>
+
+<p>We can inspect the 2 lines to understand how AutoQuery works:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> q = AutoQuery.CreateQuery(query, <span class="pl-c1">base</span>.Request);</pre></div>
+
+<p>Is an equivalent short-hand version for: </p>
+
+<div class="highlight highlight-source-cs"><pre>Dictionary&lt;<span class="pl-k">string</span>,<span class="pl-k">string</span>&gt; queryArgs = Request.GetRequestParams();
+<span class="pl-k">var</span> q = AutoQuery.CreateQuery(dto, queryArgs, Request);</pre></div>
+
+<p>Which constructs an <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#examples">OrmLite SqlExpression</a> 
+from typed properties on the Request DTO as well as any untyped key/value pairs on the HTTP Requests 
+<strong>QueryString</strong> or <strong>FormData</strong>.</p>
+
+<p>At this point you can inspect the SqlExpression that AutoQuery has constructed or append any additional custom criteria to limit the scope of the request like limiting results to the authenticated user.</p>
+
+<p>After constructing the query from the Request all that's left is executing it:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">return</span> AutoQuery.Execute(dto, q);</pre></div>
+
+<p>As the implementation is trivial we can show the implementation inline:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> QueryResponse&lt;Into&gt; Execute&lt;Into&gt;(
+    IDbConnection db, ISqlExpression query)
+{
+    <span class="pl-k">var</span> q = (SqlExpression&lt;From&gt;)query;
+    <span class="pl-k">return</span> <span class="pl-k">new</span> QueryResponse&lt;Into&gt;
+    {
+        Offset = q.Offset.GetValueOrDefault(<span class="pl-c1">0</span>),
+        Total = (<span class="pl-k">int</span>)db.Count(q),
+        Results = db.LoadSelect&lt;Into, From&gt;(q),
+    };
+}</pre></div>
+
+<p>Basically just returns the results in an <code>QueryResponse&lt;Into&gt;</code> Response DTO. We also see that each query makes 2 requests, 1 for retrieving the total count for the query and another for the actual results, either limited by the request's <code>Skip</code> or <code>Take</code> or the configured <code>AutoQueryFeature.MaxLimit</code>.  </p>
+
+<h2>
+<a id="user-content-returning-custom-results" class="anchor" href="#returning-custom-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Returning Custom Results</h2>
+
+<p>To specify returning results in a custom Response DTO you can inherit from the <code>QueryDb&lt;From, Into&gt;</code> convenience base class:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">abstract</span> <span class="pl-k">class</span> <span class="pl-en">QueryDb</span>&lt;From, Into&gt; 
+    : <span class="pl-k">QueryDb</span>, <span class="pl-k">IQuery</span>&lt;<span class="pl-k">From</span>, <span class="pl-k">Into</span>&gt;, <span class="pl-k">IReturn</span>&lt;<span class="pl-k">QueryResponse</span>&lt;<span class="pl-k">Into</span>&gt;&gt; { }</pre></div>
+
+<p>As we can tell from the class definition this tells AutoQuery you want to query against <code>From</code> but return results into the specified <code>Into</code> type. This allows being able to return a curated set of columns, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryCustomRockstars</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>, <span class="pl-k">CustomRockstar</span>&gt; {}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomRockstar</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">Age</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">RockstarAlbumName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>In the example above we're returning only a subset of results. Unmatched properties like <code>RockstarAlbumName</code> are ignored enabling the re-use of custom DTO's for different queries.</p>
+
+<h2>
+<a id="user-content-returning-nested-related-results" class="anchor" href="#returning-nested-related-results" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Returning Nested Related Results</h2>
+
+<p>AutoQuery also takes advantage of <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#reference-support-poco-style">OrmLite's References Support</a> which lets you return related child records that are annotated with <code>[Reference]</code> attribute, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstars</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>&gt; {}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Rockstar</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">Id</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">Age</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    [Reference]
+    <span class="pl-k">public</span> List&lt;RockstarAlbum&gt; <span class="pl-en">Albums</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; } 
+}</pre></div>
+
+<h2>
+<a id="user-content-joining-tables" class="anchor" href="#joining-tables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Joining Tables</h2>
+
+<p>AutoQuery lets us take advantage of OrmLite's recent <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#typed-sqlexpression-support-for-joins">support for JOINs in typed SqlExpressions</a> </p>
+
+<p>We can tell AutoQuery to join on multiple tables using the <code>IJoin&lt;T1,T2&gt;</code> interface marker:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstarAlbums</span> 
+  : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>,<span class="pl-k">CustomRockstar</span>&gt;, <span class="pl-k">IJoin</span>&lt;<span class="pl-k">Rockstar</span>,<span class="pl-k">RockstarAlbum</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">Age</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">RockstarAlbumName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>The above example tells AutoQuery to query against an <strong>INNER JOIN</strong> of the <code>Rockstar</code> and <code>RockstarAlbum</code> tables using <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#reference-conventionst">OrmLite's reference conventions</a> that's implicit between both tables.</p>
+
+<p>The Request DTO lets us query against fields across the joined tables where each field is matched with the <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#selecting-multiple-columns-across-joined-tables">first table containing the field</a>. You can match against fields using the fully qualified <code>{Table}{Field}</code> convention, e.g. <code>RockstarAlbumName</code> queries against the <code>RockstarAlbum</code>.<code>Name</code> column.</p>
+
+<p>This mapping of fields also applies to the Response DTO where now <code>RockstarAlbumName</code> from the above <code>CustomRockstar</code> type will be populated:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomRockstar</span>
+{
+    ...
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">RockstarAlbumName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-joining-multiple-tables" class="anchor" href="#joining-multiple-tables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Joining multiple tables</h3>
+
+<p>Use the appropriate <code>Join&lt;,&gt;</code> generic interface to specify JOINs across multiple tables. AutoQuery supports joining up to 5 tables with 1 <code>Join&lt;&gt;</code> interface, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>IJoin&lt;T1, T2, T3, T4, T5&gt;</pre></div>
+
+<p>Or alternatively any number of tables can be joined together by annotating the Request DTO with multiple <code>IJoin&lt;&gt;</code> interfaces, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>IJoin&lt;T1,T2&gt;,
+IJoin&lt;T2,T3&gt;,
+IJoin&lt;T3,T4&gt;,
+<span class="pl-c">//...</span></pre></div>
+
+<h3>
+<a id="user-content-support-for-left-joins" class="anchor" href="#support-for-left-joins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Support for LEFT JOINS</h3>
+
+<p>You can tell AutoQuery to use a <strong>LEFT JOIN</strong> by using the <code>ILeftJoin&lt;,&gt;</code> marker interface instead, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstarAlbumsLeftJoin</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>, <span class="pl-k">CustomRockstar</span>&gt;, 
+    <span class="pl-k">ILeftJoin</span>&lt;<span class="pl-k">Rockstar</span>, <span class="pl-k">RockstarAlbum</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">Age</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">AlbumName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h2>
+<a id="user-content-customizable-adhoc-queries" class="anchor" href="#customizable-adhoc-queries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizable Adhoc Queries</h2>
+
+<p>The queries up to this point showcase the default behavior of Request DTO fields performing an <strong>Exact Match</strong> using the <code>=</code> operand to match fields on queried tables. Advanced queries are available via configurable attributes illustrated in the example below which uses explicit templates to enable custom querying, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstars</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>&gt;
+{
+    <span class="pl-c">//Defaults to 'AND FirstName = {Value}'</span>
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }  
+
+    <span class="pl-c">//Collections defaults to 'FirstName IN ({Values})'</span>
+    <span class="pl-k">public</span> <span class="pl-k">string</span>[] <span class="pl-en">FirstNames</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; } 
+
+    [QueryDbField(Operand = <span class="pl-s"><span class="pl-pds">"</span>&gt;=<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">Age</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    [QueryDbField(Template = <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+                Field = <span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstNameCaseInsensitive</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    [QueryDbField(Template=<span class="pl-s"><span class="pl-pds">"</span>{Field} LIKE {Value}<span class="pl-pds">"</span></span>, 
+                Field=<span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span>, ValueFormat=<span class="pl-s"><span class="pl-pds">"</span>{0}%<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstNameStartsWith</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    [QueryDbField(Template=<span class="pl-s"><span class="pl-pds">"</span>{Field} LIKE {Value}<span class="pl-pds">"</span></span>, 
+                Field=<span class="pl-s"><span class="pl-pds">"</span>LastName<span class="pl-pds">"</span></span>, ValueFormat=<span class="pl-s"><span class="pl-pds">"</span>%{0}<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastNameEndsWith</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    [QueryDbField(Template = <span class="pl-s"><span class="pl-pds">"</span>{Field} BETWEEN {Value1} AND {Value2}<span class="pl-pds">"</span></span>, 
+                Field=<span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span>[] <span class="pl-en">FirstNameBetween</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    [QueryDbField(Type = QueryTerm.Or)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>We'll go through each of the examples to give a better idea of the customizations available.</p>
+
+<h3>
+<a id="user-content-queries-on-collections" class="anchor" href="#queries-on-collections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Queries on Collections</h3>
+
+<p>ServiceStack properties are case-insensitive and allows populating a collection with comma-delimited syntax, so this query:</p>
+
+<pre><code>/rockstars?firstNames=A,B,C
+</code></pre>
+
+<p>Will populate the string array:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">string</span>[] FirstNames { <span class="pl-k">get</span>; <span class="pl-k">set</span>; } </pre></div>
+
+<p>That by default <code>IEnumerable</code> properties are queried using an SQL <code>{Field} IN ({Values})</code> template which will convert the string array into a quoted and escaped comma-delimited list of values suitable for use in SQL that looks like:</p>
+
+<div class="highlight highlight-source-sql"><pre><span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span> <span class="pl-k">IN</span> (<span class="pl-s"><span class="pl-pds">'</span>A<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>B<span class="pl-pds">'</span></span>,<span class="pl-s"><span class="pl-pds">'</span>C<span class="pl-pds">'</span></span>)</pre></div>
+
+<p>The <code>{Field}</code> property is substituted according to the OrmLite FieldDefinition it matches, which for a Joined table with an <code>[Alias("FName")]</code> attribute would substitute to a fully-qualified name, e.g: <code>"Table"."FName"</code></p>
+
+<p>AutoQuerying also supports pluralized versions by trimming the <code>s</code> off Field names as a fall-back which is how <code>FirstNames</code> was able to match the <code>FirstName</code> table property.</p>
+
+<h3>
+<a id="user-content-customizable-operands" class="anchor" href="#customizable-operands" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizable Operands</h3>
+
+<p>One of the easiest customization's available is changing the operand used in the query, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[QueryDbField(Operand = <span class="pl-s"><span class="pl-pds">"</span>&gt;=<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">int</span>? Age { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }</pre></div>
+
+<p>Will change how the Age is compared to:</p>
+
+<div class="highlight highlight-source-sql"><pre><span class="pl-s"><span class="pl-pds">"</span>Age<span class="pl-pds">"</span></span> <span class="pl-k">&gt;=</span> {Value}</pre></div>
+
+<h3>
+<a id="user-content-customizable-templates" class="anchor" href="#customizable-templates" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizable Templates</h3>
+
+<p>By providing a customized template  even greater customization achieved and by sticking with TSQL compatible fragments will ensure it's supported by every RDBMS provider, e.g: </p>
+
+<div class="highlight highlight-source-cs"><pre>[QueryDbField(Template = <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>,
+            Field=<span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">string</span> FirstNameCaseInsensitive { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }</pre></div>
+
+<p>As noted above <code>{Field}</code> variable place holder is substituted with the qualified Table field whilst <code>{Value}</code> gets quoted and escaped to prevent SQL Injections.</p>
+
+<p>The <code>Field="FirstName"</code> tells AutoQuery to ignore the property name and use the specified field name.</p>
+
+<h3>
+<a id="user-content-formatting-values" class="anchor" href="#formatting-values" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Formatting Values</h3>
+
+<p>You can use the <code>ValueFormat</code> modifier to insert custom characters within the quoted <code>{Value}</code> placeholder which we use to insert the <code>%</code> wildcard in with the quoted value enabling StartsWith and EndsWith queries, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[QueryDbField(Template=<span class="pl-s"><span class="pl-pds">"</span>{Field} LIKE {Value}<span class="pl-pds">"</span></span>, 
+            Field=<span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span>, ValueFormat=<span class="pl-s"><span class="pl-pds">"</span>{0}%<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">string</span> FirstNameStartsWith { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+[QueryDbField(Template=<span class="pl-s"><span class="pl-pds">"</span>{Field} LIKE {Value}<span class="pl-pds">"</span></span>, 
+            Field=<span class="pl-s"><span class="pl-pds">"</span>LastName<span class="pl-pds">"</span></span>, ValueFormat=<span class="pl-s"><span class="pl-pds">"</span>%{0}<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">string</span> LastNameEndsWith { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }</pre></div>
+
+<h3>
+<a id="user-content-specifying-multi-airity-queries" class="anchor" href="#specifying-multi-airity-queries" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Specifying Multi Airity Queries</h3>
+
+<p>An alternate way to format multiple values is to use <code>Value{N}</code> variable placeholders which allows supporting statements with multiple values like SQL's <strong>BETWEEN</strong> statement:</p>
+
+<div class="highlight highlight-source-cs"><pre>[QueryDbField(Template = <span class="pl-s"><span class="pl-pds">"</span>{Field} BETWEEN {Value1} AND {Value2}<span class="pl-pds">"</span></span>, 
+            Field = <span class="pl-s"><span class="pl-pds">"</span>FirstName<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">string</span>[] FirstNameBetween { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }</pre></div>
+
+<h3>
+<a id="user-content-changing-querying-behavior" class="anchor" href="#changing-querying-behavior" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Changing Querying Behavior</h3>
+
+<p>By default queries act like a filter and every condition is combined with <strong>AND</strong> boolean term to further filter the result-set. This can be changed to use an <strong>OR</strong> at the field-level by specifying <code>Term=QueryTerm.Or</code> modifier, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[QueryDbField(Term=QueryTerm.Or)]
+<span class="pl-k">public</span> <span class="pl-k">string</span> LastName { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }</pre></div>
+
+<p>However as your API's should strive to <a href="http://stackoverflow.com/questions/15927475/servicestack-request-dto-design/15941229#15941229">retain the same behavior and call-semantics</a> the recommendation is to instead change the behavior at the API-level so that each property maintains consistent behavior, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[QueryDb(QueryTerm.Or)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstars</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span>[] <span class="pl-en">Ids</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> List&lt;<span class="pl-k">int</span>&gt; <span class="pl-en">Ages</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> List&lt;<span class="pl-k">string</span>&gt; <span class="pl-en">FirstNames</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>In this example each property is inclusive where every value specified is added to the returned result-set. </p>
+
+<h3>
+<a id="user-content-dynamic-attributes" class="anchor" href="#dynamic-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Dynamic Attributes</h3>
+
+<p>Whilst .NET attributes are normally defined with the property they attribute, ServiceStack also allows attributes to be added dynamically allowing them to be defined elsewhere, detached from the DTO's, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">typeof</span>(QueryRockstars)
+    .GetProperty(<span class="pl-s"><span class="pl-pds">"</span>Age<span class="pl-pds">"</span></span>)
+    .AddAttributes(<span class="pl-k">new</span> QueryDbFieldAttribute { Operand = <span class="pl-s"><span class="pl-pds">"</span>&gt;=<span class="pl-pds">"</span></span> });</pre></div>
+
+<h2>
+<a id="user-content-implicit-conventions" class="anchor" href="#implicit-conventions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implicit Conventions</h2>
+
+<p>The examples above show how we can define adhoc <strong>explicit</strong> queries on concrete properties using explicit attributes. Whilst this was necessary to understand how to create customized queries, the concrete properties and explicit attributes can be avoided entirely by utilizing the built-in conventions, configurable on the <code>AutoQueryFeature</code> plugin.</p>
+
+<p>With implicit conventions we can get back to defining Request DTO's with an empty body:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstars</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>&gt; {}</pre></div>
+
+<p>The built-in conventions allow using convention-based naming to query fields with expected behavior using self-describing properties. To explore this in more detail lets look at what built-in conventions are defined:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">const</span> <span class="pl-k">string</span> GreaterThanOrEqualFormat = <span class="pl-s"><span class="pl-pds">"</span>{Field} &gt;= {Value}<span class="pl-pds">"</span></span>;
+<span class="pl-k">const</span> <span class="pl-k">string</span> GreaterThanFormat =        <span class="pl-s"><span class="pl-pds">"</span>{Field} &gt;  {Value}<span class="pl-pds">"</span></span>;
+<span class="pl-k">const</span> <span class="pl-k">string</span> LessThanFormat =           <span class="pl-s"><span class="pl-pds">"</span>{Field} &lt;  {Value}<span class="pl-pds">"</span></span>;
+<span class="pl-k">const</span> <span class="pl-k">string</span> LessThanOrEqualFormat =    <span class="pl-s"><span class="pl-pds">"</span>{Field} &lt;= {Value}<span class="pl-pds">"</span></span>;
+<span class="pl-k">const</span> <span class="pl-k">string</span> NotEqualFormat =           <span class="pl-s"><span class="pl-pds">"</span>{Field} &lt;&gt; {Value}<span class="pl-pds">"</span></span>;
+
+ImplicitConventions = <span class="pl-k">new</span> Dictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt; 
+{
+    {<span class="pl-s"><span class="pl-pds">"</span>%Above%<span class="pl-pds">"</span></span>,         GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>Begin%<span class="pl-pds">"</span></span>,          GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Beyond%<span class="pl-pds">"</span></span>,        GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Over%<span class="pl-pds">"</span></span>,          GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%OlderThan<span class="pl-pds">"</span></span>,      GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%After%<span class="pl-pds">"</span></span>,         GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>OnOrAfter%<span class="pl-pds">"</span></span>,      GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%From%<span class="pl-pds">"</span></span>,          GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>Since%<span class="pl-pds">"</span></span>,          GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>Start%<span class="pl-pds">"</span></span>,          GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Higher%<span class="pl-pds">"</span></span>,        GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>&gt;%<span class="pl-pds">"</span></span>,              GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%&gt;<span class="pl-pds">"</span></span>,              GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%!<span class="pl-pds">"</span></span>,              NotEqualFormat},
+
+    {<span class="pl-s"><span class="pl-pds">"</span>%GreaterThanOrEqualTo%<span class="pl-pds">"</span></span>, GreaterThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%GreaterThan%<span class="pl-pds">"</span></span>,          GreaterThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%LessThan%<span class="pl-pds">"</span></span>,             LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%LessThanOrEqualTo%<span class="pl-pds">"</span></span>,    LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%NotEqualTo<span class="pl-pds">"</span></span>,            NotEqualFormat},
+
+    {<span class="pl-s"><span class="pl-pds">"</span>Behind%<span class="pl-pds">"</span></span>,         LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Below%<span class="pl-pds">"</span></span>,         LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Under%<span class="pl-pds">"</span></span>,         LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Lower%<span class="pl-pds">"</span></span>,         LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Before%<span class="pl-pds">"</span></span>,        LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%YoungerThan<span class="pl-pds">"</span></span>,    LessThanFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>OnOrBefore%<span class="pl-pds">"</span></span>,     LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>End%<span class="pl-pds">"</span></span>,            LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>Stop%<span class="pl-pds">"</span></span>,           LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>To%<span class="pl-pds">"</span></span>,             LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>Until%<span class="pl-pds">"</span></span>,          LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>%&lt;<span class="pl-pds">"</span></span>,              LessThanOrEqualFormat},
+    {<span class="pl-s"><span class="pl-pds">"</span>&lt;%<span class="pl-pds">"</span></span>,              LessThanFormat},
+
+    {<span class="pl-s"><span class="pl-pds">"</span>Like%<span class="pl-pds">"</span></span>,           <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>},
+    {<span class="pl-s"><span class="pl-pds">"</span>%In<span class="pl-pds">"</span></span>,             <span class="pl-s"><span class="pl-pds">"</span>{Field} IN ({Values})<span class="pl-pds">"</span></span>},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Ids<span class="pl-pds">"</span></span>,            <span class="pl-s"><span class="pl-pds">"</span>{Field} IN ({Values})<span class="pl-pds">"</span></span>},
+    {<span class="pl-s"><span class="pl-pds">"</span>%Between%<span class="pl-pds">"</span></span>,       <span class="pl-s"><span class="pl-pds">"</span>{Field} BETWEEN {Value1} AND {Value2}<span class="pl-pds">"</span></span>},
+};
+
+EndsWithConventions = <span class="pl-k">new</span> Dictionary&lt;<span class="pl-k">string</span>, QueryDbFieldAttribute&gt;
+{
+    { <span class="pl-s"><span class="pl-pds">"</span>StartsWith<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> QueryDbFieldAttribute { 
+          Template= <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+          ValueFormat= <span class="pl-s"><span class="pl-pds">"</span>{0}%<span class="pl-pds">"</span></span> }},
+    { <span class="pl-s"><span class="pl-pds">"</span>Contains<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> QueryDbFieldAttribute { 
+          Template= <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+          ValueFormat= <span class="pl-s"><span class="pl-pds">"</span>%{0}%<span class="pl-pds">"</span></span> }},
+    { <span class="pl-s"><span class="pl-pds">"</span>EndsWith<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> QueryDbFieldAttribute { 
+          Template= <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+          ValueFormat= <span class="pl-s"><span class="pl-pds">"</span>%{0}<span class="pl-pds">"</span></span> }},
+};</pre></div>
+
+<p>The string key in the above dictionaries describe what property each rule maps to. We'll run through a few examples to see how we can make use of them:</p>
+
+<p>The request below works as you would expect in returning all Rockstars older than 42 years of age.</p>
+
+<pre><code>/rockstars?AgeOlderThan=42
+</code></pre>
+
+<p>It works by matching on the rule since <code>AgeOlderThan</code> does indeed ends with <code>OlderThan</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre>{<span class="pl-s"><span class="pl-pds">"</span>%OlderThan<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>{Field} &gt; {Value}<span class="pl-pds">"</span></span>},</pre></div>
+
+<p>The <code>%</code> wildcard is a placeholder for the field name which resolves to <code>Age</code>. Now that it has a match it creates a query with the defined <code>{Field} &gt; {Value}</code> template to achieve the desired behavior.</p>
+
+<p>If you instead wanted to use the inclusive <code>&gt;=</code> operand, we can just use a rule with the <code>&gt;=</code> template:</p>
+
+<pre><code>/rockstars?AgeGreaterThanOrEqualTo=42
+</code></pre>
+
+<p>Which matches the rule:</p>
+
+<div class="highlight highlight-source-cs"><pre>{<span class="pl-s"><span class="pl-pds">"</span>%GreaterThanOrEqualTo%<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>{Field} &gt;= {Value}<span class="pl-pds">"</span></span>},</pre></div>
+
+<p>And when the wildcard is on both ends of the pattern:</p>
+
+<div class="highlight highlight-source-cs"><pre>{<span class="pl-s"><span class="pl-pds">"</span>%GreaterThan%<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>{Field} &gt; {Value}<span class="pl-pds">"</span></span>},</pre></div>
+
+<p>So to can the field name, which matches both these rules:</p>
+
+<pre><code>/rockstars?AgeGreaterThan=42
+/rockstars?GreaterThanAge=42
+</code></pre>
+
+<p>An alternative to using wordy suffixes are the built-in short-hand syntax:</p>
+
+<ul>
+<li>
+<strong>&gt;Age</strong>  <code>Age &gt;= {Value}</code>
+</li>
+<li>
+<strong>Age&gt;</strong>  <code>Age &gt;  {Value}</code>
+</li>
+<li>
+<strong>&lt;Age</strong>  <code>Age &lt;  {Value}</code>
+</li>
+<li>
+<strong>Age&lt;</strong>  <code>Age &lt;= {Value}</code>
+</li>
+</ul>
+
+<p>Which uses the appropriate operand based on whether the <code>&lt;</code> <code>&gt;</code> operators come before or after the field name:</p>
+
+<pre><code>/rockstars?&gt;Age=42
+/rockstars?Age&gt;=42
+/rockstars?&lt;Age=42
+/rockstars?Age&lt;=42
+</code></pre>
+
+<p>The use of <code>{Values}</code> or the <code>Value{N}</code> formats specifies the query should be treated as a collection, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>{<span class="pl-s"><span class="pl-pds">"</span>%Ids<span class="pl-pds">"</span></span>,       <span class="pl-s"><span class="pl-pds">"</span>{Field} IN ({Values})<span class="pl-pds">"</span></span>},
+{<span class="pl-s"><span class="pl-pds">"</span>%In<span class="pl-pds">"</span></span>,        <span class="pl-s"><span class="pl-pds">"</span>{Field} IN ({Values})<span class="pl-pds">"</span></span>},
+{<span class="pl-s"><span class="pl-pds">"</span>%Between%<span class="pl-pds">"</span></span>,  <span class="pl-s"><span class="pl-pds">"</span>{Field} BETWEEN {Value1} AND {Value2}<span class="pl-pds">"</span></span>},</pre></div>
+
+<p>Which allows multiple values to be specified on the QueryString:</p>
+
+<pre><code>/rockstars?Ids=1,2,3
+/rockstars?FirstNamesIn=Jim,Kurt
+/rockstars?FirstNameBetween=A,F
+</code></pre>
+
+<p>More advanced conventions can be specified directly on the <code>StartsWithConventions</code> and <code>EndsWithConventions</code> dictionaries which allow customizations using the full <code>[QueryDbField]</code> attribute, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>EndsWithConventions = <span class="pl-k">new</span> Dictionary&lt;<span class="pl-k">string</span>, QueryDbFieldAttribute&gt;
+{
+    { <span class="pl-s"><span class="pl-pds">"</span>StartsWith<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> QueryDbFieldAttribute { 
+          Template = <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+          ValueFormat = <span class="pl-s"><span class="pl-pds">"</span>{0}%<span class="pl-pds">"</span></span> }},
+    { <span class="pl-s"><span class="pl-pds">"</span>Contains<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> QueryDbFieldAttribute { 
+          Template = <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+          ValueFormat = <span class="pl-s"><span class="pl-pds">"</span>%{0}%<span class="pl-pds">"</span></span> }},
+    { <span class="pl-s"><span class="pl-pds">"</span>EndsWith<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> QueryDbFieldAttribute { 
+          Template = <span class="pl-s"><span class="pl-pds">"</span>UPPER({Field}) LIKE UPPER({Value})<span class="pl-pds">"</span></span>, 
+          ValueFormat = <span class="pl-s"><span class="pl-pds">"</span>%{0}<span class="pl-pds">"</span></span> }},
+};</pre></div>
+
+<p>that can be called as normal:</p>
+
+<pre><code>/rockstars?FirstNameStartsWith=Jim
+/rockstars?LastNameEndsWith=son
+/rockstars?RockstarAlbumNameContains=e
+</code></pre>
+
+<p>This also shows that Implicit Conventions can also apply to joined table fields like <code>RockstarAlbumNameContains</code> using the fully qualified <code>{Table}{Field}</code> reference convention.</p>
+
+<h2>
+<a id="user-content-explicit-conventions" class="anchor" href="#explicit-conventions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Explicit Conventions</h2>
+
+<p>Whilst Implicit conventions can be called on an empty "contract-less" DTO, you're also able to specify the concrete properties for the conventions you end up using: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryRockstars</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Rockstar</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">AgeOlderThan</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">AgeGreaterThanOrEqualTo</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">AgeGreaterThan</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">GreaterThanAge</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstNameStartsWith</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastNameEndsWith</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastNameContains</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">RockstarAlbumNameContains</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">RockstarIdAfter</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">int</span>? <span class="pl-en">RockstarIdOnOrAfter</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-preemptive-client-requests" class="anchor" href="#preemptive-client-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Preemptive client requests</h3>
+
+<p>A hidden gem in AutoQuery's approach that's not immediately obvious is how everything will still work when concrete properties are only added to client Request DTO's that the server doesn't even know about yet! This is possible as the service client generates the same HTTP Request that matches the implicit conventions, making it possible to perform new preemptive typed queries on the client without having to redeploy the server. Although unlikely to be a popular use-case given that in most cases the client and server shares the same DTOs, it's a nice surprise feature when needed.</p>
+
+<h3>
+<a id="user-content-advantages-of-well-defined-service-contracts" class="anchor" href="#advantages-of-well-defined-service-contracts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advantages of well-defined Service Contracts</h3>
+
+<p>The advantages of formalizing the conventions you end up using is that they can be consumed with ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client">Typed Service Clients</a>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> response = client.Get(<span class="pl-k">new</span> QueryRockstars { AgeOlderThan = <span class="pl-c1">42</span> });</pre></div>
+
+<p>As well as making your API self-describing and gives you access to all of ServiceStack's metadata services including:</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page">Metadata pages</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API">Swagger UI</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Postman">Postman Support</a></li>
+</ul>
+
+<p>Which is why we recommend formalizing your conventions you want to allow before deploying your API to production. </p>
+
+<p>When publishing your API, you can also assert that only explicit conventions are ever used by disabling untyped implicit conventions support with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature { EnableUntypedQueries = <span class="pl-c1">false</span> });</pre></div>
+
+<h2>
+<a id="user-content-raw-sql-filters" class="anchor" href="#raw-sql-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Raw SQL Filters</h2>
+
+<p>It's also possible to specify Raw SQL Filters. Whilst offering greater flexibility they also suffer from many of the problems that OData's expressions have. </p>
+
+<p>Raw SQL Filters also don't benefit from limiting matching to declared fields and auto-escaping and quoting of values although they're still validated against OrmLite's <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/blob/master/src/ServiceStack.OrmLite/OrmLiteUtilExtensions.cs#L172">IllegalSqlFragmentTokens</a> to protect against SQL Injection attacks. But as they still allow calling SQL Functions, Raw SqlFilters shouldn't be enabled when accessible by untrusted parties unless they've been configured to use a <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#multi-nested-database-connections">Named OrmLite DB Connection</a> which is read-only and locked-down so that it only has access to what it's allowed to.</p>
+
+<p>If safe to do so, RawSqlFilters can be enabled with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature { 
+    EnableRawSqlFilters = <span class="pl-c1">true</span>,
+    UseNamedConnection = <span class="pl-s"><span class="pl-pds">"</span>readonly<span class="pl-pds">"</span></span>,
+    IllegalSqlFragmentTokens = { <span class="pl-s"><span class="pl-pds">"</span>ProtectedSqlFunction<span class="pl-pds">"</span></span> },
+});</pre></div>
+
+<p>Once enabled you can use the <code>_select</code>, <code>_from</code>, <code>_where</code> modifiers to append custom SQL Fragments, e.g:</p>
+
+<pre><code>/rockstars?_select=FirstName,LastName
+
+/rockstars?_where=Age &gt; 42
+/rockstars?_where=FirstName LIKE 'Jim%'
+
+/rockstars?_select=FirstName&amp;_where=LastName = 'Cobain'
+
+/rockstars?_from=Rockstar r INNER JOIN RockstarAlbum a ON r.Id = a.RockstarId
+</code></pre>
+
+<blockquote>
+<p>Note: url encoding in the above examples are omitted for readability</p>
+</blockquote>
+
+<p>Whilst Raw SqlFilters affect the query executed, they don't change what Response DTO is returned.</p>
+
+<h2>
+<a id="user-content-customizable-fields" class="anchor" href="#customizable-fields" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizable Fields</h2>
+
+<p>You can also customize which fields you want returned using the <code>Fields</code> property available on all AutoQuery Services, e.g:</p>
+
+<pre><code>?Fields=Id,Name,Description,JoinTableId
+</code></pre>
+
+<p>The Fields still need to be defined on the Response DTO as this feature doesn't change the Response
+DTO Schema, only which fields are populated. This does change the underlying RDBMS SELECT that's executed, 
+also benefiting from reduced bandwidth between your RDBMS and App Server.</p>
+
+<p>A useful <a href="https://github.com/ServiceStack/ServiceStack/wiki/Customize-JSON-Responses">JSON customization</a> 
+that you can add when specifying custom fields is <code>ExcludeDefaultValues</code>, e.g:</p>
+
+<pre><code>/query?Fields=Id,Name,Description,JoinTableId&amp;jsconfig=ExcludeDefaultValues
+</code></pre>
+
+<p>Which will remove any value type fields with a <strong>default value</strong> from the JSON response, e.g:</p>
+
+<ul>
+<li><a href="http://github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At">github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At</a></li>
+<li><a href="http://github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At&amp;jsconfig=ExcludeDefaultValues">github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At&amp;jsconfig=ExcludeDefaultValues</a></li>
+</ul>
+
+<h4>
+<a id="user-content-wildcards" class="anchor" href="#wildcards" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Wildcards</h4>
+
+<p>You can use <strong>wildcards</strong> to quickly reference all fields on a table using the <code>table.*</code> format, e.g:</p>
+
+<pre><code>?fields=id,departmentid,department,employee.*
+</code></pre>
+
+<p>Which is a shorthand that expands to manually listing each field in the <code>Employee</code> table, useful for queries 
+which joins multiple tables, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/employees<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryEmployees</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Employee</span>&gt;,
+    <span class="pl-k">IJoin</span>&lt;<span class="pl-k">Employee</span>, <span class="pl-k">EmployeeType</span>&gt;,
+    <span class="pl-k">IJoin</span>&lt;<span class="pl-k">Employee</span>, <span class="pl-k">Department</span>&gt;,
+    <span class="pl-k">IJoin</span>&lt;<span class="pl-k">Employee</span>, <span class="pl-k">Title</span>&gt; 
+{
+    <span class="pl-c">//...</span>
+}</pre></div>
+
+<h2>
+<a id="user-content-paging-and-ordering" class="anchor" href="#paging-and-ordering" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Paging and Ordering</h2>
+
+<p>Some functionality defined on the core <code>IQuery</code> interface and available to all queries is the ability to page and order results:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IQuery</span>
+{
+    <span class="pl-k">int</span>? <span class="pl-en">Skip</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">int</span>? <span class="pl-en">Take</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">OrderBy</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">OrderByDesc</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>This works as you would expect where you can modify the returned result set with:</p>
+
+<pre><code>/rockstars?skip=10&amp;take=20&amp;orderBy=Id
+</code></pre>
+
+<p>Or when accessing via a ServiceClient:</p>
+
+<div class="highlight highlight-source-cs"><pre>client.Get(<span class="pl-k">new</span> QueryRockstars { Skip=<span class="pl-c1">10</span>, Take=<span class="pl-c1">20</span>, OrderBy=<span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span> });</pre></div>
+
+<p>When results are paged an implicit OrderBy is added using the PrimaryKey of the <code>IQuery&lt;Table&gt;</code> to ensure predictable ordering of results are returned. You can change the OrderBy used by specifying your own: </p>
+
+<div class="highlight highlight-source-cs"><pre>client.Get(<span class="pl-k">new</span> QueryRockstars { Skip=<span class="pl-c1">10</span>, Take=<span class="pl-c1">20</span>, OrderByDesc=<span class="pl-s"><span class="pl-pds">"</span>Id<span class="pl-pds">"</span></span> });</pre></div>
+
+<p>Or remove the default behavior with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature { 
+    OrderByPrimaryKeyOnPagedQuery = <span class="pl-c1">false</span> 
+});</pre></div>
+
+<h3>
+<a id="user-content-multiple-orderbys" class="anchor" href="#multiple-orderbys" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiple OrderBy's</h3>
+
+<p>AutoQuery also supports specifying multiple OrderBy's with a comma-delimited list of field names, e.g:</p>
+
+<pre><code>/rockstars?orderBy=Id,Age,FirstName
+</code></pre>
+
+<p>Same request via Service Client:</p>
+
+<div class="highlight highlight-source-cs"><pre>client.Get(<span class="pl-k">new</span> QueryRockstars { OrderBy = <span class="pl-s"><span class="pl-pds">"</span>Id,Age,FirstName<span class="pl-pds">"</span></span> });</pre></div>
+
+<h4>
+<a id="user-content-sort-specific-fields-in-reverse-order" class="anchor" href="#sort-specific-fields-in-reverse-order" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Sort specific fields in reverse order</h4>
+
+<p>When specifying multiple order by's you can sort specific fields in reverse order by prepending a <code>-</code> before the field name, e.g:</p>
+
+<pre><code>?orderBy=Id,-Age,FirstName
+?orderByDesc=-Id,Age,-FirstName
+</code></pre>
+
+<h2>
+<a id="user-content-service-clients-support" class="anchor" href="#service-clients-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Service Clients Support</h2>
+
+<p>One of the major benefits of using Typed DTO's to define your Service Contract is that it allows usage of ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client">.NET Service Clients</a> which enables an end-to-end API without code-gen for <a href="https://github.com/ServiceStack/Hello">most .NET and PCL client platforms</a>. </p>
+
+<p>With the richer semantics available in queries, we've been able to enhance the Service Clients new <code>GetLazy()</code> API that allows lazy streaming of responses to provide transparent paging of large result-sets, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> results = client.GetLazy(<span class="pl-k">new</span> QueryMovies { 
+    Ratings = <span class="pl-k">new</span>[]{<span class="pl-s"><span class="pl-pds">"</span>G<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>PG-13<span class="pl-pds">"</span></span>}
+}).ToList();</pre></div>
+
+<p>Since GetLazy returns a lazy <code>IEnumerable&lt;T&gt;</code> sequence it can also be used within LINQ expressions, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> top250 = client.GetLazy(<span class="pl-k">new</span> QueryMovies { 
+        Ratings = <span class="pl-k">new</span>[]{ <span class="pl-s"><span class="pl-pds">"</span>G<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>PG-13<span class="pl-pds">"</span></span> } 
+    })
+    .Take(<span class="pl-c1">250</span>)
+    .ConvertTo(x =&gt; x.Title);</pre></div>
+
+<h2>
+<a id="user-content-mime-types-and-content-negotiation" class="anchor" href="#mime-types-and-content-negotiation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Mime Types and Content-Negotiation</h2>
+
+<p>Another benefit we get from AutoQuery Services being regular ServiceStack services is taking advantage of <a href="https://github.com/ServiceStack/ServiceStack/wiki/Formats">ServiceStack's built-in formats</a>. </p>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format">CSV Format</a> especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.</p>
+
+<p>ServiceStack provides a number of ways to <a href="https://github.com/ServiceStack/ServiceStack/wiki/Routing#content-negotiation">request your preferred content-type</a>, the easiest of which is to just use the <code>.{format}</code> extension at the end of the <code>/pathinfo</code> e.g:</p>
+
+<pre><code>/rockstars.csv
+/movies.csv?ratings=G,PG-13
+</code></pre>
+
+<h2>
+<a id="user-content-named-connection" class="anchor" href="#named-connection" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Named Connection</h2>
+
+<p>AutoQuery can also easily be configured to query any number of different databases registered in your AppHost. </p>
+
+<p>In the example below we configure our main RDBMS to use SQL Server and register a <strong>Named Connection</strong> 
+to point to a <strong>Reporting</strong> PostgreSQL RDBMS:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> dbFactory = <span class="pl-k">new</span> OrmLiteConnectionFactory(connString, SqlServer2012Dialect.Provider);
+container.Register&lt;IDbConnectionFactory&gt;(dbFactory);
+
+dbFactory.RegisterConnection(<span class="pl-s"><span class="pl-pds">"</span>Reporting<span class="pl-pds">"</span></span>, pgConnString, PostgreSqlDialect.Provider);</pre></div>
+
+<p>Any normal AutoQuery Services like <code>QueryOrders</code> will use the default SQL Server connection whilst 
+<code>QuerySales</code> will execute its query on the PostgreSQL <code>Reporting</code> Database instead:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryOrders</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Order</span>&gt; {}
+
+[NamedConnection(<span class="pl-s"><span class="pl-pds">"</span>Reporting<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QuerySales</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Sales</span>&gt; {}</pre></div>
+
+<h2>
+<a id="user-content-include-aggregates-in-autoquery" class="anchor" href="#include-aggregates-in-autoquery" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Include Aggregates in AutoQuery</h2>
+
+<p>AutoQuery supports running additional Aggregate queries on the queried result-set. To include aggregates in your Query's response specify them in the <code>Include</code> property of your AutoQuery Request DTO, e.g:</p>
+
+<pre><code>var response = client.Get(new Query Rockstars { Include = "COUNT(*)" })
+</code></pre>
+
+<p>Or in the <code>Include</code> QueryString param if you're calling AutoQuery Services from a browser, e.g:</p>
+
+<pre><code>/rockstars?include=COUNT(*)
+</code></pre>
+
+<p>The result is then published in the <code>QueryResponse&lt;T&gt;.Meta</code> String Dictionary and is accessible with:</p>
+
+<pre><code>response.Meta["COUNT(*)"] //= 7
+</code></pre>
+
+<p>By default any of the functions in the SQL Aggregate whitelist can be referenced: </p>
+
+<pre><code>AVG, COUNT, FIRST, LAST, MAX, MIN, SUM
+</code></pre>
+
+<p>Which can be added to or removed from by modifying <code>SqlAggregateFunctions</code> collection, e.g, you can allow usage of a <code>CustomAggregate</code> SQL Function with:</p>
+
+<pre><code>Plugins.Add(new AutoQueryFeature { 
+    SqlAggregateFunctions = { "CustomAggregate" }
+})
+</code></pre>
+
+<h3>
+<a id="user-content-aggregate-query-usage" class="anchor" href="#aggregate-query-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Aggregate Query Usage</h3>
+
+<p>The syntax for aggregate functions is modelled after their usage in SQL so they're instantly familiar. At its most basic usage you can just specify the name of the aggregate function which will use <code>*</code> as a default argument so you can also query <code>COUNT(*)</code> with: </p>
+
+<pre><code>?include=COUNT
+</code></pre>
+
+<p>It also supports SQL aliases:</p>
+
+<pre><code>COUNT(*) Total
+COUNT(*) as Total
+</code></pre>
+
+<p>Which is used to change what key the result is saved into:</p>
+
+<pre><code>response.Meta["Total"]
+</code></pre>
+
+<p>Columns can be referenced by name:</p>
+
+<pre><code>COUNT(LivingStatus)
+</code></pre>
+
+<p>If an argument matches a column in the primary table the literal reference is used as-is, if it matches a column in a joined table it's replaced with its fully-qualified reference and when it doesn't match any column, Numbers are passed as-is otherwise its automatically escaped and quoted and passed in as a string literal.</p>
+
+<p>The <code>DISTINCT</code> modifier can also be used, so a complex example looks like:</p>
+
+<pre><code>COUNT(DISTINCT LivingStatus) as UniqueStatus
+</code></pre>
+
+<p>Which saves the result of the above function in:</p>
+
+<pre><code>response.Meta["UniqueStatus"]
+</code></pre>
+
+<p>Any number of aggregate functions can be combined in a comma-delimited list:</p>
+
+<pre><code>Count(*) Total, Min(Age), AVG(Age) AverageAge
+</code></pre>
+
+<p>Which returns results in:</p>
+
+<pre><code>response.Meta["Total"]
+response.Meta["Min(Age)"]
+response.Meta["AverageAge"]
+</code></pre>
+
+<h4>
+<a id="user-content-aggregate-query-performance" class="anchor" href="#aggregate-query-performance" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Aggregate Query Performance</h4>
+
+<p>Surprisingly AutoQuery is able to execute any number of Aggregate functions without performing any additional queries as previously to support paging, a <code>Total</code> needed to be executed for each AutoQuery. Now the <code>Total</code> query is combined with all other aggregate functions and executed in a single query.</p>
+
+<h3>
+<a id="user-content-autoquery-response-filters" class="anchor" href="#autoquery-response-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoQuery Response Filters</h3>
+
+<p>The Aggregate functions feature is built on the new <code>ResponseFilters</code> support in AutoQuery which provides a new extensibility option enabling customization and additional metadata to be attached to AutoQuery Responses. As the Aggregate Functions support is itself a Response Filter in can disabled by clearing them:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature {
+    ResponseFilters = <span class="pl-k">new</span> List&lt;Action&lt;QueryFilterContext&gt;&gt;()
+})</pre></div>
+
+<p>The Response Filters are executed after each AutoQuery and gets passed the full context of the executed query, i.e:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">class</span> <span class="pl-en">QueryFilterContext</span>
+{
+    IDbConnection Db             <span class="pl-c">// The ADO.NET DB Connection</span>
+    List&lt;Command&gt; Commands       <span class="pl-c">// Tokenized list of commands</span>
+    IQuery Request               <span class="pl-c">// The AutoQuery Request DTO</span>
+    ISqlExpression SqlExpression <span class="pl-c">// The AutoQuery SqlExpression</span>
+    IQueryResponse Response      <span class="pl-c">// The AutoQuery Response DTO</span>
+}</pre></div>
+
+<p>Where the <code>Commands</code> property contains the parsed list of commands from the <code>Include</code> property, tokenized into the structure below:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">class</span> <span class="pl-en">Command</span> 
+{
+    <span class="pl-k">string</span> Name
+    List&lt;<span class="pl-k">string</span>&gt; Args
+    <span class="pl-k">string</span> Suffix
+}</pre></div>
+
+<p>With this we could add basic calculator functionality to AutoQuery with the custom Response Filter below:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature {
+    ResponseFilters = {
+        ctx =&gt; {
+            <span class="pl-k">var</span> supportedFns = <span class="pl-k">new</span> Dictionary&lt;<span class="pl-k">string</span>, Func&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>, <span class="pl-k">int</span>&gt;&gt;(StringComparer.OrdinalIgnoreCase)
+            {
+                {<span class="pl-s"><span class="pl-pds">"</span>ADD<span class="pl-pds">"</span></span>,      (a,b) =&gt; a + b },
+                {<span class="pl-s"><span class="pl-pds">"</span>MULTIPLY<span class="pl-pds">"</span></span>, (a,b) =&gt; a * b },
+                {<span class="pl-s"><span class="pl-pds">"</span>DIVIDE<span class="pl-pds">"</span></span>,   (a,b) =&gt; a / b },
+                {<span class="pl-s"><span class="pl-pds">"</span>SUBTRACT<span class="pl-pds">"</span></span>, (a,b) =&gt; a - b },
+            };
+            <span class="pl-k">var</span> executedCmds = <span class="pl-k">new</span> List&lt;Command&gt;();
+            <span class="pl-k">foreach</span> (<span class="pl-k">var</span> cmd <span class="pl-k">in</span> ctx.Commands)
+            {
+                Func&lt;<span class="pl-k">int</span>, <span class="pl-k">int</span>, <span class="pl-k">int</span>&gt; fn;
+                <span class="pl-k">if</span> (!supportedFns.TryGetValue(cmd.Name, out fn)) <span class="pl-k">continue</span>;
+                <span class="pl-k">var</span> label = !<span class="pl-k">string</span>.IsNullOrWhiteSpace(cmd.Suffix) ? cmd.Suffix.Trim() : cmd.ToString();
+                ctx.Response.Meta[label] = fn(<span class="pl-k">int</span>.Parse(cmd.Args[<span class="pl-c1">0</span>]), <span class="pl-k">int</span>.Parse(cmd.Args[<span class="pl-c1">1</span>])).ToString();
+                executedCmds.Add(cmd);
+            }
+            ctx.Commands.RemoveAll(executedCmds.Contains);
+        }        
+    }
+})</pre></div>
+
+<p>Which now lets users perform multiple basic arithmetic operations with any AutoQuery request!</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> response = client.Get(<span class="pl-k">new</span> QueryRockstars {
+    Include = <span class="pl-s"><span class="pl-pds">"</span>ADD(6,2), Multiply(6,2) SixTimesTwo, Subtract(6,2), divide(6,2) TheDivide<span class="pl-pds">"</span></span>
+});
+
+response.Meta[<span class="pl-s"><span class="pl-pds">"</span>ADD(6,2)<span class="pl-pds">"</span></span>]      <span class="pl-c">//= 8</span>
+response.Meta[<span class="pl-s"><span class="pl-pds">"</span>SixTimesTwo<span class="pl-pds">"</span></span>]   <span class="pl-c">//= 12</span>
+response.Meta[<span class="pl-s"><span class="pl-pds">"</span>Subtract(6,2)<span class="pl-pds">"</span></span>] <span class="pl-c">//= 4</span>
+response.Meta[<span class="pl-s"><span class="pl-pds">"</span>TheDivide<span class="pl-pds">"</span></span>]     <span class="pl-c">//= 3</span></pre></div>
+
+<h3>
+<a id="user-content-untyped-sqlexpression" class="anchor" href="#untyped-sqlexpression" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Untyped SqlExpression</h3>
+
+<p>If you need to introspect or modify the executed <code>ISqlExpression</code>, it’s useful to access it as a <code>IUntypedSqlExpression</code> so its non-generic API's are still accessible without having to convert it back into its concrete generic <code>SqlExpression&lt;T&gt;</code> Type, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>IUntypedSqlExpression q = ctx.SqlExpression.GetUntypedSqlExpression()
+    .Clone();</pre></div>
+
+<blockquote>
+<p>Cloning the SqlExpression allows you to modify a copy that won't affect any other Response Filter.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-autoquery-property-mapping" class="anchor" href="#autoquery-property-mapping" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoQuery Property Mapping</h3>
+
+<p>AutoQuery can map <code>[DataMember]</code> property aliases on Request DTO's to the queried table, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryPerson</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Person</span>&gt;
+{
+    [DataMember(Name = <span class="pl-s"><span class="pl-pds">"</span>first_name<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Person</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">Id</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FirstName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>Which can be queried with:</p>
+
+<pre><code>?first_name=Jimi
+</code></pre>
+
+<p>or by setting the global <code>JsConfig.EmitLowercaseUnderscoreNames=true</code> convention:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryPerson</span> : <span class="pl-k">QueryDb</span>&lt;<span class="pl-k">Person</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">LastName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>Where it's also queryable with:</p>
+
+<pre><code>?last_name=Hendrix
+</code></pre>
+
+<h2>
+<a id="user-content-extensibility-with-queryfilters" class="anchor" href="#extensibility-with-queryfilters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extensibility with QueryFilters</h2>
+
+<p>We've already covered some of extensibility options with Customizable <strong>QueryDbFields</strong> and <strong>Implicit Conventions</strong>, the most customizable would be to override the default implementation with a custom one, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyQueryServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> IAutoQuery <span class="pl-en">AutoQuery</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-c">//Override with custom implementation</span>
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">FindMovies</span> <span class="pl-smi">dto</span>)
+    {
+        <span class="pl-k">var</span> q = AutoQuery.CreateQuery(dto, Request.GetRequestParams());
+        <span class="pl-k">return</span> AutoQuery.Execute(request, q);
+    }
+}</pre></div>
+
+<p>There's also a lighter weight option by registering a typed Query Filter, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> autoQuery = <span class="pl-k">new</span> AutoQueryFeature()
+  .RegisterQueryFilter&lt;QueryRockstarsFilter, Rockstar&gt;((req, q, dto) =&gt;
+      q.And(x =&gt; x.LastName.EndsWith(<span class="pl-s"><span class="pl-pds">"</span>son<span class="pl-pds">"</span></span>))
+  )
+  .RegisterQueryFilter&lt;IFilterRockstars, Rockstar&gt;((req, q, dto) =&gt;
+      q.And(x =&gt; x.LastName.EndsWith(<span class="pl-s"><span class="pl-pds">"</span>son<span class="pl-pds">"</span></span>))
+  );
+
+Plugins.Add(autoQuery);</pre></div>
+
+<p>Registering an interface like <code>IFilterRockstars</code> is especially useful as it enables applying custom logic to a number of different Query Services sharing the same interface. </p>
+
+<h2>
+<a id="user-content-intercept-and-introspect-every-query" class="anchor" href="#intercept-and-introspect-every-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Intercept and Introspect Every Query</h2>
+
+<p>As mentioned earlier AutoQuery works by auto-generating ServiceStack Services for each Request DTO marked with <code>IQuery</code> unless an custom implementation has been defined for that Query. It's also possible to change the base class for the generated services so that all queries executes your custom implementation instead.</p>
+
+<p>To do this, create a custom Service that inherits from <code>AutoQueryServiceBase</code> and overrides both <code>Exec</code> methods with your own implementation, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">abstract</span> <span class="pl-k">class</span> <span class="pl-en">MyAutoQueryServiceBase</span> : <span class="pl-k">AutoQueryServiceBase</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">object</span> Exec&lt;From&gt;(IQuery&lt;From&gt; dto)
+    {
+        <span class="pl-k">var</span> q = AutoQuery.CreateQuery(dto, Request.GetRequestParams());
+        <span class="pl-k">return</span> AutoQuery.Execute(dto, q);
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">object</span> Exec&lt;From, Into&gt;(IQuery&lt;From, Into&gt; dto)
+    {
+        <span class="pl-k">var</span> q = AutoQuery.CreateQuery(dto, Request.GetRequestParams());
+        <span class="pl-k">return</span> AutoQuery.Execute(dto, q);
+    }
+}</pre></div>
+
+<p>Then tell AutoQuery to use your base class instead, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature { 
+    AutoQueryServiceBaseType = <span class="pl-k">typeof</span>(MyAutoQueryServiceBase)
+});</pre></div>
+
+<p>Which will now get AutoQuery to execute your implementations instead.</p>
+
+<h2>
+<a id="user-content-exclude-autoquery-collections-from-being-initialized" class="anchor" href="#exclude-autoquery-collections-from-being-initialized" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Exclude AutoQuery Collections from being initialized</h2>
+
+<p>The default configuration for all languages supported in
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference">Add ServiceStack Reference</a> 
+is to 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference#initializecollections">InitializeCollections</a>
+which allows for a nicer client API in which clients can assume Request DTO's have their collections 
+initialized allowing them to use the shorthand collection initializer syntax, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> response = client.Get(<span class="pl-k">new</span> SearchQuestions { 
+    Tags = { <span class="pl-s"><span class="pl-pds">"</span>redis<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>ormlite<span class="pl-pds">"</span></span> }
+});</pre></div>
+
+<p>A problem with this is that AutoQuery encourages having multiple collection properties, most of which will 
+remain unused but would still have an empty collection initialized for all unused properties that are then 
+emitted on the wire. To help with this we've made it easy to prevent collections from being emitted in 
+AutoQuery DTO's by configuring the pre-registered <code>NativeTypesFeature</code> plugin below with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> nativeTypes = <span class="pl-c1">this</span>.GetPlugin&lt;NativeTypesFeature&gt;();
+nativeTypes.InitializeCollectionsForType = NativeTypesFeature.DontInitializeAutoQueryCollections;</pre></div>
+
+<h1>
+<a id="user-content-autoquery-examples" class="anchor" href="#autoquery-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoQuery Examples</h1>
+
+<h2>
+<a id="user-content-autoquery-viewer" class="anchor" href="#autoquery-viewer" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AutoQuery Viewer</h2>
+
+<p>AutoQuery Viewer provides an instant UI for constructing and browsing your 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query">AutoQuery</a> Services: </p>
+
+<p><a href="http://github.servicestack.net/ss_admin/autoquery"><img src="https://raw.githubusercontent.com/ServiceStack/Admin/master/img/query-default-values.png" alt="" style="max-width:100%;"></a></p>
+
+<blockquote>
+<p><a href="https://youtu.be/YejYkCvKsuQ">YouTube Demo</a></p>
+</blockquote>
+
+<h3>
+<a id="user-content-live-autoquery-viewer-examples" class="anchor" href="#live-autoquery-viewer-examples" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Live AutoQuery Viewer Examples</h3>
+
+<ul>
+<li><a href="http://github.servicestack.net/ss_admin/">http://github.servicestack.net/ss_admin/</a></li>
+<li><a href="http://northwind.servicestack.net/ss_admin/">http://northwind.servicestack.net/ss_admin/</a></li>
+<li><a href="http://stackapis.servicestack.net/ss_admin/">http://stackapis.servicestack.net/ss_admin/</a></li>
+<li><a href="http://techstacks.io/ss_admin/">http://techstacks.io/ss_admin/</a></li>
+</ul>
+
+<h2>
+<a id="user-content-northwind" class="anchor" href="#northwind" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/Northwind">Northwind</a>
+</h2>
+
+<blockquote>
+<p>Northwind database viewer, showing how to easily expose read and cached view services of an internal dataset with ServiceStack + OrmLite</p>
+</blockquote>
+
+<p><a href="http://northwind.servicestack.net"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/northwind.png" alt="" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query">AutoQuery</a>
+
+<ul>
+<li><a href="https://github.com/ServiceStackApps/Northwind/blob/master/src/Northwind/Northwind.ServiceModel/AutoQuery.cs">Northwind AutoQuery DTOs</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack.OrmLite#download">OrmLite Sqlite</a></li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-stackapis" class="anchor" href="#stackapis" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/StackApis">StackApis</a>
+</h2>
+
+<blockquote>
+<p>AngularJS Single Page App leveraging AutoQuery in &lt;50 lines of JavaScript + 1 AutoQuery DTO </p>
+</blockquote>
+
+<p><a href="http://stackapis.servicestack.net"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/stackapis.png" alt="" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-features-1" class="anchor" href="#features-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query">AutoQuery</a>
+
+<ul>
+<li><a href="https://github.com/ServiceStackApps/StackApis#stackapis-autoquery-service">StackApis AutoQuery DTO</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack.OrmLite#download">OrmLite Sqlite</a></li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-autoquery-viewer-1" class="anchor" href="#autoquery-viewer-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/AutoQueryViewer">AutoQuery Viewer</a>
+</h2>
+
+<p>AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible <a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query">ServiceStack AutoQuery Service</a> from an iPad. </p>
+
+<p><a href="https://itunes.apple.com/us/app/autoquery-viewer/id968625288?ls=1&amp;mt=8"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/autoquery/autoqueryviewer-appstore.png" alt="AutoQuery Viewer on AppStore" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-features-2" class="anchor" href="#features-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h4>
+
+<ul>
+<li>
+<a href="https://github.com/ServiceStackApps/AutoQueryViewer#techstacks-autoquery-reqeust-dtos">TechStacks AutoQuery DTOs</a><br>
+</li>
+<li>
+<a href="https://github.com/ServiceStackApps/AutoQueryViewer#githubautoquery-request-dtos">GitHub AutoQuery DTOs</a><br>
+</li>
+<li>
+<a href="https://github.com/ServiceStackApps/AutoQueryViewer#stakapi-autoquery-request-dto">Stack Apis AutoQuery DTO</a><br>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-techstacks-cocoa-osx-desktop-app" class="anchor" href="#techstacks-cocoa-osx-desktop-app" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/TechStacksDesktopApp">TechStacks Cocoa OSX Desktop App</a>
+</h2>
+
+<p>TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality <a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query">AutoQuery Services</a> provides for free and how easy they are to call with <a href="https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference">ServiceStack's new support for Swift and XCode</a>.</p>
+
+<p><a href="https://github.com/ServiceStackApps/TechStacksDesktopApp"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-desktop-field.png" alt="TechStack Desktop Search Fields" style="max-width:100%;"></a></p>

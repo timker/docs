@@ -1,0 +1,32 @@
+<p>Of course, you're able to call your ServiceStack webservice from your JavaScript client, too. </p>
+
+<p>We do provide our own JsonServiceClients which mimics the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview">.NET Clients</a> in functionality that we make use of in our <a href="http://www.servicestack.net/RedisAdminUI/AjaxClient/">Redis Admin UI</a>:</p>
+
+<ul>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JsonServiceClient.js">JsonServiceClient.js</a> - Pure JavaScript client</li>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JsonServiceClient.closure.js">JsonServiceClient.closure.js</a> - a <a href="https://developers.google.com/closure/">Google Closure</a> enabled version of the client allowing compilation and bundling within a Closure project</li>
+</ul>
+
+<p>Although most dynamic languages like JavaScript already include support for HTTP and JSON where in most cases it's easier to just use the libraries already provided. Here are a couple of examples from <a href="http://todos.servicestack.net">Backbones Todos</a> and <a href="http://redisstackoverflow.servicestack.net">Redis StackOverflow</a> that uses jQuery to talk to back-end ServiceStack JSON services:</p>
+
+<h3>
+<a id="user-content-using-jquery" class="anchor" href="#using-jquery" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using jQuery:</h3>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-smi">$</span>.<span class="pl-en">getJSON</span>(<span class="pl-s"><span class="pl-pds">"</span>http://localhost/Backbone.Todo/todos<span class="pl-pds">"</span></span>, <span class="pl-k">function</span>(<span class="pl-smi">todos</span>) {
+    <span class="pl-en">alert</span>(<span class="pl-smi">todos</span>.<span class="pl-c1">length</span> <span class="pl-k">==</span> <span class="pl-c1">1</span>);
+});
+
+<span class="pl-smi">$</span>.<span class="pl-en">post</span>(<span class="pl-s"><span class="pl-pds">"</span>questions<span class="pl-pds">"</span></span>, { UserId<span class="pl-k">:</span> <span class="pl-smi">authUser</span>.<span class="pl-smi">Id</span>, Title<span class="pl-k">:</span> title, Content<span class="pl-k">:</span> body, Tags<span class="pl-k">:</span> dtoTags }, refresh);</pre></div>
+
+<h2>
+<a id="user-content-jsv-service-client" class="anchor" href="#jsv-service-client" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSV Service Client</h2>
+
+<p>In our pursuit to provide the fastest end-to-end communication we've also developed a JsvServiceClient in JavaScript that uses the <a href="https://github.com/ServiceStackV3/mythz_blog/blob/master/pages/176.md">fast JSV Format</a>:  </p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JSV.js">JsvServiceClient.js</a></li>
+</ul>
+
+<p>JSV is marginally faster than <strong>safe JSON</strong> in modern browsers (marginally slower than Eval) but because of the poor JS and String Performance in IE7/8 it performs over <strong>20x</strong> slower than IE's native <code>eval()</code>.</p>

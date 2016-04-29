@@ -1,0 +1,46 @@
+<p>The primary benefits of compiled views is improved performance by eliminating compile times of Razor views. They can also provide static compilation benefits by highlighting compile errors during development and can simplify deployment by avoiding the need to deploy any <code>*.cshtml</code> files as they end up pre-compiled in the containing Assembly.</p>
+
+<h3>
+<a id="user-content-install-servicestackrazorbuildtask" class="anchor" href="#install-servicestackrazorbuildtask" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install ServiceStack.Razor.BuildTask</h3>
+
+<p>To enable compiled razor views you need to add the <a href="https://www.nuget.org/packages/ServiceStack.Razor.BuildTask">ServiceStack.Razor.BuildTask</a> NuGet Package to the project containing your Razor <code>*.cshtml</code> pages, i.e:</p>
+
+<pre><code>PM&gt; Install-Package ServiceStack.Razor.BuildTask
+</code></pre>
+
+<p>This doesn't add any additional dlls to your project, instead it just sets the <strong>BuildAction</strong> to all <code>*.cshtml</code> pages to <strong>Content</strong> and registers an MSBuild task to your <code>.csproj</code> project file set to pre-compile razor views on every build.</p>
+
+<h3>
+<a id="user-content-register-compiled-assembly-to-razorformat-plugin" class="anchor" href="#register-compiled-assembly-to-razorformat-plugin" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Register Compiled Assembly to RazorFormat Plugin</h3>
+
+<p>To register assemblies containing compiled razor views with Razor Format you just need to add it to RazorFormat.LoadFromAssemblies, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> RazorFormat {
+    LoadFromAssemblies = { <span class="pl-k">typeof</span>(RockstarsService).Assembly }
+});</pre></div>
+
+<h3>
+<a id="user-content-retains-optimal-development-workflow" class="anchor" href="#retains-optimal-development-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Retains optimal development workflow</h3>
+
+<p>The Compiled Views support continues to retain a great development experience in <a href="https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode">DebugMode</a> as all Razor Views are initially loaded from the Assembly but also continues to monitor the file system for modified views, automatically compiling and loading them on the fly so AppDomain reloads aren't required to see changes.</p>
+
+<h2>
+<a id="user-content-example-projects" class="anchor" href="#example-projects" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Projects</h2>
+
+<h3>
+<a id="user-content-razor-rockstars" class="anchor" href="#razor-rockstars" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/RazorRockstars">Razor Rockstars</a>
+</h3>
+
+<p>The <a href="https://github.com/ServiceStackApps/RazorRockstars/tree/master/src/RazorRockstars.CompiledViews">RazorRockstars.CompiledViews</a> VS.NET project shows an example of <a href="http://razor.servicestack.net/">Razor Rockstars</a> which uses shared compiled Razor Views in a <code>.dll</code> in a number of different projects:</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStackApps/RazorRockstars/tree/master/src/RazorRockstars.CompiledViews.WpfHost">WPF Host</a></li>
+<li><a href="https://github.com/ServiceStackApps/RazorRockstars/tree/master/src/RazorRockstars.CompiledViews.SelfHost">HttpListener SelfHost</a></li>
+<li><a href="https://github.com/ServiceStackApps/RazorRockstars/tree/master/src/RazorRockstars.CompiledViews.WebHost">ASP.NET WebHost</a></li>
+</ul>
+
+<h3>
+<a id="user-content-servicestackgap" class="anchor" href="#servicestackgap" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack.Gap">ServiceStack.Gap</a>
+</h3>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack.Gap">ServiceStack.Gap</a> project shows how to extend Compiled Razor Views and use them to create embedded ServiceStack solutions that can be ILMerged down to a single <code>.exe</code>. </p>

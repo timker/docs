@@ -1,0 +1,309 @@
+<h2>
+<a id="user-content-throwing-c-exceptions" class="anchor" href="#throwing-c-exceptions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Throwing C# Exceptions</h2>
+
+<p>In most cases you won't need to be concerned with ServiceStack's error handling since it provides native support for the normal use-case of throwing C# Exceptions, e.g.:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">object</span> Post(User request) 
+{
+    <span class="pl-k">if</span> (<span class="pl-k">string</span>.IsNullOrEmpty(request.Name))
+        <span class="pl-k">throw</span> <span class="pl-k">new</span> ArgumentNullException(<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>);
+}</pre></div>
+
+<h3>
+<a id="user-content-default-mapping-of-c-exceptions-to-http-errors" class="anchor" href="#default-mapping-of-c-exceptions-to-http-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default Mapping of C# Exceptions to HTTP Errors</h3>
+
+<p>By Default C# Exceptions:</p>
+
+<ul>
+<li>Inheriting from <code>ArgumentException</code> are returned with a HTTP StatusCode of <strong>400 BadRequest</strong>
+</li>
+<li>
+<code>NotImplementedException</code> or <code>NotSupportedException</code> is returned as a <strong>405 MethodNotAllowed</strong> </li>
+<li>
+<code>AuthenticationException</code> is returned as <strong>401 Unauthorized</strong>
+</li>
+<li>
+<code>UnauthorizedAccessException</code> is returned as <strong>403 Forbidden</strong>
+</li>
+<li>
+<code>OptimisticConcurrencyException</code> is returned as <strong>409 Conflict</strong>
+</li>
+<li>Other normal C# Exceptions are returned as <strong>500 InternalServerError</strong>
+</li>
+</ul>
+
+<p>This list can be extended with user-defined mappings on <code>Config.MapExceptionToStatusCode</code>.</p>
+
+<h3>
+<a id="user-content-webserviceexception" class="anchor" href="#webserviceexception" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>WebServiceException</h3>
+
+<p>All Exceptions get injected into the <code>ResponseStatus</code> property of your Response DTO that is serialized into your ServiceClient's preferred Content-Type making error handling transparent regardless of your preferred format - i.e., the same C# Error handling code can be used for all ServiceClients.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">try</span> 
+{
+    <span class="pl-k">var</span> client = <span class="pl-k">new</span> JsonServiceClient(BaseUri);
+    <span class="pl-k">var</span> response = client.Send&lt;UserResponse&gt;(<span class="pl-k">new</span> User());
+} 
+<span class="pl-k">catch</span> (WebServiceException webEx) 
+{
+    <span class="pl-c">/*</span>
+<span class="pl-c">      webEx.StatusCode  = 400</span>
+<span class="pl-c">      webEx.ErrorCode   = ArgumentNullException</span>
+<span class="pl-c">      webEx.Message     = Value cannot be null. Parameter name: Name</span>
+<span class="pl-c">      webEx.StackTrace  = (your Server Exception StackTrace - in DebugMode)</span>
+<span class="pl-c">      webEx.ResponseDto = (your populated Response DTO)</span>
+<span class="pl-c">      webEx.ResponseStatus   = (your populated Response Status DTO)</span>
+<span class="pl-c">      webEx.GetFieldErrors() = (individual errors for each field if any)</span>
+<span class="pl-c">    */</span>
+}</pre></div>
+
+<h3>
+<a id="user-content-enabling-stacktraces" class="anchor" href="#enabling-stacktraces" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enabling StackTraces</h3>
+
+<p>By default displaying StackTraces in Response DTOs are only enabled in Debug builds, although this behavior is overridable with:</p>
+
+<div class="highlight highlight-source-cs"><pre>SetConfig(<span class="pl-k">new</span> HostConfig { DebugMode = <span class="pl-c1">true</span> });</pre></div>
+
+<h3>
+<a id="user-content-error-response-types" class="anchor" href="#error-response-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Error Response Types</h3>
+
+<p>The Error Response that gets returned when an Exception is thrown varies on whether a conventionally-named <code>{RequestDto}Response</code> DTO exists or not. </p>
+
+<h4>
+<a id="user-content-if-it-exists" class="anchor" href="#if-it-exists" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If it exists:</h4>
+
+<p>The <code>{RequestDto}Response</code> is returned, regardless of the service method's response type. If the <code>{RequestDto}Response</code> DTO has a <strong>ResponseStatus</strong> property, it is populated otherwise no <strong>ResponseStatus</strong> will be returned.  (If you have decorated the <code>{ResponseDto}Response</code> class and properties with <code>[DataContract]/[DataMember]</code> attributes, then <strong>ResponseStatus</strong> also needs to be decorated, to get populated).</p>
+
+<h4>
+<a id="user-content-otherwise-if-it-doesnt" class="anchor" href="#otherwise-if-it-doesnt" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Otherwise, if it doesn't:</h4>
+
+<p>A generic <code>ErrorResponse</code> gets returned with a populated <strong>ResponseStatus</strong> property.</p>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview">Service Clients</a> transparently handles the different Error Response types, and for schema-less formats like JSON/JSV/etc there's no actual visible difference between returning a <strong>ResponseStatus</strong> in a custom or generic <code>ErrorResponse</code> - as they both output the same response on the wire.</p>
+
+<h2>
+<a id="user-content-custom-exceptions" class="anchor" href="#custom-exceptions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Exceptions</h2>
+
+<p>Ultimately all ServiceStack WebServiceExceptions are just Response DTO's with a populated <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ResponseStatus.cs">ResponseStatus</a> that are returned with a HTTP Error Status. There are a number of different ways to customize how Exceptions are returned including:</p>
+
+<h3>
+<a id="user-content-custom-mapping-of-c-exceptions-to-http-error-status" class="anchor" href="#custom-mapping-of-c-exceptions-to-http-error-status" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom mapping of C# Exceptions to HTTP Error Status</h3>
+
+<p>You can change what HTTP Error Status is returned for different Exception Types by configuring them with:</p>
+
+<div class="highlight highlight-source-cs"><pre>SetConfig(<span class="pl-k">new</span> HostConfig { 
+    MapExceptionToStatusCode = {
+        { <span class="pl-k">typeof</span>(CustomInvalidRoleException), <span class="pl-c1">403</span> },
+        { <span class="pl-k">typeof</span>(CustomerNotFoundException), <span class="pl-c1">404</span> },
+    }
+});</pre></div>
+
+<h3>
+<a id="user-content-returning-a-httperror" class="anchor" href="#returning-a-httperror" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Returning a HttpError</h3>
+
+<p>If you want even finer grained control of your HTTP errors you can either <strong>throw</strong> or <strong>return</strong> an <strong>HttpError</strong> letting you customize the <strong>Http Headers</strong> and <strong>Status Code</strong> and HTTP Response <strong>body</strong> to get exactly what you want on the wire:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">object</span> Get(User request) 
+{
+    <span class="pl-k">throw</span> HttpError.NotFound(<span class="pl-s"><span class="pl-pds">"</span>User {0} does not exist<span class="pl-pds">"</span></span>.Fmt(request.Name));
+}</pre></div>
+
+<p>The above returns a <strong>404</strong> NotFound StatusCode on the wire and is a short-hand for: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">new</span> HttpError(HttpStatusCode.NotFound, 
+    <span class="pl-s"><span class="pl-pds">"</span>User {0} does not exist<span class="pl-pds">"</span></span>.Fmt(request.Name)); </pre></div>
+
+<h3>
+<a id="user-content-httperror-with-a-custom-response-dto" class="anchor" href="#httperror-with-a-custom-response-dto" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HttpError with a Custom Response DTO</h3>
+
+<p>The <code>HttpError</code> can also be used to return a more structured Error Response with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> responseDto = <span class="pl-k">new</span> ErrorResponse { 
+    ResponseStatus = <span class="pl-k">new</span> ResponseStatus {
+        ErrorCode = <span class="pl-k">typeof</span>(ArgumentException).Name,
+        Message = <span class="pl-s"><span class="pl-pds">"</span>Invalid Request<span class="pl-pds">"</span></span>,
+        Errors = <span class="pl-k">new</span> List&lt;ResponseError&gt; {
+            <span class="pl-k">new</span> ResponseError {
+                ErrorCode = <span class="pl-s"><span class="pl-pds">"</span>NotEmpty<span class="pl-pds">"</span></span>,
+                FieldName = <span class="pl-s"><span class="pl-pds">"</span>Company<span class="pl-pds">"</span></span>,
+                Message = <span class="pl-s"><span class="pl-pds">"</span>'Company' should not be empty.<span class="pl-pds">"</span></span>
+            }
+        }
+    }
+};
+
+<span class="pl-k">throw</span> <span class="pl-k">new</span> HttpError(HttpStatusCode.BadRequest, <span class="pl-s"><span class="pl-pds">"</span>ArgumentException<span class="pl-pds">"</span></span>) {
+    Response = responseDto,
+}; </pre></div>
+
+<h3>
+<a id="user-content-implementing-iresponsestatusconvertible" class="anchor" href="#implementing-iresponsestatusconvertible" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementing <a href="https://github.com/ServiceStack/ServiceStack/blob/773aac107fc2e0fe6a823acef0c3bad20f686da0/src/ServiceStack.Interfaces/Model/IResponseStatusConvertible.cs#L9">IResponseStatusConvertible</a>
+</h3>
+
+<p>You can also override the serialization of Custom Exceptions by implementing the <code>IResponseStatusConvertible</code> interface to return your own populated ResponseStatus instead. This is how <code>ValidationException</code> allows customizing the Response DTO is by [having ValidationException implement][1] the [IResponseStatusConvertible][2] interface. </p>
+
+<p>E.g. Here's a custom Exception example that returns a populated Field Error:  </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomFieldException</span> : <span class="pl-k">Exception</span>, <span class="pl-k">IResponseStatusConvertible</span>
+{
+  ...
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FieldErrorCode</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FieldName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">FieldMessage</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-k">public</span> ResponseStatus <span class="pl-en">ToResponseStatus</span>()
+    {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> ResponseStatus {
+            ErrorCode = GetType().Name,
+            Message = Message,
+            Errors = <span class="pl-k">new</span> List&lt;ResponseError&gt; {
+                <span class="pl-k">new</span> ResponseError {
+                    ErrorCode = FieldErrorCode,
+                    FieldName = FieldName,
+                    Message = FieldMessage
+                }
+            }
+        }
+    }    
+}</pre></div>
+
+<h3>
+<a id="user-content-implementing-ihasstatuscode" class="anchor" href="#implementing-ihasstatuscode" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementing <a href="https://github.com/ServiceStack/ServiceStack/blob/42c93be28091e3023a1e9720eb5601d4c4fa01a0/src/ServiceStack.Interfaces/Model/IResponseStatusConvertible.cs#L13">IHasStatusCode</a>
+</h3>
+
+<p>In addition to customizing the HTTP Response Body of C# Exceptions with 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Error-Handling#implementing-iresponsestatusconvertible">IResponseStatusConvertible</a>, 
+you can also customize the HTTP Status Code by implementing <code>IHasStatusCode</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Custom401Exception</span> : <span class="pl-k">Exception</span>, <span class="pl-k">IHasStatusCode</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">int</span> StatusCode 
+    { 
+        <span class="pl-k">get</span> { <span class="pl-k">return</span> <span class="pl-c1">401</span>; } 
+    }
+}</pre></div>
+
+<p>Likewise <code>IHasStatusDescription</code> can be used to customize the <code>StatusDescription</code> and <code>IHasErrorCode</code> for customizing the <code>ErrorCode</code> returned, instead of its Exception Type.</p>
+
+<h3>
+<a id="user-content-overriding-onexceptiontypefilter-in-your-apphost" class="anchor" href="#overriding-onexceptiontypefilter-in-your-apphost" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Overriding OnExceptionTypeFilter in your AppHost</h3>
+
+<p>You can also catch and modify the returned <code>ResponseStatus</code> returned by overriding <code>OnExceptionTypeFilter</code> in your AppHost, e.g. <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/ServiceStackHost.Runtime.cs#L310">ServiceStack uses this</a> to customize the returned ResponseStatus to automatically add a custom field error for <code>ArgumentExceptions</code> with the specified <code>ParamName</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">void</span> OnExceptionTypeFilter(
+    Exception ex, ResponseStatus responseStatus)
+{
+    <span class="pl-k">var</span> argEx = ex <span class="pl-k">as</span> ArgumentException;
+    <span class="pl-k">var</span> isValidationSummaryEx = argEx <span class="pl-k">is</span> ValidationException;
+    <span class="pl-k">if</span> (argEx != <span class="pl-c1">null</span> &amp;&amp; !isValidationSummaryEx &amp;&amp; argEx.ParamName != <span class="pl-c1">null</span>)
+    {
+        <span class="pl-k">var</span> paramMsgIndex = argEx.Message.LastIndexOf(<span class="pl-s"><span class="pl-pds">"</span>Parameter name:<span class="pl-pds">"</span></span>);
+        <span class="pl-k">var</span> errorMsg = paramMsgIndex &gt; <span class="pl-c1">0</span>
+            ? argEx.Message.Substring(<span class="pl-c1">0</span>, paramMsgIndex)
+            : argEx.Message;
+
+        responseStatus.Errors.Add(<span class="pl-k">new</span> ResponseError
+        {
+            ErrorCode = ex.GetType().Name,
+            FieldName = argEx.ParamName,
+            Message = errorMsg,
+        });
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-custom-http-errors" class="anchor" href="#custom-http-errors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom HTTP Errors</h3>
+
+<p>In Any Request or Response Filter you can short-circuit the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations">Request Pipeline</a> by emitting a Custom HTTP Response and Ending the request, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c1">this</span>.PreRequestFilters.Add((req,res) =&gt; 
+{
+    <span class="pl-k">if</span> (req.PathInfo.StartsWith(<span class="pl-s"><span class="pl-pds">"</span>/admin<span class="pl-pds">"</span></span>) &amp;&amp; 
+        !req.GetSession().HasRole(<span class="pl-s"><span class="pl-pds">"</span>Admin<span class="pl-pds">"</span></span>)) 
+    {
+        res.StatusCode = (<span class="pl-k">int</span>)HttpStatusCode.Forbidden;
+        res.StatusDescription = <span class="pl-s"><span class="pl-pds">"</span>Requires Admin Role<span class="pl-pds">"</span></span>;
+        res.EndRequest();
+    }
+});</pre></div>
+
+<blockquote>
+<p>To end the Request in a  Custom HttpHandler use <code>res.EndHttpHandlerRequest()</code></p>
+</blockquote>
+
+<h3>
+<a id="user-content-fallback-error-pages" class="anchor" href="#fallback-error-pages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Fallback Error Pages</h3>
+
+<p>Use <code>IAppHost.GlobalHtmlErrorHttpHandler</code> for specifying a <strong>fallback HttpHandler</strong> for all error status codes, e.g.:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    <span class="pl-c1">this</span>.GlobalHtmlErrorHttpHandler = <span class="pl-k">new</span> RazorHandler(<span class="pl-s"><span class="pl-pds">"</span>/oops<span class="pl-pds">"</span></span>),
+}</pre></div>
+
+<p>For more fine-grained control, use <code>IAppHost.CustomHttpHandlers</code> for specifying custom HttpHandlers to use with specific error status codes, e.g.:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    <span class="pl-c1">this</span>.CustomHttpHandlers[HttpStatusCode.NotFound] = 
+        <span class="pl-k">new</span> RazorHandler(<span class="pl-s"><span class="pl-pds">"</span>/notfound<span class="pl-pds">"</span></span>);
+    <span class="pl-c1">this</span>.CustomHttpHandlers[HttpStatusCode.Unauthorized] = 
+        <span class="pl-k">new</span> RazorHandler(<span class="pl-s"><span class="pl-pds">"</span>/login<span class="pl-pds">"</span></span>);
+}</pre></div>
+
+<h2>
+<a id="user-content-register-handlers-for-handling-service-and-non-service-exceptions" class="anchor" href="#register-handlers-for-handling-service-and-non-service-exceptions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Register handlers for handling Service and non-Service Exceptions</h2>
+
+<p>ServiceStack and its [[new API]] provides a flexible way to intercept exceptions. If you need a single entry point for all service exceptions, you can add a handler to <code>AppHost.ServiceExceptionHandler</code> in <code>Configure</code>. To handle exceptions occurring outside of services you can set the global <code>AppHost.UncaughtExceptionHandlers</code> handler, e.g.:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    <span class="pl-c">//Handle Exceptions occurring in Services:</span>
+
+    <span class="pl-c1">this</span>.ServiceExceptionHandlers.Add((httpReq, request, exception) =&gt; {
+        <span class="pl-c">//log your exceptions here</span>
+        ...
+        <span class="pl-c">//call default exception handler or prepare your own custom response</span>
+        <span class="pl-k">return</span> DtoUtils.CreateErrorResponse(request, exception);
+    });
+
+    <span class="pl-c">//Handle Unhandled Exceptions occurring outside of Services</span>
+    <span class="pl-c">//E.g. Exceptions during Request binding or in filters:</span>
+    <span class="pl-c1">this</span>.UncaughtExceptionHandlers.Add((req, res, operationName, ex) =&gt; {
+         res.Write(<span class="pl-s"><span class="pl-pds">"</span>Error: {0}: {1}<span class="pl-pds">"</span></span>.Fmt(ex.GetType().Name, ex.Message));
+         res.EndRequest(skipHeaders: <span class="pl-c1">true</span>);
+    });
+}</pre></div>
+
+<h3>
+<a id="user-content-error-handling-using-a-custom-servicerunner" class="anchor" href="#error-handling-using-a-custom-servicerunner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Error handling using a custom ServiceRunner</h3>
+
+<p>If you want to provide different error handlers for different actions and services you can just tell ServiceStack to run your services in your own custom <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs">IServiceRunner</a> and implement the <strong>HandleExcepion</strong> event hook in your AppHost:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> IServiceRunner&lt;TRequest&gt; CreateServiceRunner&lt;TRequest&gt;(
+    ActionContext actionContext)
+{           
+    <span class="pl-k">return</span> <span class="pl-k">new</span> MyServiceRunner&lt;TRequest&gt;(<span class="pl-c1">this</span>, actionContext); 
+}</pre></div>
+
+<p>Where <strong>MyServiceRunner</strong> is just a custom class implementing the custom hooks you're interested in, e.g.:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyServiceRunner</span>&lt;T&gt; : <span class="pl-k">ServiceRunner</span>&lt;<span class="pl-k">T</span>&gt; 
+{
+    <span class="pl-k">public</span> <span class="pl-en">MyServiceRunner</span>(<span class="pl-k">IAppHost</span> <span class="pl-smi">appHost</span>, <span class="pl-k">ActionContext</span> <span class="pl-smi">actionContext</span>) 
+        : <span class="pl-c1">base</span>(appHost, actionContext) {}
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">object</span> <span class="pl-en">HandleException</span>(<span class="pl-k">IRequest</span> <span class="pl-smi">request</span>, 
+        <span class="pl-k">T</span> <span class="pl-smi">request</span>, <span class="pl-k">Exception</span> <span class="pl-smi">ex</span>) {
+      <span class="pl-c">// Called whenever an exception is thrown in your Services Action</span>
+    }
+}</pre></div>
+
+<h1>
+<a id="user-content-community-resources" class="anchor" href="#community-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Resources</h1>
+
+<ul>
+<li>
+<a href="http://www.philliphaydon.com/2012/03/09/service-stack-exceptions-and-errors/">ServiceStack Exceptions and Errors</a> by <a href="https://twitter.com/philliphaydon">@philliphaydon</a>
+</li>
+</ul>

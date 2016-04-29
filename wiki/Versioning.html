@@ -1,0 +1,26 @@
+<h3>
+<a id="user-content-implicit-versioning" class="anchor" href="#implicit-versioning" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implicit Versioning</h3>
+
+<p>You can populate Version numbers in all Request DTO's implementing <code>IHasVersion</code>, i.e:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Hello</span> : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">HelloResponse</span>&gt;, <span class="pl-k">IHasVersion</span> {
+    <span class="pl-k">public</span> <span class="pl-k">int</span> <span class="pl-en">Version</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>By assigning the <code>Version</code> property on the Service Clients, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>client.Version = <span class="pl-c1">2</span>;</pre></div>
+
+<p>Which will auto populate each Request DTO that implements <code>IHasVersion</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>client.Get(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> });  <span class="pl-c">// Hello.Version=2</span></pre></div>
+
+<h4>
+<a id="user-content-version-abbreviation-convention" class="anchor" href="#version-abbreviation-convention" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Version Abbreviation Convention</h4>
+
+<p>A popular convention for specifying versions in API requests is with the <code>?v=1</code> QueryString which ServiceStack now uses as a fallback for populating any Request DTO's that implement <code>IHasVersion</code> (as above).</p>
+
+<blockquote>
+<p>Note: as ServiceStack's message-based design promotes forward and backwards-compatible Service API designs, our recommendation is to only consider implementing versioning when necessary, at which point check out our <a href="http://stackoverflow.com/a/12413091/85785">recommended versioning strategy</a>.</p>
+</blockquote>

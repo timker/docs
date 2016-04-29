@@ -1,0 +1,133 @@
+<p>With the release of <strong>v4.0.33+</strong>, the <a href="https://github.com/ServiceStack/ServiceStack.Redis">ServiceStack.Redis</a> client has added support for SSL making it suitable for accessing remote Redis server instances over a secure SSL connection.</p>
+
+<p>Redis is normally used as a back-end datastore whose access is typically limited to Internal networks or authorized networks protected via firewalls. The new SSL Support in the Redis Client also enables secure access to a redis-server instance over the Internet and public networks as well, a scenario that's been recently popularized by Cloud hosting environments like <a href="http://azure.microsoft.com/en-us/services/cache/">Azure Redis Cache</a>.</p>
+
+<h2>
+<a id="user-content-getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>First we'll need a Redis instance to connect to, for this example we will be using Azure, so you will need an active account which you can create at the <a href="https://azure.microsoft.com/">Azure home page</a>.</p>
+
+<p>Once you have access to the <a href="https://portal.azure.com/">Azure portal</a>, we can create a new Redis instance with 3 easy steps:</p>
+
+<p>1 . Click <code>New</code> at the bottom left of the portal</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-new-button.png" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-new-button.png" alt="New" style="max-width:100%;"></a></p>
+
+<p>2 . Select Redis Cache from the list</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-create-redis.png" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-create-redis.png" alt="Redis instance menu item" style="max-width:100%;"></a></p>
+
+<p>3 . Specify a DNS name, size, resource group and location</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-create-redis-demo.png" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-create-redis-demo.png" alt="Create instance" style="max-width:100%;"></a></p>
+
+<p>It may take a while for the Redis Cache instance to be ready to use, from experience with a 1GB Basic instance, it takes around 15+ minutes.</p>
+
+<p>Once the instance is ready, we can grab the <strong>password</strong> generated for us from the <strong>Keys tile</strong>. If we copy the key, and store it somewhere our host can access it, we can start connecting to Redis.</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-redis-instance.png" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/wikis/redis/azure-redis-instance.png" alt="Created Redis Instance and Keys menu" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-configuring-our-apphost" class="anchor" href="#configuring-our-apphost" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuring our AppHost</h2>
+
+<p>We have all the require information and our Redis Cache instance is running, we can now configure our AppHost to use it! </p>
+
+<p>To make it simple to use the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Redis/IRedisClient.cs">IRedisClient</a> from our web service methods, we can register an <code>IRedisClientsManager</code> to handle the clients for us. This way, we can use the <code>base.Redis</code> property from our services to access the Redis server instance. </p>
+
+<pre><code>public override void Configure(Container container)
+{
+    var connString = AppSettings.GetString("RedisConnectionString");
+    container.Register&lt;IRedisClientsManager&gt;(c =&gt; 
+        new RedisManagerPool(connectionString));
+}
+</code></pre>
+
+<p>We are getting our Redis connection string from our Web.Config <code>&lt;appSettings/&gt;</code>. The Redis connection string is made up of the domain name of the instance parsing query string parameters to specify other configuration options. In our example the format of the connection string looks like:</p>
+
+<pre><code>{AzureRedisKey}@servicestackdemo.redis.cache.windows.net?ssl=true 
+</code></pre>
+
+<h2>
+<a id="user-content-accessing-redis-from-a-web-service" class="anchor" href="#accessing-redis-from-a-web-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Accessing Redis from a Web Service</h2>
+
+<p>We can now try a simple example to test that our instance is working. Here's an example of a simple "Todo" service that persists items to our Redis instance:</p>
+
+<pre><code>// Create your ServiceStack Web Service
+public class TodoService : Service
+{
+    public object Get(Todo todo)
+    {
+        //Return a single Todo if the id is provided.
+        if (todo.Id != default(long))
+            return Redis.As&lt;Todo&gt;().GetById(todo.Id);
+
+        //Return all Todos items.
+        return Redis.As&lt;Todo&gt;().GetAll();
+    }
+
+    // Handles creating the Todo items.
+    public Todo Post(Todo todo)
+    {
+        var todos = Redis.As&lt;Todo&gt;();
+
+        //Get next id for new todo
+        todo.Id = todos.GetNextSequence();
+
+        todos.Store(todo);
+
+        return todo;
+    }
+
+    // Handles updating the Todo items.
+    public Todo Put(Todo todo)
+    {
+        Redis.As&lt;Todo&gt;().Store(todo);
+        return todo;
+    }
+
+    // Handles Deleting the Todo item
+    public void Delete(Todo todo)
+    {
+        Redis.As&lt;Todo&gt;().DeleteById(todo.Id);
+    }
+}
+
+[Route("/todo")]
+[Route("/todo/{Id}")]
+public class Todo
+{
+    public long Id { get; set; }
+    public string Content { get; set; }
+    public int Order { get; set; }
+    public bool Done { get; set; }
+}
+</code></pre>
+
+<p>You can try a redis-powered TODO's web app like this in our <a href="http://todos.servicestack.net">todos.servicestack.net</a> Live Demo. A more comprehensive example can be seen in the <a href="https://github.com/ServiceStackApps/RedisStackOverflow/blob/master/src/RedisStackOverflow/RedisStackOverflow.ServiceInterface/IRepository.cs">Repository.cs</a> used to power the <a href="http://redisstackoverflow.servicestack.net/">RedisStackOverflow Live Demo</a>.</p>
+
+<p>Another property automatically injected when registering our <code>RedisManagerPool</code> is <code>base.Cache</code> which provides a substitutable <a href="https://github.com/ServiceStack/ServiceStack/wiki/Caching">Caching abstraction</a> our Services can use to cache results. E.g. we can make use of ServiceStack's high-level Caching API in <a href="https://github.com/ServiceStack/ServiceStack/wiki/Caching#cache-a-response-of-a-service">Request.ToOptimizedResultUsingCache</a> to enable maximum performance of your Services:</p>
+
+<pre><code>public object Get(CachedCustomers request)
+{
+    return base.Request.ToOptimizedResultUsingCache(this.Cache, 
+        "urn:customers", () =&gt;
+            this.ResolveService&lt;CustomersService&gt;()
+            .Get(new Customers()));
+}
+</code></pre>
+
+<p>This snippet is from the <a href="https://github.com/ServiceStackApps/Northwind">Northwind example</a>.</p>
+
+<h2>
+<a id="user-content-troubleshooting" class="anchor" href="#troubleshooting" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Troubleshooting</h2>
+
+<h3>
+<a id="user-content-add-required-ssl-certificates-to-work-in-mono" class="anchor" href="#add-required-ssl-certificates-to-work-in-mono" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Add Required SSL Certificates to work in Mono</h3>
+
+<p>Connecting to Azure Redis Cache via SSL requires Microsoft SSL Certificates. The required certificates can be imported and registered with Mono by running the commands below:</p>
+
+<pre><code>$ sudo mozroots --import --machine --sync
+$ sudo certmgr -ssl -m https://go.microsoft.com
+$ sudo certmgr -ssl -m https://nugetgallery.blob.core.windows.net
+$ sudo certmgr -ssl -m https://nuget.org
+</code></pre>

@@ -1,0 +1,60 @@
+<h3>
+<a id="user-content-restrict-services" class="anchor" href="#restrict-services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restrict Services</h3>
+
+<p>You can change the Visibility and Access restrictions on any service using the new [Restrict] attribute. This is a class based attribute and should be placed on your Service class.
+Visibility affects whether or not the service shows up on the public <code>/metadata</code> pages, whilst access restrictions limits the accessibility of your services. </p>
+
+<h3>
+<a id="user-content-named-configurations" class="anchor" href="#named-configurations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Named Configurations</h3>
+
+<p>The Restrict attribute includes a number of Named configurations for common use-cases. E.g You can specify a Service should only be available from your local machine with:</p>
+
+<pre><code>[Restrict(LocalhostOnly = true)]
+public class LocalAdmin { }
+</code></pre>
+
+<p>Which ensures access to this service is only allowed from localhost clients and the details of this service will only be visible on <code>/metadata</code> pages that are viewed locally.</p>
+
+<p>This is equivalent to using the underlying granular form of specifying individual <code>RequestAttributes</code>, e.g:</p>
+
+<pre><code>[Restrict(AccessTo = RequestAttributes.Localhost, VisibilityTo = RequestAttributes.Localhost)]
+public class LocalAdmin { }
+</code></pre>
+
+<p>There are many more named configurations available. You can use <strong>VisibleInternalOnly</strong> to only have a service listed on internally viewed <code>/metadata</code> pages with:</p>
+
+<pre><code>[Restrict(VisibleInternalOnly = true)]
+public class InternalAdmin { }
+</code></pre>
+
+<p>Services can be restricted on any EndpointAttribute, e.g. to ensure this service is only called by XML clients, do:</p>
+
+<pre><code>[Restrict(RequestAttributes.Xml)]
+public class XmlOnly { }
+</code></pre>
+
+<h3>
+<a id="user-content-restriction-combinations" class="anchor" href="#restriction-combinations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Restriction Combinations</h3>
+
+<p>Likewise you can add any combination of Endpoint Attributes together, E.g. this restricts access to service to Internal JSON clients only:</p>
+
+<pre><code>[Restrict(RequestAttributes.InternalNetworkAccess | RequestAttributes.Json)]
+public class JsonInternalOnly { }
+</code></pre>
+
+<h3>
+<a id="user-content-multiple-restriction-scenarios" class="anchor" href="#multiple-restriction-scenarios" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multiple restriction scenarios</h3>
+
+<p>It also supports multiple restriction scenarios, E.g. This service is only accessible by <strong>internal JSON</strong> clients or <strong>External XML</strong> clients:</p>
+
+<pre><code>[Restrict(
+    RequestAttributes.InternalNetworkAccess | RequestAttributes.Json,
+    RequestAttributes.External | RequestAttributes.Xml)]
+public class JsonInternalOrXmlExternalOnly { }
+</code></pre>
+
+<p>A popular configuration that takes advantage of this feature would be to only allow HTTP plain-text traffic from Internal Networks and only allow external access via secure HTTPS, which you can enforce with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Restrict(RequestAttributes.InSecure | RequestAttributes.InternalNetworkAccess,
+          RequestAttributes.Secure   | RequestAttributes.External)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">InternalHttpAndExternalHttps</span> { }</pre></div>

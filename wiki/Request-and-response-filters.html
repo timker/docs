@@ -1,0 +1,74 @@
+<p>A recent addition to ServiceStack is the ability to register custom Request and Response filters. These should be registered in your <code>AppHost.Configure()</code> onload script: </p>
+
+<h3>
+<a id="user-content-global-request-filters" class="anchor" href="#global-request-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Global Request Filters</h3>
+
+<p>The Request Filters are applied before the service gets called and accepts:
+(<a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs">IRequest</a>, <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IResponse.cs">IResponse</a>, RequestDto) e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Add a request filter to check if the user has a session initialized</span>
+<span class="pl-c1">this</span>.GlobalRequestFilters.Add((req, res, requestDto) =&gt; {
+    <span class="pl-k">var</span> sessionId = req.GetCookieValue(<span class="pl-s"><span class="pl-pds">"</span>user-session<span class="pl-pds">"</span></span>);
+    <span class="pl-k">if</span> (sessionId == <span class="pl-c1">null</span>)
+    {
+        res.ReturnAuthRequired();
+    }
+});</pre></div>
+
+<h3>
+<a id="user-content-global-response-filters" class="anchor" href="#global-response-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Global Response Filters</h3>
+
+<p>The Response Filters are applied after your service is called and accepts:
+(<a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs">IRequest</a>, <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IResponse.cs">IResponse</a>, ResponseDto) e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Add a response filter to add a 'Content-Disposition' header so browsers treat it as a native .csv file</span>
+<span class="pl-c1">this</span>.GlobalResponseFilters.Add((req, res, responseDto) =&gt; {
+    <span class="pl-k">if</span> (req.ResponseContentType == ContentType.Csv)
+    {
+        res.AddHeader(HttpHeaders.ContentDisposition,
+        <span class="pl-k">string</span>.Format(<span class="pl-s"><span class="pl-pds">"</span>attachment;filename={0}.csv<span class="pl-pds">"</span></span>, req.OperationName));
+    }
+});</pre></div>
+
+<p>Tip: If you're writing your own response to the response stream inside the response filter, add <code>res.EndRequest();</code> to signal to ServiceStack not to do anymore processing for this request.</p>
+
+<h3>
+<a id="user-content-typed-request-filters" class="anchor" href="#typed-request-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Typed Request Filters</h3>
+
+<p>A more typed API to register Global Request and Response filters per Request DTO Type are available under the <code>RegisterTyped*</code> API's in AppHost where you can register both typed Request and Response Filters for HTTP and MQ Services independently:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">void</span> RegisterTypedRequestFilter&lt;T&gt;(Action&lt;IRequest, IResponse, T&gt; filterFn);
+<span class="pl-k">void</span> RegisterTypedResponseFilter&lt;T&gt;(Action&lt;IRequest, IResponse, T&gt; filterFn);
+<span class="pl-k">void</span> RegisterTypedMessageRequestFilter&lt;T&gt;(Action&lt;IRequest, IResponse, T&gt; filterFn);
+<span class="pl-k">void</span> RegisterTypedMessageResponseFilter&lt;T&gt;(Action&lt;IRequest, IResponse, T&gt; filterFn);</pre></div>
+
+<p>Here's an example usage that enables more flexibility in multi-tenant solutions by attaching custom data on incoming requests, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    RegisterTypedRequestFilter&lt;Resource&gt;((req, res, dto) =&gt;
+    {
+        <span class="pl-k">var</span> route = req.GetRoute();
+        <span class="pl-k">if</span> (route != <span class="pl-c1">null</span> &amp;&amp; route.Path == <span class="pl-s"><span class="pl-pds">"</span>/tenant/{TenantName}/resource<span class="pl-pds">"</span></span>)
+        {
+            dto.SubResourceName = <span class="pl-s"><span class="pl-pds">"</span>CustomResource<span class="pl-pds">"</span></span>;
+        }
+    });
+}</pre></div>
+
+<h3>
+<a id="user-content-apply-custom-behavior-to-multiple-dtos-with-interfaces" class="anchor" href="#apply-custom-behavior-to-multiple-dtos-with-interfaces" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Apply custom behavior to multiple DTO's with Interfaces</h3>
+
+<p>Typed Filters can also be used to apply custom behavior on Request DTO's sharing a common interface, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    RegisterTypedRequestFilter&lt;IHasSharedProperty&gt;((req, res, dtoInterface) =&gt; {
+        dtoInterface.SharedProperty = <span class="pl-s"><span class="pl-pds">"</span>Is Shared<span class="pl-pds">"</span></span>;    
+    });
+}</pre></div>
+
+<h3>
+<a id="user-content-message-queue-endpoints" class="anchor" href="#message-queue-endpoints" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Message Queue Endpoints</h3>
+
+<p>Non-HTTP requests like <a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-Redis">Redis MQ</a> are treated as <em>Internal Requests</em> which only execute the alternate <code>GlobalMessageRequestFilters</code> and <code>GlobalMessageResponseFilters</code> and Action [[Filter attributes]]. </p>

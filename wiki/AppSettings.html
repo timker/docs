@@ -1,0 +1,242 @@
+<h2>
+<a id="user-content-configuration-and-appsettings" class="anchor" href="#configuration-and-appsettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Configuration and AppSettings</h2>
+
+<p>Instead of building verbose nested XML configSection classes our preference is to instead store structured configuration in Web.config's <code>&lt;appSetting/&gt;</code> which can still express rich config graphs but in a much more human-friendly and manageable way.</p>
+
+<p>ServiceStack's pluggable <code>IAppSettings</code> API is a cleaner alternative for storing your Application structured configuration, providing a high-level API to read your Web.config's <code>&lt;appSetting/&gt;</code> values into a <code>List</code>, <code>Dictionary</code> or your own clean Custom POCO Types using the human friendly <a href="https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format">JSV format</a>. </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IAppSettings</span>
+{
+    Dictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt; <span class="pl-en">GetAll</span>();
+
+    List&lt;<span class="pl-k">string</span>&gt; <span class="pl-en">GetAllKeys</span>();
+
+    <span class="pl-k">bool</span> <span class="pl-en">Exists</span>(<span class="pl-k">string</span> <span class="pl-smi">key</span>);
+
+    <span class="pl-k">void</span> Set&lt;T&gt;(<span class="pl-k">string</span> key, T value);
+
+    <span class="pl-k">string</span> <span class="pl-en">GetString</span>(<span class="pl-k">string</span> <span class="pl-smi">name</span>);
+
+    IList&lt;<span class="pl-k">string</span>&gt; <span class="pl-en">GetList</span>(<span class="pl-k">string</span> <span class="pl-smi">key</span>);
+
+    IDictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt; <span class="pl-en">GetDictionary</span>(<span class="pl-k">string</span> <span class="pl-smi">key</span>);
+
+    T Get&lt;T&gt;(<span class="pl-k">string</span> name);
+
+    T Get&lt;T&gt;(<span class="pl-k">string</span> name, T defaultValue);
+}</pre></div>
+
+<p>Benefits over existing Configuration API include the ability to store rich data structures in appSettings values, more succinct access to typed data and since its an interface it's decoupled from .NET Configuration classes and can easily be swapped to source your configuration from an different sources without a rewrite, e.g. from a text file or central DB.</p>
+
+<h3>
+<a id="user-content-example-usage" class="anchor" href="#example-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h3>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">appSettings</span>&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>LastUpdated<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>01/01/2012 12:00:00<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>AllowedUsers<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>Tom,Mick,Harry<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>RedisConfig<span class="pl-pds">"</span></span> 
+         <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>{Host:localhost,Port:6379,Database:1,Timeout:10000}<span class="pl-pds">"</span></span> /&gt;
+&lt;/<span class="pl-ent">appSettings</span>&gt;</pre></div>
+
+<p>Reading the above configuration in code:</p>
+
+<div class="highlight highlight-source-cs"><pre>IAppSettings appSettings = <span class="pl-k">new</span> AppSettings();
+DateTime lastUpdate = appSettings.Get&lt;DateTime&gt;(<span class="pl-s"><span class="pl-pds">"</span>LastUpdated<span class="pl-pds">"</span></span>);
+IList&lt;<span class="pl-k">string</span>&gt; allowedUsers = appSettings.GetList(<span class="pl-s"><span class="pl-pds">"</span>AllowedUsers<span class="pl-pds">"</span></span>);
+RedisConfig redisConf = appSettings.Get&lt;RedisConfig&gt;(<span class="pl-s"><span class="pl-pds">"</span>RedisConf<span class="pl-pds">"</span></span>);
+
+<span class="pl-c">//use default value if no config exists</span>
+<span class="pl-k">var</span> searchUrl = appSettings.Get(<span class="pl-s"><span class="pl-pds">"</span>SearchUrl<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>http://www.google.com<span class="pl-pds">"</span></span>); </pre></div>
+
+<p>The last default value provides a convenient way to maintain workable default options in code (allowing re-use in Unit/Integration tests) whilst still being overridable in the <strong>Web.config</strong> when you need to.</p>
+
+<h2>
+<a id="user-content-multi-appsettings" class="anchor" href="#multi-appsettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi AppSettings</h2>
+
+<p>The <code>MultiAppSettings</code> AppSettings provider enables reading configuration from multiple configuration sources.</p>
+
+<h3>
+<a id="user-content-example-usage-1" class="anchor" href="#example-usage-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h3>
+
+<p>The example below creates a cascading configuration that first checks Environment variables, then looks in a local <code>~/appsettings.txt</code> plain-text file before falling back to <code>Web.config</code>: </p>
+
+<div class="highlight highlight-source-cs"><pre>AppSettings = <span class="pl-k">new</span> MultiAppSettings(
+    <span class="pl-k">new</span> EnvironmentVariableSettings(),
+    <span class="pl-k">new</span> TextFileSettings(<span class="pl-s"><span class="pl-pds">"</span>~/appsettings.txt<span class="pl-pds">"</span></span>.MapHostAbsolutePath()),
+    <span class="pl-k">new</span> AppSettings());</pre></div>
+
+<h2>
+<a id="user-content-ormlite-appsettings" class="anchor" href="#ormlite-appsettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OrmLite AppSettings</h2>
+
+<p><code>OrmLiteAppSettings</code> provides an alternative read/write API that lets you maintain your applications configuration in any <a href="https://github.com/ServiceStack/ServiceStack.OrmLite/#download">RDBMS back-end OrmLite supports</a>. It works like a mini Key/Value database in which can store any serializable value against any key which is maintained into the simple Id/Value <code>ConfigSettings</code> table.</p>
+
+<h3>
+<a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h3>
+
+<p>Registration just uses an OrmLite DB Factory, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>container.Register(c =&gt; 
+    <span class="pl-k">new</span> OrmLiteAppSettings(c.Resolve&lt;IDbConnectionFactory&gt;()));
+<span class="pl-c">//Create the ConfigSettings table if it doesn't exist</span>
+container.Resolve&lt;OrmLiteAppSettings&gt;().InitSchema(); </pre></div>
+
+<p>It then can be accessed like any <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Common.Tests/Configuration/AppSettingsTests.cs">AppSetting APIs</a>. The example below reads the <code>MyConfig</code> POCO stored at <code>config</code> otherwise use default value if it doesn't exist: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> config = appSettings.Get(<span class="pl-s"><span class="pl-pds">"</span>config<span class="pl-pds">"</span></span>, 
+    <span class="pl-k">new</span> MyConfig { Key = <span class="pl-s"><span class="pl-pds">"</span>DefaultValue<span class="pl-pds">"</span></span> });</pre></div>
+
+<p>In addition to the AppSettings read-only API's, it also supports writing config values , e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> latestStats = appSettings.GetOrCreate(<span class="pl-s"><span class="pl-pds">"</span>stats<span class="pl-pds">"</span></span>, 
+    () =&gt; statsProvider.GetLatest());</pre></div>
+
+<h2>
+<a id="user-content-environmentvariablesettings" class="anchor" href="#environmentvariablesettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>EnvironmentVariableSettings</h2>
+
+<p>The new <code>EnvironmentVariableSettings</code> AppSettings provider to source configuration from Environment variables:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> appSettings = <span class="pl-k">new</span> EnvironmentVariableSettings();</pre></div>
+
+<h2>
+<a id="user-content-textfilesettings" class="anchor" href="#textfilesettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TextFileSettings</h2>
+
+<p>The <code>TextFileSettings</code> lets you read your Applications configuration in a plain-text file, which can easily be overridden with custom environment settings as part of the CI deployment process, providing a nice alternative to custom Web.config configurations.</p>
+
+<h3>
+<a id="user-content-example-usage-2" class="anchor" href="#example-usage-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Example Usage</h3>
+
+<p>To use just provide the path to the plain-text file that contains the app-settings: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> appSettings = <span class="pl-k">new</span> TextFileSettings(<span class="pl-s"><span class="pl-pds">"</span>~/app.settings<span class="pl-pds">"</span></span>.MapHostAbsolutePath());</pre></div>
+
+<h3>
+<a id="user-content-textfile-format" class="anchor" href="#textfile-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>TextFile Format</h3>
+
+<p>Each appSetting is on a new line with the <strong>Key</strong> and <strong>Value</strong> separated by a space:</p>
+
+<pre><code>{Key} {Value}\n
+</code></pre>
+
+<blockquote>
+<p>The delimiter can be changed in the constructor e.g. new TextFileSettings(path,delimiter:": ");</p>
+</blockquote>
+
+<h3>
+<a id="user-content-extract-key--value-settings-from-text-file" class="anchor" href="#extract-key--value-settings-from-text-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extract key / value settings from text file</h3>
+
+<p>Under the hood TextFileSettings uses the ParseKeyValueText extension method to extract key / value data from a string, e.g: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> configText = @<span class="pl-s"><span class="pl-pds">"</span></span>
+<span class="pl-s"># comments starting with '#' and blank lines are ignored</span>
+<span class="pl-s"></span>
+<span class="pl-s">StringKey string value</span>
+<span class="pl-s">IntKey 42</span>
+<span class="pl-s">ListKey A,B,C,D,E</span>
+<span class="pl-s">DictionaryKey A:1,B:2,C:3,D:4,E:5</span>
+<span class="pl-s">PocoKey {Foo:Bar,Key:Value}<span class="pl-pds">"</span></span>;
+
+Dictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt; configMap = 
+    configText.ParseKeyValueText(delimiter:<span class="pl-s"><span class="pl-pds">"</span> <span class="pl-pds">"</span></span>);</pre></div>
+
+<h2>
+<a id="user-content-dictionarysettings" class="anchor" href="#dictionarysettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DictionarySettings</h2>
+
+<p>When combined with the existing <code>DictionarySettings</code>, enables a rich, simple and clean alternative to .NET's App.config config section for reading structured configuration into clean data structures, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>IAppSettings settings = <span class="pl-k">new</span> DictionarySettings(configMap);
+
+<span class="pl-k">string</span> <span class="pl-k">value</span> = settings.Get(<span class="pl-s"><span class="pl-pds">"</span>StringKey<span class="pl-pds">"</span></span>);
+
+<span class="pl-k">int</span> <span class="pl-k">value</span> = settings.Get(<span class="pl-s"><span class="pl-pds">"</span>IntKey<span class="pl-pds">"</span></span>, defaultValue:<span class="pl-c1">1</span>);
+
+List&lt;<span class="pl-k">string</span>&gt; values = settings.GetList(<span class="pl-s"><span class="pl-pds">"</span>ListKey<span class="pl-pds">"</span></span>);
+
+Dictionary&lt;<span class="pl-k">string</span>,<span class="pl-k">string</span>&gt; valuesMap = settings.GetDictionary(<span class="pl-s"><span class="pl-pds">"</span>key<span class="pl-pds">"</span></span>);
+
+MyConfig config = settings.Get(<span class="pl-s"><span class="pl-pds">"</span>key<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> MyConfig { Key = <span class="pl-s"><span class="pl-pds">"</span>default<span class="pl-pds">"</span></span>});</pre></div>
+
+<h2>
+<a id="user-content-dynamodbappsettings" class="anchor" href="#dynamodbappsettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/blob/master/docs/2015/release-notes.md#dynamodbappsettings">DynamoDbAppSettings</a>
+</h2>
+
+<p>Storing production config in DynamoDB reduces the effort for maintaining production settings decoupled from source code. 
+Here <code>DynamoDbAppSettings</code> is registered first in a <code>MultiAppSettings</code> collection it checks entries in the DynamoDB <code>ConfigSetting</code> Table first before falling back to local <strong>Web.config</strong> appSettings:</p>
+
+<div class="highlight highlight-source-cs"><pre>#if <span class="pl-en">!DEBUG</span>
+    AppSettings = <span class="pl-k">new</span> MultiAppSettings(
+        <span class="pl-k">new</span> DynamoDbAppSettings(<span class="pl-k">new</span> PocoDynamo(awsDb), initSchema:<span class="pl-c1">true</span>),
+        <span class="pl-k">new</span> AppSettings()); <span class="pl-c">// fallback to Web.confg</span>
+#endif</pre></div>
+
+<h2>
+<a id="user-content-first-class-appsettings" class="anchor" href="#first-class-appsettings" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>First class AppSettings</h2>
+
+<p>After proving its value over the years we've decided to make it a first-class property on <code>IAppHost.AppSettings</code> which defaults to looking at .NET's App/Web.config's. </p>
+
+<p>The new <a href="https://github.com/ServiceStack/ServiceStack.Gap/raw/master/deploy/Chat.zip">Chat.zip</a> App explores different ways AppSettings can be used: </p>
+
+<p>If there's an existing <code>appsettings.txt</code> file where the <strong>.exe</strong> is run it will use that, otherwise it falls back to <strong>Web.config</strong> appSettings:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> AppHost() : <span class="pl-c1">base</span>(<span class="pl-s"><span class="pl-pds">"</span>Chat<span class="pl-pds">"</span></span>, <span class="pl-k">typeof</span> (ServerEventsServices).Assembly)
+{
+    <span class="pl-k">var</span> customSettings = <span class="pl-k">new</span> FileInfo(<span class="pl-s"><span class="pl-pds">"</span>appsettings.txt<span class="pl-pds">"</span></span>);
+    AppSettings = customSettings.Exists
+        ? (IAppSettings)<span class="pl-k">new</span> TextFileSettings(customSettings.FullName)
+        : <span class="pl-k">new</span> AppSettings();
+}</pre></div>
+
+<p>As a normal property in your AppHost, AppSettings can be accessed directly in <code>AppHost.Configure()</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    ...
+    <span class="pl-k">var</span> redisHost = AppSettings.GetString(<span class="pl-s"><span class="pl-pds">"</span>RedisHost<span class="pl-pds">"</span></span>);
+    <span class="pl-k">if</span> (redisHost != <span class="pl-c1">null</span>)
+    {
+        container.Register&lt;IServerEvents&gt;(c =&gt; 
+            <span class="pl-k">new</span> RedisServerEvents(<span class="pl-k">new</span> PooledRedisClientManager(redisHost)));
+
+        container.Resolve&lt;IServerEvents&gt;().Start();
+    }
+}</pre></div>
+
+<p>Inside your services or IOC dependencies, like any other auto-wired dependency:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ServerEventsServices</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> IAppSettings <span class="pl-en">AppSettings</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-k">public</span> <span class="pl-k">void</span> <span class="pl-en">Any</span>(<span class="pl-k">PostRawToChannel</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">if</span> (!IsAuthenticated &amp;&amp; AppSettings.Get(<span class="pl-s"><span class="pl-pds">"</span>LimitRemoteControlToAuthenticatedUsers<span class="pl-pds">"</span></span>, <span class="pl-c1">false</span>))
+            <span class="pl-k">throw</span> <span class="pl-k">new</span> HttpError(HttpStatusCode.Forbidden, <span class="pl-s"><span class="pl-pds">"</span>You must be authenticated to use remote control.<span class="pl-pds">"</span></span>);
+        ...
+    }   
+}</pre></div>
+
+<p>Directly within Razor views:</p>
+
+<div class="highlight highlight-text-html-basic"><pre><span class="pl-s1">&lt;<span class="pl-ent">style</span>&gt;</span>
+<span class="pl-s1">    <span class="pl-ent">body</span> {</span>
+<span class="pl-s1">        <span class="pl-c1"><span class="pl-c1">background-image</span></span>: <span class="pl-c1">url</span>(<span class="pl-v">@AppSettings.Get(</span><span class="pl-s"><span class="pl-pds">"</span>background<span class="pl-pds">"</span></span><span class="pl-v">,</span><span class="pl-s"><span class="pl-pds">"</span>/img/bg.jpg<span class="pl-pds">"</span></span>)) </span>
+<span class="pl-s1">    }</span>
+<span class="pl-s1">&lt;/<span class="pl-ent">style</span>&gt;</span></pre></div>
+
+<p>As well as outside ServiceStack, via the <code>HostContext</code> static class:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> redisHost = HostContext.AppSettings.GetString(<span class="pl-s"><span class="pl-pds">"</span>redis<span class="pl-pds">"</span></span>);</pre></div>
+
+<h2>
+<a id="user-content-appsettings-are-writable" class="anchor" href="#appsettings-are-writable" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AppSettings are Writable</h2>
+
+<p>A new <code>Set()</code> API was added to <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IAppSettings.cs">IAppSettings</a> letting you save any serializable property that works for all providers:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IAppSettings</span>
+{
+    <span class="pl-k">void</span> Set&lt;T&gt;(<span class="pl-k">string</span> key, T value);
+    ...
+}
+
+AppSettings.Set(<span class="pl-s"><span class="pl-pds">"</span>Poco<span class="pl-pds">"</span></span>, <span class="pl-k">new</span> MyConfig { Foo = <span class="pl-s"><span class="pl-pds">"</span>Baz<span class="pl-pds">"</span></span> });</pre></div>
+
+<p>In providers that support writable configuration natively like <code>OrmLiteAppSettings</code> and <code>DictionarySettings</code>, the settings get written through to the underlying provider. For read-only providers like Web.config's <code>AppSettings</code> or <code>TextFileSettings</code> a <strong>shadowed</strong> cache is kept that works similar to prototypal shadowing in JavaScript where if a property doesn't exist, setting a property will be stored on the top-level object instance which also takes precedence on subsequent property access.</p>

@@ -1,0 +1,68 @@
+<p>One limitation the default <code>MemoryServerEvents</code> implementation has is being limited for use within a single App Server where all client connections are maintained. This is no longer a limitation with the new <strong>Redis ServerEvents back-end</strong> which utilizes a distributed redis-server back-end to provide a scale-out option capable of serving fan-out/load-balanced App Servers. If you're familiar with SignalR, this is akin to <a href="http://www.asp.net/signalr/overview/signalr-20/performance-and-scaling/scaleout-with-redis">SignalR's scaleout with Redis back-end</a>.</p>
+
+<p><code>RedisServerEvents</code> is a drop-in replacement for the built-in <code>MemoryServerEvents</code> that's effectively a transparent implementation detail, invisible to Server or Client API's where both implementations even <a href="https://github.com/ServiceStack/ServiceStack/blob/b9eb34eb80ff64fa1171d2f7f29ef359c3580eed/tests/ServiceStack.WebHost.Endpoints.Tests/ServerEventTests.cs#L169-L189">share the same integration Tests</a>.</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/Chat/redis-scaleout.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/gap/Chat/redis-scaleout.png" alt="Redis ServerEvents Scale Out" style="max-width:100%;"></a></p>
+
+<h3>
+<a id="user-content-enabling-redis-serverevents" class="anchor" href="#enabling-redis-serverevents" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enabling Redis ServerEvents</h3>
+
+<p>As a drop-in replacement it can easily be configured with just a few lines of code, as seen in the updated Chat App which can run on either <a href="https://github.com/ServiceStackApps/Chat/blob/326617e88272d7cc0a8b7513272cf055378957e2/src/Chat/Global.asax.cs#L46-L54">Memory or Redis ServerEvents providers</a>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> redisHost = AppSettings.GetString(<span class="pl-s"><span class="pl-pds">"</span>RedisHost<span class="pl-pds">"</span></span>);
+<span class="pl-k">if</span> (redisHost != <span class="pl-c1">null</span>)
+{
+    container.Register&lt;IRedisClientsManager&gt;(
+        <span class="pl-k">new</span> RedisManagerPool(redisHost));
+
+    container.Register&lt;IServerEvents&gt;(c =&gt; 
+        <span class="pl-k">new</span> RedisServerEvents(c.Resolve&lt;IRedisClientsManager&gt;()));
+
+    container.Resolve&lt;IServerEvents&gt;().Start();
+}</pre></div>
+
+<p>The above configuration will use Redis ServerEvents if there's a <code>RedisHost</code> <strong>appSetting</strong> in Chat's <a href="https://github.com/ServiceStackApps/Chat/blob/326617e88272d7cc0a8b7513272cf055378957e2/src/Chat/Web.config#L21">Web.config</a>:</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>RedisHost<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>localhost:6379<span class="pl-pds">"</span></span> /&gt;</pre></div>
+
+<blockquote>
+<p>RedisServerEvents is in the <a href="http://www.nuget.org/packages/ServiceStack.Server">ServiceStack.Server</a> NuGet Package.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-cross-platform-memory-and-redis-serverevent-enabled-chatexe" class="anchor" href="#cross-platform-memory-and-redis-serverevent-enabled-chatexe" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Cross-platform Memory and Redis ServerEvent Enabled Chat.exe</h3>
+
+<p>To showcase Redis ServerEvents in action, we've prepared a stand-alone <a href="https://github.com/ServiceStack/ServiceStack.Gap">ServiceStack.Gap</a> version of <a href="http://chat.servicestack.net">Chat</a> compiled down into a single <strong>Chat.exe</strong> that can run on either Windows and OSX with Mono which can be downloaded from: </p>
+
+<h3>
+<a id="user-content-chatzip-12mb" class="anchor" href="#chatzip-12mb" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack.Gap/raw/master/deploy/Chat.zip">Chat.zip</a> (1.2MB)</h3>
+
+<p><a href="https://github.com/ServiceStack/ServiceStack.Gap/raw/master/deploy/Chat.zip"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/redis-server-events.gif" alt="Redis ServerEvents Preview" style="max-width:100%;"></a></p>
+
+<blockquote>
+<p>As Chat only runs on <strong>2 back-end Services</strong>, it fits well within <a href="https://servicestack.net/download#free-quotas">ServiceStack's Free Quota's</a> which can be further customized and enhanced without a commercial license.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-redis-serverevents-chat-usage" class="anchor" href="#redis-serverevents-chat-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Redis ServerEvents Chat Usage</h3>
+
+<p>Running <strong>Chat.exe</strong> without any arguments will run Chat using the default <strong>Memory ServerEvents</strong>. This can be changed to use <strong>Redis ServerEvents</strong> by <a href="https://github.com/ServiceStack/ServiceStack.Gap/blob/master/src/Chat/Chat/appsettings.txt#L5">un-commenting this line in appsettings.txt</a>:</p>
+
+<pre><code>#redis localhost
+</code></pre>
+
+<p>This will require a <strong>redis-server</strong> running on <code>localhost</code>. If you don't have redis yet, <a href="https://github.com/ServiceStack/redis-windows">download redis-server for Windows</a>.</p>
+
+<p>Alternatively you can specify which <strong>port</strong> to run Chat on and change it to use Redis ServerEvents by specifying the <strong>redis</strong> instance it should connect to on the command-line with:</p>
+
+<pre><code>Chat.exe /port=1337 /redis=localhost
+</code></pre>
+
+<p>Also included in <code>Chat.zip</code> are <a href="https://github.com/ServiceStack/ServiceStack.Gap/blob/master/src/Chat/build/test-fanout-redis-events.bat">test-fanout-redis-events.bat</a> and equivalent <a href="https://github.com/ServiceStack/ServiceStack.Gap/blob/master/src/Chat/build/test-fanout-redis-events.sh">test-fanout-redis-events.sh</a> helper scripts for <strong>spawning multiple versions of Chat.exe</strong> on different ports (and backgrounds) for <strong>Windows or OSX</strong>, showing how multiple clients are able to send messages to each other via Redis whilst being subscribed to different HTTP Servers:</p>
+
+<pre><code>START Chat.exe /port=1337 /redis=localhost /background=/port-1337.jpg
+START Chat.exe /port=2337 /redis=localhost /background=/port-2337.jpg
+START Chat.exe /port=3337 /redis=localhost /background=/port-3337.jpg
+</code></pre>
+
+<p>This script was used to create the animated gif above to launch <strong>3 self-hosting instances of Chat.exe</strong> running on <strong>different ports</strong>, all connected to each other via Redis. This enables some interesting peer-to-peer scenarios where users are able to run a network of (CPU/resource isolated) decentralized stand-alone HTTP Servers on their local machines, but can still communicate with each other via redis.</p>

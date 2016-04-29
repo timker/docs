@@ -1,0 +1,51 @@
+<h1>
+<a id="user-content-json-jsv-and-xml" class="anchor" href="#json-jsv-and-xml" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSON, JSV and XML</h1>
+
+<p>ServiceStack supports of course the most-used two webservices formats: XML and JSON. By default, the <a href="https://github.com/ServiceStack/ServiceStack.Text">ServiceStack.Text</a> serializer is used for JSON - it's the fastest JSON serializer for .Net! </p>
+
+<p>ServiceStack also provides a format called JSV:</p>
+
+<hr>
+
+<h3>
+<a id="user-content-jsv-text-format-json--csv" class="anchor" href="#jsv-text-format-json--csv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSV Text Format (JSON + CSV)</h3>
+
+<p>JSV is a text-based format that is optimized for both size and speed.</p>
+
+<p>In many ways it is similar to JavaScript, e.g. any List, Array, Collection of ints, longs, etc are stored in exactly the same way, i.e:
+    [1,2,3,4,5]</p>
+
+<p>Any IDictionary is serialized like JavaScript, i.e:
+    {A:1,B:2,C:3,D:4}</p>
+
+<p>Which also happens to be the same as C# POCO class with the values </p>
+
+<p><code>new MyClass { A=1, B=2, C=3, D=4 }</code></p>
+
+<pre><code>{A:1,B:2,C:3,D:4}
+</code></pre>
+
+<p>JSV is <em>white-space significant</em>, which means normal string values can be serialized without quotes, e.g: </p>
+
+<p><code>new MyClass { Foo="Bar", Greet="Hello World!"}</code> is serialized as:</p>
+
+<pre><code>{Foo:Bar,Greet:Hello World!}
+</code></pre>
+
+<h3>
+<a id="user-content-csv-escaping" class="anchor" href="#csv-escaping" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CSV escaping</h3>
+
+<p>Any string with any of the following characters: <code>[]{},"</code>
+is escaped using CSV-style escaping where the value is wrapped in double quotes, e.g:</p>
+
+<p><code>new MyClass { Name = "Me, Junior" }</code> is serialized as:</p>
+
+<pre><code>{Name:"Me, Junior"}
+</code></pre>
+
+<p>A value with a double-quote is escaped with another double quote e.g:</p>
+
+<p><code>new MyClass { Size = "2\" x 1\"" }</code> is serialized as:</p>
+
+<pre><code>{Size:"2"" x 1"""}
+</code></pre>

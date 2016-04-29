@@ -1,0 +1,41 @@
+<p>Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET <a href="http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx">IHttpHandler's</a>. Existing abstractions and <a href="http://mono.servicestack.net/mvc-powerpack/">xmlconfig-encumbered legacy ASP.NET providers</a> have been abandoned, in favour of fresh, simple and clean <a href="https://github.com/ServiceStack/ServiceStack/wiki/Caching">Caching</a>, <a href="https://github.com/ServiceStack/ServiceStack/wiki/Sessions">Session</a> and <a href="https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization">Authentication</a> providers all based on clean POCOs, supporting multiple back-ends and all working seamlessly with each other. Our best-practices architecture is purposely kept simple, introduces no new concepts or artificial constructs and can all be eloquently captured in the diagram below:</p>
+
+<h3>
+<a id="user-content-server-architecture" class="anchor" href="#server-architecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Server Architecture</h3>
+
+<p><a href="https://camo.githubusercontent.com/55b081a21003e75a7d4787b9d93db101d0614146/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6c6f676963616c2d766965772d30322e706e67" target="_blank"><img src="https://camo.githubusercontent.com/55b081a21003e75a7d4787b9d93db101d0614146/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6c6f676963616c2d766965772d30322e706e67" alt="ServiceStack Logical Architecture View" data-canonical-src="http://mono.servicestack.net/files/servicestack-logical-view-02.png" style="max-width:100%;"></a> </p>
+
+<h3>
+<a id="user-content-client-architecture" class="anchor" href="#client-architecture" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Client Architecture</h3>
+
+<p>ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services">Message-based design</a> allows us to easily support <a href="https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview">typed, generic and re-usable Service Clients</a> for all our popular formats:</p>
+
+<p><a href="https://camo.githubusercontent.com/5b86e08ec873c92fbc93fe94dbce283f130fdd37/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d68747470636c69656e74732e706e67" target="_blank"><img src="https://camo.githubusercontent.com/5b86e08ec873c92fbc93fe94dbce283f130fdd37/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d68747470636c69656e74732e706e67" alt="ServiceStack HTTP Client Architecture" data-canonical-src="http://mono.servicestack.net/files/servicestack-httpclients.png" style="max-width:100%;"></a> </p>
+
+<p>Having all clients share the same interface allow them to be hot-swappable at run-time without code changes and keep them highly testable where the same unit test can also <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.IntegrationTests/Tests/WebServicesTests.cs">serve as an XML, JSON, JSV, SOAP Integration Test</a>.</p>
+
+<p>By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable and can be hosted in non-http contexts as well. E.g. The client architecture when one of the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-redis">built-in MQ Host is enabled</a>:</p>
+
+<p><a href="https://camo.githubusercontent.com/696024c9c9acb3c96ccfdb45953af88185d4c5b7/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6d71636c69656e74732e706e67" target="_blank"><img src="https://camo.githubusercontent.com/696024c9c9acb3c96ccfdb45953af88185d4c5b7/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6d71636c69656e74732e706e67" alt="ServiceStack MQ Client Architecture" data-canonical-src="http://mono.servicestack.net/files/servicestack-mqclients.png" style="max-width:100%;"></a> </p>
+
+<h2>
+<a id="user-content-implementation" class="anchor" href="#implementation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Implementation</h2>
+
+<p>The entry point for all ASP.NET and HttpListener requests is in the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/HttpHandlerFactory.cs">ServiceStack.HttpHandlerFactory</a> whose purpose is to return the appropriate IHttpHandler for the incoming request.</p>
+
+<p>There are 2 distinct modes in any ServiceStack application:</p>
+
+<ol>
+<li>AppHost Setup and Configuration - Only done once for all services. Run only once on App StartUp.</li>
+<li>Runtime - Run on every request: uses dependencies, plugins, etc. defined in the AppHost. Each new request re-binds all IOC dependencies to a new service instance which gets disposed at the end of each request.</li>
+</ol>
+
+<p>The implementation of this can be visualized below:</p>
+
+<p><a href="https://camo.githubusercontent.com/c2122c5f089d88056a8fa0d8fa3d77d443c810e4/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6f766572766965772d30312e706e67" target="_blank"><img src="https://camo.githubusercontent.com/c2122c5f089d88056a8fa0d8fa3d77d443c810e4/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6f766572766965772d30312e706e67" alt="ServiceStack Overview" data-canonical-src="http://mono.servicestack.net/files/servicestack-overview-01.png" style="max-width:100%;"></a></p>
+
+<p>After the IHttpHandler is returned, it gets executed with the current ASP.NET or HttpListener request wrapped in a common <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs">IRequest</a> instance. </p>
+
+<p>The implementation of <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Host/RestHandler.cs">RestHandler</a> shows what happens during a typical ServiceStack request:</p>
+
+<p><a href="https://camo.githubusercontent.com/4eb680d1a2ee48fa1d3f58356827804988cc2c90/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6f766572766965772d30322e706e67" target="_blank"><img src="https://camo.githubusercontent.com/4eb680d1a2ee48fa1d3f58356827804988cc2c90/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f73657276696365737461636b2d6f766572766965772d30322e706e67" alt="ServiceStack Request Pipeline" data-canonical-src="http://mono.servicestack.net/files/servicestack-overview-02.png" style="max-width:100%;"></a></p>

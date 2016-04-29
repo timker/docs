@@ -1,0 +1,179 @@
+<p>ServiceStack provides multiple ways to customize your services HTTP response. Each option gives you complete control of the final HTTP Response that's returned by your service: </p>
+
+<ol>
+<li>Decorating it inside a <code>HttpResult</code> object</li>
+<li>Throwing a <code>HttpError</code> </li>
+<li>Returning a <code>HttpError</code>
+</li>
+<li>Using a Request or Response <a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">Filter Attribute</a> like the built-in <code>[AddHeader]</code> (or your own) or using a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters">Global Request or Response Filter</a>.</li>
+<li>Modifying output by accessing your services <code>base.Response</code> <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IHttpResponse.cs">IHttpResponse API</a>
+</li>
+</ol>
+
+<p>Here are some code examples below using these different approaches:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HelloService</span> : <span class="pl-k">Service</span>
+{ 
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Get</span>(<span class="pl-k">Hello</span> <span class="pl-smi">request</span>) 
+    { 
+        <span class="pl-c">//1. Returning a custom Status and Description with Response DTO body:</span>
+        <span class="pl-k">var</span> responseDto = ...;
+        <span class="pl-k">return</span> <span class="pl-k">new</span> HttpResult(responseDto, HttpStatusCode.Conflict) {
+            StatusDescription = <span class="pl-s"><span class="pl-pds">"</span>Computer says no<span class="pl-pds">"</span></span>,
+        };
+
+        <span class="pl-c">//2. Throw a HttpError:</span>
+        <span class="pl-k">throw</span> <span class="pl-k">new</span> HttpError(HttpStatusCode.Conflict, <span class="pl-s"><span class="pl-pds">"</span>Some Error Message<span class="pl-pds">"</span></span>);
+
+        <span class="pl-c">//3. Return a HttpError:</span>
+        <span class="pl-k">return</span> <span class="pl-k">new</span> HttpError(HttpStatusCode.Conflict, <span class="pl-s"><span class="pl-pds">"</span>Some Error Message<span class="pl-pds">"</span></span>);
+
+        <span class="pl-c">//4. Modify the Request's IHttpResponse</span>
+        <span class="pl-c1">base</span>.Response.StatusCode = (<span class="pl-k">int</span>)HttpStatusCode.Redirect;
+        <span class="pl-c1">base</span>.Response.AddHeader(<span class="pl-s"><span class="pl-pds">"</span>Location<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>http://path/to/new/uri<span class="pl-pds">"</span></span>);
+        <span class="pl-c1">base</span>.Response.EndRequest(); <span class="pl-c">//Short-circuits Request Pipeline</span>
+    }
+
+    <span class="pl-c">//5. Using a Request or Response Filter </span>
+    [AddHeader(ContentType = <span class="pl-s"><span class="pl-pds">"</span>text/plain<span class="pl-pds">"</span></span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Get</span>(<span class="pl-k">Hello</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">return</span> <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}!<span class="pl-pds">"</span></span>.Fmt(request.Name);
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-short-circuiting-the-request-pipeline" class="anchor" href="#short-circuiting-the-request-pipeline" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Short-circuiting the Request Pipeline</h3>
+
+<p>At anytime you can short-circuit the Request Pipeline and end the response by calling <code>IResponse.EndRequest()</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>res.EndRequest();</pre></div>
+
+<p>If you only have access to the <code>IRequest</code> you can access the <code>IResponse</code> via the Response property, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>req.Response.EndRequest();</pre></div>
+
+<h3>
+<a id="user-content-using-a-request-or-response-filter-attribute" class="anchor" href="#using-a-request-or-response-filter-attribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">Request or Response Filter Attribute</a>
+</h3>
+
+<p>Example 4). uses the in-built <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AddHeaderAttribute.cs">AddHeaderAttribute</a> to modify the HTTP Response using a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">Request Filter attribute</a>. You can also modify all HTTP Service Responses by using a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters">Global Request or Response Filter</a>: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AddHeaderAttribute</span> : <span class="pl-k">RequestFilterAttribute</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Value</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-k">public</span> <span class="pl-en">AddHeaderAttribute</span>() { }
+
+    <span class="pl-k">public</span> <span class="pl-en">AddHeaderAttribute</span>(<span class="pl-k">string</span> <span class="pl-smi">name</span>, <span class="pl-k">string</span> <span class="pl-smi">value</span>)
+    {
+        Name = name;
+        Value = <span class="pl-k">value</span>;
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">Execute</span>(<span class="pl-k">IRequest</span> <span class="pl-smi">req</span>, <span class="pl-k">IResponse</span> <span class="pl-smi">res</span>, <span class="pl-k">object</span> <span class="pl-smi">requestDto</span>)
+    {
+        <span class="pl-k">if</span> (<span class="pl-k">string</span>.IsNullOrEmpty(Name) || <span class="pl-k">string</span>.IsNullOrEmpty(Value)) 
+            <span class="pl-k">return</span>;
+
+        <span class="pl-k">if</span> (Name.EqualsIgnoreCase(HttpHeaders.ContentType))
+        {
+            res.ContentType = Value;
+        }
+        <span class="pl-k">else</span>
+        {
+            res.AddHeader(Name, Value);
+        }
+    }
+...
+}</pre></div>
+
+<h2>
+<a id="user-content-custom-serialized-responses" class="anchor" href="#custom-serialized-responses" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Serialized Responses</h2>
+
+<p>The new <code>IHttpResult.ResultScope</code> API provides an opportunity to execute serialization within a custom scope, e.g. this can
+be used to customize the serialized response of adhoc services that's different from the default global configuration with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">return</span> <span class="pl-k">new</span> HttpResult(dto) {
+    ResultScope = () =&gt; JsConfig.With(includeNullValues:<span class="pl-c1">true</span>)
+};</pre></div>
+
+<p>Which enables custom serialization behavior by performing the serialization within the custom scope, equivalent to:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">using</span> (JsConfig.With(includeNullValues:true))
+{
+    <span class="pl-k">var</span> customSerializedResponse = Serialize(dto);
+}</pre></div>
+
+<h2>
+<a id="user-content-request-and-response-converters" class="anchor" href="#request-and-response-converters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request and Response Converters</h2>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/wiki/Encrypted-Messaging">Encrypted Messaging Feature</a> takes advantage of Request and Response Converters that let you change the Request DTO and Response DTO's that get used in ServiceStack's Request Pipeline where:</p>
+
+<h3>
+<a id="user-content-request-converters" class="anchor" href="#request-converters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request Converters</h3>
+
+<p>Request Converters are executed directly after any <a href="https://github.com/ServiceStack/ServiceStack/wiki/Serialization-deserialization#create-a-custom-request-dto-binder">Custom Request Binders</a>:</p>
+
+<div class="highlight highlight-source-cs"><pre>appHost.RequestConverters.Add((req, requestDto) =&gt; {
+    <span class="pl-c">//Return alternative Request DTO or null to retain existing DTO</span>
+});</pre></div>
+
+<h3>
+<a id="user-content-response-converters" class="anchor" href="#response-converters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response Converters</h3>
+
+<p>Response Converters are executed directly after the Service:</p>
+
+<div class="highlight highlight-source-cs"><pre>appHost.ResponseConverters.Add((req, response) =&gt;
+    <span class="pl-c">//Return alternative Response or null to retain existing Service response</span>
+});</pre></div>
+
+<h3>
+<a id="user-content-using-a-custom-servicerunner" class="anchor" href="#using-a-custom-servicerunner" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using a Custom ServiceRunner</h3>
+
+<p>The ability to extend ServiceStack's service execution pipeline with Custom Hooks is an advanced customization feature that for most times is not needed as the preferred way to add composable functionality to your services is to use <a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">Request / Response Filter attributes</a> or apply them globally with <a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters">Global Request/Response Filters</a>.</p>
+
+<p>To be able to add custom hooks without needing to subclass any service, we've introduced a <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs">IServiceRunner</a> that decouples the execution of your service from the implementation of it.</p>
+
+<p>To add your own Service Hooks you just need to override the default Service Runner in your AppHost from its default implementation:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">virtual</span> IServiceRunner&lt;TRequest&gt; CreateServiceRunner&lt;TRequest&gt;(
+    ActionContext actionContext)
+{
+    <span class="pl-c">//Cached per Service Action</span>
+    <span class="pl-k">return</span> <span class="pl-k">new</span> ServiceRunner&lt;TRequest&gt;(<span class="pl-c1">this</span>, actionContext); 
+}</pre></div>
+
+<p>With your own:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> IServiceRunner&lt;TRequest&gt; CreateServiceRunner&lt;TRequest&gt;(
+    ActionContext actionContext)
+{           
+    <span class="pl-c">//Cached per Service Action</span>
+    <span class="pl-k">return</span> <span class="pl-k">new</span> MyServiceRunner&lt;TRequest&gt;(<span class="pl-c1">this</span>, actionContext); 
+}</pre></div>
+
+<p>Where <code>MyServiceRunner&lt;T&gt;</code> is just a custom class implementing the custom hooks you're interested in, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyServiceRunner</span>&lt;T&gt; : <span class="pl-k">ServiceRunner</span>&lt;<span class="pl-k">T</span>&gt; 
+{
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">OnBeforeExecute</span>(
+        <span class="pl-k">IRequest</span> <span class="pl-smi">requestContext</span>, <span class="pl-k">TRequest</span> <span class="pl-smi">request</span>) 
+    {
+      <span class="pl-c">// Called just before any Action is executed</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">object</span> <span class="pl-en">OnAfterExecute</span>(
+        <span class="pl-k">IRequest</span> <span class="pl-smi">requestContext</span>, <span class="pl-k">object</span> <span class="pl-smi">response</span>) 
+    {
+      <span class="pl-c">// Called just after any Action is executed.</span>
+      <span class="pl-c">// You can modify the response returned here as well</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">object</span> <span class="pl-en">HandleException</span>(
+        <span class="pl-k">IRequest</span> <span class="pl-smi">requestContext</span>, <span class="pl-k">TRequest</span> <span class="pl-smi">request</span>, <span class="pl-k">Exception</span> <span class="pl-smi">ex</span>) 
+    {
+      <span class="pl-c">// Called whenever an exception is thrown in your Services Action</span>
+    }
+}</pre></div>

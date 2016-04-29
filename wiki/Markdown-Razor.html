@@ -1,0 +1,478 @@
+<h2>
+<a id="user-content-markdown-razor-view-engine" class="anchor" href="#markdown-razor-view-engine" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Markdown Razor View Engine</h2>
+
+<p>Markdown Razor is the first HTML and Text (i.e. Markdown) view engine built into ServiceStack.
+The pages are simply plain-text Markdown surrounded by MVC Razor-like syntax to provide 
+its enhanced dynamic functionality.</p>
+
+<h3>
+<a id="user-content-extensible-with-custom-base-classes-and-helpers" class="anchor" href="#extensible-with-custom-base-classes-and-helpers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extensible with custom base classes and Helpers</h3>
+
+<p>Markdown Razor is extensible in much the same way as MVC Razor is with the ability to define and 
+use your own <strong>custom base class</strong>, <strong>Helpers</strong> and <strong>HtmlHelper</strong> extension methods. 
+This allows you to call util methods on your base class or helpers directly from your templates.</p>
+
+<p>You can define a base class for all your markdown pages by implementing <strong>MarkdownViewBase</strong> and
+register it in your AppHost with:</p>
+
+<div class="highlight highlight-source-cs"><pre>SetConfig(<span class="pl-k">new</span> HostConfig {
+    <span class="pl-c">//Replace prefix with the Url supplied</span>
+    WebHostUrl = <span class="pl-s"><span class="pl-pds">"</span>http://servicestack.net/docs<span class="pl-pds">"</span></span>,   
+    <span class="pl-c">//Set base class for all Markdown pages</span>
+    MarkdownBaseType = <span class="pl-k">typeof</span>(CustomMarkdownPage), 
+    <span class="pl-c">//Define global Helpers e.g. at Ext.</span>
+    MarkdownGlobalHelpers = <span class="pl-k">new</span> Dictionary&lt;<span class="pl-k">string</span>, Type&gt; { 
+        {<span class="pl-s"><span class="pl-pds">"</span>Ext<span class="pl-pds">"</span></span>, <span class="pl-k">typeof</span>(CustomStaticHelpers)}
+    }
+});</pre></div>
+
+<p>If a <strong>WebHostUrl</strong> is specified, it replaces all <strong>~/</strong> in all static website and Markdown 
+pages with it. The <strong>MarkdownGlobalHelpers</strong> allow you to define global helper methods 
+available to all your pages. This has the same effect of declaring it in your base class e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomMarkdownPage</span> : <span class="pl-k">MarkdownViewBase</span> {
+    <span class="pl-k">public</span> CustomStaticHelpers Ext = <span class="pl-k">new</span> CustomStaticHelpers();
+}</pre></div>
+
+<p>Which you can access in your pages via <strong>@Ext.MyHelper(Model)</strong>. Declaring instance methods on
+your custom base class allows you to access them without any prefix.</p>
+
+<h2>
+<a id="user-content-markdownviewbase-base-class" class="anchor" href="#markdownviewbase-base-class" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MarkdownViewBase base class</h2>
+
+<p>By default the <strong>MarkdownViewBase</strong> class provides the following properties and hooks:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MarkdownViewBase</span> 
+{
+    <span class="pl-c">//Access Config, resolve dependencies, etc.</span>
+    <span class="pl-k">public</span> IAppHost AppHost; 
+    <span class="pl-c">//This precompiled Markdown page with Metadata</span>
+    <span class="pl-k">public</span> MarkdownPage MarkdownPage; 
+    <span class="pl-c">//ASP.NET MVC's HtmlHelper</span>
+    <span class="pl-k">public</span> HtmlHelper Html; 
+    <span class="pl-c">//Flag to on whether you should you generate HTML or Markdown</span>
+    <span class="pl-k">public</span> <span class="pl-k">bool</span> RenderHtml; 
+
+    <span class="pl-c">/*</span>
+<span class="pl-c">      All variables passed to and created by your page. </span>
+<span class="pl-c">      The Response DTO is stored and accessible via the 'Model' variable.</span>
+<span class="pl-c"></span>
+<span class="pl-c">      All variables and outputs created are stored in ScopeArgs which </span>
+<span class="pl-c">      is what's available to your website template. The Generated page </span>
+<span class="pl-c">      is stored in the 'Body' variable.</span>
+<span class="pl-c">    */</span>
+    <span class="pl-k">public</span> Dictionary&lt;<span class="pl-k">string</span>,<span class="pl-k">object</span>&gt; ScopeArgs;
+
+    <span class="pl-c">//Called before page is executed</span>
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">void</span> <span class="pl-en">InitHelpers</span>(){} 
+
+    <span class="pl-c">//Called after page is executed before it's merged with website template if any</span>
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">void</span> <span class="pl-en">OnLoad</span>(){}      
+}</pre></div>
+
+<p>See this websites 
+<strong><a href="https://github.com/ServiceStack/ServiceStack.Examples/blob/master/src/Docs/Docs.Logic/CustomMarkdownPage.cs">CustomMarkdownPage.cs</a></strong> 
+base class for an example on how to effectively use the base class to Resolve dependencies, 
+inspect generated variables, generate <strong>PagesMenu</strong> and other dynamic variables for output 
+in the static website template.</p>
+
+<h2>
+<a id="user-content-compared-with-aspnet-mvc-razor-syntax" class="anchor" href="#compared-with-aspnet-mvc-razor-syntax" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Compared with ASP.NET MVC Razor Syntax</h2>
+
+<p>For the best way to illustrate the similarities with ASP.NET MVC Razor syntax I will show examples
+of the Razor examples in <a href="http://twitter.com/scottgu">ScottGu's</a> introductory 
+<a href="http://weblogs.asp.net/scottgu/archive/2010/07/02/introducing-razor.aspx">Introducing "Razor" - a new view engine for ASP.NET</a></p>
+
+<p>Note: more context and the output for each snippet and example displayed is contained in the 
+<a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.ServiceHost.Tests/Formats/IntroductionExampleTests.cs">Introductory Example</a>
+and 
+<a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.ServiceHost.Tests/Formats/IntroductionLayoutTests.cs">Introductory Layout</a>
+Unit tests. For reference most features of Mardown Razor view engine are captured in the
+<a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.ServiceHost.Tests/Formats/TemplateTests.cs">Core Template Unit Tests</a></p>
+
+<h3>
+<a id="user-content-hello-world-sample-with-razor" class="anchor" href="#hello-world-sample-with-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Hello World Sample with Razor</h3>
+
+<p>The following basic page: </p>
+
+<p><a href="https://camo.githubusercontent.com/2e9125c1e2fd2428e510a6461339ff78406d41c7/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f31353544353037382e706e67" target="_blank"><img src="https://camo.githubusercontent.com/2e9125c1e2fd2428e510a6461339ff78406d41c7/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f31353544353037382e706e67" alt="Hello World Output" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_155D5078.png" style="max-width:100%;"></a></p>
+
+<p>Can be generated in MVC Razor with:</p>
+
+<p><a href="https://camo.githubusercontent.com/af41d7f1128e9e0f77a80f85540fe4a0a8d1e84a/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f33323736453642342e706e67" target="_blank"><img src="https://camo.githubusercontent.com/af41d7f1128e9e0f77a80f85540fe4a0a8d1e84a/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f33323736453642342e706e67" alt="Hello World MVC Razor" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_3276E6B4.png" style="max-width:100%;"></a></p>
+
+<p>And Markdown Razor with:</p>
+
+<pre><code># Razor Example
+
+###  Hello @name, the year is @DateTime.Now.Year
+
+Checkout [this product](/Product/Details/@productId)
+</code></pre>
+
+<h3>
+<a id="user-content-loops-and-nested-html-sample" class="anchor" href="#loops-and-nested-html-sample" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Loops and Nested HTML Sample</h3>
+
+<p>The simple loop example:</p>
+
+<p><a href="https://camo.githubusercontent.com/2e9125c1e2fd2428e510a6461339ff78406d41c7/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f31353544353037382e706e67" target="_blank"><img src="https://camo.githubusercontent.com/2e9125c1e2fd2428e510a6461339ff78406d41c7/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f31353544353037382e706e67" alt="Simple Loop Output" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_155D5078.png" style="max-width:100%;"></a></p>
+
+<p>With MVC Razor:</p>
+
+<p><a href="https://camo.githubusercontent.com/327d2324c2141fc1557c8cd731e49cc3ef553d58/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f33393336303230352e706e67" target="_blank"><img src="https://camo.githubusercontent.com/327d2324c2141fc1557c8cd731e49cc3ef553d58/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f33393336303230352e706e67" alt="Simple Loop MVC Razor" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_39360205.png" style="max-width:100%;"></a></p>
+
+<p>With Markdown Razor:</p>
+
+<pre><code>@foreach (var p in products) {
+  - @p.Name: (@p.Price)
+}
+</code></pre>
+
+<h3>
+<a id="user-content-parens-free" class="anchor" href="#parens-free" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Parens-Free</h3>
+
+<p>At this point I think it would be a good to introduce some niceties in Markdown Razor of its own. 
+Borrowing a page out of <a href="http://twitter.com/BrendanEich">BrendanEich</a> proposal for 
+<a href="http://jashkenas.github.com/coffee-script/">CoffeeScript's</a> inspired 
+<a href="http://brendaneich.com/2010/11/paren-free/">Parens free syntax</a> for JS.Next - you can simply 
+remove the parens from all block statements e.g:</p>
+
+<pre><code>@foreach var p in products {
+  - @p.Name: (@p.Price)
+}
+</code></pre>
+
+<p>Produces the same output, and to go one step further you can remove the redundant <strong>var</strong> as well :)</p>
+
+<pre><code>@foreach p in products {
+  - @p.Name: (@p.Price)
+}
+</code></pre>
+
+<p>Which makes the Markdown Razor's version a bit more wrist-friendly then its MVCs cousin :)</p>
+
+<h3>
+<a id="user-content-if-blocks-and-multi-line-statements" class="anchor" href="#if-blocks-and-multi-line-statements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If-Blocks and Multi-line Statements</h3>
+
+<h4>
+<a id="user-content-if-statements-in-mvc-razor" class="anchor" href="#if-statements-in-mvc-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If statements in MVC Razor:</h4>
+
+<p><a href="https://camo.githubusercontent.com/22af3775e1ef0dae2a5279191fdcb784b5d6ba18/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34433736423841342e706e67" target="_blank"><img src="https://camo.githubusercontent.com/22af3775e1ef0dae2a5279191fdcb784b5d6ba18/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34433736423841342e706e67" alt="If Statements" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_4C76B8A4.png" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-if-statements-in-markdown-razor" class="anchor" href="#if-statements-in-markdown-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>If statements in Markdown Razor:</h4>
+
+<pre><code>@if (products.Count == 0) {
+Sorry - no products in this category
+} else {
+We have products for you!
+}
+</code></pre>
+
+<h4>
+<a id="user-content-multi-line-and-multi-token-statements" class="anchor" href="#multi-line-and-multi-token-statements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Multi-line and Multi-token statements</h4>
+
+<p><a href="https://camo.githubusercontent.com/9ad9902c0962114334a295a47a3be46fa7346609/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34423332314643352e706e67" target="_blank"><img src="https://camo.githubusercontent.com/9ad9902c0962114334a295a47a3be46fa7346609/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34423332314643352e706e67" alt="MVC Razor Multi-line statements" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_4B321FC5.png" style="max-width:100%;"></a></p>
+
+<p>Markdown Razor doesn't support multi-line or multi-token statements, instead you are directed to
+take advantage for variable syntax declarations, e.g:</p>
+
+<h4>
+<a id="user-content-markdown-replacement-for-multi-line-statements" class="anchor" href="#markdown-replacement-for-multi-line-statements" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Markdown replacement for Multi-line Statements</h4>
+
+<pre><code>@var number = 1
+@var message = ""Number is "" + number
+
+Your Message: @message
+</code></pre>
+
+<h3>
+<a id="user-content-integrating-content-and-code" class="anchor" href="#integrating-content-and-code" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Integrating Content and Code</h3>
+
+<p>Does it break with email addresses and other usages of  in HTML?</p>
+
+<h4>
+<a id="user-content-with-mvc-razor" class="anchor" href="#with-mvc-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With MVC Razor</h4>
+
+<p><a href="https://camo.githubusercontent.com/4974c833db374b1d0f7e310d73b4ac4229d0a57f/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f32324233334442312e706e67" target="_blank"><img src="https://camo.githubusercontent.com/4974c833db374b1d0f7e310d73b4ac4229d0a57f/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f32324233334442312e706e67" alt="MVC Razor Content and Code" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_22B33DB1.png" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-with-markdown-razor" class="anchor" href="#with-markdown-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With Markdown Razor</h4>
+
+<pre><code>Send mail to scottgu@microsoft.com telling him the time: @DateTime.Now.
+</code></pre>
+
+<p>Both View engines generate the expected output, e.g:</p>
+
+<p><a href="https://camo.githubusercontent.com/96aeb28ce799cf0fe36ec2b851988400686819ae/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f32303936334545382e706e67" target="_blank"><img src="https://camo.githubusercontent.com/96aeb28ce799cf0fe36ec2b851988400686819ae/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f32303936334545382e706e67" alt="MVC Razor Content and Code Output" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_20963EE8.png" style="max-width:100%;"></a></p>
+
+<h3>
+<a id="user-content-identifying-nested-content" class="anchor" href="#identifying-nested-content" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Identifying Nested Content</h3>
+
+<h4>
+<a id="user-content-with-mvc-razor-1" class="anchor" href="#with-mvc-razor-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With MVC Razor</h4>
+
+<p><a href="https://camo.githubusercontent.com/ec974bf041924c92b6a3466431193a80cc627fdf/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34413241304131422e706e67" target="_blank"><img src="https://camo.githubusercontent.com/ec974bf041924c92b6a3466431193a80cc627fdf/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34413241304131422e706e67" alt="MVC Razor Identifying Nested Content" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_4A2A0A1B.png" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-with-markdown-razor-1" class="anchor" href="#with-markdown-razor-1" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With Markdown Razor</h4>
+
+<pre><code>@if (DateTime.Now.Year == 2011) {
+If the year is 2011 then print this 
+multi-line text block and 
+the date: @DateTime.Now
+}
+</code></pre>
+
+<p>Markdown Razor doesn't need to do anything special with text blocks since all it does is look 
+for the ending brace '}'. This means if you want to output a brace literal '{' then you have to 
+double escape it with '{{' or '}}'.</p>
+
+<h3>
+<a id="user-content-html-encoding" class="anchor" href="#html-encoding" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HTML Encoding</h3>
+
+<p>Markdown Razor follows MVC Markdown behaviour where by default content emitted using a @ block 
+is automatically HTML encoded to better protect against XSS attack scenarios. </p>
+
+<p>If you want to avoid HTML Encoding you have the same options as MVC Razor where you can wrap your
+result in <strong>@Html.Raw(htmlString)</strong> or if you're using an Extension method simply return a 
+<strong>MvcHtmlString</strong> instead of a normal string.</p>
+
+<p>Markdown also lets you mix and match HTML in your markdown although any markdown between the tags
+does not get converted to HTML. To tell Markdown Razor to evaulate the contents inside html
+<strong>&lt;tag&gt;...&lt;/tag&gt;</strong>'s need to prefixed with <code>^</code>, e.g. 
+(taken from the <a href="https://raw.github.com/ServiceStack/ServiceStack.Examples/master/src/Docs/Views/Search.md">/Views/Search.md</a> page):</p>
+
+<pre><code>^&lt;div id="searchresults"&gt;
+
+@foreach page in Model.Results {
+### @page.Category &gt; [@page.Name](@page.AbsoluteUrl)
+@page.Content
+}
+
+^&lt;/div&gt;
+</code></pre>
+
+<p>If we didn't prefix <code>^</code> we would see <code>### @page.Category ...</code> repeating.</p>
+
+<h2>
+<a id="user-content-layoutmasterpage-scenarios---the-basics" class="anchor" href="#layoutmasterpage-scenarios---the-basics" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Layout/MasterPage Scenarios - The Basics</h2>
+
+<p>Markdown Razor actually deviates a bit from MVC Razor's handling of master layout pages and 
+website templates (we believe for the better :). </p>
+
+<h3>
+<a id="user-content-simple-layout-example" class="anchor" href="#simple-layout-example" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Simple Layout Example</h3>
+
+<h4>
+<a id="user-content-mvc-razors-example-of-a-simple-website-template" class="anchor" href="#mvc-razors-example-of-a-simple-website-template" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MVC Razor's example of a simple website template</h4>
+
+<p><a href="https://camo.githubusercontent.com/0cc20ac05ba1a96141af6b2d54367af457da79e5/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f35354346324238302e706e67" target="_blank"><img src="https://camo.githubusercontent.com/0cc20ac05ba1a96141af6b2d54367af457da79e5/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f35354346324238302e706e67" alt="MVC Razor simple website template" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_55CF2B80.png" style="max-width:100%;"></a></p>
+
+<p>Rather then using a magic method like <code>@RenderBody()</code> we treat the output Body of View as just 
+another variable storing the output a in a variable called <strong>'Body'</strong>. This way we use the
+same mechanism to embed the body like any other variable i.e. following the place holder convention
+of <strong>&lt;--@VarName--&gt;</strong> so to embed the View page output in the above master template you 
+would do:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Simple Site&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+        &lt;div id=""header""&gt;
+            &lt;a href=""/""&gt;Home&lt;/a&gt;
+            &lt;a href=""/About""&gt;About&lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;div id=""body""&gt;
+            &lt;!--@Body--&gt;
+        &lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<p>By default we use convention to select the appropriate website template for the selected view 
+where it uses the nearest <strong>default.shtml</strong> static template it finds, looking first in the
+current directory than up parent directories. </p>
+
+<p>Your View page names must be unique but can live anywhere in your <strong>/View</strong> directory so you are 
+free to structure your website templates and view pages accordingly. If for whatever reason you 
+need more granularity in selecting website templates than we provide similar options to MVC for 
+selecting a custom template:</p>
+
+<h4>
+<a id="user-content-select-custom-template-with-mvc-razor" class="anchor" href="#select-custom-template-with-mvc-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Select Custom Template with MVC Razor</h4>
+
+<p><a href="https://camo.githubusercontent.com/6a3f4cf842c620524234d9cd6940628d4f0dcfbe/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f33423232384636372e706e67" target="_blank"><img src="https://camo.githubusercontent.com/6a3f4cf842c620524234d9cd6940628d4f0dcfbe/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f33423232384636372e706e67" alt="MVC Razor Custom Layout Page" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_3B228F67.png" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-with-markdown-razor-2" class="anchor" href="#with-markdown-razor-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With Markdown Razor</h4>
+
+<pre><code>@Layout ~/websiteTemplate
+
+# About this Site
+
+This is some content that will make up the ""about"" 
+page of our web-site. We'll use this in conjunction
+with a layout template. The content you are seeing here
+comes from ^^^websiteTemplate.
+
+And obviously I can have code in here too. Here is the
+current date/year: @DateTime.Now.Year
+</code></pre>
+
+<p>Note: In addition to <strong>@Layout</strong> we also support the more appropriate alias of <strong>@template</strong>.</p>
+
+<h2>
+<a id="user-content-layoutmasterpage-scenarios---adding-section-overrides" class="anchor" href="#layoutmasterpage-scenarios---adding-section-overrides" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Layout/MasterPage Scenarios - Adding Section Overrides</h2>
+
+<p>MVC Razor allows you to define <strong>sections</strong> in your view pages which you can embed in your 
+Master Template:</p>
+
+<h4>
+<a id="user-content-with-mvc-razor-2" class="anchor" href="#with-mvc-razor-2" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With MVC Razor:</h4>
+
+<p><a href="https://camo.githubusercontent.com/bd72e4377c303c08579f91f113ea3eedcadae857/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34343842323831302e706e67" target="_blank"><img src="https://camo.githubusercontent.com/bd72e4377c303c08579f91f113ea3eedcadae857/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f34343842323831302e706e67" alt="MVC Razor Sections in Views" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_448B2810.png" style="max-width:100%;"></a></p>
+
+<p>And you use in your website template like so:</p>
+
+<p><a href="https://camo.githubusercontent.com/aded541bd44b036214a3e46e3c0be91ad1ea6a3c/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f36443041304132342e706e67" target="_blank"><img src="https://camo.githubusercontent.com/aded541bd44b036214a3e46e3c0be91ad1ea6a3c/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f36443041304132342e706e67" alt="MVC Razor use Sections" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_6D0A0A24.png" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-with-markdown-razor-3" class="anchor" href="#with-markdown-razor-3" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>With Markdown Razor:</h4>
+
+<p>Markdown Razor supports the same <strong>@section</strong> construct but allows you to embed it in your template
+via the standard variable substitution convention, e.g:</p>
+
+<pre><code>@Layout ~/websiteTemplate
+
+# About this Site
+
+This is some content that will make up the ""about"" 
+page of our web-site. We'll use this in conjunction
+with a layout template. The content you are seeing here
+comes from ^^^websiteTemplate.
+
+And obviously I can have code in here too. Here is the
+current date/year: @DateTime.Now.Year
+
+@section Menu {
+  - About Item 1
+  - About Item 2
+}
+
+@section Footer {
+This is my custom footer for Home
+}
+</code></pre>
+
+<p>And these sections and body can be used in the website template like:</p>
+
+<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Simple Site&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+
+        &lt;div id="header"&gt;
+            &lt;a href="/"&gt;Home&lt;/a&gt;
+            &lt;a href="/About"&gt;About&lt;/a&gt;
+        &lt;/div&gt;
+
+        &lt;div id="left-menu"&gt;
+            &lt;!--@Menu--&gt;
+        &lt;/div&gt;
+
+        &lt;div id="body"&gt;
+            &lt;!--@Body--&gt;
+        &lt;/div&gt;
+
+        &lt;div id="footer"&gt;
+            &lt;!--@Footer--&gt;
+        &lt;/div&gt;
+
+    &lt;/body&gt;
+&lt;/html&gt;
+</code></pre>
+
+<h2>
+<a id="user-content-encapsulation-and-re-use-with-html-helpers" class="anchor" href="#encapsulation-and-re-use-with-html-helpers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Encapsulation and Re-Use with HTML Helpers</h2>
+
+<p>In order to encapsulate and better be able to re-use HTML Helper utils MVC Razor includes a few 
+different ways to componentize and re-use code with HTMLHelper extension methods and declarative helpers. </p>
+
+<h3>
+<a id="user-content-code-based-html-helpers" class="anchor" href="#code-based-html-helpers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Code Based HTML Helpers</h3>
+
+<h4>
+<a id="user-content-htmlhelper-extension-methods-with-mvc-razor" class="anchor" href="#htmlhelper-extension-methods-with-mvc-razor" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HtmlHelper extension methods with MVC Razor:</h4>
+
+<p><a href="https://camo.githubusercontent.com/66dcd5bbae769e330b7bac93e7ea47a9951351c2/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f31353043393337372e706e67" target="_blank"><img src="https://camo.githubusercontent.com/66dcd5bbae769e330b7bac93e7ea47a9951351c2/68747470733a2f2f617370626c6f67732e626c6f622e636f72652e77696e646f77732e6e65742f6d656469612f73636f747467752f4d656469612f696d6167655f7468756d625f31353043393337372e706e67" alt="MVC Razor HtmlHelper extension methods" data-canonical-src="https://aspblogs.blob.core.windows.net/media/scottgu/Media/image_thumb_150C9377.png" style="max-width:100%;"></a></p>
+
+<p>Since we've ported MVC's HtmlHelper and its <strong>Label</strong>, <strong>TextBox</strong> extensions we can do something
+similar although to make this work we need to inherit from the <strong>MarkdownViewBase&lt;TModel&gt;</strong>
+generic base class so we know what Model to provide the strong-typed extensions for. You can do this
+using the <strong>@model</strong> directive specifying the full type name:</p>
+
+<pre><code>@model ServiceStack.ServiceHost.Tests.Formats.Product
+&lt;fieldset&gt;
+    &lt;legend&gt;Edit Product&lt;/legend&gt;
+
+    &lt;div&gt;
+        @Html.LabelFor(m =&gt; m.ProductID)
+    &lt;/div&gt;
+    &lt;div&gt;
+        @Html.TextBoxFor(m =&gt; m.ProductID)
+    &lt;/div&gt;
+&lt;/fieldset&gt;
+</code></pre>
+
+<p>Whilst we ported most of MVC HtmlHelper extension methods as-is, we did rip out all the validation
+logic which appeared to be unnecessarily complex and too coupled with MVC's code-base.</p>
+
+<p>Note: Just as it is in MVC the <strong>@model</strong> directive is a shorthand (which Markdown Razor also supports) for: </p>
+
+<p><strong>@inherits Namespace.BaseType&lt;Namespace.ModelType&gt;</strong> </p>
+
+<p>Whilst we don't support MVC Razors quasi C# quasi-html approach of defining declarative helpers,
+we do allow you to on a per instance basis (or globally) import helpers in custom Fields using the 
+<strong>@helper</strong> syntax:</p>
+
+<pre><code>@helper Prod: MyHelpers.ExternalProductHelper
+
+&lt;fieldset&gt;
+    &lt;legend&gt;All Products&lt;/legend&gt;
+    @Prod.ProductTable(Model)
+&lt;/fieldset
+</code></pre>
+
+<p>You can register Global helpers and a custom base class using the <strong>MarkdownGlobalHelpers</strong> and
+<strong>MarkdownBaseType</strong> AppHost Config options as shown at the top of this article.</p>
+
+<h2>
+<a id="user-content-summary" class="anchor" href="#summary" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Summary</h2>
+
+<p>Well that's it for the comparison between MVC Razor and Markdown Razor as you can see the knowledge
+is quite transferable with a lot of cases the syntax is exactly the same.</p>
+
+<p>As good as MVC Razor is with its wrist-friendly and expressive syntax, we believe Razor Markdown is
+even better! Where thanks to Markdown you can even dispense with most of HTML's boiler plage 
+angle brackets :) We think it makes an ideal solution for content heavy websites like this one.</p>
+
+<p>Unlike ASP.NET's MVC Razor, Markdown Razor like all of ServiceStack is <strong>completely Open Source</strong> and 
+as such we welcome the contribution from the community via new features, Unit and 
+regression tests, etc.</p>
+
+<h1>
+<a id="user-content-community-resources" class="anchor" href="#community-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Resources</h1>
+
+<ul>
+<li>
+<a href="http://www.ipreferjim.com/2012/07/servicestacks-markdown-razor-engine-wow/">ServiceStack’s Markdown Razor Engine. Wow.</a> by <a href="https://twitter.com/ipreferjim">@ipreferjim</a> </li>
+<li><a href="http://jaspreetchahal.org/servicestack-markdown-norender-master-layout-page-render-partial-content/">ServiceStack Markdown NoRender Master Layout Page, Render partial content</a></li>
+</ul>

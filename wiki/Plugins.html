@@ -1,0 +1,340 @@
+<p>ServiceStack Plugin API provides a declarative way to enable modular functionality in ServiceStack:</p>
+
+<h2>
+<a id="user-content-plugin-api" class="anchor" href="#plugin-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Plugin API</h2>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IPlugin</span>
+{
+    <span class="pl-k">void</span> <span class="pl-en">Register</span>(<span class="pl-k">IAppHost</span> <span class="pl-smi">appHost</span>);
+}</pre></div>
+
+<h4>
+<a id="user-content-custom-logic-before-plugins-are-loaded" class="anchor" href="#custom-logic-before-plugins-are-loaded" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Logic before Plugins are loaded</h4>
+
+<p>If your plugin also implements <code>IPreInitPlugin</code> it will get run before any plugins are registered:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IPreInitPlugin</span>
+{
+    <span class="pl-k">void</span> <span class="pl-en">Configure</span>(<span class="pl-k">IAppHost</span> <span class="pl-smi">appHost</span>);
+}</pre></div>
+
+<h4>
+<a id="user-content-custom-logic-after-plugins-are-loaded" class="anchor" href="#custom-logic-after-plugins-are-loaded" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Logic after Plugins are loaded</h4>
+
+<p>If your plugin implements <code>IPostInitPlugin</code> it will get run after all plugins are registered:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IPostInitPlugin</span>
+{
+    <span class="pl-k">void</span> <span class="pl-en">AfterPluginsLoaded</span>(<span class="pl-k">IAppHost</span> <span class="pl-smi">appHost</span>);
+}</pre></div>
+
+<h4>
+<a id="user-content-disabling-plugins-via-feature-enum-flags" class="anchor" href="#disabling-plugins-via-feature-enum-flags" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Disabling Plugins via Feature Enum Flags</h4>
+
+<p>All built-in Plugins are Registered and available via <strong>base.Plugins</strong> before your <strong>Configure()</strong> script is run so you have a chance to modify the behaviour or remove un-used plugins which is exactly what the short-hand:</p>
+
+<div class="highlight highlight-source-cs"><pre>SetConfig(<span class="pl-k">new</span> HostConfig { 
+    EnableFeatures = Feature.All.Remove(Feature.Csv)
+});</pre></div>
+
+<p>Which under the covers just does:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">if</span> ((Feature.Csv &amp; config.EnableFeatures) != Feature.Csv)
+    Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> CsvFormat);</pre></div>
+
+<p>Which you now also have an opportunity to also do in your AppHost Configure() start-up script yourself - if you want to remove or customize any pre-loaded plugins.</p>
+
+<h4>
+<a id="user-content-resolving-plugins" class="anchor" href="#resolving-plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Resolving Plugins</h4>
+
+<p>You can easily use LINQ to fetch any specific plugin:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> htmlFormat = <span class="pl-c1">base</span>.Plugins.First(x =&gt; x <span class="pl-k">is</span> HtmlFormat) <span class="pl-k">as</span> HtmlFormat;</pre></div>
+
+<p>Which is also what the <code>this.GetPlugin&lt;T&gt;()</code> convenience extension method does:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> htmlFormat = <span class="pl-c1">base</span>.GetPlugin&lt;HtmlFormat&gt;();</pre></div>
+
+<h1>
+<a id="user-content-list-of-plugins-added-by-default" class="anchor" href="#list-of-plugins-added-by-default" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>List of Plugins added by Default</h1>
+
+<p>A list of all of the plugins available on ServiceStack and how to add them:</p>
+
+<h2>
+<a id="user-content-auto-registered-plugins" class="anchor" href="#auto-registered-plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Auto-registered plugins</h2>
+
+<p>These plugins below <strong>are already added by default</strong>, you can remove or customize them using the methods described above.</p>
+
+<h3>
+<a id="user-content-metadata-feature" class="anchor" href="#metadata-feature" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Metadata Feature</h3>
+
+<p>Provides ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page">auto-generated metadata pages</a>.  </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> feature = Plugins.FirstOrDefault(x =&gt; x <span class="pl-k">is</span> MetadataFeature); 
+Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> MetadataFeature); </pre></div>
+
+<h3>
+<a id="user-content-predefined-routes" class="anchor" href="#predefined-routes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Predefined Routes</h3>
+
+<p>Provides ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes">pre-defined routes</a> used in the built-in <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client">C# Service Clients</a>.  </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> feature = Plugins.FirstOrDefault(x =&gt; x <span class="pl-k">is</span> PredefinedRoutesFeature); 
+Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> PredefinedRoutesFeature); </pre></div>
+
+<h3>
+<a id="user-content-request-info" class="anchor" href="#request-info" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request Info</h3>
+
+<p>Provides ServiceStack's Request Info feature useful for debugging requests. Just add <strong>?debug=requestinfo</strong> in your <code>/pathinfo</code> and ServiceStack will return a dump of all the HTTP Request parameters to help with with debugging interoperability issues. The RequestInfoFeature is only enabled for <strong>Debug</strong> builds.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> feature = Plugins.FirstOrDefault(x =&gt; x <span class="pl-k">is</span> RequestInfoFeature); 
+Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> RequestInfoFeature); </pre></div>
+
+<h3>
+<a id="user-content-csv-format" class="anchor" href="#csv-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format">CSV Format</a>
+</h3>
+
+<p>Providing ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format">CSV Format</a>. </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> feature = Plugins.FirstOrDefault(x =&gt; x <span class="pl-k">is</span> CsvFormat); 
+Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> CsvFormat); </pre></div>
+
+<p>Note: By default the CSV Format tries serialize the Response object directly into CSV which is only ideal if your responses return <code>List&lt;Poco&gt;</code>. If however you mark your Response DTO with the <strong>[Csv(CsvBehavior.FirstEnumerable)]</strong> attribute the CSV Format instead will only serialize the first <code>IEnumerable&lt;T&gt;</code> it finds on your Response DTO e.g. if you had a <code>List&lt;Poco&gt; Results</code> property it will only serialize this list in the tabular CSV Format which is typically the behaviour you want.</p>
+
+<h3>
+<a id="user-content-html-format" class="anchor" href="#html-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat">Html Format</a>
+</h3>
+
+<p>Providing ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat">Html Format</a>. </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> feature = Plugins.FirstOrDefault(x =&gt; x <span class="pl-k">is</span> HtmlFormat); 
+Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> HtmlFormat); </pre></div>
+
+<h3>
+<a id="user-content-razor-markdown-format" class="anchor" href="#razor-markdown-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor">Razor Markdown Format</a>
+</h3>
+
+<p>This provides ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor">Razor Markdown Format</a> and also enables ServiceStack to serve static <strong>.md</strong> or <strong>.markdown</strong> files in either plain text, rendered as HTML (partial), or rendered in HTML inside a static <strong>_Layout.shtml</strong> HTML template. </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> feature = Plugins.FirstOrDefault(x =&gt; x <span class="pl-k">is</span> MarkdownFormat); 
+Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> MarkdownFormat); </pre></div>
+
+<p>The entire <a href="http://docs.servicestack.net/docs">docs.servicestack.net</a> website is rendered using static Markdown. More information of Razor Markdown features can be found in:</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor">Introduction to Markdown Razor</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor">Markdown Razor Features</a></li>
+<li><a href="http://docs.servicestack.net/markdown/about">How Docs is built with Markdown</a></li>
+</ul>
+
+<h2>
+<a id="user-content-available-plugins" class="anchor" href="#available-plugins" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Available Plugins</h2>
+
+<p>The rest of ServiceStack's plugins are not enabled by default by can easily be added on adhoc basis, as and when needed.</p>
+
+<h3>
+<a id="user-content-auto-query" class="anchor" href="#auto-query" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Auto Query]]</h3>
+
+<p>AutoQuery enables instant querying support on RDBMS tables behind clean self-describing APIs by enhancing the ideal API the developer would naturally write and completing their implementation for them! This is essentially the philosophy behind AutoQuery which utilizes conventions to automate creation of intent-based self-descriptive APIs that are able to specify configurable conventions and leverage extensibility options to maximize the utility of AutoQuery services.</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AutoQueryFeature { MaxLimit = <span class="pl-c1">100</span> });</pre></div>
+
+<blockquote>
+<p>Requires ServiceStack.Server</p>
+</blockquote>
+
+<h2>
+<a id="user-content-server-events" class="anchor" href="#server-events" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/Chat#server-sent-events">Server Events</a>
+</h2>
+
+<p>Server Events enables server push notifications to create real-time responsive web apps with its support for <a href="http://www.html5rocks.com/en/tutorials/eventsource/basics/">Server Sent Events</a>. It offers a number of different API's for sending notifications to select users at different levels of granularity, letting you interact and modify live-running web apps. </p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> ServerEventsFeature());</pre></div>
+
+<h2>
+<a id="user-content-postman" class="anchor" href="#postman" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Postman]]</h2>
+
+<p>The <a href="http://www.getpostman.com/">Postman Rest Client</a> is a very popular and easy to use HTTP Request composer that makes it easy to call web services, similar to <a href="https://www.blackbaud.com/files/support/guides/infinitydevguide/Subsystems/inwebapi-developer-help/Content/InfinityWebAPI/coUsingFiddlerCreateHTTPRequest.htm">Fiddler's Composer</a>. It also provides as an alternative for auto-generating API documentation to <a href="https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API">ServiceStack's Swagger support</a> that makes it easier to call existing services but does require users to install the <a href="http://www.getpostman.com/">Postman Rest Client</a>.</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> PostmanFeature());
+Plugins.Add(<span class="pl-k">new</span> CorsFeature());</pre></div>
+
+<h3>
+<a id="user-content-swagger-support" class="anchor" href="#swagger-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API">Swagger support</a>
+</h3>
+
+<p>Swagger support an optional add-on available in the <a href="https://nuget.org/packages/ServiceStack.Api.Swagger/">ServiceStack.Api.Swagger</a> NuGet package.</p>
+
+<p>After installing the NuGet package enable the Swagger with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> SwaggerFeature());</pre></div>
+
+<p>Now you can enjoy your shiny new Swagger UI at: <code>http://yoursite/swagger-ui/index.html</code></p>
+
+<h4>
+<a id="user-content-annotating-your-services" class="anchor" href="#annotating-your-services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Annotating your services</h4>
+
+<p>You can further document your services in the Swagger UI with the new <code>[Api]</code> and <code>[ApiMember]</code> annotation attributes, e,g: Here's an example of a fully documented service:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Api(<span class="pl-s"><span class="pl-pds">"</span>Service Description<span class="pl-pds">"</span></span>)]
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/swagger/{Name}<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>GET<span class="pl-pds">"</span></span>, Summary = <span class="pl-s"><span class="pl-pds">@"GET Summary"</span></span>, Notes = <span class="pl-s"><span class="pl-pds">"</span>GET Notes<span class="pl-pds">"</span></span>)]
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/swagger/{Name}<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>POST<span class="pl-pds">"</span></span>, Summary = <span class="pl-s"><span class="pl-pds">@"POST Summary"</span></span>, Notes = <span class="pl-s"><span class="pl-pds">"</span>POST Notes<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyRequestDto</span>
+{
+    [ApiMember(Name=<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>, Description = <span class="pl-s"><span class="pl-pds">"</span>Name Description<span class="pl-pds">"</span></span>, 
+               ParameterType = <span class="pl-s"><span class="pl-pds">"</span>path<span class="pl-pds">"</span></span>, DataType = <span class="pl-s"><span class="pl-pds">"</span>string<span class="pl-pds">"</span></span>, IsRequired = <span class="pl-c1">true</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-razor-format" class="anchor" href="#razor-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="http://razor.servicestack.net/">Razor Format</a>
+</h3>
+
+<p>Provides ServiceStack's primary HTML story with support for the MVC Razor view engine.</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> RazorFormat()); </pre></div>
+
+<p>It's an optional .NET 4.0 plugin that is available in the <a href="https://nuget.org/packages/ServiceStack.Razor">ServiceStack.Razor</a> NuGet package.</p>
+
+<h3>
+<a id="user-content-validation" class="anchor" href="#validation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Validation">Validation</a>
+</h3>
+
+<p>Enable the validation feature if you want to ensure all of ServiceStack's Fluent validators for Request DTOs <code>IValidator&lt;TRequestDto&gt;</code> are automatically validated on every request. </p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> ValidationFeature());</pre></div>
+
+<p>More information on ServiceStack's built-in Fluent Validation support is described on the [[Validation]] page.</p>
+
+<h3>
+<a id="user-content-authentication" class="anchor" href="#authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization">Authentication</a>
+</h3>
+
+<p>The Authentication Feature enables the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization">Authentication and Authorization</a> support in ServiceStack. It makes available the AuthService at the default route at <code>/auth/{provider}</code>, registers <strong>AssignRoles</strong> and <strong>UnAssignRoles</strong> services (at <code>/assignroles</code> and <code>/unassignroles</code> default routes) and auto-enables Session support if it's not added already.</p>
+
+<p>An example AuthFeature registration (taken from the <a href="https://github.com/ServiceStack/SocialBootstrapApi/blob/master/src/SocialBootstrapApi/App_Start/AppHost.cs#L161">SocialBootstrapApi</a> project):</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(
+    () =&gt; <span class="pl-k">new</span> CustomUserSession(), <span class="pl-c">//Use your own typed Custom UserSession type</span>
+    <span class="pl-k">new</span> IAuthProvider[] {
+        <span class="pl-k">new</span> CredentialsAuthProvider(),         <span class="pl-c">//HTML Form post of UserName/Password</span>
+        <span class="pl-k">new</span> TwitterAuthProvider(appSettings),  <span class="pl-c">//Sign-in with Twitter</span>
+        <span class="pl-k">new</span> FacebookAuthProvider(appSettings), <span class="pl-c">//Sign-in with Facebook</span>
+        <span class="pl-k">new</span> BasicAuthProvider(),               <span class="pl-c">//Sign-in with Basic Auth</span>
+    }));</pre></div>
+
+<p>This registers and provides your ServiceStack host a myriad of different Authentication options as described above.</p>
+
+<h3>
+<a id="user-content-session-support" class="anchor" href="#session-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Sessions">Session support</a>
+</h3>
+
+<p>If you're <strong>not</strong> using the AuthFeature above and you still want Session support you need to enable it explicitly with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> SessionFeature());</pre></div>
+
+<p>This will add a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters">Request Filter</a> to instruct any HTTP client calling a ServiceStack web service to create a Temporary (ss-id) and Permanent (ss-pid) cookie if not already done so.</p>
+
+<h3>
+<a id="user-content-registration" class="anchor" href="#registration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Registration</h3>
+
+<p>Related to Authentication is Registration which enables the Registration Service at the default route <code>/register</code> which lets new Users to be registered and validated with the Credentials and Basic AuthProviders.</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> RegistrationFeature());</pre></div>
+
+<p>See the <a href="https://github.com/ServiceStack/SocialBootstrapApi">SocialBootstrapApi</a> project for a working example of Registration and Authentication.</p>
+
+<h3>
+<a id="user-content-messagepack-format" class="anchor" href="#messagepack-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format">MessagePack format</a>
+</h3>
+
+<p>To add fast binary <a href="https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format">MessagePack support</a> to ServiceStack install the <strong><a href="https://nuget.org/packages/ServiceStack.Plugins.MsgPack">ServiceStack.Plugins.MsgPack</a></strong> NuGet package and register the plugin with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> MsgPackFormat());</pre></div>
+
+<h3>
+<a id="user-content-protobuf-format" class="anchor" href="#protobuf-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format">ProtoBuf format</a>
+</h3>
+
+<p>To enable <a href="https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format">ProtoBuf support</a> install the <strong><a href="https://nuget.org/packages/ServiceStack.Plugins.ProtoBuf">ServiceStack.Plugins.ProtoBuf</a></strong> NuGet package and register the plugin with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> ProtoBufFormat());</pre></div>
+
+<h3>
+<a id="user-content-request-logger" class="anchor" href="#request-logger" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-logger">Request Logger</a>
+</h3>
+
+<p>Add an In-Memory <code>IRequestLogger</code> and service with the default route at <code>/requestlogs</code> which maintains a live log of the most recent requests (and their responses). Supports multiple config options incl. Rolling-size capacity, error and session tracking, hidden request bodies for sensitive services, etc.</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> RequestLogsFeature());</pre></div>
+
+<p>The <code>IRequestLogger</code> is a great way to introspect and analyze your service requests in real-time. Here's a screenshot from the <a href="http://bootstrapapi.servicestack.net">http://bootstrapapi.servicestack.net</a> website:</p>
+
+<p><a href="https://camo.githubusercontent.com/04d6d78e3b3d7284fc607271c828017849ac6153/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f696d672f726571756573742d6c6f67732d30312e706e67" target="_blank"><img src="https://camo.githubusercontent.com/04d6d78e3b3d7284fc607271c828017849ac6153/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f696d672f726571756573742d6c6f67732d30312e706e67" alt="Live Screenshot" data-canonical-src="http://mono.servicestack.net/img/request-logs-01.png" style="max-width:100%;"></a></p>
+
+<p>It supports multiple queryString filters and switches so you filter out related requests for better analysis and debuggability:</p>
+
+<p><a href="https://camo.githubusercontent.com/3e07477f8b327342f6a6c3cb5182165995969dc6/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f696d672f726571756573742d6c6f67732d30322e706e67" target="_blank"><img src="https://camo.githubusercontent.com/3e07477f8b327342f6a6c3cb5182165995969dc6/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f696d672f726571756573742d6c6f67732d30322e706e67" alt="Request Logs Usage" data-canonical-src="http://mono.servicestack.net/img/request-logs-02.png" style="max-width:100%;"></a></p>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Admin/RequestLogsService.cs">RequestLogsService</a> is just a simple C# service under-the-hood but is a good example of how a little bit of code can provide a lot of value in ServiceStack's by leveraging its generic, built-in features.</p>
+
+<h2>
+<a id="user-content-encrypted-messaging" class="anchor" href="#encrypted-messaging" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Encrypted Messaging]]</h2>
+
+<p>The Encrypted Messaging feature enables a secure channel for all Services to offer protection to clients who can now easily send and receive encrypted messages over unsecured HTTP by registering the EncryptedMessagesFeature plugin:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> EncryptedMessagesFeature {
+    PrivateKeyXml = ServerRsaPrivateKeyXml
+});</pre></div>
+
+<p>Where <code>PrivateKeyXml</code> is the Servers RSA Private Key Serialized as XML. See the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Encrypted-Messaging">Encrypted Messaging docs</a> for more info.</p>
+
+<h2>
+<a id="user-content-cancellable-requests" class="anchor" href="#cancellable-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Cancellable Requests]]</h2>
+
+<p>The Cancellable Requests Feature makes it easy to design long-running Services that are cancellable with an external Web Service Request. To enable this feature, register the CancellableRequestsFeature plugin:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> CancellableRequestsFeature());</pre></div>
+
+<h3>
+<a id="user-content-web-sudo" class="anchor" href="#web-sudo" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Web Sudo</h3>
+
+<p>A common UX in some websites is to add an extra layer of protection for <strong>super protected</strong> functionality by getting users to re-confirm their password verifying it's still them using the website, common in places like confirming a financial transaction. </p>
+
+<p><strong>WebSudo</strong> is a new feature similar in spirit requiring users to re-authenticate when accessing Services annotated with the <code>[WebSudoRequired]</code> attribute. To make use of WebSudo, first register the plugin:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> WebSudoFeature());</pre></div>
+
+<p>You can then apply WebSudo behavior to existing services by annotating them with <code>[WebSudoRequired]</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre>[WebSudoRequired]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">RequiresWebSudoService</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">RequiresWebSudo</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">return</span> request;
+    }
+}</pre></div>
+
+<p>Once enabled this will throw a <strong>402 Web Sudo Required</strong> HTTP Error the first time the service is called:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> requiresWebSudo = <span class="pl-k">new</span> RequiresWebSudo { Name = <span class="pl-s"><span class="pl-pds">"</span>test<span class="pl-pds">"</span></span> };
+<span class="pl-k">try</span>
+{
+    client.Send&lt;RequiresWebSudoResponse&gt;(requiresWebSudo); <span class="pl-c">//throws</span>
+}
+<span class="pl-k">catch</span> (WebServiceException)
+{
+    client.Send(authRequest); <span class="pl-c">//re-authenticate</span>
+    <span class="pl-k">var</span> response = client.Send(requiresWebSudo); <span class="pl-c">//success!</span>
+}</pre></div>
+
+<p>Re-authenticating afterwards will allow access to the WebSudo service.</p>
+
+<h1>
+<a id="user-content-community-resources" class="anchor" href="#community-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Resources</h1>
+
+<ul>
+<li>
+<a href="http://morganskinner.blogspot.com/2013/04/extending-servicestack.html">Extending ServiceStack</a> by <a href="http://morganskinner.blogspot.com/">morganskinner</a>
+</li>
+</ul>

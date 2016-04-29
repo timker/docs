@@ -1,0 +1,221 @@
+<p>The <a href="http://en.wikipedia.org/wiki/Comma-separated_values">CSV format</a> is now a first-class supported format which means all your existing web services can automatically take advantage of the new format without any config or code changes. Just drop the latest ServiceStack.dlls (v1.77+) and you're good to go! </p>
+
+<h3>
+<a id="user-content-importance-of-csv" class="anchor" href="#importance-of-csv" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Importance of CSV</h3>
+
+<p>CSV is an important format for transferring, migrating and quickly visualizing data as all spreadsheets support viewing and editing CSV files directly whilst its supported by most RDBMS support exporting and importing data. Compared with other serialization formats, it provides a compact and efficient way to transfer large datasets in an easy to read text format.</p>
+
+<h3>
+<a id="user-content-speed" class="anchor" href="#speed" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Speed</h3>
+
+<p>The CSV Serializer used was developed using the same tech that makes <a href="http://www.servicestack.net/benchmarks/NorthwindDatabaseRowsSerialization.100000-times.2010-08-17.html">ServiceStack's JSV and JSON serializers fast</a> (i.e. no run-time reflection, static delegate caching, etc), which should make it the fastest CSV serializer available for .NET.</p>
+
+<h3>
+<a id="user-content-downloadable-separately" class="anchor" href="#downloadable-separately" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Downloadable Separately</h3>
+
+<p>The <code>CsvSerializer</code> is maintained in the <a href="https://github.com/ServiceStack/ServiceStack.Text">ServiceStack.Text</a> project which can be downloaded from NuGet at:</p>
+
+<pre><code>PM&gt; Install-Package ServiceStack.Text
+</code></pre>
+
+<h3>
+<a id="user-content-how-to-register-your-own-custom-format-with-servicestack" class="anchor" href="#how-to-register-your-own-custom-format-with-servicestack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>How to register your own custom format with ServiceStack</h3>
+
+<p>What makes the 'CSV' format different is its the first format added using the new extensions API. The complete code to register the CSV format is:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Register the 'text/csv' content-type and serializers </span>
+<span class="pl-c">//(format is inferred from the last part of the content-type)</span>
+
+<span class="pl-c1">this</span>.ContentTypes.Register(ContentType.Csv,
+    CsvSerializer.SerializeToStream, CsvSerializer.DeserializeFromStream);
+
+<span class="pl-c">//ResponseFilter to add 'Content-Disposition' header for browsers to open in Spreadsheet</span>
+<span class="pl-c1">this</span>.ResponseFilters.Add((req, res, dto) =&gt;
+{
+    <span class="pl-k">if</span> (req.ResponseContentType == ContentType.Csv)
+    {
+        res.AddHeader(HttpHeaders.ContentDisposition,
+            <span class="pl-k">string</span>.Format(<span class="pl-s"><span class="pl-pds">"</span>attachment;filename={0}.csv<span class="pl-pds">"</span></span>, req.OperationName));
+    }
+});</pre></div>
+
+<p>Note: <strong>ServiceStack already does this for you</strong> though it still serves a good example to show how you can plug-in your own custom format. If you wish, you can remove all custom formats with (inside AppHost.Configure()):</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c1">this</span>.ContentTypes.ClearCustomFilters();</pre></div>
+
+<p>The ability to automatically to register another format and provide immediate value and added functionality to all your existing web services (without any code-changes or configuration) we believe is a testament to ServiceStack's clean design of using strongly-typed 'message-based' DTOs to let you develop clean, testable and re-usable web services. No code-gen or marshalling is required to bind to an abstract method signature, every request and calling convention maps naturally to your webservices DTOs.</p>
+
+<h2>
+<a id="user-content-usage" class="anchor" href="#usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Usage</h2>
+
+<p>The CSV format is effectively a first-class supported format so everything should work as expected, including being registered as an available format on ServiceStack's metadata index page:</p>
+
+<ul>
+<li><a href="http://northwind.servicestack.net/metadata">/metadata</a></li>
+</ul>
+
+<p>And being able to preview the output of a service:</p>
+
+<ul>
+<li><a href="http://northwind.servicestack.net/csv/metadata?op=CustomerDetails">/csv/metadata?op=CustomerDetails</a></li>
+</ul>
+
+<p>By default they are automatically available using ServiceStack's standard calling conventions, e.g:</p>
+
+<ul>
+<li><a href="http://northwind.servicestack.net/csv/reply/Customers">/csv/reply/Customers</a></li>
+</ul>
+
+<h3>
+<a id="user-content-rest-usage" class="anchor" href="#rest-usage" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>REST Usage</h3>
+
+<p>CSV also works just as you would expect with user-defined REST-ful urls, i.e. you can append <code>?format=csv</code> to specify the format in the url e.g:</p>
+
+<ul>
+<li><a href="http://northwind.servicestack.net/customers?format=csv">/customers?format=csv</a></li>
+</ul>
+
+<p>This is how the above web service output looks when opened up in <a href="https://spreadsheets.google.com/pub?key=0AjnFdBrbn8_fdDBwX0Rha04wSTNWZDZlQXctcmp2bVE&amp;hl=en_GB&amp;output=html">google docs</a></p>
+
+<p>Alternative in following with the HTTP specification you can also specify content-type <code>"text/csv"</code> in the <em>Accept</em> header of your HttpClient as done in <a href="https://github.com/ServiceStack/ServiceStack/wiki/Http-Utils">HTTP Utils</a> extension methods:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> csv = <span class="pl-s"><span class="pl-pds">"</span>http://nortwind.servicestack.net/customers<span class="pl-pds">"</span></span>.GetCsvFromUrl();</pre></div>
+
+<h2>
+<a id="user-content-csv-deserialization-support" class="anchor" href="#csv-deserialization-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CSV Deserialization Support</h2>
+
+<p>The introduction of the new [[AutoQuery Data]] feature and it's <code>MemorySource</code> has made full CSV support
+a lot more appealing which caused CSV Deserialization support where it's implementation is now complete. This now unlocks the ability to create fully-queryable Services over flat-file .csv's (or Excel spreadsheets exported to .csv) by just deserializing CSV into a List of POCO's and registering it with AutoQuery Data:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> pocos = File.ReadAllText(<span class="pl-s"><span class="pl-pds">"</span>path/to/data.csv<span class="pl-pds">"</span></span>).FromCsv&lt;List&lt;Poco&gt;&gt;();
+
+<span class="pl-c">//AutoQuery Data Plugin</span>
+Plugins.Add(<span class="pl-k">new</span> AutoQueryDataFeature()
+    .AddDataSource(ctx =&gt; ctx.MemorySource(pocos)));
+
+<span class="pl-c">// AutoQuery DTO</span>
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/pocos<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">QueryPocos</span> : <span class="pl-k">QueryData</span>&lt;<span class="pl-k">Poco</span>&gt; {}</pre></div>
+
+<h3>
+<a id="user-content-super-csv-format" class="anchor" href="#super-csv-format" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Super CSV Format</h3>
+
+<p>A noteworthy feature that sets ServiceStack's CSV support apart is that it's built on the compact and very fast
+<a href="https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format">JSV Format</a> which not only can 
+deserialize a tabular flat file of scalar values at high-speed, it also supports deeply nested object graphs
+which are encoded in JSV and escaped in a CSV field as normal. An example of this can be seen in a HTTP 
+sample log fragment below where the HTTP Request Headers are a serialized from a <code>Dictionary&lt;string,string&gt;</code>:</p>
+
+<pre><code>Id,HttpMethod,AbsoluteUri,Headers
+1,GET,http://localhost:55799,"{Connection:keep-alive,Accept:""text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8"",Accept-Encoding:""gzip, deflate, sdch"",Accept-Language:""en-US,en;q=0.8"",Host:""localhost:55799"",User-Agent:""Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.112 Safari/537.36"",Upgrade-Insecure-Requests:1}"
+</code></pre>
+
+<p>Being such a versatile file format opens up a lot of new possibilities, e.g. instead of capturing seed data
+in code you could maintain them in plain-text .csv files and effortlessly load them on App Startup, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">using</span> (var db = container.Resolve&lt;IDbConnectionFactory&gt;().Open())
+{
+    <span class="pl-k">if</span> (db.CreateTableIfNotExists&lt;Country&gt;()) <span class="pl-c">//returns true if Table created</span>
+    {
+        List&lt;Country&gt; countries = <span class="pl-s"><span class="pl-pds">"</span>~/App_Data/countries.csv<span class="pl-pds">"</span></span>.MapHostAbsolutePath()
+            .ReadAllText().FromCsv&lt;List&lt;Country&gt;&gt;();
+
+        db.InsertAll(countries);
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-all-services-now-accept-csv-content-types" class="anchor" href="#all-services-now-accept-csv-content-types" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>All Services now accept CSV Content-Types</h3>
+
+<p>Another immediate benefit of CSV Deserialization is that now all Services can now process the CSV Content-Type. 
+Being a tabular data format, CSV shines when it's processing a list of DTO's, one way to do that in 
+ServiceStack is to have your Request DTO inherit <code>List&lt;T&gt;</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/pocos<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Pocos</span> : <span class="pl-k">List</span>&lt;<span class="pl-k">Poco</span>&gt;, <span class="pl-k">IReturn</span>&lt;<span class="pl-k">Pocos</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-en">Pocos</span>() {}
+    <span class="pl-k">public</span> <span class="pl-en">Pocos</span>(IEnumerable&lt;Poco&gt; collection) : <span class="pl-c1">base</span>(collection) {}
+}</pre></div>
+
+<p>It also behaves the same way as CSV Serialization but in reverse where if your Request DTO is annotated 
+with either <code>[DataContract]</code> or the more explicit <code>[Csv(CsvBehavior.FirstEnumerable)]</code> it will automatically 
+deserialize the CSV into the first <code>IEnumerable</code> property, so these 2 Request DTO's are equivalent to above:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Route(<span class="pl-s"><span class="pl-pds">"</span>/pocos<span class="pl-pds">"</span></span>)]
+[DataContract]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Pocos</span> : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">Pocos</span>&gt;
+{
+    [DataMember]
+    <span class="pl-k">public</span> List&lt;Poco&gt; <span class="pl-en">Items</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+[Route(<span class="pl-s"><span class="pl-pds">"</span>/pocos<span class="pl-pds">"</span></span>)]
+[Csv(CsvBehavior.FirstEnumerable)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Pocos</span> : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">Pocos</span>&gt;
+{
+    <span class="pl-k">public</span> List&lt;Poco&gt; <span class="pl-en">Items</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>In addition to the above flexible options for defining CSV-friendly Services, there's also a few different 
+options for sending CSV Requests to the above Services. You can use the new CSV <code>PostCsvToUrl()</code> extension 
+methods added to <a href="https://github.com/ServiceStack/ServiceStack/wiki/Http-Utils">HTTP Utils</a>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">string</span> csvText = File.ReadAllText(<span class="pl-s"><span class="pl-pds">"</span>pocos.csv<span class="pl-pds">"</span></span>);
+
+<span class="pl-c">//Send CSV Text</span>
+List&lt;Poco&gt; response = <span class="pl-s"><span class="pl-pds">"</span>http://example.org/pocos<span class="pl-pds">"</span></span>
+    .PostCsvToUrl(csvText)
+    .FromCsv&lt;List&lt;Poco&gt;&gt;();
+
+<span class="pl-c">//Send POCO DTO's</span>
+List&lt;Poco&gt; dtos = csvText.FromCsv&lt;List&lt;Poco&gt;&gt;();
+List&lt;Poco&gt; response = <span class="pl-s"><span class="pl-pds">"</span>http://example.org/pocos<span class="pl-pds">"</span></span>
+    .PostCsvToUrl(dtos)
+    .FromCsv&lt;List&lt;Poco&gt;&gt;();    </pre></div>
+
+<p>Alternatively you can use the <code>CsvServiceClient</code> which has the nice Typed API's you'd expect from a 
+Service Client:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> client = <span class="pl-k">new</span> CsvServiceClient(baseUrl);
+
+Pocos response = client.Post(<span class="pl-k">new</span> Pocos(dtos));</pre></div>
+
+<h3>
+<a id="user-content-ideal-for-auto-batched-requests" class="anchor" href="#ideal-for-auto-batched-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Ideal for Auto Batched Requests</h3>
+
+<p>The <code>CsvServiceClient</code> by virtue of being configured to use a well-defined Tabular data format is perfect 
+for sending 
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Auto-Batched-Requests">Auto-Batched Requests</a> 
+which by definition send a batch of POCO's making the CSV format the most compact text format to send them with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> requests = <span class="pl-k">new</span>[]
+{
+    <span class="pl-k">new</span> Request { ... },
+    <span class="pl-k">new</span> Request { ... },
+    <span class="pl-k">new</span> Request { ... },
+};
+
+<span class="pl-k">var</span> responses = client.SendAll(requests);</pre></div>
+
+<h2>
+<a id="user-content-limitations" class="anchor" href="#limitations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Limitations</h2>
+
+<p>As most readers familiar with the CSV format will know there are some inherent limitations with CSV-format namely it is a flat-structured tabular data format that really only supports serialization of a single resultset. </p>
+
+<p>This limitation remains, although if you decorate your Response DTO with a <code>[Csv(CsvBehavior.FirstEnumerable)]</code> or standard .NET <code>[DataContract]/[DataMember]</code> attributes the CSV Serializer will change to use the following conventions: </p>
+
+<ul>
+<li>If you only return one result in your DTO it will serialize that.</li>
+<li>If you return multiple results it will pick the first IEnumerable&lt;&gt; property or if it doesn't exist picks the first property.</li>
+<li>Non-enumerable results are treated like a single row.</li>
+</ul>
+
+<p>Basically if you only return 1 result it should work as expected otherwise it will chose the best candidate based on the rules above.</p>
+
+<p>The second major limitation is that it doesn't yet include a CSV Deserializer (currently on the TODO list), so while you can view the results in CSV format you can't post data to your web service in CSV and have it automatically deserialize for you. You can however still upload a CSV file and parse it manually yourself.</p>
+
+<h1>
+<a id="user-content-features" class="anchor" href="#features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Features</h1>
+
+<p>Unlike most CSV serializers that can only serialize rows of primitive values, the CsvSerializer uses the <a href="https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format">JSV Format</a> under the hood so even <a href="https://spreadsheets.google.com/pub?key=0AjnFdBrbn8_fdG83eWdGM1lnVW9PMlplcmVDYWtXeVE&amp;hl=en_GB&amp;output=html">complex types</a> will be serialized in fields in a easy to read format - no matter how deep its hierarchy.</p>

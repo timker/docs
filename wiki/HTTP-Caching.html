@@ -1,0 +1,261 @@
+<p>ServiceStack's HTTP Caching support transparently improves the behavior of existing <code>ToOptimized</code> Cached 
+Responses, provides a typed API to opt-in to <strong>HTTP Client</strong> features, introduces a simpler declarative API 
+for enabling both <strong>Server and Client Caching</strong> of Services and also includes Cache-aware clients that are 
+able to improve the performance and robustness of all existing .NET Service Clients - functionality that's 
+especially valuable to bandwidth-constrained Xamarin.iOS / Xamarin.Android clients offering improved 
+performance and greater resilience.</p>
+
+<p>The new caching functionality is encapsulated in the new <code>HttpCacheFeature</code> plugin that's pre-registered 
+by default and can be removed to disable the new HTTP Caching behavior with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.RemoveAll(x =&gt; x <span class="pl-k">is</span> HttpCacheFeature);</pre></div>
+
+<h3>
+<a id="user-content-server-caching" class="anchor" href="#server-caching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Server Caching</h3>
+
+<p>To explain the new HTTP Caching features we'll revisit the ServiceStack's previous caching support which
+enables what we refer to as <strong>Server Caching</strong> where the response of a Service is cached in the registered
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Caching">Caching Provider</a>
+by calling the <code>ToOptimizedResult*</code> API's which lets you programmatically construct the Cache Key and/or
+how long the cache should be persisted for, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">OrdersService</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">GetCustomers</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-c">//Good candidates: request.ToGetUrl() or base.Request.RawUrl</span>
+        <span class="pl-k">var</span> cacheKey = <span class="pl-s"><span class="pl-pds">"</span>unique_key_for_this_request<span class="pl-pds">"</span></span>;
+        <span class="pl-k">var</span> expireCacheIn = TimeSpan.FromHours(<span class="pl-c1">1</span>);
+
+        <span class="pl-k">return</span> Request.ToOptimizedResultUsingCache(Cache, cacheKey, expireCacheIn, 
+            () =&gt; {
+                <span class="pl-c">//Delegate executed only if item doesn't already exist in cache </span>
+                <span class="pl-c">//Any response DTO returned is cached on subsequent requests</span>
+            });
+    }
+}</pre></div>
+
+<p>As the name indicates this stores the most optimal representation of the Service Response in the registered 
+<code>ICacheClient</code>, so for example if a client called the above API with <code>Accept: application/json</code> and 
+<code>Accept-Encoding: deflate, gzip</code> HTTP Request Headers ServiceStack would store the deflated serialized JSON 
+bytes in the Cache and on subsequent requests resulting in the same cache key would write the compressed 
+deflated bytes directly to the Response OutputStream - saving both CPU and bandwidth.</p>
+
+<h4>
+<a id="user-content-more-optimal-optimizedresults" class="anchor" href="#more-optimal-optimizedresults" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>More Optimal OptimizedResults</h4>
+
+<p>But there's an even more optimal result we could return instead: <strong>Nothing</strong> :) and save even more CPU and
+bandwidth! Which is precisely what the
+<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html">HTTP Caching</a> directives built into the HTTP spec
+allow for. To enable it you'd need to return additional HTTP Headers to the client containing the necessary 
+metadata they can use to determine when their locally cached responses are valid. Typically this is the 
+<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.3.1">Last-Modified</a> 
+date of when the Response/Resource was last modified or an 
+<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec13.html#sec13.3.2">Entity Tag</a> containing an opaque string
+the Server can use to determine whether the client has the most up-to-date response.</p>
+
+<p>The most optimal cache validator we can use for existing <code>ToOptimizedResult*</code> API's is the <strong>Last Modified</strong>
+date which is now being cached along with the response. An additional instruction we need to return to the 
+client is the 
+<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.9">Cache-Control</a> HTTP Response Header
+which instructs the client what caching behavior to apply to the server response. As we want the new behavior 
+to work transparently without introducing caching issues to existing Services, we've opted for a conservative:</p>
+
+<pre><code>Cache-Control: max-age=0
+</code></pre>
+
+<p>Which tells the client to treat the server response as immediately stale and that it should send another
+request to the Server for identical requests, but this time the client will append a 
+<a href="https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.25">If-Modified-Since</a> HTTP Request Header
+which ServiceStack now automatically looks up to determine if the cache the client has is valid. 
+If no newer cache for this request has been created since, ServiceStack returns a <strong>304 NotModified</strong> 
+Response with an empty Request Body which tells the client it's safe to use their local cache instead.</p>
+
+<h4>
+<a id="user-content-modify-cache-control-for-optimizedresults" class="anchor" href="#modify-cache-control-for-optimizedresults" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Modify Cache-Control for OptimizedResults</h4>
+
+<p>You can change the <code>Cache-Control</code> Header returned for existing <code>ToOptimizedResult</code> responses by modifying
+the pre-registered <code>HttpCacheFeature</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> cacheFeature = <span class="pl-c1">this</span>.GetPlugin&lt;HttpCacheFeature&gt;();
+cacheFeature.CacheControlForOptimizedResults = <span class="pl-s"><span class="pl-pds">"</span>max-age=3600, must-revalidate<span class="pl-pds">"</span></span>;</pre></div>
+
+<p>This tells the client that they can treat their locally cached server responses as <strong>valid for 1hr</strong><br>
+but <strong>after 1hr</strong> they must check back with the Server to determine if their cache is still valid.</p>
+
+<h3>
+<a id="user-content-http-client-caching" class="anchor" href="#http-client-caching" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>HTTP Client Caching</h3>
+
+<p>The Caching features above revolve around enhancing existing <strong>Server Cached</strong> responses with <strong>HTTP Caching</strong> 
+features to further reduce latency and save CPU and bandwidth resources. In addition to <strong>Server Caching</strong> 
+pure stand-alone <strong>HTTP Caching</strong> features (i.e. that don't cache server responses) are now available as 
+first-class properties on <code>HttpResult</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">// Only one Cache Validator below needs to be specified:</span>
+<span class="pl-k">string</span> ETag            <span class="pl-c">// opaque string representing integrity of response</span>
+DateTime? LastModified <span class="pl-c">// the last time the response was Modified</span>
+
+<span class="pl-c">// Specify Client/Middleware Cache Behavior</span>
+TimeSpan? MaxAge          <span class="pl-c">// How long cached response is considered valid</span>
+CacheControl CacheControl <span class="pl-c">// More options to specify Cache-Control behavior:</span>
+<span class="pl-k">enum</span> <span class="pl-en">CacheControl</span> {
+    None,
+    Public,
+    Private,
+    MustRevalidate,
+    NoCache,
+    NoStore,
+    NoTransform,
+    ProxyRevalidate,
+}
+
+<span class="pl-c">// Available, but rarely used</span>
+TimeSpan? Age      <span class="pl-c">// Used by proxies to indicate how old cache is</span>
+DateTime? Expires  <span class="pl-c">// Less preferred alternative to MaxAge</span></pre></div>
+
+<p>We'll walk through a couple of real-world examples to show how we can make use of these new properties
+and explain the HTTP Caching behavior they enable. </p>
+
+<h4>
+<a id="user-content-using-etags" class="anchor" href="#using-etags" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using ETags</h4>
+
+<p>The minimum properties required for HTTP Caching is to specify either an <code>ETag</code> or <code>LastModified</code> 
+Caching Validator. You can use any opaque string for the <code>ETag</code> that uniquely represents a version of the 
+response that you can use to determine what version the client has, which could be an MD5 or SHA Hash of
+the response but can also be a unique version string. E.g. Adding a <code>RowVersion</code> property to your OrmLite 
+POCO Data Models turns on 
+<a href="https://github.com/ServiceStack/ServiceStack.OrmLite#optimistic-concurrency">OrmLite's Optimistic Concurrency</a>
+feature where each time a record is modified it's automatically populated with a new version, these 
+characteristics makes it ideal for use as an ETag which we can just return as a string:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">object</span> Any(GetCustomer request)
+{
+    <span class="pl-k">var</span> response = Db.SingleById&lt;Customer&gt;(request.Id);    
+    <span class="pl-k">return</span> <span class="pl-k">new</span> HttpResult(response) {
+        ETag = response.RowVersion.ToString(), 
+    };
+}</pre></div>
+
+<p>Whilst this is the minimum info required in your Services, the client also needs to know how long the 
+cache is valid for as typically indicated by the <code>MaxAge</code> property. If it's omitted ServiceStack falls back 
+to use the <code>HttpCacheFeature.DefaultMaxAge</code> of <strong>10 minutes</strong> which can be changed in your <code>AppHost</code> with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c1">this</span>.GetPlugin&lt;HttpCacheFeature&gt;().DefaultMaxAge = TimeSpan.FromHours(<span class="pl-c1">1</span>);</pre></div>
+
+<p>So the HTTP Response Headers the client receives when calling this Service for the first time is something similar to:</p>
+
+<pre><code>ETag: "42"
+Cache-Control: max-age=600
+</code></pre>
+
+<p>Which tells the client that they can use their local cache for identical requests issued within the next
+10 minutes. After 10 minutes the cache is considered stale and the client will issue a new request to the 
+server but this time it will include the <strong>ETag</strong> it has associated with the Response, i.e:</p>
+
+<pre><code>If-None-Match: "42"
+</code></pre>
+
+<p>When this happens the Service is still executed as normal and if the Customer hasn't changed, the 
+<code>HttpCacheFeature</code> will compare the <code>HttpResult.ETag</code> response with the clients <strong>ETag</strong> above and if they 
+match ServiceStack will instead return a <strong>304 NotModified</strong> with an Empty Response Body to indicate to the 
+client that it can continue to use their locally cached response.</p>
+
+<p>So whilst using a <code>HttpResult</code> <strong>doesn't cache</strong> the response <strong>on the Server</strong> and save further resources 
+used in executing the Service, it still benefits from allowing the client to use their local cache for 
+<strong>10 minutes</strong> - eliminating server requests and yielding instant response times. Then after <strong>10 minutes</strong> 
+the <strong>304 NotModified</strong> Response Status and <strong>Empty Body</strong> improves latency and saves the Server CPU and 
+bandwidth resources it didn't have to use for serializing and writing the executed Services response it 
+would have need to do if no Caching was enabled.</p>
+
+<h4>
+<a id="user-content-using-lastmodified" class="anchor" href="#using-lastmodified" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using LastModified</h4>
+
+<p>The alternative to using an <code>ETag</code> is to use the <code>Last-Modified</code> Caching Validator. When you're constructing 
+a complex response you'll want to use the <strong>most recent</strong> Last Modified Date from all sources so that you
+can determine that the cache is no longer valid when any of the sources have been updated.</p>
+
+<p>If you also want to customize the clients <strong>Cache-Control</strong> behavior you can use the additional <code>HttpResult</code> 
+properties, below is an example of doing both:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">object</span> Any(GetCustomerOrders request)
+{
+    <span class="pl-k">var</span> response = <span class="pl-k">new</span> GetCustomerOrdersResponse {
+        Customer = Db.SingleById&lt;Customer&gt;(request.Id),
+        Orders = Db.Select&lt;Order&gt;(x =&gt; x.CustomerId == request.Id),
+    };
+
+    <span class="pl-k">var</span> allDates = <span class="pl-k">new</span> List&lt;DateTime&gt;(response.Orders.Select(x =&gt; x.ModifiedDate)) {
+        response.Customer.ModifiedDate,
+    };
+
+    <span class="pl-k">return</span> <span class="pl-k">new</span> HttpResult(response)
+    {
+        LastModified = allDates.OrderByDescending(x =&gt; x).First(),
+        MaxAge = TimeSpan.FromSeconds(<span class="pl-c1">60</span>),
+        CacheControl = CacheControl.Public | CacheControl.MustRevalidate,
+    };
+}</pre></div>
+
+<p>Which returns the Last Modified Date of the <code>Customer</code> record or any of their <code>Orders</code> as well as the 
+customized <strong>Cache-Control</strong> Header which together returns Response Headers similar to:</p>
+
+<pre><code>Last-Modified: Fri, 19 April 2016 05:00:00 GMT
+Cache-Control: max-age=60, public, must-revalidate
+</code></pre>
+
+<p>Then after <strong>60 seconds</strong> have elapsed the client will re-issue a request but instead of sending a 
+<code>If-None-Match</code> Request Header and <strong>ETag</strong>, instead sends <code>If-Modified-Since</code> and the <strong>Last-Modified</strong> date:</p>
+
+<pre><code>If-Modified-Since: Fri, 19 April 2016 05:00:00 GMT
+</code></pre>
+
+<p>The resulting behavior is identical to that of the <strong>ETag</strong> above but instead compares the LastModified dates
+instead of ETag strings for validity.</p>
+
+<h3>
+<a id="user-content-short-circuiting-http-cache-validation" class="anchor" href="#short-circuiting-http-cache-validation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Short-circuiting HTTP Cache Validation</h3>
+
+<p>A further optimization that can be added to the HTTP Cache workflow is using <code>IRequest.HasValidCache()</code>
+to short-circuit the execution of a Service after you've processed enough information to determine either 
+the <code>ETag</code> or <code>LastModified</code> for the response. </p>
+
+<p>For example if you had a Service that transcodes video on-the-fly, you can use <code>Request.HasValidCache()</code> to 
+check whether the client already has the latest version of the video, if it does we can return a 
+<strong>304 NotModified</strong> result directly, short-circuiting the Service and saving any resources in executing the 
+remainder of the implementation, which in this case would <strong>bypass reading and transcoding</strong> the .mp4 video:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">object</span> Any(GetOggVideo request)
+{
+    <span class="pl-k">var</span> mp4Video = VirtualFileSources.GetFile($<span class="pl-s"><span class="pl-pds">"</span>/videos/{request.Id}.mp4<span class="pl-pds">"</span></span>);   
+    <span class="pl-k">if</span> (mp4Video == <span class="pl-c1">null</span>)
+        <span class="pl-k">throw</span> HttpError.NotFound($<span class="pl-s"><span class="pl-pds">"</span>Video #{request.Id} does not exist<span class="pl-pds">"</span></span>);
+
+    <span class="pl-k">if</span> (Request.HasValidCache(mp4Video.LastModified))
+        <span class="pl-k">return</span> HttpResult.NotModified();
+
+    <span class="pl-k">var</span> encodedOggBytes = EncodeToOggVideo(file.ReadAllBytes());
+    <span class="pl-k">return</span> <span class="pl-k">new</span> HttpResult(encodedOggBytes, <span class="pl-s"><span class="pl-pds">"</span>video/ogg<span class="pl-pds">"</span></span>) 
+    {
+        LastModified = mp4Video.LastModified,
+        MaxAge = TimeSpan.FromDays(<span class="pl-c1">1</span>),
+    };
+}</pre></div>
+
+<h2>
+<a id="user-content-cacheresponse-attribute" class="anchor" href="#cacheresponse-attribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[CacheResponse Attribute]]</h2>
+
+<p>We've briefly had a look at the existing <code>ToOptimizedResult*</code> API's to create <strong>Server Caches</strong> in 
+ServiceStack as well as using a customized <code>HttpResult</code> to take advantage of <strong>HTTP Caching</strong> Client features. 
+To make it even easier to use both, we've combined them together in a new declarative <code>[CacheResponse]</code>
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">Request Filter attribute</a> 
+which as it's non-invasive and simple to add, we expect it to be the most popular option for adding caching 
+to your Services in future.</p>
+
+<h2>
+<a id="user-content-cache-aware-clients" class="anchor" href="#cache-aware-clients" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Cache-Aware Clients]]</h2>
+
+<p>We've covered most of the <strong>Server Caching</strong> and <strong>HTTP Caching</strong> features in ServiceStack whose usage will
+automatically benefit Websites as browsers have excellent support for HTTP Caching. But .NET Desktop Apps
+or Xamarin.iOS and Xamarin.Android mobile clients wont see any of these benefits since none of the existing
+Service Clients have support for <strong>HTTP Caching</strong>. To complete the story we've also developed cache-aware Service Clients that can be used to enhance all existing .NET Service Clients which manages its own local cache as instructed by the 
+HTTP Caching directives.</p>

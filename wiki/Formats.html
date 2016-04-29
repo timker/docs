@@ -1,0 +1,85 @@
+<p>ServiceStack supports 6 response formats out of the box:</p>
+
+<ul>
+<li><a href="https://github.com/ServiceStack/ServiceStack.Text">JSON</a></li>
+<li>XML</li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/SOAP-support">SOAP 1.1/1.2</a></li>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack.Text#servicestacktypeserializer-and-the-jsv-format">JSV</a> <em>(hybrid CSV-style escaping + JSON format that is optimized for both size and speed)</em>
+</li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format">CSV</a></li>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat">HTML5 Report</a> <em>(provides a readable and semantic HTML layout letting you visualize all the data returned by your web service)</em>
+</li>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor">HTML with Markdown Razor</a> <em>(Razor combined with markdown)</em>
+</li>
+</ul>
+
+<h3>
+<a id="user-content-additional-formats" class="anchor" href="#additional-formats" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Additional Formats</h3>
+
+<p>Additional Formats are available as <a href="https://github.com/ServiceStack/ServiceStack/wiki/Plugins">external Plugins</a>:</p>
+
+<ul>
+<li><a href="http://razor.servicestack.net/">HTML with MVC Razor</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format">Message Pack</a></li>
+<li><a href="https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format">Protocol Buffers</a></li>
+</ul>
+
+<h2>
+<a id="user-content-rest-endpoint" class="anchor" href="#rest-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rest endpoint</h2>
+
+<p>You can define which format should be used by adding a <code>.{format}</code> extension:</p>
+
+<ul>
+<li><code>.json</code></li>
+<li><code>.xml</code></li>
+<li><code>.jsv</code></li>
+<li><code>.csv</code></li>
+<li><code>.html</code></li>
+</ul>
+
+<p>Or by appending <code>?format={format}</code> to the end of the URL:</p>
+
+<ul>
+<li><code>?format=json</code></li>
+<li><code>?format=xml</code></li>
+<li><code>?format=jsv</code></li>
+<li><code>?format=csv</code></li>
+<li><code>?format=html</code></li>
+</ul>
+
+<blockquote>
+<p>Example: <a href="http://mono.servicestack.net/hello/World!?format=json">http://mono.servicestack.net/hello/World!?format=json</a></p>
+</blockquote>
+
+<p>Alternatively ServiceStack also recognizes which format should be used with the <code>Accept</code> <a href="http://en.wikipedia.org/wiki/List_of_HTTP_header_fields">http header</a>:</p>
+
+<ul>
+<li><code>Accept: application/json</code></li>
+<li><code>Accept: application/xml</code></li>
+</ul>
+
+<p>As you can see, this approach only works with <code>json</code> and <code>xml</code>.</p>
+
+<h2>
+<a id="user-content-default-endpoint" class="anchor" href="#default-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Default endpoint</h2>
+
+<p><code>/[xml|json|html|jsv|csv]/[reply|oneway]/[servicename]</code></p>
+
+<p>Examples:</p>
+
+<ul>
+<li>/xml/[reply|oneway]/[servicename] will be XML</li>
+<li>/json/[reply|oneway]/[servicename] will be JSON</li>
+</ul>
+
+<h2>
+<a id="user-content-soap-endpoint" class="anchor" href="#soap-endpoint" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>SOAP endpoint</h2>
+
+<p>The SOAP endpoint only supports XML of course.</p>
+
+<blockquote>
+<p>Tip: If you have forgotten the details about the specific endpoints, you can re-read <a href="https://github.com/ServiceStack/ServiceStack/wiki/Endpoints">this article</a></p>
+</blockquote>

@@ -1,0 +1,328 @@
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png" alt="C# Platforms" style="max-width:100%;"></a></p>
+
+<p>The first language supported is C#, effectively providing a flexible alternative than sharing your DTO assembly with clients, now clients can easily add a reference to a remote ServiceStack instance and update DTO's directly from within VS.NET. This also lays the groundwork and signals our approach on adding support for typed API's in other languages in future. Add a <a href="http://servicestack.uservoice.com/forums/176786-feature-requests">feature request for your favorite language</a> to prioritize support for it sooner!</p>
+
+<p>Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a remote url - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.</p>
+
+<h2>
+<a id="user-content-add-servicestack-reference" class="anchor" href="#add-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>[[Add ServiceStack Reference]]</h2>
+
+<p>The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up <a href="https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project">ServiceStackVS's</a> <code>Add ServiceStack Reference</code> context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png" alt="Add ServiceStack Reference" style="max-width:100%;"></a></p>
+
+<p>After clicking OK, the servers DTOs and <a href="https://www.nuget.org/packages/ServiceStack.Client">ServiceStack.Client</a> NuGet package are added to the project, providing an instant typed API:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png" alt="Calling ServiceStack Service" style="max-width:100%;"></a></p>
+
+<p>With the C# code generated on the Server, the role of <a href="https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project">ServiceStackVS's</a> <strong>Add ServiceStack Reference</strong> is then just to integrate the remote C# DTOs into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-csharp.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-csharp.gif" alt="Add CSharp ServiceStack Reference Demo" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-update-servicestack-reference" class="anchor" href="#update-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Update ServiceStack Reference</h2>
+
+<p>If your server has been updated and you want to update to client DTOs, simply right-click on the DTO file within VS.NET and select <code>Update ServiceStack Reference</code>. </p>
+
+<p><a href="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/updateref-csharp.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/updateref-csharp.gif" alt="CSharp update demo" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-consuming-services-from-mobile-clients" class="anchor" href="#consuming-services-from-mobile-clients" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Consuming Services from Mobile Clients</h2>
+
+<p>Thanks to <a href="https://www.nuget.org/packages/ServiceStack.Client">ServiceStack.Client</a> PCL Support, it can also be used from within supported client platforms. Here's a quick Android demo of adding a ServiceStack reference to <a href="http://stackapis.servicestack.net/">stackapis.servicestack.net</a> and consuming one of StackApi's Services:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/android-add-ref-demo.gif"><img src="https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/android-add-ref-demo.gif" alt="Android Add ServiceStack Reference" style="max-width:100%;"></a></p>
+
+<h2>
+<a id="user-content-dto-customization-options" class="anchor" href="#dto-customization-options" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>DTO Customization Options</h2>
+
+<p>The header comments in the generated DTOs allows for further customization of how they're generated where ServiceStackVS automatically watches for any file changes and updates the generated DTOs with any custom Options provided. Options that are preceded by a C# single line comment <code>//</code> are defaults from the server that can be overridden, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">/* Options:</span>
+<span class="pl-c">Date: 2015-10-07 11:01:27</span>
+<span class="pl-c">Version: 4.046</span>
+<span class="pl-c">BaseUrl: http://stackapis.servicestack.net</span>
+<span class="pl-c"></span>
+<span class="pl-c">//GlobalNamespace: </span>
+<span class="pl-c">//MakePartial: True</span>
+<span class="pl-c">//MakeVirtual: True</span>
+<span class="pl-c">//MakeDataContractsExtensible: False</span>
+<span class="pl-c">//AddReturnMarker: True</span>
+<span class="pl-c">//AddDescriptionAsComments: True</span>
+<span class="pl-c">//AddDataContractAttributes: False</span>
+<span class="pl-c">//AddIndexesToDataMembers: False</span>
+<span class="pl-c">//AddGeneratedCodeAttributes: False</span>
+<span class="pl-c">//AddResponseStatus: False</span>
+<span class="pl-c">//AddImplicitVersion: </span>
+<span class="pl-c">//InitializeCollections: True</span>
+<span class="pl-c">//IncludeTypes: </span>
+<span class="pl-c">//ExcludeTypes: </span>
+<span class="pl-c">//AddDefaultXmlNamespace: http://schemas.servicestack.net/types</span>
+<span class="pl-c">*/</span></pre></div>
+
+<p>To override these options on the client, the <code>//</code> has to be removed. For example, if we did not want our classes to be partial by default for the C# client, our options would look like below:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">/* Options:</span>
+<span class="pl-c">Date: 2015-10-07 11:01:27</span>
+<span class="pl-c">Version: 4.046</span>
+<span class="pl-c">BaseUrl: http://stackapis.servicestack.net</span>
+<span class="pl-c"></span>
+<span class="pl-c">//GlobalNamespace: </span>
+<span class="pl-c">MakePartial: False</span>
+<span class="pl-c">//MakeVirtual: True</span>
+<span class="pl-c">//MakeDataContractsExtensible: False</span>
+<span class="pl-c">//AddReturnMarker: True</span>
+<span class="pl-c">//AddDescriptionAsComments: True</span>
+<span class="pl-c">//AddDataContractAttributes: False</span>
+<span class="pl-c">//AddIndexesToDataMembers: False</span>
+<span class="pl-c">//AddGeneratedCodeAttributes: False</span>
+<span class="pl-c">//AddResponseStatus: False</span>
+<span class="pl-c">//AddImplicitVersion: </span>
+<span class="pl-c">//InitializeCollections: True</span>
+<span class="pl-c">//IncludeTypes: </span>
+<span class="pl-c">//ExcludeTypes: </span>
+<span class="pl-c">//AddDefaultXmlNamespace: http://schemas.servicestack.net/types</span>
+<span class="pl-c">*/</span></pre></div>
+
+<p>Options that do not start with a <code>//</code> are sent to the server to override any defaults set by the server.</p>
+
+<h3>
+<a id="user-content-change-default-server-configuration" class="anchor" href="#change-default-server-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Change Default Server Configuration</h3>
+
+<p>The above defaults are also overridable on the ServiceStack Server by modifying the default config on the <code>NativeTypesFeature</code> Plugin, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> nativeTypes = <span class="pl-c1">this</span>.GetPlugin&lt;NativeTypesFeature&gt;();
+nativeTypes.MetadataTypesConfig.MakeVirtual = <span class="pl-c1">false</span>;
+...</pre></div>
+
+<p>We'll go through and cover each of the above options to see how they affect the generated DTOs:</p>
+
+<h3>
+<a id="user-content-makepartial" class="anchor" href="#makepartial" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MakePartial</h3>
+
+<p>Adds the <code>partial</code> modifier to all types, letting you extend generated DTOs with your own class separate from the generated types:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span> { ... }</pre></div>
+
+<h3>
+<a id="user-content-makevirtual" class="anchor" href="#makevirtual" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MakeVirtual</h3>
+
+<p>Adds the <code>virtual</code> modifier to all properties:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span> {
+    ...
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">int</span> <span class="pl-en">QuestionId</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-makedatacontractsextensible" class="anchor" href="#makedatacontractsextensible" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MakeDataContractsExtensible</h3>
+
+<p>Add .NET's DataContract's <a href="http://msdn.microsoft.com/en-us/library/system.runtime.serialization.extensiondataobject(v=vs.110).aspx">ExtensionDataObject</a> to all DTO's:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span>
+    : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">GetAnswerResponse</span>&gt;, <span class="pl-k">IExtensibleDataObject</span>
+{
+    ...
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> ExtensionDataObject <span class="pl-en">ExtensionData</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-addreturnmarker" class="anchor" href="#addreturnmarker" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddReturnMarker</h3>
+
+<p>When true, annotates Request DTOs with an <code>IReturn&lt;TResponse&gt;</code> marker referencing the Response type ServiceStack infers your Service to return:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span>
+    : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">GetAnswersResponse</span>&gt; { ... }</pre></div>
+
+<blockquote>
+<p>Original DTO doesn't require a return marker as response type can be inferred from Services return type or when using the <code>%Response</code> DTO Naming convention</p>
+</blockquote>
+
+<h3>
+<a id="user-content-adddescriptionascomments" class="anchor" href="#adddescriptionascomments" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddDescriptionAsComments</h3>
+
+<p>Converts any textual Description in <code>[Description]</code> attributes as C# Doc comments which allows your API to add intellisense in client projects:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">///&lt;<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-c">///Get a list of Answers for a Question</span>
+<span class="pl-c">///&lt;/<span class="pl-ent">summary</span>&gt;</span>
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span> { ... }</pre></div>
+
+<h3>
+<a id="user-content-adddatacontractattributes" class="anchor" href="#adddatacontractattributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddDataContractAttributes</h3>
+
+<p>Decorates all DTO types with <code>[DataContract]</code> and properties with <code>[DataMember]</code> as well as adding default XML namespaces for all C# namespaces used:</p>
+
+<div class="highlight highlight-source-cs"><pre>[assembly: ContractNamespace(<span class="pl-s"><span class="pl-pds">"</span>http://schemas.servicestack.net/types<span class="pl-pds">"</span></span>, 
+           ClrNamespace=<span class="pl-s"><span class="pl-pds">"</span>StackApis.ServiceModel.Types<span class="pl-pds">"</span></span>)]
+[assembly: ContractNamespace(<span class="pl-s"><span class="pl-pds">"</span>http://schemas.servicestack.net/types<span class="pl-pds">"</span></span>, 
+           ClrNamespace=<span class="pl-s"><span class="pl-pds">"</span>StackApis.ServiceModel<span class="pl-pds">"</span></span>)]
+...
+
+[DataContract]
+<span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span>
+{
+    [DataMember]
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">int</span> <span class="pl-en">QuestionId</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-addindexestodatamembers" class="anchor" href="#addindexestodatamembers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddIndexesToDataMembers</h3>
+
+<p>Populates a <code>DataMember</code> Order index for all properties:</p>
+
+<div class="highlight highlight-source-cs"><pre>[DataContract]
+<span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span>
+{
+    [DataMember(Order=<span class="pl-c1">1</span>)]
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">int</span> <span class="pl-en">QuestionId</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<blockquote>
+<p>Requires AddDataContractAttributes=true</p>
+</blockquote>
+
+<h3>
+<a id="user-content-addgeneratedcodeattributes" class="anchor" href="#addgeneratedcodeattributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddGeneratedCodeAttributes</h3>
+
+<p>Emit <code>[GeneratedCode]</code> attribute on all generated Types:</p>
+
+<div class="highlight highlight-source-cs"><pre>[GeneratedCode]
+<span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span> { ... }</pre></div>
+
+<h3>
+<a id="user-content-addresponsestatus" class="anchor" href="#addresponsestatus" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddResponseStatus</h3>
+
+<p>Automatically add a <code>ResponseStatus</code> property on all Response DTOs, regardless if it wasn't already defined:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswersResponse</span>
+{
+    ...
+    <span class="pl-k">public</span> ResponseStatus <span class="pl-en">ResponseStatus</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-addimplicitversion" class="anchor" href="#addimplicitversion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddImplicitVersion</h3>
+
+<p>Lets you specify the Version number to be automatically populated in all Request DTOs sent from the client: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">partial</span> <span class="pl-k">class</span> <span class="pl-en">GetAnswers</span>
+    : <span class="pl-k">IReturn</span>&lt;<span class="pl-k">GetAnswersResponse</span>&gt;
+{
+    <span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">int</span> <span class="pl-en">Version</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+
+    <span class="pl-k">public</span> <span class="pl-en">GetAnswers</span>()
+    {
+        Version = <span class="pl-c1">1</span>;
+    }
+    ...
+}</pre></div>
+
+<p>This lets you know what Version of the Service Contract that existing clients are using making it easy to implement ServiceStack's <a href="http://stackoverflow.com/a/12413091/85785">recommended versioning strategy</a>. </p>
+
+<h3>
+<a id="user-content-initializecollections" class="anchor" href="#initializecollections" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>InitializeCollections</h3>
+
+<p>Usage: </p>
+
+<pre><code>/* Options:
+InitializeCollections: True
+</code></pre>
+
+<p>Lets you automatically initialize collections in Request DTOs:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SearchQuestions</span>
+{
+    <span class="pl-k">public</span> <span class="pl-en">SearchQuestions</span>()
+    {
+        Tags = <span class="pl-k">new</span> List&lt;<span class="pl-k">string</span>&gt;{};
+    }
+
+    <span class="pl-k">public</span> List&lt;<span class="pl-k">string</span>&gt; <span class="pl-en">Tags</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+    ...
+}</pre></div>
+
+<p>Initialized collections lets you take advantage of C#'s collection initializers for a nicer client API:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> response = client.Get(<span class="pl-k">new</span> SearchQuestions { 
+    Tags = { <span class="pl-s"><span class="pl-pds">"</span>redis<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>ormlite<span class="pl-pds">"</span></span> }
+});</pre></div>
+
+<h3>
+<a id="user-content-includetypes" class="anchor" href="#includetypes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IncludeTypes</h3>
+
+<p>Is used as a Whitelist to specify only the types you would like to have code-generated:</p>
+
+<pre><code>/* Options:
+IncludeTypes: GetTechnology,GetTechnologyResponse
+</code></pre>
+
+<p>Will only generate <code>GetTechnology</code> and <code>GetTechnologyResponse</code> DTO's:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">GetTechnology</span> { ... }
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">GetTechnologyResponse</span> { ... }</pre></div>
+
+<h3>
+<a id="user-content-excludetypes" class="anchor" href="#excludetypes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ExcludeTypes</h3>
+
+<p>Is used as a Blacklist to specify which types you would like excluded from being generated:</p>
+
+<pre><code>/* Options:
+ExcludeTypes: GetTechnology,GetTechnologyResponse
+</code></pre>
+
+<p>Will exclude <code>GetTechnology</code> and <code>GetTechnologyResponse</code> DTOs from being generated.</p>
+
+<h3>
+<a id="user-content-adddefaultxmlnamespace" class="anchor" href="#adddefaultxmlnamespace" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>AddDefaultXmlNamespace</h3>
+
+<p>This lets you change the default DataContract XML namespace used for all C# namespaces:</p>
+
+<div class="highlight highlight-source-cs"><pre>[assembly: ContractNamespace(<span class="pl-s"><span class="pl-pds">"</span>http://my.types.net<span class="pl-pds">"</span></span>, 
+           ClrNamespace=<span class="pl-s"><span class="pl-pds">"</span>StackApis.ServiceModel.Types<span class="pl-pds">"</span></span>)]
+[assembly: ContractNamespace(<span class="pl-s"><span class="pl-pds">"</span>http://my.types.net<span class="pl-pds">"</span></span>, 
+           ClrNamespace=<span class="pl-s"><span class="pl-pds">"</span>StackApis.ServiceModel<span class="pl-pds">"</span></span>)]</pre></div>
+
+<blockquote>
+<p>Requires AddDataContractAttributes=true</p>
+</blockquote>
+
+<h2>
+<a id="user-content-xamarin-studio" class="anchor" href="#xamarin-studio" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Xamarin Studio</h2>
+
+<p>With the new <a href="http://addins.monodevelop.com/Project/Index/154">ServiceStackXS Add-In</a> your Service Consumers can now generate typed DTOs of your remote ServiceStack Services directly from within Xamarin Studio, which together with the <strong>ServiceStack.Client</strong> NuGet package provides an effortless way to enable an end-to-end Typed API from within Xamarin C# projects.</p>
+
+<h3>
+<a id="user-content-installing-servicestackxs" class="anchor" href="#installing-servicestackxs" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Installing ServiceStackXS</h3>
+
+<p>Installation is straightforward if you've installed Xamarin Add-ins before, just go to <code>Xamarin Studio -&gt; Add-In Manager...</code> from the Menu and then search for <code>ServiceStack</code> from the <strong>Gallery</strong>:</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/blob/master/img/servicestackvs/servicestack%20reference/ssxs-mac-install.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/ssxs-mac-install.gif" alt="" style="max-width:100%;"></a></p>
+
+<h4>
+<a id="user-content-install-from-file" class="anchor" href="#install-from-file" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Install from file</h4>
+
+<p>If you are having trouble with the Xamarin Studio gallery version, you can install addins from an <code>mpack</code> file from the same menu as shown above. Click <code>Install from file</code> and navigate to where you have downloaded the <code>mpack</code> file.</p>
+
+<h3>
+<a id="user-content-adding-a-servicestack-reference" class="anchor" href="#adding-a-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding a ServiceStack Reference</h3>
+
+<p>Once installed, adding a ServiceStack Reference is very similar to <a href="https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference#add-servicestack-reference">ServiceStackVS in VS.NET</a> where you can just click on <code>Add -&gt; Add ServiceStack Reference...</code> on the project's context menu to bring up the familiar Add Reference dialog. After adding the <code>BaseUrl</code> of the remote ServiceStack instance, click OK to add the generated DTO's to your project using the name specified:</p>
+
+<p><a href="https://github.com/ServiceStack/Assets/blob/master/img/servicestackvs/servicestack%20reference/ssxs-mac-add-reference.gif" target="_blank"><img src="https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/ssxs-mac-add-reference.gif" alt="" style="max-width:100%;"></a></p>
+
+<h3>
+<a id="user-content-updating-the-servicestack-reference" class="anchor" href="#updating-the-servicestack-reference" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Updating the ServiceStack Reference</h3>
+
+<p>As file watching isn't supported yet, to refresh the generated DTOs, you'll need to right-click on it in the solution explorer and select <code>Update ServiceStack Reference</code> from the items context menu.</p>
+
+<h3>
+<a id="user-content-xamarin-studio-for-linux" class="anchor" href="#xamarin-studio-for-linux" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Xamarin Studio for Linux</h3>
+
+<p>One of the nice benefits of creating an Xamarin Studio Add-in is that we're also able to bring the same experience to .NET Developers on Linux! Which works similar to OSX where you can install ServiceStackXS from the Add-in Gallery - Here's an example using Ubuntu:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-ubuntu-install.gif" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-ubuntu-install.gif" alt="" style="max-width:100%;"></a></p>
+
+<p>Then <strong>Add ServiceStack Reference</strong> is accessible in the same way:</p>
+
+<p><a href="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-ubuntu-add-ref.gif" target="_blank"><img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-ubuntu-add-ref.gif" alt="" style="max-width:100%;"></a></p>

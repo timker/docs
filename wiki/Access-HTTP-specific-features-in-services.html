@@ -1,0 +1,113 @@
+<p>ServiceStack is based on <a href="http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx">http handlers</a>, but ServiceStack provides a clean, dependency-free <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IService.cs">IService</a> to implement your Web Services logic in. The philosophy behind this approach is that the less dependencies you have on your environment and its request context, the more testable and re-usable your services become. </p>
+
+<h2>
+<a id="user-content-accessing-the-ihttprequest-and-ihttpresponse-in-filters-and-services" class="anchor" href="#accessing-the-ihttprequest-and-ihttpresponse-in-filters-and-services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Accessing the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IHttpRequest.cs">IHttpRequest</a> and <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IHttpResponse.cs">IHttpResponse</a> in filters and Services</h2>
+
+<h4>
+<a id="user-content-request-filters" class="anchor" href="#request-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Request Filters</h4>
+
+<p>The Request Filters are applied before the service gets called and accepts: (IHttpRequest, IHttpResponse, RequestDto) e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Add a request filter to check if the user has a session initialized</span>
+<span class="pl-c1">this</span>.RequestFilters.Add((httpReq, httpResponse, requestDto) =&gt;
+{
+    httpReq.Headers[<span class="pl-s"><span class="pl-pds">"</span>HttpHeader<span class="pl-pds">"</span></span>];
+    httpReq.QueryString[<span class="pl-s"><span class="pl-pds">"</span>queryParam<span class="pl-pds">"</span></span>];
+    httpReq.Form[<span class="pl-s"><span class="pl-pds">"</span>htmlFormParam<span class="pl-pds">"</span></span>];
+    httpReq.GetParam(<span class="pl-s"><span class="pl-pds">"</span>aParamInAnyOfTheAbove<span class="pl-pds">"</span></span>);
+
+    httpReq.Cookies[<span class="pl-s"><span class="pl-pds">"</span>requestCookie<span class="pl-pds">"</span></span>];
+    httpReq.AbsoluteUri;
+    httpReq.Items[<span class="pl-s"><span class="pl-pds">"</span>requestData<span class="pl-pds">"</span></span>] = <span class="pl-s"><span class="pl-pds">"</span>Share data between Filters and Services<span class="pl-pds">"</span></span>;
+
+     <span class="pl-c">//Access underlying Request in ASP.NET hosts</span>
+    <span class="pl-k">var</span> aspNetRequest = httpResponse.OriginalRequest <span class="pl-k">as</span> HttpRequestBase;
+     <span class="pl-c">//Access underlying Request in HttpListener hosts</span>
+    <span class="pl-k">var</span> listenerRequest = httpResponse.OriginalRequest <span class="pl-k">as</span> HttpListenerRequest;
+});</pre></div>
+
+<h4>
+<a id="user-content-services" class="anchor" href="#services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Services</h4>
+
+<p>When inheriting from Service you can access them via <code>base.Request</code> and <code>base.Response</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyService</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Request</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> <span class="pl-k">value</span> = <span class="pl-c1">base</span>.Request.GetParam(<span class="pl-s"><span class="pl-pds">"</span>aParamInAnyHeadersFormOrQueryString<span class="pl-pds">"</span></span>);
+        <span class="pl-c1">base</span>.Response.AddHeader(<span class="pl-s"><span class="pl-pds">"</span>X-CustomHeader<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Modify HTTP Response in Service<span class="pl-pds">"</span></span>);
+    }
+}</pre></div>
+
+<h4>
+<a id="user-content-accessing-the-request-and-response-from-the-requestcontext" class="anchor" href="#accessing-the-request-and-response-from-the-requestcontext" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Accessing the Request and Response from the RequestContext</h4>
+
+<p>The HttpRequest and HttpResponse is also accessible from a RequestContext with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> httpReq = requestContext.Get&lt;IHttpRequest&gt;();
+<span class="pl-k">var</span> httpRes = requestContext.Get&lt;IHttpResponse&gt;();</pre></div>
+
+<h4>
+<a id="user-content-response-filters" class="anchor" href="#response-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Response Filters</h4>
+
+<p>The Response Filters are applied after your service is called and accepts: (IHttpRequest, IHttpResponse, ResponseDto) e.g Add a response filter to add a 'Content-Disposition' header so browsers treat it as a native .csv file:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c1">this</span>.ResponseFilters.Add((req, res, responseDto) =&gt; 
+{
+    <span class="pl-k">if</span> (req.ResponseContentType == ContentType.Csv)
+    {
+        res.AddHeader(HttpHeaders.ContentDisposition,
+            <span class="pl-s"><span class="pl-pds">"</span>attachment;filename={0}.csv<span class="pl-pds">"</span></span>.Fmt(req.OperationName));
+    }
+
+    <span class="pl-c">//Access underlying Response in ASP.NET hosts</span>
+    <span class="pl-k">var</span> aspNetResponse = httpResponse.OriginalResponse <span class="pl-k">as</span> HttpResponseBase;
+    <span class="pl-c">//Access underlying Response in HttpListener hosts</span>
+    <span class="pl-k">var</span> listenerResponse = httpResponse.OriginalResponse <span class="pl-k">as</span> HttpListenerResponse;
+});</pre></div>
+
+<h3>
+<a id="user-content-communicating-throughout-the-request-pipeline" class="anchor" href="#communicating-throughout-the-request-pipeline" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Communicating throughout the Request Pipeline</h3>
+
+<p>The recommended way to pass additional metadata about the request is to use the <code>IHttpRequest.Items</code> collection. E.g. you can change what Razor View template the response DTO gets rendered in with: </p>
+
+<div class="highlight highlight-source-cs"><pre>httpReq.Items[<span class="pl-s"><span class="pl-pds">"</span>Template<span class="pl-pds">"</span></span>] = <span class="pl-s"><span class="pl-pds">"</span>_CustomLayout<span class="pl-pds">"</span></span>;
+
+...
+
+<span class="pl-k">var</span> preferredLayout = httpReq.Items[<span class="pl-s"><span class="pl-pds">"</span>Template<span class="pl-pds">"</span></span>];</pre></div>
+
+<h2>
+<a id="user-content-advantages-for-having-dependency-free-services" class="anchor" href="#advantages-for-having-dependency-free-services" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Advantages for having dependency-free services</h2>
+
+<p>If you don't need to access the HTTP specific features your services can be called by any non-HTTP endpoint,  like from a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-Redis">message queue</a>.</p>
+
+<h3>
+<a id="user-content-injecting-the-irequestcontext-into-your-service" class="anchor" href="#injecting-the-irequestcontext-into-your-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Injecting the IRequestContext into your Service</h3>
+
+<p>Although working in a clean-room can be ideal from re-usability and testability point of view, you stand the chance of missing out a lot of the features present in HTTP.</p>
+
+<p>Just like using built-in Funq IOC container, the way to tell ServiceStack to inject the request context is by implementing the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IRequiresRequestContext.cs">IRequiresRequestContext</a> interface which will get the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IRequestContext.cs">IRequestContext</a> injected before each request.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IRequestContext</span> : <span class="pl-k">IDisposable</span>
+{
+    T Get&lt;T&gt;() where T : <span class="pl-k">class</span>;
+    <span class="pl-k">string</span> <span class="pl-en">IpAddress</span> { <span class="pl-k">get</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">GetHeader</span>(<span class="pl-k">string</span> <span class="pl-smi">headerName</span>);
+    IDictionary&lt;<span class="pl-k">string</span>, Cookie&gt; <span class="pl-en">Cookies</span> { <span class="pl-k">get</span>; }
+    EndpointAttributes <span class="pl-en">EndpointAttributes</span> { <span class="pl-k">get</span>; }
+    IRequestAttributes <span class="pl-en">RequestAttributes</span> { <span class="pl-k">get</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">ContentType</span> { <span class="pl-k">get</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">ResponseContentType</span> { <span class="pl-k">get</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">CompressionType</span> { <span class="pl-k">get</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">AbsoluteUri</span> { <span class="pl-k">get</span>; }
+    <span class="pl-k">string</span> <span class="pl-en">PathInfo</span> { <span class="pl-k">get</span>; }
+    IFile[] <span class="pl-en">Files</span> { <span class="pl-k">get</span>; }
+}</pre></div>
+
+<blockquote>
+<p><strong>Note:</strong> ServiceStack's <code>Service</code> base class already implements <code>IRequiresRequestContext</code> which allows you to access the <code>IRequestContext</code> with <code>base.RequestContext</code> and the HTTP Request and Response with <code>base.Request</code> and <code>base.Response</code>.</p>
+
+<p><strong>Note:</strong> To return a customized HTTP Response, e.g. set Response Cookies or Headers, return the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Common/Web/HttpResult.cs">HttpResult</a> object.</p>
+</blockquote>

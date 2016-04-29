@@ -1,0 +1,92 @@
+<h3>
+<a id="user-content-enabling-global-cors-support" class="anchor" href="#enabling-global-cors-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enabling Global CORS support</h3>
+
+<p>The <strong>CorsFeature</strong> wraps CORS headers into an encapsulated <a href="https://github.com/ServiceStack/ServiceStack/wiki/Plugins">Plugin</a> to make it much easier to add CORS support to your ServiceStack services. </p>
+
+<p>Commonly this is now all that's needed:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> CorsFeature());</pre></div>
+
+<p>Which uses the default values:</p>
+
+<div class="highlight highlight-source-cs"><pre>CorsFeature(allowedOrigins:<span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span>, 
+    allowedMethods:<span class="pl-s"><span class="pl-pds">"</span>GET, POST, PUT, DELETE, OPTIONS<span class="pl-pds">"</span></span>, 
+    allowedHeaders:<span class="pl-s"><span class="pl-pds">"</span>Content-Type<span class="pl-pds">"</span></span>, 
+    allowCredentials:<span class="pl-c1">false</span>);</pre></div>
+
+<p>You can leave out any of the values matching the default. E.g. if you just wanted to restrict the allowed methods to just GET and POST requests, you can just do:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(CorsFeature(allowedMethods:<span class="pl-s"><span class="pl-pds">"</span>GET, POST<span class="pl-pds">"</span></span>));</pre></div>
+
+<h3>
+<a id="user-content-enabling-cors-per-service-support" class="anchor" href="#enabling-cors-per-service-support" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enabling CORS per-service support</h3>
+
+<p>Instead of using the plugin above, ServiceStack also allows you to enable CORS on a per-service basis by using <strong>[EnableCors]</strong> <a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">Response Filter attribute</a> which has the same defaults as above. E.g. You can enable just GET, POST as above with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[EnableCors(allowedMethods:<span class="pl-s"><span class="pl-pds">"</span>GET,POST<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">MyService</span> : <span class="pl-k">Service</span> { ... }</pre></div>
+
+<h2>
+<a id="user-content-manually-enabling-cors" class="anchor" href="#manually-enabling-cors" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Manually enabling CORS</h2>
+
+<p>The beauty of <a href="http://www.servicestack.net">ServiceStack</a> is that it's built on a highly flexible and simple core. We don't believe in building strong-typed APIs over everything, as it's impossible to predict what new HTTP Headers / StatusCodes will exist in the future. So whilst we provide convenient behavior to accomplish common tasks, we also provide a flexible API that lets you configure any desired HTTP Output. </p>
+
+<h3>
+<a id="user-content-setting-global-http-headers" class="anchor" href="#setting-global-http-headers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Setting Global HTTP Headers</h3>
+
+<p>This is how to globally enable Cross Origin Sharing in you AppHost config:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    <span class="pl-c">//Permit modern browsers (e.g. Firefox) to allow sending of any HTTP Method</span>
+    SetConfig(<span class="pl-k">new</span> HostConfig 
+    {
+        GlobalResponseHeaders = {
+          { <span class="pl-s"><span class="pl-pds">"</span>Access-Control-Allow-Origin<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> },
+          { <span class="pl-s"><span class="pl-pds">"</span>Access-Control-Allow-Methods<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>GET, POST, PUT, DELETE, OPTIONS<span class="pl-pds">"</span></span> },
+          { <span class="pl-s"><span class="pl-pds">"</span>Access-Control-Allow-Headers<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Content-Type<span class="pl-pds">"</span></span> },
+        },
+    });
+}</pre></div>
+
+<h3>
+<a id="user-content-returning-custom-http-headers-in-a-service" class="anchor" href="#returning-custom-http-headers-in-a-service" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Returning Custom HTTP Headers in a service</h3>
+
+<p>These headers will get sent on every request, alternatively you can also enable it for specific web services, i.e. take the <a href="http://www.servicestack.net/ServiceStack.Hello/">Hello World Web Service</a> for example:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Hello</span> {
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HelloResponse</span> {
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Result</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HelloService</span> : <span class="pl-k">IService</span> 
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Hello</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">var</span> dto = <span class="pl-k">new</span> HelloResponse { Result = <span class="pl-s"><span class="pl-pds">"</span>Hello, <span class="pl-pds">"</span></span> + request.Name };
+        <span class="pl-k">return</span> <span class="pl-k">new</span> HttpResult(dto) {
+            Headers = {
+              { <span class="pl-s"><span class="pl-pds">"</span>Access-Control-Allow-Origin<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>*<span class="pl-pds">"</span></span> },
+              { <span class="pl-s"><span class="pl-pds">"</span>Access-Control-Allow-Methods<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>GET, POST, PUT, DELETE<span class="pl-pds">"</span></span> } 
+              { <span class="pl-s"><span class="pl-pds">"</span>Access-Control-Allow-Headers<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>Content-Type<span class="pl-pds">"</span></span> }, 
+            }
+        };
+    }
+}</pre></div>
+
+<p>The above is all the C# code you need to develop a web service which is then automatically wired up for you on all HTTP Verbs (GET, POST, etc) and built-in endpoints, i.e. JSON, XML, JSV, HTML, CSV, SOAP 1.1/1.2 - for free, without any config or friction required. Checkout  <a href="http://www.servicestack.net/ServiceStack.Hello/">the live example of the above web service</a>.</p>
+
+<h2>
+<a id="user-content-jsonp" class="anchor" href="#jsonp" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>JSONP</h2>
+
+<p>In addition to the above endpoints each service is available to be called by <a href="https://en.wikipedia.org/wiki/JSONP">JSONP</a> (another popular way to enable cross-domain service calls in Ajax apps) where each service can be called via JSONP by simply adding the <strong>?callback=cb</strong> parameter to the querystring, e.g:</p>
+
+<p><a href="http://techstacks.io/technology/servicestack?callback=cb">techstacks.io/technology/servicestack?callback=cb</a>:</p>
+
+<div class="highlight highlight-source-js"><pre><span class="pl-c">//Response:</span>
+<span class="pl-en">cb</span>({ 
+    <span class="pl-k">...</span> 
+})</pre></div>

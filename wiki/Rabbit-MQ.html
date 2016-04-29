@@ -1,0 +1,339 @@
+<p>A nice advantage of ServiceStack's message-based design is its ability to host its Services on a variety of different endpoints. This design makes it possible to host Services via <a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging">MQ Servers</a>, enable <a href="https://github.com/ServiceStack/ServiceStack/wiki/SOAP-support">SOAP support</a> in addition to ServiceStack's strong HTTP Web Services story. One MQ Server we support is the extremely popular and robust Open Source AMQP messaging broker: <a href="http://www.rabbitmq.com">Rabbit MQ</a>.</p>
+
+<h2>
+<a id="user-content-getting-started" class="anchor" href="#getting-started" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Getting Started</h2>
+
+<p>A great way to get started with Rabbit MQ on Windows is by following the 
+<a href="https://github.com/mythz/rabbitmq-windows">Rabbit MQ Windows Installation guide</a>
+which also includes sample source code for accessing Rabbit MQ Server using the .NET <a href="https://www.nuget.org/packages/RabbitMQ.Client">RabbitMQ.Client</a> on NuGet.</p>
+
+<h2>
+<a id="user-content-servicestackrabbitmq" class="anchor" href="#servicestackrabbitmq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ServiceStack.RabbitMq</h2>
+
+<p>ServiceStack builds on top of <strong>RabbitMQ.Client</strong> to provide concrete implementations for 
+<a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/">ServiceStack's high-level Messaging APIs</a>
+enabling a number of messaging features including publishing and receiving messages as well as registering and processing message handlers. Like other ServiceStack providers, all MQ Servers are interchangeable, visible in the shared common <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs">MqServerIntroTests.cs</a> and <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Common.Tests/Messaging/MqServerAppHostTests.cs">MqServerAppHostTests.cs</a>.</p>
+
+<p><a href="https://camo.githubusercontent.com/cd39a5c80f9f72ad828917ad4dddef664c6446bc/68747470733a2f2f7261772e6769746875622e636f6d2f6d7974687a2f7261626269746d712d77696e646f77732f6d61737465722f696d672f6d6573736167696e672d6170692e706e67" target="_blank"><img src="https://camo.githubusercontent.com/cd39a5c80f9f72ad828917ad4dddef664c6446bc/68747470733a2f2f7261772e6769746875622e636f6d2f6d7974687a2f7261626269746d712d77696e646f77732f6d61737465722f696d672f6d6573736167696e672d6170692e706e67" alt="Messaging API" data-canonical-src="https://raw.github.com/mythz/rabbitmq-windows/master/img/messaging-api.png" style="max-width:100%;"></a></p>
+
+<p>ServiceStack's Rabbit MQ bindings is available on NuGet at:</p>
+
+<pre><code>PM&gt; Install-Package ServiceStack.RabbitMq
+</code></pre>
+
+<h3>
+<a id="user-content-rabbitmqserver" class="anchor" href="#rabbitmqserver" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>RabbitMqServer</h3>
+
+<p>The package includes <strong>RabbitMqServer</strong>, the Rabbit MQ implementation of ServiceStack's MQ
+<a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/IMessageService.cs">IMessageService</a> Server API.</p>
+
+<p>RabbitMqServer is basically a high-level POCO-based MQ server library that's de-coupled and can operate independently from the ServiceStack web framework.
+Given this, we're able to learn its functionality by exploring the library on its own. By default, RabbitMqServer looks for a Rabbit MQ Server instance 
+on <strong>localhost</strong> at Rabbit MQ's default port <strong>5672</strong>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> mqServer = <span class="pl-k">new</span> RabbitMqServer();</pre></div>
+
+<p>Which is equivalent to these other configurations:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> mqServer = <span class="pl-k">new</span> RabbitMqServer(<span class="pl-s"><span class="pl-pds">"</span>localhost<span class="pl-pds">"</span></span>);
+<span class="pl-k">var</span> mqServer = <span class="pl-k">new</span> RabbitMqServer(<span class="pl-s"><span class="pl-pds">"</span>localhost:5672<span class="pl-pds">"</span></span>);
+<span class="pl-k">var</span> mqServer = <span class="pl-k">new</span> RabbitMqServer(<span class="pl-s"><span class="pl-pds">"</span>amqp://localhost:5672<span class="pl-pds">"</span></span>);</pre></div>
+
+<p>More connection strings examples are available on <a href="http://www.rabbitmq.com/uri-spec.html">Rabbit MQ's URI Specification</a> page.</p>
+
+<blockquote>
+<p>Run-able examples of these code-samples are available in the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs#L13">RabbitMqServerIntroTests</a>.</p>
+</blockquote>
+
+<h4>
+<a id="user-content-message-filters" class="anchor" href="#message-filters" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Message Filters</h4>
+
+<p>There are optional <code>PublishMessageFilter</code> and <code>GetMessageFilter</code> callbacks which can be used to intercept outgoing and incoming messages. The Type name of the message body that was published is available in <code>IBasicProperties.Type</code>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> mqServer = <span class="pl-k">new</span> RabbitMqServer(<span class="pl-s"><span class="pl-pds">"</span>localhost<span class="pl-pds">"</span></span>) 
+{
+    PublishMessageFilter = (queueName, properties, msg) =&gt; {
+        properties.AppId = <span class="pl-s"><span class="pl-pds">"</span>app:{0}<span class="pl-pds">"</span></span>.Fmt(queueName);
+    },
+    GetMessageFilter = (queueName, basicMsg) =&gt; {
+        <span class="pl-k">var</span> props = basicMsg.BasicProperties;
+        receivedMsgType = props.Type; <span class="pl-c">//automatically added by RabbitMqProducer</span>
+        receivedMsgApp = props.AppId;
+    }
+};
+
+<span class="pl-k">using</span> (var mqClient = mqServer.CreateMessageQueueClient())
+{
+    mqClient.Publish(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>Bugs Bunny<span class="pl-pds">"</span></span> });
+}
+
+receivedMsgApp.Print();   <span class="pl-c">// app:mq:Hello.In</span>
+receivedMsgType.Print();  <span class="pl-c">// Hello</span></pre></div>
+
+<h3>
+<a id="user-content-poco-messages" class="anchor" href="#poco-messages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>POCO Messages</h3>
+
+<p>Just like the rest of ServiceStack, you can use any POCO for your messages (aka Request DTOs) which are serialized with ServiceStack's JSON Serializer and embedded as the body payload, a simple example is just: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Hello</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">Name</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<h3>
+<a id="user-content-registering-message-handlers" class="anchor" href="#registering-message-handlers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Registering Message Handlers</h3>
+
+<p>Now that we have a message we can use, we can start listening to any of these messages sent via the broker by registering handlers for it.
+Here's how to register a simple handler that just prints out each message it receieves:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqServer.RegisterHandler&lt;Hello&gt;(m =&gt; {
+    Hello request = m.GetBody();
+    <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}!<span class="pl-pds">"</span></span>.Print(request.Name);
+    <span class="pl-k">return</span> <span class="pl-c1">null</span>;
+});</pre></div>
+
+<p>Each handler receives an <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/IMessage.cs">IMessage</a>
+which is just the body of the message that was sent (i.e. <code>T</code>) wrapped inside an <code>IMessage</code> container containing the metadata of the received message.
+Inside your handler you can use <code>IMessage.GetBody()</code> to extract the typed body, and in this case we signify the service has no response by returning <code>null</code>. </p>
+
+<h3>
+<a id="user-content-starting-the-rabbit-mq-server" class="anchor" href="#starting-the-rabbit-mq-server" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Starting the Rabbit MQ Server</h3>
+
+<p>Once all your handlers are registered you can start listening to messages by starting the MQ Server:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqServer.Start();</pre></div>
+
+<p>Starting the MQ Server spawns 2 threads for each handler, one to listen to the Message Inbox <code>mq:Hello.inq</code> and another to listen on the Priority Queue located at <code>mq:Hello.priorityq</code>. </p>
+
+<blockquote>
+<p>Note: You can white-list which messages to enable Priority Queue's for with <code>mqServer.PriortyQueuesWhitelist</code> or disable them all by setting <code>mqServer.DisablePriorityQueues = true</code>.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-allocating-multiple-threads-for-specific-operations" class="anchor" href="#allocating-multiple-threads-for-specific-operations" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Allocating multiple threads for specific operations</h3>
+
+<p>By default only 1 thread is allocated to handle each message type, but this is easily configurable at registration. E.g. you can spawn 4 threads to handle a CPU-intensive operation with:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqServer.RegisterHandler&lt;Hello&gt;(m =&gt; { .. }, noOfThreads:<span class="pl-c1">4</span>);</pre></div>
+
+<h3>
+<a id="user-content-publishing-messages" class="anchor" href="#publishing-messages" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Publishing messages</h3>
+
+<p>With the mqServer started, you're now ready to start publishing messages, you can do with a message queue client that you can get
+from a new <strong>RabbitMqMessageFactory</strong> or the mqServer directly, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">using</span> (var mqClient = mqServer.CreateMessageQueueClient())
+{
+    mqClient.Publish(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> });
+}</pre></div>
+
+<p>The above shows the most common usage where you can publish POCO's directly, behind the scenes this gets serialized as JSON and embedded as the payload of a new persistent message that's sent using a <strong>routing key</strong> of the same name as the destination queue which by convention is mapped 1:1 to a queue of the same name, i.e: <strong>mq:Hello.inq</strong>. In effect, publishing messages are sent to a distinct <strong>Inbox Queue</strong> that's reserved for each message type, essentially behaving as a work queue.</p>
+
+<h2>
+<a id="user-content-message-workflow" class="anchor" href="#message-workflow" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Message Workflow</h2>
+
+<p>By default, RabbitMqServer will send a response message after it's processed each message, what the response is and which Queue (or HTTP url) the response is published to is dependent on the outcome of the message handler, i.e:</p>
+
+<p><a href="https://camo.githubusercontent.com/1d3ff95b50d5b342c1b1f372122bfc8fbcce6adc/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3167737968417956784a67333774466c4858314366774838384f58384d6b74386e546c41494f6165315f78302f7075623f773d3130333326683d363533" target="_blank"><img src="https://camo.githubusercontent.com/1d3ff95b50d5b342c1b1f372122bfc8fbcce6adc/68747470733a2f2f646f63732e676f6f676c652e636f6d2f64726177696e67732f642f3167737968417956784a67333774466c4858314366774838384f58384d6b74386e546c41494f6165315f78302f7075623f773d3130333326683d363533" alt="Rabbit MQ Flowchart" data-canonical-src="https://docs.google.com/drawings/d/1gsyhAyVxJg37tFlHX1CfwH88OX8Mkt8nTlAIOae1_x0/pub?w=1033&amp;h=653" style="max-width:100%;"></a> </p>
+
+<h3>
+<a id="user-content-messages-with-no-responses-are-sent-to-outq-topic" class="anchor" href="#messages-with-no-responses-are-sent-to-outq-topic" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Messages with no responses are sent to '.outq' Topic</h3>
+
+<p>When a handler returns a <code>null</code> response, the incoming message is re-published as a "transient" message to the out queue, e.g: <code>mq:Hello.outq</code> via the Rabbit MQ "fanout" exchange <code>mx.servicestack.topic</code> having the effect of notifying any subscribers to <code>mq:Hello.outq</code> each time a message is processed. </p>
+
+<p>We can use this behavior to block until a message gets processed with:</p>
+
+<div class="highlight highlight-source-cs"><pre>IMessage&lt;Hello&gt; msgCopy = mqClient.Get&lt;Hello&gt;(QueueNames&lt;Hello&gt;.Out);
+mqClient.Ack(msgCopy);
+msgCopy.GetBody().Name <span class="pl-c">//= World</span></pre></div>
+
+<p>Also shown in this example is an explicit <strong>Ack</strong> (which should be done for each message you receive) to tell Rabbit MQ that you've taken responsibility of the message so it can safely remove it off the queue.</p>
+
+<h3>
+<a id="user-content-messages-with-responses-are-published-to-the-response-inq" class="anchor" href="#messages-with-responses-are-published-to-the-response-inq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Messages with Responses are published to the Response .inq</h3>
+
+<p>Often message handlers will just return a POCO response after it processes a message, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqServer.RegisterHandler&lt;Hello&gt;(m =&gt;
+    <span class="pl-k">new</span> HelloResponse { Result = <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}!<span class="pl-pds">"</span></span>.Fmt(m.GetBody().Name) });</pre></div>
+
+<p>Whenever there's a response, then instead of the .outq the response message is sent to the <strong>.inq</strong> of the response message type, which for a <code>HelloResponse</code> type is just <strong>mq:HelloResponse.inq</strong>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqClient.Publish(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> });
+
+<span class="pl-k">var</span> responseMsg = mqClient.Get&lt;HelloResponse&gt;(QueueNames&lt;HelloResponse&gt;.In);
+mqClient.Ack(responseMsg);
+responseMsg.GetBody().Result <span class="pl-c">//= Hello, World!</span></pre></div>
+
+<blockquote>
+<p>Note: this behavior can be limited to only publish responses for types in the <code>mqServer.PublishResponsesWhitelist</code>, otherwise all response messages can be disabled entirely by setting <code>mqServer.DisablePublishingResponses = true</code>.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-responses-from-messages-with-replyto-are-published-to-that-address" class="anchor" href="#responses-from-messages-with-replyto-are-published-to-that-address" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Responses from Messages with ReplyTo are published to that address</h3>
+
+<p>Whilst for the most part you'll only need to publish POCO messages, you can also alter the default behavior by providing a customized <code>IMessage&lt;T&gt;</code> wrapper which ServiceStack will send instead, e.g. you can specify your own <strong>ReplyTo</strong> address to change the queue where the response gets published, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">const</span> <span class="pl-k">string</span> replyToMq = mqClient.GetTempQueueName();
+mqClient.Publish(<span class="pl-k">new</span> Message&lt;Hello&gt;(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> }) {
+    ReplyTo = replyToMq
+});
+
+IMessage&lt;HelloResponse&gt; responseMsg = mqClient.Get&lt;HelloResponse&gt;(replyToMq);
+mqClient.Ack(responseMsg);
+responseMsg.GetBody().Result <span class="pl-c">//= Hello, World!</span></pre></div>
+
+<p>A nice feature unique in ServiceStack is that the ReplyTo address can even be a <strong>HTTP Uri</strong>, in which case ServiceStack will attempt to <strong>POST</strong> the raw response at that address. This works nicely with ServiceStack Services which excel at accepting serialized DTO's.</p>
+
+<h3>
+<a id="user-content-messages-that-generate-exceptions-can-be-re-tried-then-published-to-the-dead-letter-queue-dlq" class="anchor" href="#messages-that-generate-exceptions-can-be-re-tried-then-published-to-the-dead-letter-queue-dlq" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Messages that generate exceptions can be re-tried, then published to the dead-letter-queue (.dlq)</h3>
+
+<p>By default Rabbit Mq Server lets you specify whether or not you want messages that cause an exception to be retried by specifying a RetryCount of 1 (default), or if you don't want any messages re-tried, specify a value of 0, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> mqServer = <span class="pl-k">new</span> RabbitMqServer { RetryCount = <span class="pl-c1">1</span> };</pre></div>
+
+<p>To illustrate how this works we'll keep a counter of how many times a message handler is invoked, then throw an exception to force an error condition, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> called = <span class="pl-c1">0</span>;
+mqServer.RegisterHandler&lt;Hello&gt;(m =&gt; {
+    called++;
+    <span class="pl-k">throw</span> <span class="pl-k">new</span> ArgumentException(<span class="pl-s"><span class="pl-pds">"</span>Name<span class="pl-pds">"</span></span>);
+});</pre></div>
+
+<p>Now when we publish a message the response instead gets published to the messages <strong>.dlq</strong>, after it's first transparently retried. We can verify this behavior by checking <code>called=2</code>:</p>
+
+<div class="highlight highlight-source-cs"><pre>mqClient.Publish(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> });
+
+IMessage&lt;Hello&gt; dlqMsg = mqClient.Get&lt;Hello&gt;(QueueNames&lt;Hello&gt;.Dlq);
+mqClient.Ack(dlqMsg);
+
+Assert.That(called, Is.EqualTo(<span class="pl-c1">2</span>));</pre></div>
+
+<p>DLQ Messages retains the original message in their body as well as the last exception serialized in the <code>IMessage.Error</code> ResponseStatus metadata property, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>dlqMsg.GetBody().Name   <span class="pl-c">//= World</span>
+dlqMsg.Error.ErrorCode  <span class="pl-c">//= typeof(ArgumentException).Name</span>
+dlqMsg.Error.Message    <span class="pl-c">//= Name</span></pre></div>
+
+<p>Since the body of the original message is left in-tact, you're able to retry failed messages by removing them from the dead-letter-queue then re-publishing the original message, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>IMessage&lt;Hello&gt; dlqMsg = mqClient.Get&lt;Hello&gt;(QueueNames&lt;Hello&gt;.Dlq);
+
+mqClient.Publish(dlqMsg.GetBody());
+
+mqClient.Ack(dlqMsg);</pre></div>
+
+<p>This is useful for recovering failed messages after identifying and fixing bugs that were previously causing exceptions, where you can replay and re-process DLQ messages and continue processing them as normal.</p>
+
+<h2>
+<a id="user-content-adding-rabbit-mq-support-to-servicestack" class="anchor" href="#adding-rabbit-mq-support-to-servicestack" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Adding Rabbit MQ support to ServiceStack</h2>
+
+<p>Whilst RabbitMqServer is useful on its own, it also has the distinct advantage of being able to directly Execute ServiceStack Services which you can do by just routing the handler for each <strong>Request DTO</strong> you want to process through to ServiceStack's <strong>ServiceController.ExecuteMessage</strong>, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">AppHost</span> : <span class="pl-k">AppHostHttpListenerBase</span>
+{
+    <span class="pl-k">public</span> <span class="pl-en">AppHost</span>() : <span class="pl-c1">base</span>("Rabbit MQ Test Host", typeof(HelloService).Assembly) {}
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> <span class="pl-en">Configure</span>(<span class="pl-k">Container</span> <span class="pl-smi">container</span>)
+    {
+        container.Register&lt;IMessageService&gt;(c =&gt; <span class="pl-k">new</span> RabbitMqServer());
+
+        <span class="pl-k">var</span> mqServer = container.Resolve&lt;IMessageService&gt;();
+
+        mqServer.RegisterHandler&lt;Hello&gt;(ServiceController.ExecuteMessage);
+        mqServer.Start();
+    }
+}</pre></div>
+
+<p>Now each message will instead be executed by the best matching ServiceStack Service that handles the message with either a <strong>Post</strong> or <strong>Any</strong> fallback verb, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">HelloService</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Any</span>(<span class="pl-k">Hello</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> HelloResponse { Result = <span class="pl-s"><span class="pl-pds">"</span>Hello, {0}!<span class="pl-pds">"</span></span>.Fmt(request.Name) };
+    }
+}</pre></div>
+
+<p>In addition to executing your service implementation, all Services processed via a MQ Server goes through ServiceStack's standard <a href="https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations#wiki-mq-non-http-custom-hooks">MQ Request Pipeline</a>.</p>
+
+<p>With everything in place, initialize ServiceStack's AppHost to start the Rabbit MQ Server to listen for any messages published to the Request DTO's <strong>.inq</strong>:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> appHost = <span class="pl-k">new</span> AppHost().Init();
+
+<span class="pl-k">using</span> (var mqClient = appHost.Resolve&lt;IMessageService&gt;().CreateMessageQueueClient())
+{
+    mqClient.Publish(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> });
+
+    <span class="pl-k">var</span> responseMsg = mqClient.Get&lt;HelloResponse&gt;(QueueNames&lt;HelloResponse&gt;.In);
+    mqClient.Ack(responseMsg);
+    responseMsg.GetBody().Result <span class="pl-c">//= Hello, World!     </span>
+}</pre></div>
+
+<h3>
+<a id="user-content-process-servicestack-mq-services-without-a-http-host" class="anchor" href="#process-servicestack-mq-services-without-a-http-host" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Process ServiceStack MQ Services without a HTTP host</h3>
+
+<p>Whilst it's unlikely to be a common use-case, you can even run a ServiceStack MQ Server without a HTTP host by configuring the mqServer inside the generic BasicAppHost, e.g: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">var</span> appHost = <span class="pl-k">new</span> BasicAppHost(<span class="pl-k">typeof</span>(HelloService).Assembly) {
+    ConfigureAppHost = host =&gt; {
+        host.Container.Register&lt;IMessageService&gt;(c =&gt; <span class="pl-k">new</span> RabbitMqServer());
+
+        <span class="pl-k">var</span> mqServer = host.Container.Resolve&lt;IMessageService&gt;();
+
+        mqServer.RegisterHandler&lt;Hello&gt;(host.ServiceController.ExecuteMessage);
+        mqServer.Start();
+    }
+}.Init();
+
+<span class="pl-k">using</span> (var mqClient = appHost.Resolve&lt;IMessageService&gt;().CreateMessageQueueClient())
+{
+    mqClient.Publish(<span class="pl-k">new</span> Hello { Name = <span class="pl-s"><span class="pl-pds">"</span>World<span class="pl-pds">"</span></span> });
+
+    <span class="pl-k">var</span> msg = mqClient.Get&lt;HelloResponse&gt;(QueueNames&lt;HelloResponse&gt;.In);
+    mqClient.Ack(msg);
+    Assert.That(msg.GetBody().Result, Is.EqualTo(<span class="pl-s"><span class="pl-pds">"</span>Hello, World!<span class="pl-pds">"</span></span>));
+}</pre></div>
+
+<p>In this way, ServiceStack's AppHost is being used as a pure "logic server", hosting auto-wired services within <a href="https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations#wiki-mq-non-http-custom-hooks">its MQ Request Pipeline</a>, whilst taking advantage of ServiceStack's flexibility and extensibility options and its plugin ecosystem.</p>
+
+<p>Run-able examples of these code-samples are available in the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs#L13">RabbitMqServerIntroTests</a>.</p>
+
+<h2>
+<a id="user-content-rabbit-mq-features" class="anchor" href="#rabbit-mq-features" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Rabbit MQ Features</h2>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.RabbitMq/RabbitMqServer.cs">Rabbit MQ Server</a> have some configuration options that are unique to Rabbit MQ:</p>
+
+<ul>
+<li>
+<code>ConnectionFactory</code> <strong>ConnectionFactory</strong> - The <a href="https://github.com/mythz/rabbitmq-windows">RabbitMQ.Client</a> Connection factory to introspect connection properties and create low-level connections</li>
+<li>
+<code>bool</code> <strong>AutoReconnect</strong> - Whether Rabbit MQ should auto-retry connecting when a connection to Rabbit MQ Server instance is dropped</li>
+<li>
+<code>bool</code> <strong>UsePolling</strong> - Whether to use polling for consuming messages instead of a long-term subscription</li>
+<li>
+<code>int</code> <strong>RetryCount</strong> - How many times a message should be retried before sending to the DLQ. Valid range for Rabbit MQ: 0-1.</li>
+</ul>
+
+<p>In addition to sharing a similar architecture to <a href="https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-Redis">Redis MQ</a>, it also shares a number of common features:</p>
+
+<ul>
+<li>
+<code>int?</code> <strong>KeepAliveRetryAfterMs</strong> - Wait before Starting the MQ Server after a restart</li>
+<li>
+<code>IMessageFactory</code> <strong>MessageFactory</strong> - The MQ Message Factory used by this MQ Server</li>
+<li>
+<code>Func&lt;IMessage, IMessage&gt;</code> <strong>RequestFilter</strong> - Execute global transformation or custom logic before a request is processed. Must be thread-safe.</li>
+<li>
+<code>Func&lt;object, object&gt;</code> <strong>ResponseFilter</strong> - Execute global transformation or custom logic on the response. Must be thread-safe.</li>
+<li>
+<code>Action&lt;Exception&gt;</code> <strong>ErrorHandler</strong> - Execute global error handler logic. Must be thread-safe.</li>
+<li>
+<code>string[]</code> <strong>PriortyQueuesWhitelist</strong> - If you only want to enable priority queue handlers (and threads) for specific msg types.</li>
+<li>
+<code>bool</code> <strong>DisablePriorityQueues</strong> - Don't listen on any Priority Queues</li>
+<li>
+<code>string[]</code> <strong>PublishResponsesWhitelist</strong> - Opt-in to only publish responses on this white list. Publishes all responses by default.</li>
+<li>
+<code>bool</code> <strong>DisablePublishingResponses</strong> - Don't publish any response messages</li>
+</ul>

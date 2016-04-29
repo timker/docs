@@ -1,0 +1,890 @@
+<p>Built into ServiceStack is an optional Authentication feature you can use to add Authentication to your services by providing web services to Authenticate existing users, Register new users as well Assign/UnAssign Roles to existing users (if you need them). It's highly pluggable and customizable where you can plug-in your own Auth logic, change the caching and session providers as well as what RDBMS is used to persist UserAuth data.</p>
+
+<p>A minimal configuration needed to get Basic Authentication up and running is the following in <code>AppHost.Config()</code> (derived from the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/AuthTests.cs">AuthTests unit test</a>):</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">void</span> Configure(Container container)
+{
+    Plugins.Add(<span class="pl-k">new</span> AuthFeature(() =&gt; <span class="pl-k">new</span> AuthUserSession(),
+      <span class="pl-k">new</span> IAuthProvider[] { 
+        <span class="pl-k">new</span> BasicAuthProvider(), <span class="pl-c">//Sign-in with HTTP Basic Auth</span>
+        <span class="pl-k">new</span> CredentialsAuthProvider(), <span class="pl-c">//HTML Form post of UserName/Password credentials</span>
+      }));
+
+    Plugins.Add(<span class="pl-k">new</span> RegistrationFeature());
+
+    container.Register&lt;ICacheClient&gt;(<span class="pl-k">new</span> MemoryCacheClient());
+    <span class="pl-k">var</span> userRep = <span class="pl-k">new</span> InMemoryAuthRepository();
+    container.Register&lt;IUserAuthRepository&gt;(userRep);
+
+    <span class="pl-c">//The IUserAuthRepository is used to store the user credentials etc.</span>
+    <span class="pl-c">//Implement this interface to adjust it to your app's data storage</span>
+}</pre></div>
+
+<p>The high-level overview below shows how all the different parts fit together and which parts are customizable:</p>
+
+<p><a href="https://camo.githubusercontent.com/ad980453ebe6e7633f5fc87d814c440692848ac1/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f617574682d6f766572766965772e706e67" target="_blank"><img src="https://camo.githubusercontent.com/ad980453ebe6e7633f5fc87d814c440692848ac1/687474703a2f2f6d6f6e6f2e73657276696365737461636b2e6e65742f66696c65732f617574682d6f766572766965772e706e67" alt="Authentication Overview" data-canonical-src="http://mono.servicestack.net/files/auth-overview.png" style="max-width:100%;"></a></p>
+
+<h3>
+<a id="user-content-auth-providers" class="anchor" href="#auth-providers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Auth Providers</h3>
+
+<p>From the overview we can see the built-in AuthProviders that are included:</p>
+
+<ul>
+<li>
+<strong>Credentials</strong> - For authenticating with username/password credentials by posting to the <code>/auth/credentials</code> service</li>
+<li>
+<strong>AspNetWindowsAuthProvider</strong> - Allowing users to authenticate with Windows Authentication</li>
+<li>
+<strong>Basic Auth</strong> - Allowing users to authenticate with HTTP Basic Auth</li>
+<li>
+<strong>Digest Auth</strong> - Allowing users to authenticate with HTTP Digest Authentication </li>
+<li>
+<strong>Custom Credentials</strong> - By inheriting CredentialsAuthProvider and providing your own Username/Password <code>TryAuthenticate</code> implementation</li>
+<li>
+<strong>Twitter OAuth</strong> - Allow users to Register and Authenticate with Twitter</li>
+<li>
+<strong>Facebook OAuth</strong> - Allow users to Register and Authenticate with Facebook </li>
+<li>
+<strong>GitHub OAuth</strong> - Allow users to Register and Authenticate with GitHub </li>
+<li>
+<strong>Yammer OAuth</strong> - Allow users to Register and Authenticate with Yammer</li>
+<li>
+<strong>Yandex OAuth</strong> - Allow users to Register and Authenticate with Yandex</li>
+<li>
+<strong>VK OAuth</strong> - Allow users to Register and Authenticate with VK</li>
+<li>
+<strong>Odnoklassni OAuth</strong> - Allow users to Register and Authenticate with Odnoklassni</li>
+</ul>
+
+<h3>
+<a id="user-content-oauth2-providers" class="anchor" href="#oauth2-providers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth2 Providers</h3>
+
+<p>The <a href="https://nuget.org/packages/ServiceStack.Authentication.OAuth2">ServiceStack.Authentication.OAuth2</a> NuGet package provides OAuth2 Providers support to ServiceStack that includes:</p>
+
+<ul>
+<li>
+<strong>Instagram OAuth2</strong> - Allow users to Register and Authenticate with Instagram OAuth2</li>
+<li>
+<strong>Google OAuth2</strong> - Allow users to Register and Authenticate with Google OAuth2</li>
+<li>
+<strong>LinkedIn OAuth2</strong> - Allow users to Register and Authenticate with LinkedIn OAuth2</li>
+<li>
+<strong>Microsoft Live OAuth2</strong> - Allow users to Register and Authenticate with Microsoft Live OAuth2</li>
+</ul>
+
+<h3>
+<a id="user-content-openid-auth-providers" class="anchor" href="#openid-auth-providers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStack/ServiceStack/wiki/OpenId">OpenId Auth Providers</a>
+</h3>
+
+<p>The <a href="https://nuget.org/packages/ServiceStack.Authentication.OpenId">ServiceStack.Authentication.OpenId</a> NuGet package provides OpenId Auth Providers support to ServiceStack that includes:</p>
+
+<ul>
+<li>
+<strong>Google OpenId</strong> - Allow users to Register and Authenticate with Google</li>
+<li>
+<strong>Yahoo OpenId</strong> - Allow users to Register and Authenticate with Yahoo</li>
+<li>
+<strong>MyOpenId</strong> - Allow users to Register and Authenticate with MyOpenId</li>
+<li>
+<strong>OpenId</strong> - Allow users to Register and Authenticate with <strong>any</strong> custom OpenId provider</li>
+</ul>
+
+<h3>
+<a id="user-content-community-auth-providers" class="anchor" href="#community-auth-providers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Auth Providers</h3>
+
+<ul>
+<li>
+<strong><a href="https://github.com/jfoshee/ServiceStack.Authentication.Aad">Azure Active Directory</a></strong> - Allow Custom App to login with Azure Active Directory</li>
+</ul>
+
+<p>Find more info about <a href="https://github.com/ServiceStack/ServiceStack/wiki/OpenId">OpenId 2.0 providers on the wiki</a>.</p>
+
+<h3>
+<a id="user-content-oauth-configuration" class="anchor" href="#oauth-configuration" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>OAuth Configuration</h3>
+
+<p>The OAuth providers below require you to register your application with them in order to get the <code>ConsumerKey</code> and <code>ConsumerSecret</code> required, at the urls below:</p>
+
+<ul>
+<li>
+<strong>Twitter</strong> <a href="https://dev.twitter.com/apps">dev.twitter.com/apps</a>
+</li>
+<li>
+<strong>Facebook</strong> <a href="https://developers.facebook.com/apps">developers.facebook.com/apps</a>
+</li>
+<li>
+<strong>Instagram</strong> <a href="http://instagram.com/developer/authentication/">instagram.com/developer/authentication</a>
+</li>
+<li>
+<strong>Google OAuth2</strong> <a href="https://code.google.com/apis/console/">code.google.com/apis/console/</a>
+</li>
+<li>
+<strong>LinkedIn OAuth2</strong> <a href="https://www.linkedin.com/secure/developer">www.linkedin.com/secure/developer</a>
+</li>
+<li>
+<strong>Microsoft Live OAuth2</strong> <a href="https://account.live.com/developers/applications">account.live.com/developers/applications</a>
+</li>
+<li>
+<strong>Yammer</strong> <a href="http://www.yammer.com/client_applications">www.yammer.com/client_applications</a>
+</li>
+<li>
+<strong>GitHub</strong> <a href="https://github.com/settings/applications/new">github.com/settings/applications/new</a>
+</li>
+<li>
+<strong>Yandex</strong> <a href="https://oauth.yandex.ru/client/new">oauth.yandex.ru/client/new</a>
+</li>
+<li>
+<strong>VK</strong> <a href="http://vk.com/editapp?act=create">vk.com/editapp?act=create</a>
+</li>
+<li>
+<strong>Odnoklassniki</strong> <a href="http://www.odnoklassniki.ru/devaccess">www.odnoklassniki.ru/devaccess</a>
+</li>
+</ul>
+
+<p><a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.AuthWeb.Tests/">AuthWebTests</a> is a simple project that shows all Auth Providers configured and working in the same app. See the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.AuthWeb.Tests/AppHost.cs">AppHost</a> for an example of the code and the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.AuthWeb.Tests/Web.config">Web.config</a> for an example of the configuration required to enable each Auth Provider.</p>
+
+<p>Once you have the <code>ConsumerKey</code> and <code>ConsumerSecret</code> you need to configure it with your ServiceStack host, via <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.AuthWeb.Tests/Web.config">Web.config</a>, e.g:</p>
+
+<pre><code>&lt;add key="oauth.twitter.RedirectUrl"    value="http://yourhostname.com/"/&gt;
+&lt;add key="oauth.twitter.CallbackUrl"    value="http://yourhostname.com/auth/twitter"/&gt;    
+&lt;add key="oauth.twitter.ConsumerKey"    value="3H1FHjGbA1N0n0aT5yApA"/&gt;
+&lt;add key="oauth.twitter.ConsumerSecret" value="MLrZ0ujK6DwyjlRk2YLp6HwSdoBjtuqwXeHDQLv0Q"/&gt;
+</code></pre>
+
+<blockquote>
+<p>Note: Each OAuth Config option fallbacks to the configuration without the provider name. This is useful for reducing repetitive configuration that's shared by all OAuth providers like the <code>RedirectUrl</code> or <code>CallbackUrl</code>, e.g:</p>
+</blockquote>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>oauth.RedirectUrl<span class="pl-pds">"</span></span>    <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>http://yourhostname.com/<span class="pl-pds">"</span></span>/&gt;
+&lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>oauth.CallbackUrl<span class="pl-pds">"</span></span>    <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>http://yourhostname.com/auth/{0}<span class="pl-pds">"</span></span>/&gt;    </pre></div>
+
+<p>Or via configuration in code when you register the <code>AuthFeature</code> in your AppHost, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(() =&gt; <span class="pl-k">new</span> AuthUserSession(), <span class="pl-k">new</span> IAuthProvider[] {
+    <span class="pl-k">new</span> TwitterAuthProvider(appSettings) { 
+        RedirectUrl = <span class="pl-s"><span class="pl-pds">"</span>http://yourhostname.com/<span class="pl-pds">"</span></span>,
+        CallbackUrl = <span class="pl-s"><span class="pl-pds">"</span>http://yourhostname.com/auth/twitter<span class="pl-pds">"</span></span>,
+        ConsumerKey = <span class="pl-s"><span class="pl-pds">"</span>3H1FHjGbA1N0n0aT5yApA<span class="pl-pds">"</span></span>,
+        ConsumerSecret = <span class="pl-s"><span class="pl-pds">"</span>MLrZ0ujK6DwyjlRk2YLp6HwSdoBjtuqwXeHDQLv0Q<span class="pl-pds">"</span></span>,
+    },
+}));</pre></div>
+
+<blockquote>
+<p>Note: The Callback URL in each Application should match the CallbackUrl for your application which is typically: <a href="http://yourhostname.com/auth/%7BProvider%7D">http://yourhostname.com/auth/{Provider}</a>, e.g. <a href="http://yourhostname.com/auth/twitter">http://yourhostname.com/auth/twitter</a> for Twitter.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-built-in-auth-providers" class="anchor" href="#built-in-auth-providers" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Built-In Auth Providers</h3>
+
+<p>By default the <code>CredentialsAuthProvider</code> and <code>BasicAuthProvider</code> validate against users stored in the UserAuth repository. The registration service at <code>/register</code> allow users to register new users with your service and stores them in your preferred <code>IUserAuthRepository</code> provider (below). The <a href="https://github.com/ServiceStack/SocialBootstrapApi">SocialBootstrapApi</a> uses this to allow new users (without Twitter/Facebook accounts) to register with the website.</p>
+
+<p>A good starting place to create your own Auth provider that relies on username/password validation is to subclass <code>CredentialsAuthProvider</code> and override the <code>bool TryAuthenticate(service, username, password)</code> hook so you can add in your own implementation. If you want to make this available via BasicAuth as well you will also need to subclass <code>BasicAuthProvider</code> with your own custom implementation.</p>
+
+<h3>
+<a id="user-content-userauth-persistence---the-iuserauthrepository" class="anchor" href="#userauth-persistence---the-iuserauthrepository" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UserAuth Persistence - the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/IAuthRepository.cs#L19">IUserAuthRepository</a>
+</h3>
+
+<p>The Authentication module allows you to use your own persistence back-ends but for the most part you should be able to use one of the existing InMemory, Redis, OrmLite or MongoDB adapters. Use the OrmLite adapter if you want to store the Users Authentication information in any of the RDBMS's that <a href="https://github.com/ServiceStack/ServiceStack.OrmLite">OrmLite</a> supports, which as of this writing includes Sql Server, Sqlite, MySql, PostgreSQL and Firebird. </p>
+
+<ul>
+<li>
+<strong>OrmLite</strong>: <code>OrmLiteAuthRepository</code> in <a href="https://nuget.org/packages/ServiceStack.Server">ServiceStack.Server</a>
+</li>
+<li>
+<strong>Redis</strong>: <code>RedisAuthRepository</code> in <a href="https://nuget.org/packages/ServiceStack">ServiceStack</a>
+</li>
+<li>
+<strong>In Memory</strong>: <code>InMemoryAuthRepository</code> in <a href="https://nuget.org/packages/ServiceStack">ServiceStack</a>
+</li>
+<li>
+<strong>AWS DynamoDB</strong>: <code>DynamoDbAuthRepository</code> in <a href="https://nuget.org/packages/ServiceStack.Aws">ServiceStack.Aws</a>
+</li>
+<li>
+<strong>Mongo DB</strong>: <code>MongoDBAuthRepository</code> in <a href="https://nuget.org/packages/ServiceStack.Authentication.MongoDB">ServiceStack.Authentication.MongoDB</a>
+</li>
+<li>
+<strong>Raven DB</strong>: <code>RavenUserAuthRepository</code> in <a href="https://nuget.org/packages/ServiceStack.Authentication.RavenDB">ServiceStack.Authentication.RavenDB</a>
+</li>
+</ul>
+
+<h3>
+<a id="user-content-caching--sessions---the-icacheclient" class="anchor" href="#caching--sessions---the-icacheclient" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Caching / Sessions - the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClient.cs">ICacheClient</a>
+</h3>
+
+<p>Once authenticated the <strong>AuthUserSession</strong> model is populated and stored in the Cache using one of ServiceStack's <a href="https://github.com/ServiceStack/ServiceStack/wiki/Caching">supported Caching providers</a>. ServiceStack's Sessions simply uses the <code>ICacheClient</code> API so any new provider added can be used for both Session and Caching options. Which currently include the following implementations:</p>
+
+<ul>
+<li>
+<strong>In Memory</strong>: <code>MemoryCacheClient</code> in <a href="https://nuget.org/packages/ServiceStack">ServiceStack</a>
+</li>
+<li>
+<strong>Redis</strong>: <code>RedisClient</code>, <code>PooledRedisClientManager</code> or <code>BasicRedisClientManager</code> in <a href="https://nuget.org/packages/ServiceStack.Redis">ServiceStack.Redis</a>
+</li>
+<li>
+<strong>Memcached</strong>: <code>MemcachedClientCache</code> in <a href="https://nuget.org/packages/ServiceStack.Caching.Memcached">ServiceStack.Caching.Memcached</a>
+</li>
+<li>
+<strong>AWS DynamoDB</strong>: <code>DynamoDbCacheClient</code> in <a href="https://nuget.org/packages/ServiceStack.Aws">ServiceStack.Aws</a>
+</li>
+<li>
+<strong>Azure</strong>: <code>AzureCacheClient</code> in <a href="https://nuget.org/packages/ServiceStack.Caching.Azure">ServiceStack.Caching.Azure</a>
+The Auth Feature also allows you to specify your own custom <code>IUserAuthSession</code> type so you can attach additional metadata to your users session which will also get persisted and hydrated from the cache. </li>
+</ul>
+
+<blockquote>
+<p>Note: If you're using Custom Sessions and have <code>JsConfig.ExcludeTypeInfo=true</code>, you need to <a href="http://stackoverflow.com/q/18842685/85785">explicitly enable it</a> with <code>JsConfig&lt;TCustomSession&gt;.IncludeTypeInfo=true</code>.</p>
+</blockquote>
+
+<p>After authentication the client will receive a cookie with a session id, which is used to fetch the correct session from the <code>ICacheClient</code> internally by ServiceStack. Thus, you can access the current session in a service:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SecuredService</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Get</span>(<span class="pl-k">Secured</span> <span class="pl-smi">request</span>)
+    {
+        IAuthSession session = <span class="pl-c1">this</span>.GetSession();
+        <span class="pl-k">return</span> <span class="pl-k">new</span> SecuredResponse() { Test = <span class="pl-s"><span class="pl-pds">"</span>You're<span class="pl-pds">"</span></span> + session.FirstName };
+    }
+}</pre></div>
+
+<p>ServiceStack's Authentication, Caching and Session providers are completely new, clean, dependency-free testable APIs that doesn't rely on and is devoid of ASP.NET's existing membership, caching or session provider models. </p>
+
+<h2>
+<a id="user-content-live-demos" class="anchor" href="#live-demos" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><a href="https://github.com/ServiceStackApps/LiveDemos">Live Demos</a>
+</h2>
+
+<p>To illustrate Authentication integration with ServiceStack, see the authentication-enabled live demos below:</p>
+
+<ul>
+<li>
+<a href="https://github.com/ServiceStackApps/HttpBenchmarks">HttpBenchmarks Application</a>
+
+<ul>
+<li><a href="https://github.com/ServiceStackApps/HttpBenchmarks#authentication">Step-by-Step Authentication Guide</a></li>
+<li>Twitter, Facebook, Google, LinkedIn and Credentials Auth</li>
+</ul>
+</li>
+<li>
+<a href="http://awsapps.servicestack.net/awsauth/">AWS Auth</a> 
+
+<ul>
+<li>Twitter, Facebook, GitHub, Google, Yahoo, LinkedIn, and Credentials Auth</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-Integration">MVC and WebForms Example</a> 
+
+<ul>
+<li>Twitter, Facebook, GitHub, Google, Yahoo, LinkedIn, VK, Credentials and Windows Auth</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/ServiceStackApps/LiveDemos#chat">Chat</a>
+
+<ul>
+<li>Twitter and GitHub OAuth</li>
+</ul>
+</li>
+<li>
+<a href="https://github.com/ServiceStackApps/LiveDemos#social-bootstrap-api">SocialBootstrap Api</a>
+
+<ul>
+<li>Twitter, Facebook, Yahoo and Credentials Auth</li>
+</ul>
+</li>
+</ul>
+
+<h2>
+<a id="user-content-custom-authentication-and-authorization" class="anchor" href="#custom-authentication-and-authorization" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom authentication and authorization</h2>
+
+<p>The classes in ServiceStack have been designed to provide default behavior out the box (convention over configuration). They are also highly customizable. Both the default <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/BasicAuthProvider.cs">BasicAuthProvider</a> and <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/CredentialsAuthProvider.cs">CredentialsAuthProvider</a> (which it extends) can be extended, and their behavior overwritten. An example is below:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">using</span> ServiceStack<span class="pl-k">;</span>
+<span class="pl-k">using</span> ServiceStack.Auth<span class="pl-k">;</span>
+
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">CustomCredentialsAuthProvider</span> : <span class="pl-k">CredentialsAuthProvider</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">override</span> <span class="pl-k">bool</span> <span class="pl-en">TryAuthenticate</span>(<span class="pl-k">IServiceBase</span> <span class="pl-smi">authService</span>, 
+        <span class="pl-k">string</span> <span class="pl-smi">userName</span>, <span class="pl-k">string</span> <span class="pl-smi">password</span>)
+    {
+        <span class="pl-c">//Add here your custom auth logic (database calls etc)</span>
+        <span class="pl-c">//Return true if credentials are valid, otherwise false</span>
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">override</span> IHttpResult <span class="pl-en">OnAuthenticated</span>(<span class="pl-k">IServiceBase</span> <span class="pl-smi">authService</span>, 
+        <span class="pl-k">IAuthSession</span> <span class="pl-smi">session</span>, <span class="pl-k">IAuthTokens</span> <span class="pl-smi">tokens</span>, 
+        Dictionary&lt;string, string&gt; authInfo)
+    {
+        <span class="pl-c">//Fill IAuthSession with data you want to retrieve in the app eg:</span>
+        session.FirstName = <span class="pl-s"><span class="pl-pds">"</span>some_firstname_from_db<span class="pl-pds">"</span></span>;
+        <span class="pl-c">//...</span>
+
+        <span class="pl-c">//Call base method to Save Session and fire Auth/Session callbacks:</span>
+        <span class="pl-k">return</span> <span class="pl-c1">base</span>.OnAuthenticated(authService, session, tokens, authInfo);
+
+        <span class="pl-c">//Alternatively avoid built-in behavior and explicitly save session with</span>
+        <span class="pl-c">//authService.SaveSession(session, SessionExpiry);</span>
+        <span class="pl-c">//return null;</span>
+    }
+}</pre></div>
+
+<p>Then you need to register your custom credentials auth provider: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Register all Authentication methods you want to enable for this web app.</span>
+Plugins.Add(<span class="pl-k">new</span> AuthFeature(() =&gt; <span class="pl-k">new</span> AuthUserSession(),
+    <span class="pl-k">new</span> IAuthProvider[] {
+        <span class="pl-k">new</span> CustomCredentialsAuthProvider(), <span class="pl-c">//HTML Form post of User/Pass</span>
+    }
+));</pre></div>
+
+<p>By default the AuthFeature plugin automatically registers the following (overrideable) Service Routes:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">new</span> AuthFeature = {
+  ServiceRoutes = <span class="pl-k">new</span> Dictionary&lt;Type, <span class="pl-k">string</span>[]&gt; {
+    { <span class="pl-k">typeof</span>(AuthService), <span class="pl-k">new</span>[]{<span class="pl-s"><span class="pl-pds">"</span>/auth<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>/auth/{provider}<span class="pl-pds">"</span></span>} },
+    { <span class="pl-k">typeof</span>(AssignRolesService), <span class="pl-k">new</span>[]{<span class="pl-s"><span class="pl-pds">"</span>/assignroles<span class="pl-pds">"</span></span>} },
+    { <span class="pl-k">typeof</span>(UnAssignRolesService), <span class="pl-k">new</span>[]{<span class="pl-s"><span class="pl-pds">"</span>/unassignroles<span class="pl-pds">"</span></span>} },
+  }
+};</pre></div>
+
+<h2>
+<a id="user-content-auth-provider-routes" class="anchor" href="#auth-provider-routes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Auth Provider Routes</h2>
+
+<p>The <code>AuthService</code> is registered at paths <code>/auth</code> and <code>/auth/{provider}</code> where the Provider maps to the <code>IAuthProvider.Provider</code> property of the registered AuthProviders. The urls for clients authenticating against the built-in AuthProviders are:</p>
+
+<ul>
+<li>
+<code>/auth/credentials</code> - CredentialsAuthProvider</li>
+<li>
+<code>/auth/basic</code> - BasicAuthProvider</li>
+<li>
+<code>/auth/twitter</code> - TwitterAuthProvider</li>
+<li>
+<code>/auth/facebook</code> - FacebookAuthProvider</li>
+<li>
+<code>/auth/instagram</code> - InstagramOAuth2Provider</li>
+<li>
+<code>/auth/github</code> - GithubAuthProvider</li>
+<li>
+<code>/auth/microsoftlive</code> - MicrosoftLiveOAuth2Provider</li>
+<li>
+<code>/auth/yammer</code> - YammerAuthProvider</li>
+<li>
+<code>/auth/googleopenid</code> - GoogleOpenIdOAuthProvider</li>
+<li>
+<code>/auth/yahooopenid</code> - YahooOpenIdOAuthProvider</li>
+<li>
+<code>/auth/myopenid</code> - MyOpenIdOAuthProvider</li>
+<li>
+<code>/auth/openid</code> - OpenIdOAuthProvider (Any Custom OpenId provider)</li>
+<li>
+<code>/auth/linkedin</code> - LinkedInOAuth2Provider</li>
+<li>
+<code>/auth/googleoauth</code> - GoogleOAuth2Provider</li>
+<li>
+<code>/auth/yandex</code> - YandexAuthProvider</li>
+<li>
+<code>/auth/vkcom</code> - VkAuthProvider</li>
+<li>
+<code>/auth/odnoklassniki</code> - OdnoklassnikiAuthProvider</li>
+</ul>
+
+<h3>
+<a id="user-content-logout" class="anchor" href="#logout" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Logout</h3>
+
+<p>You can do a GET or POST to <code>/auth/logout</code> to logout the authenticated user or if you're using C# client you can logout with:</p>
+
+<div class="highlight highlight-source-cs"><pre>client.Post(<span class="pl-k">new</span> Authenticate { provider = <span class="pl-s"><span class="pl-pds">"</span>logout<span class="pl-pds">"</span></span> });</pre></div>
+
+<blockquote>
+<p>Logging out will remove the Users Session from the Server and Session Cookies from the Client and redirect to the url in Authenticate.Continue, session.ReferrerUrl, 'Referer' HTTP Header or AuthProvider.CallbackUrl.</p>
+</blockquote>
+
+<hr>
+
+<h3>
+<a id="user-content-authenticating-with-net-service-clients" class="anchor" href="#authenticating-with-net-service-clients" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticating with .NET Service Clients</h3>
+
+<p>On the client you can use the <a href="https://github.com/ServiceStack/ServiceStack/wiki/C%23-client">C#/.NET Service Clients</a> to easily consume your authenticated Services.</p>
+
+<p>To authenticate using your <code>CustomCredentialsAuthProvider</code> by POST'ing a <code>Authenticate</code> Request, e.g:</p>
+
+<pre><code>var client = new JsonServiceClient(BaseUrl);
+
+var authResponse = client.Post(new Authenticate {
+    provider = CredentialsAuthProvider.Name, //= credentials
+    UserName = "test@gmail.com",
+    Password = "p@55w0rd",
+    RememberMe = true,
+});
+</code></pre>
+
+<p>If authentication was successful the Service Client <code>client</code> instance will be populated with authenticated session cookies which then allows calling Authenticated services, e.g:</p>
+
+<pre><code>var response = client.Get(new GetActiveUserId());
+</code></pre>
+
+<p>If you've also registered the <code>BasicAuthProvider</code> it will enable your Services to accept <a href="https://en.wikipedia.org/wiki/Basic_access_authentication">HTTP Basic Authentication</a> which is built-in the Service Clients that you can populate on the Service Client with:</p>
+
+<pre><code>client.UserName = "test@gmail.com";
+client.Password = "p@55w0rd";
+</code></pre>
+
+<p>Which will also let you access protected Services, e.g:</p>
+
+<pre><code>var response = client.Get(new GetActiveUserId());
+</code></pre>
+
+<p>Although behind-the-scenes it ends up making 2 requests, 1st request sends a normal request which will get rejected with a <code>401 Unauthorized</code> and if the Server indicates it has the <code>BasicAuthProvider</code> enabled it will resend the request with the HTTP Basic Auth credentials. </p>
+
+<p>You could instead save the latency of the additional auth challenge request by specifying the client should always send the Basic Auth with every request:</p>
+
+<pre><code>client.AlwaysSendBasicAuthHeader = true;
+</code></pre>
+
+<h3>
+<a id="user-content-authenticating-with-http" class="anchor" href="#authenticating-with-http" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Authenticating with HTTP</h3>
+
+<p>To Authenticate with your <code>CustomCredentialsAuthProvider</code> (which inherits from CredentialsAuthProvider) you would POST:</p>
+
+<p><code>POST</code> localhost:60339/auth/credentials?format=json</p>
+
+<pre><code>{
+    "UserName": "admin",
+    "Password": "test",
+    "RememberMe": true
+}
+</code></pre>
+
+<p>When the client now tries to authenticate with the request above and the auth succeeded, the client will retrieve some cookies with a session id which identify the client on each Web Service call.</p>
+
+<h3>
+<a id="user-content-user-sessions-cache" class="anchor" href="#user-sessions-cache" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>User Sessions Cache</h3>
+
+<p>ServiceStack uses the <a href="https://github.com/ServiceStack/ServiceStack/wiki/Caching">Cache Provider</a> which was registered in the IoC container:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Register to use an In Memory Cache Provider (default)</span>
+container.Register&lt;ICacheClient&gt;(<span class="pl-k">new</span> MemoryCacheClient());
+
+<span class="pl-c">//Configure an alt. distributed persisted cache, E.g Redis:</span>
+<span class="pl-c">//container.Register&lt;IRedisClientsManager&gt;(c =&gt; </span>
+<span class="pl-c">//    new RedisManagerPool("localhost:6379"));</span></pre></div>
+
+<blockquote>
+<p>Tip: If you've got multiple servers which run the same ServiceStack service, you can use Redis to share the sessions between these servers.</p>
+</blockquote>
+
+<hr>
+
+<p>Please look at <a href="https://github.com/ServiceStack/SocialBootstrapApi/tree/master/src/SocialBootstrapApi">SocialBootstrapApi</a> to get a full example.</p>
+
+<blockquote>
+<p>Of course you can also implement your own - custom - authentication mechanism. You aren't forced to use the built-in ServiceStack auth mechanism.</p>
+</blockquote>
+
+<h2>
+<a id="user-content-the-authenticate-attribute" class="anchor" href="#the-authenticate-attribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>The <code>Authenticate</code> attribute</h2>
+
+<p>But how does ServiceStack know, which service needs authentication?
+This happens with the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/AuthenticateAttribute.cs">AuthenticateAttribute</a>.</p>
+
+<p>You simply have to mark your request dto with this attribute:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//Authentication for all HTTP methods (GET, POST...) required</span>
+[Authenticate]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Secured</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">bool</span> <span class="pl-en">Test</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}</pre></div>
+
+<p>Now this service can only be accessed if the client is authenticated:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">SecuredService</span> : <span class="pl-k">Service</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Get</span>(<span class="pl-k">Secured</span> <span class="pl-smi">request</span>)
+    {
+        IOAuthSession session = <span class="pl-c1">this</span>.GetSession();
+        <span class="pl-k">return</span> <span class="pl-k">new</span> SecuredResponse() { Test = <span class="pl-s"><span class="pl-pds">"</span>You're<span class="pl-pds">"</span></span> + session.FirstName };
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Put</span>(<span class="pl-k">Secured</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> SecuredResponse() { Test = <span class="pl-s"><span class="pl-pds">"</span>Valid!<span class="pl-pds">"</span></span> };
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Post</span>(<span class="pl-k">Secured</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> SecuredResponse() { Test = <span class="pl-s"><span class="pl-pds">"</span>Valid!<span class="pl-pds">"</span></span> };
+    }
+
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Delete</span>(<span class="pl-k">Secured</span> <span class="pl-smi">request</span>)
+    {
+        <span class="pl-k">return</span> <span class="pl-k">new</span> SecuredResponse() { Test = <span class="pl-s"><span class="pl-pds">"</span>Valid!<span class="pl-pds">"</span></span> };
+    }
+}</pre></div>
+
+<p>If you want, that authentication is only required for GET and PUT requests for example, you have to provide some extra parameters to the <code>Authenticate</code> attribute.</p>
+
+<div class="highlight highlight-source-cs"><pre>[Authenticate(ApplyTo.Get | ApplyTo.Put)] </pre></div>
+
+<p>Of course <code>Authenticate</code> can also be placed on top of a service instead on top of a DTO, because it's a normal <a href="https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes">filter attribute</a>.</p>
+
+<h2>
+<a id="user-content-requiredrole-and-requiredpermission-attributes" class="anchor" href="#requiredrole-and-requiredpermission-attributes" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a><code>RequiredRole</code> and <code>RequiredPermission</code> attributes</h2>
+
+<p>ServiceStack also includes a built-in permission based authorization mechanism. More details about how Roles and Permissions work is in this <a href="http://stackoverflow.com/a/12096813">StackOverflow Answer</a>.</p>
+
+<p>Your request DTO can require specific permissions:</p>
+
+<div class="highlight highlight-source-cs"><pre>[Authenticate]
+<span class="pl-c">//All HTTP (GET, POST...) methods need "CanAccess"</span>
+[RequiredRole(<span class="pl-s"><span class="pl-pds">"</span>Admin<span class="pl-pds">"</span></span>)]
+[RequiredPermission(<span class="pl-s"><span class="pl-pds">"</span>CanAccess<span class="pl-pds">"</span></span>)]
+[RequiredPermission(ApplyTo.Put | ApplyTo.Post, <span class="pl-s"><span class="pl-pds">"</span>CanAdd<span class="pl-pds">"</span></span>)]
+[RequiredPermission(ApplyTo.Delete, <span class="pl-s"><span class="pl-pds">"</span>AdminRights<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>CanDelete<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Secured</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">bool</span> <span class="pl-en">Test</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+} </pre></div>
+
+<p>Now the client needs the permissions...</p>
+
+<ul>
+<li>"CanAccess" to make a GET request</li>
+<li>"CanAccess", "CanAdd" to make a PUT/POST request</li>
+<li>"CanAccess", "AdminRights" and "CanDelete" to make a DELETE request</li>
+</ul>
+
+<p>If instead you want to allow access to users in <strong>ANY</strong> Role or Permission use: </p>
+
+<div class="highlight highlight-source-cs"><pre>[RequiresAnyRole(<span class="pl-s"><span class="pl-pds">"</span>Admin<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Member<span class="pl-pds">"</span></span>)]
+[RequiresAnyRole(ApplyTo.Post, <span class="pl-s"><span class="pl-pds">"</span>Admin<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Owner<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>Member<span class="pl-pds">"</span></span>)]
+[RequiresAnyPermission(ApplyTo.Delete, <span class="pl-s"><span class="pl-pds">"</span>AdminRights<span class="pl-pds">"</span></span>, <span class="pl-s"><span class="pl-pds">"</span>CanDelete<span class="pl-pds">"</span></span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">Secured</span>
+{
+    <span class="pl-k">public</span> <span class="pl-k">bool</span> <span class="pl-en">Test</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+} </pre></div>
+
+<p>Normally ServiceStack calls the method <code>bool HasPermission(string permission)</code> in <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/Auth/IAuthSession.cs">IAuthSession</a>. This method checks if the list <code>List&lt;string&gt; Permissions</code> in <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/Auth/IAuthSession.cs">IAuthSession</a> contains the required permission.</p>
+
+<blockquote>
+<p><a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/Auth/IAuthSession.cs">IAuthSession</a> is stored in a cache client as explained above</p>
+</blockquote>
+
+<p>You can fill this list in the method <code>OnAuthenticated</code> you've overriden in the first part of this tutorial.</p>
+
+<p>As with <code>Authenticate</code>, you can mark services (instead of DTO) with <code>RequiredPermission</code> attribute, too.</p>
+
+<h2>
+<a id="user-content-enabling-authentication-at-different-levels" class="anchor" href="#enabling-authentication-at-different-levels" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Enabling Authentication at different levels</h2>
+
+<h3>
+<a id="user-content-using-the-authenticate-attribute" class="anchor" href="#using-the-authenticate-attribute" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using the [Authenticate] Attribute</h3>
+
+<p>You can protect services by adding the <code>[Authenticate]</code> attribute on either the Action:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">class</span> <span class="pl-en">MyService</span> : <span class="pl-k">Service</span> {
+    [Authenticate] 
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Get</span>(<span class="pl-k">Protected</span> <span class="pl-smi">request</span>) { ... }
+}</pre></div>
+
+<p>The Request DTO</p>
+
+<div class="highlight highlight-source-cs"><pre>[Authenticate] 
+<span class="pl-k">class</span> <span class="pl-en">Protected</span> { ... }</pre></div>
+
+<p>Or the service implementation</p>
+
+<div class="highlight highlight-source-cs"><pre>[Authenticate] 
+<span class="pl-k">class</span> <span class="pl-en">MyService</span> : <span class="pl-k">Service</span> {
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Get</span>(<span class="pl-k">Protected</span> <span class="pl-smi">request</span>) { ... }
+}</pre></div>
+
+<p>Or by inheriting from a base class</p>
+
+<div class="highlight highlight-source-cs"><pre>[Authenticate] 
+<span class="pl-k">class</span> <span class="pl-en">MyServiceBase</span> : <span class="pl-k">Service</span> { ... }
+
+<span class="pl-k">class</span> <span class="pl-en">MyService</span> : <span class="pl-k">MyServiceBase</span> {
+    <span class="pl-k">public</span> <span class="pl-k">object</span> <span class="pl-en">Get</span>(<span class="pl-k">Protected</span> <span class="pl-smi">request</span>) { ... }
+}</pre></div>
+
+<h3>
+<a id="user-content-using-a-global-request-filter" class="anchor" href="#using-a-global-request-filter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Using a Global Request Filter</h3>
+
+<p>Otherwise you can use a <a href="https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters">global Request Filter</a> if you wanted to restrict all requests any other way, e.g something like:</p>
+
+<div class="highlight highlight-source-cs"><pre>appHost.RequestFilters.Add((httpReq, httpResp, requestDto) =&gt;
+{
+    <span class="pl-k">if</span> (IsAProtectedPath(httpReq.PathInfo)) {
+        <span class="pl-k">new</span> AuthenticateAttribute().Execute(httpReq, httpResp, requestDto);
+    }
+});</pre></div>
+
+<h2>
+<a id="user-content-extending-userauth-tables" class="anchor" href="#extending-userauth-tables" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Extending UserAuth tables</h2>
+
+<p>Different customization and extension points and strategies to extend the UserAuth tables with your own data are explained in this <a href="http://stackoverflow.com/a/11118747/85785">StackOverflow answer</a>.</p>
+
+<h2>
+<a id="user-content-customizing-authproviders" class="anchor" href="#customizing-authproviders" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizing AuthProviders</h2>
+
+<h3>
+<a id="user-content-customizing-user-roles-and-permissions" class="anchor" href="#customizing-user-roles-and-permissions" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Customizing User Roles and Permissions</h3>
+
+<p>The default implementation of User Roles and Permissions on <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AuthUserSession.cs">AuthUserSession</a> shows how ServiceStack's <code>[RequiredRole]</code> and <code>[RequiredPermission]</code> <a href="https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization#the-requiredrole-and-requiredpermission-attributes">Roles and Permission attributes</a> are validated:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">bool</span> HasPermission(<span class="pl-k">string</span> permission)
+{
+    <span class="pl-k">var</span> managesRoles = HostContext.TryResolve&lt;IAuthRepository&gt;() <span class="pl-k">as</span> IManageRoles;
+    <span class="pl-k">if</span> (managesRoles != <span class="pl-c1">null</span>)
+    {
+        <span class="pl-k">return</span> managesRoles.HasPermission(<span class="pl-c1">this</span>.UserAuthId, permission);
+    }
+
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.Permissions != <span class="pl-c1">null</span> &amp;&amp; <span class="pl-c1">this</span>.Permissions.Contains(permission);
+}
+
+<span class="pl-k">public</span> <span class="pl-k">virtual</span> <span class="pl-k">bool</span> HasRole(<span class="pl-k">string</span> role)
+{
+    <span class="pl-k">var</span> managesRoles = HostContext.TryResolve&lt;IAuthRepository&gt;() <span class="pl-k">as</span> IManageRoles;
+    <span class="pl-k">if</span> (managesRoles != <span class="pl-c1">null</span>)
+    {
+        <span class="pl-k">return</span> managesRoles.HasRole(<span class="pl-c1">this</span>.UserAuthId, role);
+    }
+
+    <span class="pl-k">return</span> <span class="pl-c1">this</span>.Roles != <span class="pl-c1">null</span> &amp;&amp; <span class="pl-c1">this</span>.Roles.Contains(role);
+}</pre></div>
+
+<p>These APIs are <code>virtual</code> so they can be overridden in both your Custom <code>AuthUserSession</code>. They default to looking at the <code>Roles</code> and <code>Permissions</code> collections stored on the Session. These collections are normally sourced from the <code>AuthUserRepository</code> when persisting the <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/UserAuth.cs">UserAuth and UserAuthDetails POCO's</a> and are used to populate the <code>UserAuthSession</code> on successful Authentication. These collections can be further customized by AuthProviders which is what <code>AspNetWindowsAuthProvider</code> does to add <a href="https://github.com/ServiceStack/ServiceStack/blob/9773b7fccc31ac4d715a02221f396b46cd14d7db/src/ServiceStack/Auth/AspNetWindowsAuthProvider.cs#L126">Authenticated WindowsAuth Roles</a>.</p>
+
+<p>As seen above Roles/Permissions can instead be managed by AuthProviders that implement <code>IManageRoles</code> API which is what OrmLiteAuthProvider uses to look at distinct RDBMS tables to validate Roles/Permissions:</p>
+
+<h3>
+<a id="user-content-imanageroles-api" class="anchor" href="#imanageroles-api" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IManageRoles API</h3>
+
+<p>The <a href="https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/IAuthRepository.cs#L26">IManageRoles API</a> 
+can be implemented by any <code>IAuthRepository</code> to provide an alternative strategy for querying and managing Users Roles and permissions. </p>
+
+<p>This API is being used in the <code>OrmLiteAuthRepository</code> to provide an alternative way to store 
+Roles and Permission in their own distinct table rather than being blobbed with the rest of the User Auth data. 
+You can enable this new behavior by specifying <code>UseDistinctRoleTables=true</code> when registering the OrmLiteAuthRepository, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>container.Register&lt;IAuthRepository&gt;(c =&gt;
+    <span class="pl-k">new</span> OrmLiteAuthRepository(c.Resolve&lt;IDbConnectionFactory&gt;()) {
+        UseDistinctRoleTables = <span class="pl-c1">true</span>,
+    });</pre></div>
+
+<p>When enabled, roles and permissions are persisted in the distinct <strong>UserAuthRole</strong> table instead of being blobbed on the UserAuth. The <code>IAuthSession.HasRole()</code> and <code>IAuthSession.HasPermission()</code> on the Users Session should be used to check if a User has a specified Role or Permission.</p>
+
+<p>More examples of this are in <a href="https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Common.Tests/ManageRolesTests.cs">ManageRolesTests.cs</a>.</p>
+
+<h4>
+<a id="user-content-customvalidationfilter" class="anchor" href="#customvalidationfilter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>CustomValidationFilter</h4>
+
+<p>The <code>CustomValidationFilter</code> on all AuthProviders lets you add post verification logic after a user has signed in with an OAuth provider and their OAuth metadata is retrieved. The filter lets you return a <code>IHttpResult</code> to control what error response is returned, e.g: </p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">new</span> FacebookAuthProvider(appSettings) { 
+    CustomValidationFilter = authCtx =&gt; CustomIsValid(authCtx) 
+        ? authCtx.Service.Redirect(authCtx.Session.ReferrerUrl
+            .AddHashParam(<span class="pl-s"><span class="pl-pds">"</span>f<span class="pl-pds">"</span></span>,<span class="pl-s"><span class="pl-pds">"</span>CustomErrorCode<span class="pl-pds">"</span></span>))
+        : <span class="pl-c1">null</span>,
+}</pre></div>
+
+<p>Or could be used to redirect a network or users to a "Not Available in your Area" page with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(..., 
+    <span class="pl-k">new</span> IAuthProvider[] {
+        <span class="pl-k">new</span> CredentialsAuthProvider {
+            CustomValidationFilter = authCtx =&gt; 
+                authCtx.Request.UserHostAddress.StartsWith(<span class="pl-s"><span class="pl-pds">"</span>175.45.17<span class="pl-pds">"</span></span>)
+                    ? HttpResult.Redirect(<span class="pl-s"><span class="pl-pds">"</span>http://host.com/are-not-available<span class="pl-pds">"</span></span>)
+                    : <span class="pl-c1">null</span>
+        }   
+    }));</pre></div>
+
+<h4>
+<a id="user-content-username-validation" class="anchor" href="#username-validation" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>UserName Validation</h4>
+
+<p>The UserName validation for all Auth Repositories are configurable at:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(...){
+    ValidUserNameRegEx = <span class="pl-k">new</span> Regex(<span class="pl-s"><span class="pl-pds">@"^(?=.{3,20}$)([A-Za-z0-9][._-]?)*$"</span></span>, RegexOptions.Compiled),
+})</pre></div>
+
+<p>Instead of RegEx you can choose to validate using a Custom Predicate. The example below ensures UserNames don't include specific chars:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(...){
+    IsValidUsernameFn = userName =&gt; userName.IndexOfAny(<span class="pl-k">new</span>[] { <span class="pl-s"><span class="pl-pds">'</span>@<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span>.<span class="pl-pds">'</span></span>, <span class="pl-s"><span class="pl-pds">'</span> <span class="pl-pds">'</span></span> }) == -<span class="pl-c1">1</span>
+})</pre></div>
+
+<h4>
+<a id="user-content-saving-extended-oauth-metadata" class="anchor" href="#saving-extended-oauth-metadata" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Saving Extended OAuth Metadata</h4>
+
+<p>The new <code>SaveExtendedUserInfo</code> property (enabled by default) on all OAuth providers let you control whether to save the extended OAuth metadata available (into <code>UserAuthDetails.Items</code>) when logging in via OAuth.</p>
+
+<h4>
+<a id="user-content-maxloginattempts" class="anchor" href="#maxloginattempts" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>MaxLoginAttempts</h4>
+
+<p>The <code>MaxLoginAttempts</code> feature lets you lock a User Account after multiple invalid login attempts, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(...) {
+    MaxLoginAttempts = <span class="pl-c1">5</span>   <span class="pl-c">// Lock user after 5 Invalid attempts</span>
+});</pre></div>
+
+<h4>
+<a id="user-content-iauthmetadataprovider" class="anchor" href="#iauthmetadataprovider" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>IAuthMetadataProvider</h4>
+
+<p>An IAuthMetadataProvider provides a way to customize the authInfo in all AuthProviders. It also allows overriding of how extended Auth metadata like profileUrl is returned.</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">public</span> <span class="pl-k">interface</span> <span class="pl-en">IAuthMetadataProvider</span>
+{
+   <span class="pl-k">void</span> <span class="pl-en">AddMetadata</span>(<span class="pl-k">IAuthTokens</span> <span class="pl-smi">tokens</span>, Dictionary&lt;string,string&gt; authInfo);
+
+   <span class="pl-k">string</span> <span class="pl-en">GetProfileUrl</span>(<span class="pl-k">IAuthSession</span> <span class="pl-smi">authSession</span>, <span class="pl-k">string</span> <span class="pl-smi">defaultUrl</span> <span class="pl-k">=</span> <span class="pl-c1">null</span>);
+}</pre></div>
+
+<blockquote>
+<p>To override with a custom implementation, register <code>IAuthMetadataProvider</code> in the IOC</p>
+</blockquote>
+
+<h4>
+<a id="user-content-loaduserauthfilter" class="anchor" href="#loaduserauthfilter" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>LoadUserAuthFilter</h4>
+
+<p>The LoadUserAuthFilter on <code>AspNetWindowsAuthProvider</code> lets you retrieve more detailed information about Windows Authenticated users during Windows Auth Authentication by using the .NET's ActiveDirectory services, e.g:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-c">//...</span>
+<span class="pl-k">new</span> AspNetWindowsAuthProvider(<span class="pl-c1">this</span>) {
+    LoadUserAuthFilter = LoadUserAuthInfo
+}
+<span class="pl-c">//...</span>
+
+<span class="pl-k">public</span> <span class="pl-k">void</span> LoadUserAuthInfo(AuthUserSession userSession, 
+    IAuthTokens tokens, Dictionary&lt;<span class="pl-k">string</span>, <span class="pl-k">string</span>&gt; authInfo)
+{
+    <span class="pl-k">if</span> (userSession == <span class="pl-c1">null</span>) <span class="pl-k">return</span>;
+    <span class="pl-k">using</span> (PrincipalContext pc = <span class="pl-k">new</span> PrincipalContext(ContextType.Domain))
+    {
+        <span class="pl-k">var</span> user = UserPrincipal.FindByIdentity(pc, userSession.UserAuthName);
+        tokens.DisplayName = user.DisplayName;
+        tokens.Email = user.EmailAddress;
+        tokens.FirstName = user.GivenName;
+        tokens.LastName = user.Surname;
+        tokens.FullName = (String.IsNullOrWhiteSpace(user.MiddleName))
+            ? <span class="pl-s"><span class="pl-pds">"</span>{0} {1}<span class="pl-pds">"</span></span>.Fmt(user.GivenName, user.Surname)
+            : <span class="pl-s"><span class="pl-pds">"</span>{0} {1} {2}<span class="pl-pds">"</span></span>.Fmt(user.GivenName, user.MiddleName, user.Surname);
+        tokens.PhoneNumber = user.VoiceTelephoneNumber;
+    }
+}</pre></div>
+
+<h3>
+<a id="user-content-in-process-authenticated-requests" class="anchor" href="#in-process-authenticated-requests" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>In Process Authenticated Requests</h3>
+
+<p>You can enable the <code>CredentialsAuthProvider</code> to allow <strong>In Process</strong> requests to Authenticate without a Password with:</p>
+
+<div class="highlight highlight-source-cs"><pre><span class="pl-k">new</span> CredentialsAuthProvider {
+    SkipPasswordVerificationForInProcessRequests = <span class="pl-c1">true</span>,
+}</pre></div>
+
+<p>When enabled this lets <strong>In Process</strong> Service Requests to login as a specified user without needing to provide their password. </p>
+
+<p>For example this could be used to create an <a href="https://github.com/ServiceStack/ServiceStack/wiki/Restricting-Services">Intranet Restricted</a> <strong>Admin-Only</strong> Service that lets you login as another user so you can debug their account without knowing their password with:</p>
+
+<div class="highlight highlight-source-cs"><pre>[RequiredRole(<span class="pl-s"><span class="pl-pds">"</span>Admin<span class="pl-pds">"</span></span>)]
+[Restrict(InternalOnly=<span class="pl-c1">true</span>)]
+<span class="pl-k">public</span> <span class="pl-k">class</span> <span class="pl-en">ImpersonateUser</span> 
+{
+    <span class="pl-k">public</span> <span class="pl-k">string</span> <span class="pl-en">UserName</span> { <span class="pl-k">get</span>; <span class="pl-k">set</span>; }
+}
+
+<span class="pl-k">public</span> <span class="pl-k">object</span> Any(ImpersonateUser request)
+{
+    <span class="pl-k">using</span> (<span class="pl-k">var</span> service = <span class="pl-c1">base</span>.ResolveService&lt;AuthenticateService&gt;()) <span class="pl-c">//In Process</span>
+    {
+        <span class="pl-k">return</span> service.Post(<span class="pl-k">new</span> Authenticate {
+            provider = AuthenticateService.CredentialsProvider,
+            UserName = request.UserName,
+        });
+    }
+}</pre></div>
+
+<blockquote>
+<p>Your Services can use the new <code>Request.IsInProcessRequest()</code> to identify Services that were executed in-process.</p>
+</blockquote>
+
+<h3>
+<a id="user-content-custom-hash-provider" class="anchor" href="#custom-hash-provider" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Custom Hash Provider</h3>
+
+<p>The <code>IHashProvider</code> used to generate and verify password hashes and salts in each UserAuth Repository can be overridden with:</p>
+
+<div class="highlight highlight-source-cs"><pre>container.Register&lt;IHashProvider&gt;(c =&gt; 
+    <span class="pl-k">new</span> SaltedHash(HashAlgorithm:<span class="pl-k">new</span> SHA256Managed(), theSaltLength:<span class="pl-c1">4</span>));</pre></div>
+
+<h3>
+<a id="user-content-generate-new-session-cookies-on-authentication" class="anchor" href="#generate-new-session-cookies-on-authentication" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Generate New Session Cookies on Authentication</h3>
+
+<p>The AuthFeature also regenerates new Session Cookies each time users login, this behavior can be disabled with:</p>
+
+<div class="highlight highlight-source-cs"><pre>Plugins.Add(<span class="pl-k">new</span> AuthFeature(...) {
+    GenerateNewSessionCookiesOnAuthentication = <span class="pl-c1">false</span>
+});</pre></div>
+
+<h3>
+<a id="user-content-clientid-and-clientsecret-oauth-config-aliases" class="anchor" href="#clientid-and-clientsecret-oauth-config-aliases" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>ClientId and ClientSecret OAuth Config Aliases</h3>
+
+<p>OAuth Providers can use <code>ClientId</code> and <code>ClientSecret</code> aliases instead of <code>ConsumerKey</code> and <code>ConsumerSecret</code>, e.g:</p>
+
+<div class="highlight highlight-text-xml"><pre>&lt;<span class="pl-ent">appSettings</span>&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>oauth.twitter.ClientId<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span> /&gt;
+    &lt;<span class="pl-ent">add</span> <span class="pl-e">key</span>=<span class="pl-s"><span class="pl-pds">"</span>oauth.twitter.ClientSecret<span class="pl-pds">"</span></span> <span class="pl-e">value</span>=<span class="pl-s"><span class="pl-pds">"</span>...<span class="pl-pds">"</span></span> /&gt;
+&lt;/<span class="pl-ent">appSettings</span>&gt;</pre></div>
+
+<p><a name="user-content-community"></a></p>
+
+<h1>
+<a id="user-content-community-resources" class="anchor" href="#community-resources" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Community Resources</h1>
+
+<ul>
+<li>
+<a href="http://estynedwards.com/blog/2016/01/30/ServiceStack-IdentityServer-Angular/">Using IdentityServer 4 with ServiceStack and Angular</a> by <a href="https://twitter.com/estynedwards">@estynedwards</a>
+</li>
+<li>
+<a href="http://buildclassifieds.com/2016/01/14/facebookauth/">Adding Facebook Authentication using ServiceStack</a> by <a href="https://twitter.com/markholdt">@markholdt</a>
+</li>
+<li>
+<a href="http://blog.falafel.com/Blogs/adam-anderson/2013/10/28/how-to-return-jsv-formatted-collection-types-from-sql-server-to-servicestack.ormlite">How to return JSV formatted collection types from SQL Server in OrmLite</a> by <a href="http://blog.falafel.com/blogs/AdamAnderson">AdamAnderson</a>
+</li>
+<li>
+<a href="http://blog.falafel.com/Blogs/adam-anderson/2013/10/23/how-to-migrate-asp.net-membership-users-to-servicestack">How to migrate ASP.NET Membership users to ServiceStack</a> by <a href="http://blog.falafel.com/blogs/AdamAnderson">AdamAnderson</a>
+</li>
+<li>
+<a href="http://www.binaryforge-software.com/wpblog/?p=242">Authentication in Service Stack REST Services</a> by <a href="https://twitter.com/binaryforge">@binaryforge</a>
+</li>
+<li>
+<a href="http://dylanbeattie.blogspot.com/2013/08/building-servicestack-based-oauth2.html">Building a ServiceStack OAuth2 resource server using DotNetOpenAuth</a> by <a href="https://twitter.com/dylanbeattie">@dylanbeattie</a>
+</li>
+<li>
+<a href="http://sergeytihon.wordpress.com/2013/06/28/declarative-authorization-in-rest-services-in-sharepoint-with-f-and-servicestack/">Declarative authorization in REST services in SharePoint with F#</a> by <a href="https://twitter.com/sergey_tihon">@sergey_tihon</a>
+</li>
+<li>
+<a href="http://stackoverflow.com/a/16845317/85785">Authenticate ServiceStack services against an Umbraco membership provider</a> by <a href="http://stackoverflow.com/users/1664508/gavin-faux">Gavin Faux</a>
+</li>
+<li>
+<a href="http://davetimmins.com/post/2013/april/oauth-with-arcgisonline-servicestack">Using OAuth with ArcGIS Online and ServiceStack</a> by <a href="https://twitter.com/davetimmins">@davetimmins</a>
+</li>
+<li>
+<a href="http://www.binoot.com/2013/03/30/linkedin-provider-for-servicestack-authentication/">LinkedIn Provider for ServiceStack Authentication</a> by <a href="https://twitter.com/binu_thayamkery">@binu_thayamkery</a>
+</li>
+<li>
+<a href="http://enehana.nohea.com/general/customizing-iauthprovider-for-servicestack-net-step-by-step/">A Step by Step guide to create a Custom IAuthProvider</a> by <a href="https://twitter.com/rngoodness">@rngoodness</a>
+</li>
+<li>
+<a href="http://rossipedia.com/blog/2013/03/simple-api-key-authentication-with-servicestack/">Simple API Key Authentication With ServiceStack</a> by <a href="https://twitter.com/rossipedia">@rossipedia</a>
+</li>
+<li>
+<a href="http://joeriks.com/2013/01/12/cors-basicauth-on-servicestack-with-custom-authentication/">CORS BasicAuth on ServiceStack with custom authentication</a> by <a href="https://twitter.com/joeriks">@joeriks</a>
+</li>
+<li>
+<a href="http://jokecamp.wordpress.com/2012/12/16/authenticating-servicestack-rest-api-using-hmac/">Authenticating ServiceStack REST API using HMAC</a> by <a href="https://twitter.com/jokecamp">@jokecamp</a>
+</li>
+<li>ServiceStack Credentials Authentication and EasyHttp: <a href="http://blogs.lessthandot.com/index.php/DesktopDev/MSTech/servicestack-credentialsauthentication-and-easyhtpp-of">Part 1</a>, <a href="http://blogs.lessthandot.com/index.php/DesktopDev/MSTech/servicestack-credentialsauthentication-and-easyhtpp-of-1">Part 2</a>, <a href="http://blogs.lessthandot.com/index.php/DesktopDev/MSTech/servicestack-credentialsauthentication-and-easyhtpp-of-2">Part 3</a> by <a href="https://twitter.com/chrissie1">@chrissie1</a>
+</li>
+</ul>
