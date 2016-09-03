@@ -3,8 +3,8 @@
 
 title: ServiceStack Docs
 description: Documentation for the ServiceStack Framework
-url: http://servicestackdocs.github.io/
-repository: ServiceStackDocs/servicestackdocs.github.io
+url: http://servicestack.github.io/docs/
+repository: ServiceStack/docs
 google_analytics_key:
 
 collections:
