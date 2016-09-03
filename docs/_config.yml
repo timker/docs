@@ -1,0 +1,32 @@
+# ----
+# Site
+
+title: ServiceStack Docs
+description: Documentation for the ServiceStack Framework
+url: http://servicestackdocs.github.io/
+repository: ServiceStackDocs/servicestackdocs.github.io
+google_analytics_key:
+
+collections:
+  documentation:
+    title: Documentation
+    output: true
+gems:
+  - github-pages
+
+exclude:
+  - readme.md
+  - LICENCE
+  
+defaults:
+  -
+    scope:
+      path: ""
+    values:
+      layout: default
+
+# -----
+# Build
+sass:
+  sass_dir: _scss
+  style: :compressed
