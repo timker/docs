@@ -63,5 +63,23 @@
     ga("send", "pageview");
 </script>
 {% endif %}
+<script>
+    String.prototype.replaceAll = function(search, replacement) {
+        var target = this;
+        return target.split(search).join(replacement);
+    };
+    var sidebarText = $('#page-content-wrapper')[0].innerHTML;
+    var matches = sidebarText.match(/\[\[(.+?)\]\]/g);
+    console.log(matches);
+    var result = sidebarText;
+    for(var i = 0; i < matches.length; i++) {
+        var text = matches[i].replaceAll('[[','').replaceAll(']]','');
+        result = result.replace(matches[i],
+                '<a href="documentation/' +
+                text.replaceAll(' ','-') +
+                '.html">' + text + '</a>')
+    }
+    $('#page-content-wrapper').html(result);
+</script>
 </body>
 </html>
