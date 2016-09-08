@@ -87,7 +87,6 @@
     var allDocTitles = allMenuItems.map(function() {
         return $(this).text();
     }).get();
-    console.log(allDocTitles);
     var inputElem = $('#searchInput');
     inputElem.bind('keyup input paste', function (event) {
         var results = fuzzy.filter(inputElem.val(),allDocTitles);
@@ -95,7 +94,6 @@
             var itemText = $(this).text();
             for(var i = 0; i < results.length; i++) {
                 if(results[i].original === itemText) {
-                    console.log('item found - ' + itemText);
                     return $(this);
                 }
             }
@@ -104,7 +102,6 @@
         itemsToShow.map(function () {
             $(this).show();
         })
-
     });
 </script>
 
