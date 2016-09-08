@@ -155,7 +155,7 @@ img {
         margin-right: 0;
     }
 
-    .toggled .sidebar-doc-item {
+    .toggled .side-nav-container {
         display: none;
     }
 }
