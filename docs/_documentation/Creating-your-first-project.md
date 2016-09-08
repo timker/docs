@@ -1,5 +1,6 @@
 ---
 #File header for Jekyll to pick up 
+topic: getting-started
 ---
 This is a quick walkthrough of getting your first web service up and running whilst having a look at the how some of the different components work. 
 

@@ -1,5 +1,6 @@
 ---
 #File header for Jekyll to pick up 
+topic: clients
 ---
 As ServiceStack is just a pure HTTP web service it can be accessed with any HTTP-capable client. 
 

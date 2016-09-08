@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: getting-started
 ---
 Let's look a bit deeper into the Hello World service you created:
 

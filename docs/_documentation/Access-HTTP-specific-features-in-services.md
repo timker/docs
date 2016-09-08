@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+# 
 ---
 ServiceStack is based on [http handlers](http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx), but ServiceStack provides a clean, dependency-free [IService<T>](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IService.cs) to implement your Web Services logic in. The philosophy behind this approach is that the less dependencies you have on your environment and its request context, the more testable and re-usable your services become. 
 

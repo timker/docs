@@ -55,12 +55,20 @@
 /* Sidebar Styles */
 
 .sidebar-nav {
-    position: absolute;
     top: 0;
     width: 350px;
     margin: 0;
-    padding: 0;
+    padding: 0 20px 0 0;
     list-style: none;
+}
+
+.sidebar-nav li ul {
+    list-style: none;
+}
+
+.sidebar-nav h4 {
+    color:white;
+    margin-left:10px;
 }
 
 .sidebar-nav li {
@@ -94,6 +102,11 @@
 
 .sidebar-nav .sidebar-brand a {
     display: inline;
+}
+
+.sidebar-nav ul {
+    list-style: none;
+    padding: 0;
 }
 
 .title {

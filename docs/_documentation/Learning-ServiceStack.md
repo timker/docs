@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: getting-started
 ---
 Below are resources to help learn ServiceStack. 
 >Some resources might focus on different versions of ServiceStack.

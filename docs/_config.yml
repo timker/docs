@@ -17,7 +17,9 @@ gems:
 exclude:
   - readme.md
   - LICENCE
-  
+
+topics: []
+sorted_topics: {}
 defaults:
   -
     scope:

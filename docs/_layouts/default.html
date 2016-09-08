@@ -46,6 +46,7 @@
     });
 </script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+<script src="/js/fuzzy.js"></script>
 {% if jekyll.environment == 'production' %}
 <script>
     (function (i, s, o, g, r, a, m) {
@@ -70,16 +71,42 @@
     };
     var sidebarText = $('#page-content-wrapper')[0].innerHTML;
     var matches = sidebarText.match(/\[\[(.+?)\]\]/g);
-    console.log(matches);
     var result = sidebarText;
-    for(var i = 0; i < matches.length; i++) {
-        var text = matches[i].replaceAll('[[','').replaceAll(']]','');
-        result = result.replace(matches[i],
-                '<a href="documentation/' +
-                text.replaceAll(' ','-') +
-                '.html">' + text + '</a>')
+    if(matches != null) {
+        for(var i = 0; i < matches.length; i++) {
+            var text = matches[i].replaceAll('[[','').replaceAll(']]','');
+            result = result.replace(matches[i],
+                    '<a href="documentation/' +
+                    text.replaceAll(' ','-') +
+                    '.html">' + text + '</a>')
+        }
+        $('#page-content-wrapper').html(result);
     }
-    $('#page-content-wrapper').html(result);
+
+    var allMenuItems = $('.sidebar-doc-item');
+    var allDocTitles = allMenuItems.map(function() {
+        return $(this).text();
+    }).get();
+    console.log(allDocTitles);
+    var inputElem = $('#searchInput');
+    inputElem.bind('keyup input paste', function (event) {
+        var results = fuzzy.filter(inputElem.val(),allDocTitles);
+        var itemsToShow = allMenuItems.map(function () {
+            var itemText = $(this).text();
+            for(var i = 0; i < results.length; i++) {
+                if(results[i].original === itemText) {
+                    console.log('item found - ' + itemText);
+                    return $(this);
+                }
+            }
+        });
+        allMenuItems.hide();
+        itemsToShow.map(function () {
+            $(this).show();
+        })
+
+    });
 </script>
+
 </body>
 </html>

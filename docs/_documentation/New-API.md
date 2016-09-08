@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: designing-apis
+title: ServiceStack API Design
 ---
 ## ServiceStack's new API design
 
