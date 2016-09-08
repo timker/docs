@@ -1,7 +1,13 @@
 <div>
-	<ul>
+	<ul class="sidebar-nav">
+		<li class="sidebar-brand">
+			<a href="" id="menu-toggle">
+				<span class="glyphicon glyphicon-menu-hamburger"></span>
+			</a>
+			<a href="/" class="sidebar-brand title">ServiceStack Docs</a>
+		</li>
 		{% for doc in site.documentation %}
-		<li><a href="{{ doc.url }}">{{ doc.title }}</a></li>
+		<li class="sidebar-doc-item"><a href="{{ doc.url }}">{{ doc.title }}</a></li>
 		{% endfor %}
 	</ul>
 </div>
