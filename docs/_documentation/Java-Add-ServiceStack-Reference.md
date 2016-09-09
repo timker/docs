@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
+title: Java Add Reference
 ---
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/android-studio-splash.png)
 

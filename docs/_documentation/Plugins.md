@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference 
 ---
 ServiceStack Plugin API provides a declarative way to enable modular functionality in ServiceStack:
 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients 
 ---
  ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET. 
 

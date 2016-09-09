@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference
+title: Configuration and AppSettings
 ---
 ## Configuration and AppSettings
 

@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference
+title: Rest, SOAP & default endpoints
 ---
 When you create a service, there are by default three endpoints:
 

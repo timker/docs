@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference 
 ---
 The JSON Responses for all ServiceStack Services can be configured Globally, individually per-Service or customized per-request by the client using the `?jsconfig` QueryString modifier.
 

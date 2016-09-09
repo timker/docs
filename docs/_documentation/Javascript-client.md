@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference
+title: JavaScript Client Library (ss-utils.js)
 ---
 Of course, you're able to call your ServiceStack webservice from your JavaScript client, too. 
 

@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
+title: VB.NET Add Reference
 ---
 ![VB.NET Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png)
 

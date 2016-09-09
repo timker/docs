@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
 ---
 The **recommended** way to get Silverlight builds of ServiceStack client libraries is from [NuGet](https://nuget.org/packages/ServiceStack.Client.Silverlight):
 

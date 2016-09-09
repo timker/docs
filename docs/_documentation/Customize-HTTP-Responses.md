@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference 
 ---
 ServiceStack provides multiple ways to customize your services HTTP response. Each option gives you complete control of the final HTTP Response that's returned by your service: 
 

@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
+title: F# Add Reference
 ---
 ![F# Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/fsharp-header.png)
 

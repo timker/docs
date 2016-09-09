@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference
 ---
   1. [Authentication/authorization](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
      - [Open Id 2.0 Support](https://github.com/ServiceStack/ServiceStack/wiki/OpenId)

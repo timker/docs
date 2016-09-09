@@ -14,6 +14,18 @@
       {
         "title": "Designing a REST-ful service with ServiceStack",
         "url": "http://stackoverflow.com/a/15235822/85785"
+      },
+      {
+        "title": "Simple Customer REST Example",
+        "url": "http://stackoverflow.com/a/30273466/85785"
+      },
+      {
+        "title": "How to design a Message-Based API",
+        "url": "http://stackoverflow.com/a/15941229/85785"
+      },
+      {
+        "title": "Software complexity and role of DTOs",
+        "url": "http://stackoverflow.com/a/32940275/85785"
       }
     ]
   },
@@ -21,7 +33,13 @@
     "title": "Reference"
   },
   "clients": {
-    "title": "Clients"
+    "title": "Clients",
+    "external_links": [
+      {
+        "title": ".NET Core Clients",
+        "url": "https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md"
+      }
+    ]
   },
   "formats": {
     "title": "Formats"

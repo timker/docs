@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
+title: TypeScript Add Reference
 ---
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/typescript-banner.png)
 

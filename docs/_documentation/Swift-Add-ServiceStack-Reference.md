@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
+title: Swift Add Reference
 ---
 ![Swift iOS, XCode and OSX Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swift-logo-banner.jpg)
 

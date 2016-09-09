@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference 
 ---
 ## Throwing C# Exceptions
 

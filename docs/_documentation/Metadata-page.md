@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: reference
 ---
 ServiceStack will automatically generate a metadata page about the webservice. The metadata can be found under the URL `/metadata`:
 

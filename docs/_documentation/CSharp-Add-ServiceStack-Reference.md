@@ -1,5 +1,6 @@
 ---
-#File header for Jekyll to pick up 
+topic: clients
+title: C# Add Reference
 ---
 ![C# Platforms](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png)
 
