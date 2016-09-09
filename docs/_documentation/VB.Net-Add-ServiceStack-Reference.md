@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: VB.NET Add Reference
+priority: 4
 ---
 ![VB.NET Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png)
 

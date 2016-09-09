@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: C# Add Reference
+priority: 4
 ---
 ![C# Platforms](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png)
 

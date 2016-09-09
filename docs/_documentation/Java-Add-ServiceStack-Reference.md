@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: Java Add Reference
+priority: 4
 ---
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/android-studio-splash.png)
 

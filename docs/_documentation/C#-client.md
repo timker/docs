@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: C#/.NET Client
+priority: 2
 ---
 Using DTOs to define your web service interface makes it possible to provide strong-typed generic service clients without any code-gen or extra build-steps, leading to a productive end-to-end type-safe communication gateway from client to server.
 

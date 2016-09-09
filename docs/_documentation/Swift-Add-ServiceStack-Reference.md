@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: Swift Add Reference
+priority: 4
 ---
 ![Swift iOS, XCode and OSX Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swift-logo-banner.jpg)
 

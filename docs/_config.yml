@@ -19,13 +19,17 @@ exclude:
   - LICENCE
 
 topics: []
-sorted_topics: {}
 defaults:
   -
     scope:
       path: ""
     values:
       layout: default
+  -
+    scope:
+      collection: documentation
+    values:
+      priority: 999
 
 # -----
 # Build

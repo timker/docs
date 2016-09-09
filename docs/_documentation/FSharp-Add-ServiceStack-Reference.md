@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: F# Add Reference
+priority: 4
 ---
 ![F# Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/fsharp-header.png)
 

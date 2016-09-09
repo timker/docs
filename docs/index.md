@@ -32,8 +32,8 @@ _This is the documentation about the core web service framework. Please see the 
 
 > [[Prerequisites]] - Before you start reading, you should know the basics about HTTP (HTTP methods/verbs, status codes etc) and REST/SOAP
 
-  - [Why ServiceStack?](https://github.com/ServiceStack/ServiceStack/wiki/Why-Servicestack)
-  - [What is a message based web service?](https://github.com/ServiceStack/ServiceStack/wiki/What-is-a-message-based-web-service)
+  - [[Why ServiceStack]]?
+  - [[What is a message based web service]]?
   - [[Advantages of message based web services]]
   - [Why remote services should use separate Data Transfer Objects](http://stackoverflow.com/a/15369736/85785)
 

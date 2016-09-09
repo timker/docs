@@ -1,5 +1,7 @@
 --- 
 topic: clients
+title: Overview
+priority: 1
 ---
 As ServiceStack is just a pure HTTP web service it can be accessed with any HTTP-capable client. 
 
