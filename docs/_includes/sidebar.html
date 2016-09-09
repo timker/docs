@@ -39,7 +39,7 @@
 			<div>
 				<h4>{{ current_topic[1].title }}</h4>
 				<ul>
-					{% assign sorted_docs_with_topics = docs_with_topics | sort: 'priority' | sort: 'title' %}
+					{% assign sorted_docs_with_topics = docs_with_topics | sort: 'title' | sort: 'priority' %}
 					{% for doc in sorted_docs_with_topics %}
 					{% if current_topic[0] == doc.topic %}
 					<li class="sidebar-doc-item"><a href="{{ doc.url }}">{{ doc.title }}</a></li>
