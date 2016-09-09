@@ -1,8 +1,6 @@
 ---
 title: Why ServiceStack?
 ---
-# Why ServiceStack?
-
 Developed in the modern age, Service Stack provides an alternate, cleaner POCO-driven way of creating web services.
  
 - Simplicity
