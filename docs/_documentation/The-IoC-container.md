@@ -1,5 +1,6 @@
 ---
-topic: reference 
+topic: reference
+title: The IoC Container
 ---
 ServiceStack uses a slightly modified version of [Funq](http://funq.codeplex.com/) - which was adopted because of its excellent [performance and memory characteristics](http://www.servicestack.net/benchmarks/). ServiceStack's version of Funq has been enhanced with Expression-based Auto-wiring and lifetime Request Scope.
 

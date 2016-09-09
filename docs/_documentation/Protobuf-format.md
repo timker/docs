@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: formats 
 ---
 [Protocol Buffers](http://code.google.com/p/protobuf/) is a high-performance, compact binary wire format invented by Google who use it internally so they can communicate with their internal network services at very high speed.
 

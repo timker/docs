@@ -1,10 +1,7 @@
 ---
-#File header for Jekyll to pick up 
+topic: formats
+title: JavaScript HTML5 Report Format
 ---
-#New JavaScript HTML5 Report Format
-
-## New HTML5 + JSON Report Format
-
 These examples are simply links to existing ServiceStack web services, which based on your browsers user-agent (i.e. Accept: 'text/html') provides this HTML format instead of the other serialization formats. 
 
   - Nortwind Database: [All Customers](http://northwind.servicestack.net/customers), [Customer Detail](http://northwind.servicestack.net/customers/ALFKI), [Customer Orders](http://northwind.servicestack.net/orders)

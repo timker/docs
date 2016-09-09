@@ -1,8 +1,8 @@
 ---
-#File header for Jekyll to pick up 
+topic: formats
+title: JSON, JSV and XML
+priority: 2
 ---
-# JSON, JSV and XML
-
 ServiceStack supports of course the most-used two webservices formats: XML and JSON. By default, the [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text) serializer is used for JSON - it's the fastest JSON serializer for .Net! 
 
 ServiceStack also provides a format called JSV:

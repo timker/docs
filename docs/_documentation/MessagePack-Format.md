@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+topic: formats 
 ---
 [Message Pack](http://msgpack.org/) is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON but it's faster and smaller. 
 

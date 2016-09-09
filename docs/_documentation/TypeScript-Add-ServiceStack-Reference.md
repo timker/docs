@@ -1,6 +1,7 @@
 ---
 topic: clients
 title: TypeScript Add Reference
+priority: 4
 ---
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/typescript-banner.png)
 
