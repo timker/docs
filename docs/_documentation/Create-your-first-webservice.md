@@ -1,5 +1,5 @@
 ---
-topic: getting-started
+slug: create-your-first-webservice
 ---
 > Fastest way to get started is to [create a project with ServiceStack's VS.NET Templates](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project).
 In addition to this, there are a number of great walk-thru's into ServiceStack in the 

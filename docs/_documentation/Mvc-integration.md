@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: mvc-integration
 ---
 ### Add ServiceStack to an existing MVC Project
 
@@ -50,6 +50,10 @@ public class AppHost : AppHostBase
 
     public override void Configure(Container container)
     {            
+        SetConfig(new HostConfig { 
+            HandlerFactoryPath = "api" 
+        });
+
         ControllerBuilder.Current.SetControllerFactory(
             new FunqControllerFactory(container));
     }

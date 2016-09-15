@@ -16,7 +16,8 @@
 
     <!-- Sidebar -->
     <div id="sidebar-wrapper">
-        {% include sidebar.html %}
+        {% capture my-include %}{% include Side-Bar.md %}{% endcapture %}
+        {{ my-include | markdownify }}
     </div>
     <!-- /#sidebar-wrapper -->
 
@@ -69,19 +70,31 @@
         var target = this;
         return target.split(search).join(replacement);
     };
-    var sidebarText = $('#page-content-wrapper')[0].innerHTML;
-    var matches = sidebarText.match(/\[\[(.+?)\]\]/g);
-    var result = sidebarText;
-    if(matches != null) {
-        for(var i = 0; i < matches.length; i++) {
-            var text = matches[i].replaceAll('[[','').replaceAll(']]','');
-            result = result.replace(matches[i],
-                    '<a href="documentation/' +
-                    text.replaceAll(' ','-') +
-                    '.html">' + text + '</a>')
+
+    var myarray = [];
+    {% for doc in site.documentation %}
+    myarray.push('{{doc.url}}');
+    {% endfor %}
+
+    console.log(myarray);
+    function fixDoubleBracketLinks(cssSelector) {
+        var sidebarText = $(cssSelector)[0].innerHTML;
+        var matches = sidebarText.match(/\[\[(.+?)\]\]/g);
+        var result = sidebarText;
+        if(matches != null) {
+            for(var i = 0; i < matches.length; i++) {
+                var text = matches[i].replaceAll('[[','').replaceAll(']]','');
+                result = result.replace(matches[i],
+                        '<a href="documentation/' +
+                        text.replaceAll(' ','-') +
+                        '.html">' + text + '</a>')
+            }
+            $(cssSelector).html(result);
         }
-        $('#page-content-wrapper').html(result);
     }
+
+    fixDoubleBracketLinks('#page-content-wrapper');
+    fixDoubleBracketLinks('#sidebar-wrapper');
 
     var allMenuItems = $('.sidebar-doc-item');
     var allDocTitles = allMenuItems.map(function() {
@@ -103,6 +116,10 @@
             $(this).show();
         })
     });
+
+    $("a[href^='?id=']").attr('href', function () {
+
+    })
 </script>
 
 </body>

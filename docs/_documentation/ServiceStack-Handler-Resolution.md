@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 This document explains how the handlers are resolved in ServiceStack, the moment the Context is passed on to the ServiceStackHttpHandlerFactory, and all the actions that happen along with it.
 

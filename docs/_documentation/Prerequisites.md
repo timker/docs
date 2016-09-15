@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 - [Wikipedia article about HTTP and HTTP verbs](http://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol)
 - [HTTP status codes](http://en.wikipedia.org/wiki/List_of_HTTP_status_codes) 

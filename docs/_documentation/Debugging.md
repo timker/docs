@@ -1,5 +1,5 @@
 ---
-topic: reference 
+slug: debugging
 ---
 ### Debugging Source Symbols in NuGet packages
 
@@ -10,8 +10,7 @@ It's possible to debug into the ServiceStack source code when using the ServiceS
   3. Check **Enable source server support**
   4. In the `Tools -> Options -> Debugger -> Symbols` dialog, under the **Symbol file (.pdb) locations** section by clicking the New Folder icon and add the following urls (in order):
     - http://referencesource.microsoft.com/symbols
-    - http://srv.symbolsource.org/pdb/Public
-    - http://srv.symbolsource.org/pdb/MyGet
+    - https://nuget.smbsrc.net
     - http://msdl.microsoft.com/download/symbols
 
 And with that you should now be able to debug into the source code of any NuGet package (who publishes their Symbols) directly from within your application!
@@ -67,10 +66,8 @@ appHost.GetPlugin<MetadataFeature>()
 There are a number of plugins that can help with debugging:
 
 ### Request Info
-Provides ServiceStack's Request Info feature useful for debugging requests. Just add **?debug=requestinfo** in your `/pathinfo` and ServiceStack will return a dump of all the HTTP Request parameters to help with with debugging interoperability issues. The RequestInfoFeature is only enabled in [DebugMode](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode).
 
-    var feature = Plugins.FirstOrDefault(x => x is RequestInfoFeature); 
-    Plugins.RemoveAll(x => x is RequestInfoFeature); 
+Provides ServiceStack's Request Info feature useful for debugging requests. Just add **?debug=requestinfo** in your `/pathinfo` and ServiceStack will return a dump of all the HTTP Request parameters to help with with debugging interoperability issues. The RequestInfoFeature is only enabled in [DebugMode](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode).
 
 ### [Request Logger](https://github.com/ServiceStack/ServiceStack/wiki/Request-logger)
 

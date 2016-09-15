@@ -1,5 +1,5 @@
 ---
-topic: reference
+slug: metadata-page
 ---
 ServiceStack will automatically generate a metadata page about the webservice. The metadata can be found under the URL `/metadata`:
 

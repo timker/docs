@@ -1,5 +1,5 @@
 ---
-topic: clients 
+slug: messaging
 ---
 ## API
 
@@ -42,15 +42,6 @@ to use a MQ as an alternative to HTTP including:
 More details of these and other advantages can be found in the definitive
 [Enterprise Integration Patterns](http://www.eaipatterns.com).
 
-### OneWay MQ and HTTP Service Clients are Substitutable
-
-Service Clients and MQ Clients are also interoperable where all MQ Clients implement the Service Clients `IOneWayClient` API which enables writing code that works with both HTTP and MQ Clients:
-
-```csharp
-IOneWayClient client = GetClient();
-client.SendOneWay(new RequestDto { ... });
-```
-
 Likewise the HTTP Service Clients implement the Messaging API `IMessageProducer`:
 
 ```csharp
@@ -82,6 +73,156 @@ appHost.GlobalRequestFilters.Add(ValidationFilters.RequestFilter);
 appHost.GlobalMessageRequestFilters.Add(ValidationFilters.RequestFilter);
 ```
 
+## Message Workflow
+
+By default, MQ Servers will send a response message after it's processed each message, 
+what the response is and which Queue (or HTTP url) the response is published to is dependent 
+on the outcome of the message handler, i.e:
+
+![MQ Flowchart](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/message-flow.png) 
+
+### Messages with no responses are sent to '.outq' Topic
+
+When a handler returns a `null` response, the incoming message is re-published as a 
+"transient" message to the out queue, e.g: `mq:Hello.outq` having the effect of notifying 
+any subscribers to `mq:Hello.outq` each time a message is processed. 
+
+We can use this behavior to block until a message gets processed with:
+
+```csharp
+IMessage<Hello> msgCopy = mqClient.Get<Hello>(QueueNames<Hello>.Out);
+mqClient.Ack(msgCopy);
+msgCopy.GetBody().Name //= World
+```
+
+Also shown in this example is an explicit **Ack** (which should be done for each message 
+you receive) to tell the MQ Broker that you've taken responsibility of the message so it can 
+safely remove it off the queue.
+
+### Messages with Responses are published to the Response .inq
+
+Often message handlers will just return a POCO response after it processes a message, e.g:
+
+```csharp
+mqServer.RegisterHandler<Hello>(m =>
+    new HelloResponse { Result = "Hello, {0}!".Fmt(m.GetBody().Name) });
+```
+
+Whenever there's a response, then instead of the .outq the response message is sent to 
+the **.inq** of the response message type, which for a `HelloResponse` type is just 
+**mq:HelloResponse.inq**, e.g:
+
+```csharp
+mqClient.Publish(new Hello { Name = "World" });
+
+var responseMsg = mqClient.Get<HelloResponse>(QueueNames<HelloResponse>.In);
+mqClient.Ack(responseMsg);
+responseMsg.GetBody().Result //= Hello, World!
+```
+
+> Note: this behavior can be limited to only publish responses for types in the 
+`mqServer.PublishResponsesWhitelist`, otherwise all response messages can be disabled 
+entirely by setting `mqServer.DisablePublishingResponses = true`.
+
+### Responses from Messages with ReplyTo are published to that address
+
+Whilst for the most part you'll only need to publish POCO messages, you can also alter the 
+default behavior by providing a customized `IMessage<T>` wrapper which ServiceStack will 
+send instead, e.g. you can specify your own **ReplyTo** address to change the queue where 
+the response gets published, e.g:
+
+```csharp
+const string replyToMq = mqClient.GetTempQueueName();
+mqClient.Publish(new Message<Hello>(new Hello { Name = "World" }) {
+    ReplyTo = replyToMq
+});
+
+IMessage<HelloResponse> responseMsg = mqClient.Get<HelloResponse>(replyToMq);
+mqClient.Ack(responseMsg);
+responseMsg.GetBody().Result //= Hello, World!
+```
+
+A nice feature unique in ServiceStack is that the ReplyTo address can even be a **HTTP Uri**, 
+in which case ServiceStack will attempt to **POST** the raw response at that address. 
+This works nicely with ServiceStack Services which excel at accepting serialized DTO's.
+
+### Messages with exceptions are re-tried then published to the dead-letter-queue (.dlq)
+
+By default Mq Servers lets you specify whether or not you want messages that cause 
+an exception to be retried by specifying a RetryCount of 1 (default), or if you don't want 
+any messages re-tried, specify a value of 0, e.g:
+
+```csharp
+var mqServer = new RabbitMqServer { RetryCount = 1 };
+```
+
+To illustrate how this works we'll keep a counter of how many times a message handler 
+is invoked, then throw an exception to force an error condition, e.g:
+
+```csharp
+var called = 0;
+mqServer.RegisterHandler<Hello>(m => {
+    called++;
+    throw new ArgumentException("Name");
+});
+```
+
+Now when we publish a message the response instead gets published to the messages **.dlq**, 
+after it's first transparently retried. We can verify this behavior by checking `called=2`:
+
+```csharp
+mqClient.Publish(new Hello { Name = "World" });
+
+IMessage<Hello> dlqMsg = mqClient.Get<Hello>(QueueNames<Hello>.Dlq);
+mqClient.Ack(dlqMsg);
+
+Assert.That(called, Is.EqualTo(2));
+```
+
+DLQ Messages retains the original message in their body as well as the last exception 
+serialized in the `IMessage.Error` ResponseStatus metadata property, e.g:
+
+```csharp
+dlqMsg.GetBody().Name   //= World
+dlqMsg.Error.ErrorCode  //= typeof(ArgumentException).Name
+dlqMsg.Error.Message    //= Name
+```
+
+Since the body of the original message is left in-tact, you're able to retry failed messages 
+by removing them from the dead-letter-queue then re-publishing the original message, e.g:
+
+```csharp
+IMessage<Hello> dlqMsg = mqClient.Get<Hello>(QueueNames<Hello>.Dlq);
+
+mqClient.Publish(dlqMsg.GetBody());
+
+mqClient.Ack(dlqMsg);
+```
+
+This is useful for recovering failed messages after identifying and fixing bugs that were 
+previously causing exceptions, where you can replay and re-process DLQ messages and continue 
+processing them as normal.
+
+### OneWay HTTP Requests are published to MQ then executed
+
+Using the `SendOneWay()` Service Client APIs will publish DTO's to the `/oneway` [Pre-defined Route](https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes):
+
+```csharp
+var client = new JsonServiceClient(BaseUrl);
+client.SendOneWay(new RequestDto { ... }); //POST's to /json/oneway/RequestDto
+```
+
+Where if there is an MQ Server is registered in the AppHost it will instead publish the Request DTO to the registered MQ Server who then pulls it from the MQ Broker and executes the message in a background thread like a normal MQ Message. If no MQ Server is registered then the Request is executed in the HTTP Handler like a normal HTTP Request.
+
+### OneWay MQ and HTTP Service Clients are Substitutable
+
+Service Clients and MQ Clients are also interoperable where all MQ Clients implement the Service Clients `IOneWayClient` API which enables writing code that works with both HTTP and MQ Clients:
+
+```csharp
+IOneWayClient client = GetClient();
+client.SendOneWay(new RequestDto { ... });
+```
+
 ## Authenticated Requests via MQ
 
 As MQ Requests aren't executed within the Context of a HTTP Request they don't have access to any HTTP Info like HTTP Cookies, Headers, FormData, etc. This also means the Users Session isn't typically available as it's based on the [ss-id Session Ids in Cookies](https://github.com/ServiceStack/ServiceStack/wiki/Sessions).
@@ -105,13 +246,13 @@ var usersSession  = HostContext.TryResolve<ICacheClient>()
 And inject to use this Session with:
 
 ```csharp
-req.Items["__session"] = usersSession;
+req.Items[Keywords.Session] = usersSession;
 ```
 
 We can then Execute the MQ Service with this custom Request Context with:
 
 ```csharp
-return this.ServiceController.ExecuteMessage(m, req);
+return this.ExecuteMessage(m, req);
 ```
 
 > See the [Session docs](https://github.com/ServiceStack/ServiceStack/wiki/Sessions﻿) for more info about Sessions in ServiceStack
@@ -127,8 +268,9 @@ public class AppHost : AppSelfHostBase
     {
         //Enable Authentication
         Plugins.Add(new AuthFeature(() => new AuthUserSession(), 
-            new IAuthProvider[] {
-                new CredentialsAuthProvider(AppSettings),  // Enable Username/Password Authentication
+            new IAuthProvider[] { 
+                // Enable Username/Password Authentication
+                new CredentialsAuthProvider(AppSettings), 
             }));
 
         //Use an InMemory Repository to persist User Authenticaiton Info
@@ -152,7 +294,7 @@ public class AppHost : AppSelfHostBase
         mqServer.RegisterHandler<AuthOnly>(m => {
             var req = new BasicRequest { Verb = HttpMethods.Post };
             req.Headers["X-ss-id"] = m.GetBody().SessionId;
-            var response = ServiceController.ExecuteMessage(m, req);
+            var response = ExecuteMessage(m, req);
             return response;
         });
 
@@ -181,7 +323,8 @@ public class AuthOnlyService : Service
     [Authenticate] //Only allow Authenticated Requests
     public object Any(AuthOnly request)
     {
-        var session = base.SessionAs<AuthUserSession>(); // Get the User Session for this Request
+        // Get the User Session for this Request
+        var session = base.SessionAs<AuthUserSession>();
 
         return new AuthOnlyResponse {
             Result = "Hello, {0}! Your UserName is {1}"
@@ -228,7 +371,8 @@ using (var mqClient = mqFactory.CreateMessageQueueClient())
     var responseMsg = mqClient.Get<AuthOnlyResponse>(QueueNames<AuthOnlyResponse>.In);
     mqClient.Ack(responseMsg); //Acknowledge the message was received
     
-    Console.WriteLine(responseMsg.GetBody().Result); //"Hello, RabbitMQ Request! Your UserName is mythz"
+    //"Hello, RabbitMQ Request! Your UserName is mythz"
+    Console.WriteLine(responseMsg.GetBody().Result); 
 }
 ```
 
@@ -238,7 +382,7 @@ This works since we're extracting the SessionId and injecting into a Custom Requ
 mqServer.RegisterHandler<AuthOnly>(m => {
     var req = new BasicRequest { Verb = HttpMethods.Post };
     req.Headers["X-ss-id"] = m.GetBody().SessionId;
-    var response = ServiceController.ExecuteMessage(m, req);
+    var response = ExecuteMessage(m, req);
     return response;
 });
 ```

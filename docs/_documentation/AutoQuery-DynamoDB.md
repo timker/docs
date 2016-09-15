@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: autoquery-dynamodb
 ---
 AutoQuery Data's `DynamoDbSource` provides the most productive development experience for effortlessly creating rich, queryable and optimized Services for [DynamoDB data stores](https://aws.amazon.com/dynamodb/).
 

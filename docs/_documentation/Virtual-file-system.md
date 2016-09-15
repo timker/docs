@@ -1,9 +1,9 @@
 ---
-#File header for Jekyll to pick up 
+slug: virtual-file-system
 ---
 In order to access physical files in view engines from multiple sources, ServiceStack includes its own pluggable virtual file system API that lets it support multiple filesystem backends. 
 
-The virtual file system (VFS) is what allows ServiceStack to support view engines in a standard ASP.NET websites (e.g. serving directories from the root directory) as well in self-hosting stand-alone HttpListener websites and Windows Services serving from the output `/bin` directory as well as embedded resources inside .dlls, any combination of both and in future from remote datastores.
+The virtual file system (VFS) is what allows ServiceStack to support view engines in a standard ASP.NET websites (e.g. serving directories from the root directory) as well in self-hosting stand-alone HttpListener websites and Windows Services serving from the output `/bin` directory as well as embedded resources inside .dlls, [in memory filesystems](https://github.com/ServiceStack/ServiceStack/wiki/HTML%2C-CSS-and-JavaScript-Minification#minify-static-js-css-and-html-files) populated at runtime, [remote datastores like AWS S3](https://github.com/ServiceStack/ServiceStack.Aws#s3virtualpathprovider) or any combination of either.
 
 ## Embedded Resources
 
@@ -169,7 +169,7 @@ public class IAppHost
 public class Service : IService //ServiceStack's convenient concrete base class
 {
     //...
-    public IVirtualPathProvider VirtualFiles { get; }
+    public IVirtualFiles VirtualFiles { get; set; }
     public IVirtualPathProvider VirtualFileSources { get; }
 }
 ```

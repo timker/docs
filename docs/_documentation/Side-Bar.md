@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
  - [Wiki home](https://github.com/ServiceStack/ServiceStack/wiki)
 

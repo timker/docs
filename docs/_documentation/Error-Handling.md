@@ -1,5 +1,5 @@
 ---
-topic: reference 
+slug: error-handling
 ---
 ## Throwing C# Exceptions
 
@@ -39,16 +39,25 @@ try
 catch (WebServiceException webEx) 
 {
     /*
-      webEx.StatusCode  = 400
-      webEx.ErrorCode   = ArgumentNullException
-      webEx.Message     = Value cannot be null. Parameter name: Name
-      webEx.StackTrace  = (your Server Exception StackTrace - in DebugMode)
-      webEx.ResponseDto = (your populated Response DTO)
-      webEx.ResponseStatus   = (your populated Response Status DTO)
-      webEx.GetFieldErrors() = (individual errors for each field if any)
+      webEx.StatusCode        = 400
+      webEx.StatusDescription = ArgumentNullException
+      webEx.ErrorCode         = ArgumentNullException
+      webEx.ErrorMessage      = Value cannot be null. Parameter name: Name
+      webEx.StackTrace        = (your Server Exception StackTrace - in DebugMode)
+      webEx.ResponseDto       = (your populated Response DTO)
+      webEx.ResponseStatus    = (your populated Response Status DTO)
+      webEx.GetFieldErrors()  = (individual errors for each field if any)
     */
 }
 ```
+
+Where the `StatusCode` and `StatusDescription` are the HTTP StatusCode and Description which shows the top-level HTTP-layer details that all HTTP Clients see. The StatusDescription is typically short and used to indicate the type of Error returned which by default is the Type of the Exception thrown. HTTP Clients normally inspect the `StatusCode` to determine how to handle the error on the client.
+
+All [Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview) also have access to Application-level Error details which are returned in the Error Response DTO Body where the `ErrorCode` holds the Exception Type and is what clients would inspect to determine and handle the Type of Exception it is whilst the `ErrorMessage` holds the Server Exception Message which provides a human-friendly, longer and descriptive description of the Error that can be displayed to the end user. In [DebugMode](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode) the `StackTrace` is populated with the Server StackTrace to help front-end developers from identifying the cause and location of the Error.
+
+If the Error refers to a particular field such as a Field Validation Exception, `GetFieldErrors()` holds the error information for each field that has an Error.
+
+These defaults can be changed to provide further customized error responses by the various options below:
 
 ### Enabling StackTraces
 
@@ -129,9 +138,9 @@ throw new HttpError(HttpStatusCode.BadRequest, "ArgumentException") {
 }; 
 ```
 
-### Implementing [IResponseStatusConvertible](https://github.com/ServiceStack/ServiceStack/blob/773aac107fc2e0fe6a823acef0c3bad20f686da0/src/ServiceStack.Interfaces/Model/IResponseStatusConvertible.cs#L9)
+### Implementing [IResponseStatusConvertible](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Model/IResponseStatusConvertible.cs)
 
-You can also override the serialization of Custom Exceptions by implementing the `IResponseStatusConvertible` interface to return your own populated ResponseStatus instead. This is how `ValidationException` allows customizing the Response DTO is by [having ValidationException implement][1] the [IResponseStatusConvertible][2] interface. 
+You can also override the serialization of Custom Exceptions by implementing the `IResponseStatusConvertible` interface to return your own populated ResponseStatus instead. This is how `ValidationException` allows customizing the Response DTO is by [having ValidationException implement](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/FluentValidation/ValidationException.cs) the [IResponseStatusConvertible](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Model/IResponseStatusConvertible.cs) interface. 
 
 E.g. Here's a custom Exception example that returns a populated Field Error:  
 
@@ -247,7 +256,7 @@ public override void Configure(Container container)
 }
 ```
 
-## Register handlers for handling Service and non-Service Exceptions
+### Register handlers for handling Service Exceptions
 
 ServiceStack and its [[new API]] provides a flexible way to intercept exceptions. If you need a single entry point for all service exceptions, you can add a handler to `AppHost.ServiceExceptionHandler` in `Configure`. To handle exceptions occurring outside of services you can set the global `AppHost.UncaughtExceptionHandlers` handler, e.g.:
 
@@ -259,8 +268,10 @@ public override void Configure(Container container)
     this.ServiceExceptionHandlers.Add((httpReq, request, exception) => {
         //log your exceptions here
         ...
-        //call default exception handler or prepare your own custom response
-        return DtoUtils.CreateErrorResponse(request, exception);
+        return null; //continue with default Error Handling
+
+        //or return your own custom response
+        //return DtoUtils.CreateErrorResponse(request, exception);
     });
 
     //Handle Unhandled Exceptions occurring outside of Services

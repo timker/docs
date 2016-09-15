@@ -1,5 +1,5 @@
 ---
-topic: formats 
+slug: protobuf-format
 ---
 [Protocol Buffers](http://code.google.com/p/protobuf/) is a high-performance, compact binary wire format invented by Google who use it internally so they can communicate with their internal network services at very high speed.
 
@@ -46,15 +46,20 @@ However simply registering ProtoBuf is not enough to ensure end-to-end happiness
 ```csharp
 public class ProtoBufServiceClient : ServiceClientBase
 {
+    public override string Format
+    {
+        get { return "x-protobuf"; }
+    }
+
     public ProtoBufServiceClient(string baseUri)
     {
         SetBaseUri(baseUri);
     }
 
     public ProtoBufServiceClient(string syncReplyBaseUri, string asyncOneWayBaseUri)
-        : base(syncReplyBaseUri, asyncOneWayBaseUri) {}
+        : base(syncReplyBaseUri, asyncOneWayBaseUri) { }
 
-    public override void SerializeToStream(IRequestContext requestContext, object request, Stream stream)
+    public override void SerializeToStream(IRequest req, object request, Stream stream)
     {
         Serializer.NonGeneric.Serialize(stream, request);
     }
@@ -66,17 +71,17 @@ public class ProtoBufServiceClient : ServiceClientBase
 
     public override string ContentType
     {
-        get { return Common.Web.ContentType.ProtoBuf; }
+        get { return MimeTypes.ProtoBuf; }
     }
 
     public override StreamDeserializerDelegate StreamDeserializer
     {
-        get { return Serializer.NonGeneric.Deserialize; }
+        get { return Deserialize; }
     }
 
-    public override string Format
+    private static object Deserialize(Type type, Stream source)
     {
-        get { return "x-protobuf"; }
+        return Serializer.NonGeneric.Deserialize(type, source);
     }
 }
 ```

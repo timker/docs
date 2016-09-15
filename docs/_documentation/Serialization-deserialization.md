@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: serialization-deserialization
 ---
 # Serialization and deserialization
 
@@ -7,10 +7,9 @@
 
 ServiceStack uses the [JSV-Format](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format) (JSON without quotes) to parse QueryStrings.
 
-JSV lets you embed deep object graphs in QueryString as seen [this example url](http://www.servicestack.net/ServiceStack.Examples.Host.Web/ServiceStack/Json/SyncReply/StoreLogs?Loggers=%5B%7BId:786,Devices:%5B%7BId:5955,Type:Panel,TimeStamp:1199303309,Channels:%5B%7BName:Temperature,Value:58%7D,%7BName:Status,Value:On%7D%5D%7D,%7BId:5956,Type:Tank,TimeStamp:1199303309,Channels:%5B%7BName:Volume,Value:10035%7D,%7BName:Status,Value:Full%7D%5D%7D%5D%7D%5D):
+JSV lets you embed deep object graphs in QueryString as seen [this example url](http://test.servicestack.net/json/reply/StoreLogs?Loggers=%5B%7BId:786,Devices:%5B%7BId:5955,Type:Panel,TimeStamp:1199303309,Channels:%5B%7BName:Temperature,Value:58%7D,%7BName:Status,Value:On%7D%5D%7D,%7BId:5956,Type:Tank,TimeStamp:1199303309,Channels:%5B%7BName:Volume,Value:10035%7D,%7BName:Status,Value:Full%7D%5D%7D%5D%7D%5D):
 
-    http://www.servicestack.net/ServiceStack.Examples.Host.Web/ServiceStack/Json/
-    SyncReply/StoreLogs?Loggers=[{Id:786,Devices:[{Id:5955,Type:Panel,
+    http://test.servicestack.net/json/reply/StoreLogs?Loggers=[{Id:786,Devices:[{Id:5955,Type:Panel,
       Channels:[{Name:Temperature,Value:58},{Name:Status,Value:On}]},
       {Id:5956,Type:Tank,TimeStamp:1199303309,
       Channels:[{Name:Volume,Value:10035},{Name:Status,Value:Full}]}]}]
@@ -32,7 +31,7 @@ var deserialize = (Type type, Stream stream) => ...;
 //Pass two delegates for serialization and deserialization
 this.ContentTypes.Register(contentType, serialize, deserialize);	
 ```
-The [[Protobuf-format]] shows an example of registering a new format whilst the [Northwind VCard Format](http://www.servicestack.net/ServiceStack.Northwind/vcard-format.htm) shows an example of creating a custom media type in ServiceStack.
+The [[Protobuf-format]] shows an example of registering a new format whilst the [Northwind VCard Format](http://northwind.servicestack.net/vcard-format.htm) shows an example of creating a custom media type in ServiceStack.
 
 ***
 

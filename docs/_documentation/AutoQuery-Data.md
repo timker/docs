@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: autoquery-data
 ---
 AutoQuery Data is a new implementation that closely follows the dev model you're used to with [[AutoQuery RDBMS]]
 where any experience gained in creating RDBMS AutoQuery Services previously are now also applicable to 
@@ -32,8 +32,7 @@ and both return the same `QueryResponse<T>` Response DTO.
 ### Use AutoQuery Viewer
 
 A direct result of this means you can reuse [AutoQuery Viewer](https://github.com/ServiceStack/Admin) 
-(announced in the previous release) to access a rich auto UI for querying all AutoQuery implementations 
-together in the same UI, whether queries are served from an RDBMS or an alternative data source.
+to access a rich auto UI for querying all AutoQuery implementations together in the same UI, whether queries are served from an RDBMS or an alternative data source.
 
 [![](https://raw.githubusercontent.com/ServiceStack/Admin/master/img/query-default-values.png)](https://github.com/ServiceStack/Admin)
 

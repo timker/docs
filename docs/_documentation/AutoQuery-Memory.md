@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: autoquery-memory
 ---
 
 ### AutoQuery Memory Data Source

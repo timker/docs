@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: physical-project-structure
 ---
 Ideally the root-level **AppHost** project should be kept lightweight and implementation-free. Although for small projects with only a few services it's ok for everything to be in a single project and to simply grow your architecture when and as needed. 
 

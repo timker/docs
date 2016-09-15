@@ -1,7 +1,5 @@
 ---
-topic: clients
-title: F# Add Reference
-priority: 4
+slug: fsharp-add-servicestack-reference
 ---
 ![F# Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/fsharp-header.png)
 

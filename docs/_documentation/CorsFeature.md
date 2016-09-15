@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: corsfeature
 ---
 ### Enabling Global CORS support
 

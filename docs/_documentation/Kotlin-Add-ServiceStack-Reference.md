@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/android-studio-splash-kotlin.png)
 

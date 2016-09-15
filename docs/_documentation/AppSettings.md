@@ -1,13 +1,11 @@
 ---
-topic: reference
-title: Configuration and AppSettings
+slug: appsettings
 ---
 ## Configuration and AppSettings
 
 Instead of building verbose nested XML configSection classes our preference is to instead store structured configuration in Web.config's `<appSetting/>` which can still express rich config graphs but in a much more human-friendly and manageable way.
 
 ServiceStack's pluggable `IAppSettings` API is a cleaner alternative for storing your Application structured configuration, providing a high-level API to read your Web.config's `<appSetting/>` values into a `List`, `Dictionary` or your own clean Custom POCO Types using the human friendly [JSV format](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format). 
-
 
 ```csharp
 public interface IAppSettings
@@ -262,3 +260,9 @@ AppSettings.Set("Poco", new MyConfig { Foo = "Baz" });
 ```
 
 In providers that support writable configuration natively like `OrmLiteAppSettings` and `DictionarySettings`, the settings get written through to the underlying provider. For read-only providers like Web.config's `AppSettings` or `TextFileSettings` a **shadowed** cache is kept that works similar to prototypal shadowing in JavaScript where if a property doesn't exist, setting a property will be stored on the top-level object instance which also takes precedence on subsequent property access.
+
+# Community AppSettings
+
+## [ServiceStack.Configuration.Consul](https://github.com/MacLeanElectrical/servicestack-configuration-consul)
+
+An implementation of IAppSettings that uses Consul.io key/value store as backing storage

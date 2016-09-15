@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 ServiceStack's HTTP Caching support transparently improves the behavior of existing `ToOptimized` Cached 
 Responses, provides a typed API to opt-in to **HTTP Client** features, introduces a simpler declarative API 
@@ -14,6 +14,15 @@ by default and can be removed to disable the new HTTP Caching behavior with:
 ```csharp
 Plugins.RemoveAll(x => x is HttpCacheFeature);
 ```
+
+Caching options in ServiceStack include using the existing `ToOptimizedResult*` API's to create **Server Caches** within your Services as well as returning a customized `HttpResult` to take advantage of **HTTP Caching** Client features. 
+
+## [[CacheResponse Attribute]]
+The new declarative `[CacheResponse]` [Request Filter attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes) provides the best of both worlds supporting both Server and HTTP Client features which is both non-invasive and simple to enhance, as a result we expect it to be the most popular option for adding caching to your Services in future.
+
+## [[Cache-Aware Clients]]
+
+The **Server Caching** and **HTTP Caching** features in ServiceStack will automatically benefit Websites as browsers have excellent support for HTTP Caching. But .NET Desktop Apps or Xamarin.iOS and Xamarin.Android mobile clients wont see any of these benefits since none of the existing Service Clients have support for **HTTP Caching**. To complete the story we've also developed cache-aware Service Clients that can be used to enhance all existing .NET Service Clients which manages its own local cache as instructed by the HTTP Caching directives.
 
 ### Server Caching
 
@@ -248,19 +257,3 @@ public object Any(GetOggVideo request)
 }
 ```
 
-## [[CacheResponse Attribute]]
-
-We've briefly had a look at the existing `ToOptimizedResult*` API's to create **Server Caches** in 
-ServiceStack as well as using a customized `HttpResult` to take advantage of **HTTP Caching** Client features. 
-To make it even easier to use both, we've combined them together in a new declarative `[CacheResponse]`
-[Request Filter attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes) 
-which as it's non-invasive and simple to add, we expect it to be the most popular option for adding caching 
-to your Services in future.
-
-## [[Cache-Aware Clients]]
-
-We've covered most of the **Server Caching** and **HTTP Caching** features in ServiceStack whose usage will
-automatically benefit Websites as browsers have excellent support for HTTP Caching. But .NET Desktop Apps
-or Xamarin.iOS and Xamarin.Android mobile clients wont see any of these benefits since none of the existing
-Service Clients have support for **HTTP Caching**. To complete the story we've also developed cache-aware Service Clients that can be used to enhance all existing .NET Service Clients which manages its own local cache as instructed by the 
-HTTP Caching directives.

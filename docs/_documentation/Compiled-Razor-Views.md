@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: compiled-razor-views
 ---
 The primary benefits of compiled views is improved performance by eliminating compile times of Razor views. They can also provide static compilation benefits by highlighting compile errors during development and can simplify deployment by avoiding the need to deploy any `*.cshtml` files as they end up pre-compiled in the containing Assembly.
 

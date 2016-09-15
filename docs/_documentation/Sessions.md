@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: sessions
 ---
 The `AuthFeature` (plugin) already enables the SessionFeature, but if you want to make use of sessions and don't want to enable the built-in [Authentication](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization), you will need to register it manually in your AppHost with:
 

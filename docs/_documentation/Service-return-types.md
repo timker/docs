@@ -1,5 +1,5 @@
 ---
-topic: reference 
+slug: service-return-types
 ---
 From a birds-eye view ServiceStack can return any of:
 

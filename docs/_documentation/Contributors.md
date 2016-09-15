@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 ## Big thanks to our 300+ .NET Open Source Contributors!
 

@@ -1,8 +1,10 @@
 ---
-#File header for Jekyll to pick up 
+slug: linux-hosting-options
 ---
 We'll list different Linux Hosting Options being used by others to deploy and Host ServiceStack on Linux:
 
+  - [Guide for running ServiceStack on Mono/Linux](https://github.com/ServiceStackApps/mono-server-config)
+  - [Docker image for running ServiceStack in a Docker container](https://github.com/ServiceStackApps/mono-docker-config)
   - [Hello Docker!](https://github.com/MarFarMa/ServiceStack.Hello) by [+Pauli Price](https://plus.google.com/u/0/108232133950129763782)
   - [Tutorial: FastCGI Mono Server and Nginx hosted on DigitalOcean](http://jokecamp.wordpress.com/2013/06/30/servicestack-api-with-fastcgi-mono-server-and-nginx-hosted-on-digitalocean/) by [@jokecamp](https://twitter.com/jokecamp)
   - [What is the best way to run ServiceStack on Linux / Mono?](http://stackoverflow.com/questions/12188356/what-is-the-best-way-to-run-servicestack-on-linux-mono) answered on [StackOverflow](http://stackoverflow.com)

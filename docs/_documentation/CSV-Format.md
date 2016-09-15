@@ -1,7 +1,7 @@
 ---
-topic: formats 
+slug: csv-format
 ---
-The [CSV format](http://en.wikipedia.org/wiki/Comma-separated_values) is now a first-class supported format which means all your existing web services can automatically take advantage of the new format without any config or code changes. Just drop the latest ServiceStack.dlls (v1.77+) and you're good to go! 
+The [CSV format](http://en.wikipedia.org/wiki/Comma-separated_values) is a first-class supported format which means all your existing web services can automatically take accept and return CSV without any config or code changes. 
 
 ### Importance of CSV
 

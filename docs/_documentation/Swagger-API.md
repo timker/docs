@@ -1,43 +1,14 @@
 ---
-#File header for Jekyll to pick up 
+slug: swagger-api
 ---
 [Swagger](http://swagger.io/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
-[Swagger 1.2 Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under NuGet package: [ServiceStack.Api.Swagger](http://nuget.org/packages/ServiceStack.Api.Swagger/).
+[Swagger 1.2 Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under [Swagger NuGet package](http://nuget.org/packages/ServiceStack.Api.Swagger/):
+
+    PM> Install-Package ServiceStack.Api.Swagger
 
 ## Installation
 
-Default configuration expects that ServiceStack services are available under '/api' path. For services hosted at custom paths, e.g. '/service-stack', set the 'discoveryUrl' configuration property of swagger initialization script (located in your /swagger-ui/index.html file) as given below:
-```html
-<script type="text/javascript">
-$(function () {
-    window.swaggerUi = new SwaggerUi({
-     // discoveryUrl:'../api/resources' /* old value */
-        discoveryUrl:'../service-stack/resources',  /* new value */
-        apiKey:"",
-        dom_id:"swagger-ui-container",
-        supportHeaderParams: false,
-        supportedSubmitMethods: ['get', 'post', 'put']
-    });
-
-    window.swaggerUi.load();
-});
-</script>
-...
-```
-
-If it's a brand new MVC project install NuGet Package: (http://nuget.org/packages/ServiceStack.Host.Mvc/) which prepares ServiceStack default services. Make sure that you added ignore for MVC routes:
-
-```csharp
-routes.IgnoreRoute("api/{*pathInfo}"); 
-```
-
-If it's MVC4 project, then don't forget to disable WebAPI:
-
-```csharp
-//WebApiConfig.Register(GlobalConfiguration.Configuration);
-```
-
-Enable Swagger plugin in AppHost.cs with:
+You can enable Swagger by registering the `SwaggerFeature` plugin in AppHost with:
 
 ```csharp
 public override void Configure(Container container)
@@ -51,13 +22,21 @@ public override void Configure(Container container)
 }
 ```
 
-Compile it. Now you can access swagger UI with:
+Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page).
 
-[http://localhost:port/swagger-ui/index.html](http://localhost:port/swagger-ui/index.html)
+#### Configuring ServiceStack with MVC
 
-or
+If you're [Hosting ServiceStack with MVC](https://github.com/ServiceStack/ServiceStack/wiki/Mvc-integration) then you'll need to tell MVC to ignore the path where ServiceStack is hosted, e.g:
 
-[http://yoursite/swagger-ui/index.html](http://yoursite/swagger-ui/index.html)
+```csharp
+routes.IgnoreRoute("api/{*pathInfo}"); 
+```
+
+For MVC4 projects, you'll also need to disable WebAPI:
+
+```csharp
+//WebApiConfig.Register(GlobalConfiguration.Configuration);
+```
 
 ## Swagger Attributes
 

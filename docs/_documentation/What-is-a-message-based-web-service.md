@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: what-is-a-message-based-web-service
 ---
 Answer from [ServiceStack's interview on InfoQ](http://www.infoq.com/articles/interview-servicestack-2):
 

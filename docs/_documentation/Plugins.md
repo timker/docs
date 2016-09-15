@@ -1,5 +1,5 @@
 ---
-topic: reference 
+slug: plugins
 ---
 ServiceStack Plugin API provides a declarative way to enable modular functionality in ServiceStack:
 
@@ -99,8 +99,8 @@ var feature = Plugins.FirstOrDefault(x => x is RequestInfoFeature);
 Plugins.RemoveAll(x => x is RequestInfoFeature); 
 ```
 
-### [CSV Format](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format)
-Providing ServiceStack's [CSV Format](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format). 
+### [[CSV Format]]
+Providing ServiceStack's [[CSV Format]]. 
 
 ```csharp
 var feature = Plugins.FirstOrDefault(x => x is CsvFormat); 
@@ -306,6 +306,18 @@ A common UX in some websites is to add an extra layer of protection for **super 
 
 ```csharp
 Plugins.Add(new WebSudoFeature());
+```
+
+Your Custom AuthUserSession would need to either inherit `WebSudoAuthUserSession` or implement `IWebSudoAuthSession`, e.g:
+
+```csharp
+public class CustomUserSession : WebSudoAuthUserSession {}
+```
+
+Then tell ServiceStack to use your CustomUserSession by registering it with the `AuthFeature`, e.g:
+
+```csharp
+Plugins.Add(new AuthFeature(() => new CustomUserSession(), ...);
 ```
 
 You can then apply WebSudo behavior to existing services by annotating them with `[WebSudoRequired]`:

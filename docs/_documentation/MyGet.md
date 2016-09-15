@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 ## ServiceStack pre-release MyGet Feed
 
@@ -31,3 +31,7 @@ To clear NuGet Package Cache go to `Tools -> Options` and click **Clear Package 
 This option is not available in VS 2015+, instead delete the Cached Nuget packages with:
 
     del %LOCALAPPDATA%\NuGet\Cache\*.nupkg /q
+
+If the above options do not work, try running the following command:
+
+    nuget locals all -clear

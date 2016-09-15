@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 A more complete listing of ServiceStack NuGet packages is maintained at: https://servicestack.net/download
 

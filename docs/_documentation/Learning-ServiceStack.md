@@ -1,5 +1,5 @@
 ---
-topic: getting-started
+slug: learning-servicestack
 ---
 Below are resources to help learn ServiceStack. 
 >Some resources might focus on different versions of ServiceStack.

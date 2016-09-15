@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: auto-mapping
 ---
 ## Using ServiceStack's Built-in Auto-mapping
 

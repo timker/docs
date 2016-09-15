@@ -1,6 +1,5 @@
 ---
-topic: reference
-title: Rest, SOAP & default endpoints
+slug: endpoints
 ---
 When you create a service, there are by default three endpoints:
 

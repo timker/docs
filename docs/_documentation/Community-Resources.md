@@ -1,8 +1,12 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 ### Blog posts
 
+  - [Journey into Microservices](http://www.wwwlicious.com/2016/05/03/servicestack-microservices-1/) by [@wwwlicious](https://twitter.com/wwwlicious)
+    - [Logging and Debugging](http://www.wwwlicious.com/2016/05/06/servicestack-microservices-logging-debugging-2/)
+    - [Service discovery, load balancing and routing](http://www.wwwlicious.com/2016/05/11/servicestack-microservices-discovery-routing-3/)
+  - [ServiceStack OrmLite transaction support](http://www.solrevdev.com/2016/07/09/servicestack-transactions.html) by [@solrevdev](https://twitter.com/solrevdev)
   - [Crossing The Chasm with ServiceStack and RestAngular](http://thunk.technology/blog/chasm-restangular-servicestack/) by [thunk.technology](http://thunk.technology)
   - [GeniusLink Full Tech Stack](http://blog.geni.us/2016/02/25/the-geniuslink-technology-stack/) by [@geniuslink](https://twitter.com/geniuslink)
   - [ServiceStack and Razor Forms](https://visualstudiomagazine.com/Articles/2016/02/01/ServiceStack-and-Razor-Forms.aspx) by [@dotnetmvp](https://twitter.com/dotnetmvp)

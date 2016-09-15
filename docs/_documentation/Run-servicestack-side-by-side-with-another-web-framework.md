@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: run-servicestack-side-by-side-with-another-web-framework
 ---
 In order to avoid conflicts with your existing ASP.NET web framework it is recommended to host your ServiceStack web services at a custom path.
 This will allow you to use ServiceStack together with an existing web framework e.g. ASP.NET MVC 3 or FUBU MVC, etc.
@@ -22,8 +22,9 @@ The location configuration (to your root Web.config file) below hosts your webse
       <validation validateIntegratedModeConfiguration="false" />
       <handlers>
         <add path="*" name="ServiceStack.Factory" 
-             type="ServiceStack.HttpHandlerFactory, ServiceStack" verb="*" 
-             preCondition="integratedMode" resourceType="Unspecified" allowPathInfo="true" />
+             type="ServiceStack.HttpHandlerFactory, ServiceStack" 
+             verb="*" preCondition="integratedMode" 
+             resourceType="Unspecified" allowPathInfo="true" />
       </handlers>
     </system.webServer>
   </location>

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 # Welcome to ServiceStack wiki!
 ## Where can I ask questions?
@@ -32,7 +32,6 @@ _This is the documentation about the core web service framework. Please see the 
 > [[Prerequisites]] - Before you start reading, you should know the basics about HTTP (HTTP methods/verbs, status codes etc) and REST/SOAP
 
   - [Why ServiceStack?](https://github.com/ServiceStack/ServiceStack/wiki/Why-Servicestack)
-  - [Software complexity, goals of Services and important role of DTOs](http://stackoverflow.com/a/32940275/85785)
   - [What is a message based web service?](https://github.com/ServiceStack/ServiceStack/wiki/What-is-a-message-based-web-service)
   - [[Advantages of message based web services]]
   - [Why remote services should use separate Data Transfer Objects](http://stackoverflow.com/a/15369736/85785)
@@ -41,12 +40,15 @@ _This is the documentation about the core web service framework. Please see the 
     1. [Creating your first Project](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project)
       1. [Creating a WebService from scratch](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice)
     2. [[Your first webservice explained]]
-    3. [ServiceStack API Design](https://github.com/ServiceStack/ServiceStack/wiki/New-API)
-    4. [Designing a REST-ful service with ServiceStack](http://stackoverflow.com/a/15235822/85785)
+    3. [Example Projects Overview](http://stackoverflow.com/a/15869816/85785)    
+    4. [Learning Resources](https://github.com/ServiceStack/ServiceStack/wiki/Learning-ServiceStack)
+
+2. Designing APIs
+    1. [ServiceStack API Design](https://github.com/ServiceStack/ServiceStack/wiki/New-API)
+    2. [Designing a REST-ful service with ServiceStack](http://stackoverflow.com/a/15235822/85785)
       1. [Simple Customer REST Example](http://stackoverflow.com/a/30273466/85785)
-    5. [How to design a Message-Based API](http://stackoverflow.com/a/15941229/85785)
-    6. [Example Projects Overview](http://stackoverflow.com/a/15869816/85785)    
-    7. [Learning Resources](https://github.com/ServiceStack/ServiceStack/wiki/Learning-ServiceStack)
+    3. [How to design a Message-Based API](http://stackoverflow.com/a/15941229/85785)
+    4. [Software complexity, goals of Services and important role of DTOs](http://stackoverflow.com/a/32940275/85785)
 
 2. Reference
     1. [[Order of Operations]]
@@ -69,6 +71,7 @@ _This is the documentation about the core web service framework. Please see the 
 3. Clients
     1. [Overview](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview)
     2. [C#/.NET client](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client)
+        1. [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md)
     3. [[Add ServiceStack Reference]]
         1. [C# Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference)
         2. [F# Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference)
@@ -108,11 +111,14 @@ _This is the documentation about the core web service framework. Please see the 
         - [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
     4. [[Mono]]
         - [[Run ServiceStack as a daemon on Linux]]
-        - [[Run ServiceStack in Fastcgi hosted on nginx]]
+        - [Recommended guide for hosting on Mono](https://github.com/ServiceStackApps/mono-server-config)
+        - [Docker image for running in a docker container](https://github.com/ServiceStackApps/mono-docker-config)
         - [[Linux-Hosting-Options]]
 
 7. Security
-    1. [Authentication/authorization](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
+    1. [Authentication and Authorization](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
+       - [[JWT AuthProvider]]
+       - [[API Key AuthProvider]]
        - [Open Id 2.0 Support](https://github.com/ServiceStack/ServiceStack/wiki/OpenId)
     2. [[Sessions]]
     3. [[Restricting Services]]
@@ -131,16 +137,17 @@ _This is the documentation about the core web service framework. Please see the 
     10. [[Form Hijacking Prevention]]
     11. [[Auto-Mapping]]
     12. [[HTTP Utils]]
-    13. [[Virtual File System]]
-    14. [[Config API]]
-    15. [[Physical Project Structure]]
-    16. [[Modularizing Services]]
-    17. [[MVC Integration]]
-    18. [[ServiceStack Integration]]
-    19. [Embedded Native Desktop Apps](https://github.com/ServiceStack/ServiceStack.Gap)
-    20. [[Auto Batched Requests]]
-    21. [[Versioning]]
-    22. [[Multitenancy]]
+    13. [[Dump Utils]]
+    14. [[Virtual File System]]
+    15. [[Config API]]
+    16. [[Physical Project Structure]]
+    17. [[Modularizing Services]]
+    18. [[MVC Integration]]
+    19. [[ServiceStack Integration]]
+    20. [Embedded Native Desktop Apps](https://github.com/ServiceStack/ServiceStack.Gap)
+    21. [[Auto Batched Requests]]
+    22. [[Versioning]]
+    23. [[Multitenancy]]
 
 9. Caching
   1. [Caching Providers](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
@@ -187,8 +194,9 @@ _This is the documentation about the core web service framework. Please see the 
     1. [[Install ServiceStackVS]]
     2. [[Add ServiceStack Reference]]
     3. [TypeScript React Template](https://github.com/ServiceStackApps/typescript-react-template/)
+      1. [React, Redux Chat App](https://github.com/ServiceStackApps/ReactChat)
     4. [AngularJS App Template](https://github.com/ServiceStack/ServiceStackVS/blob/master/docs/angular-spa.md)
-    5. [ReactJS App Template](https://github.com/ServiceStackApps/Chat-React)
+    5. [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)
 
 17. Other Languages
     1. [[FSharp]]

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: caching
 ---
 # Caching
 
@@ -60,7 +60,8 @@ container.Register<ICacheClient>(
 #### AWS DynamoDB:
 
 ```csharp
-var awsDb = new AmazonDynamoDBClient(AWS_ACCESS_KEY, AWS_SECRET_KEY, RegionEndpoint.USEast1);
+var awsDb = new AmazonDynamoDBClient(
+    AWS_ACCESS_KEY, AWS_SECRET_KEY, RegionEndpoint.USEast1);
 var cache = new DynamoDbCacheClient(new PocoDynamo(awsDb));
 cache.InitSchema();
 ```

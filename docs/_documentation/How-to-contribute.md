@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 There are many ways to say thanks to ServiceStack:
 

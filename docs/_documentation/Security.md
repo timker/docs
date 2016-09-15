@@ -1,5 +1,5 @@
 ---
-topic: reference
+slug: security
 ---
   1. [Authentication/authorization](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
      - [Open Id 2.0 Support](https://github.com/ServiceStack/ServiceStack/wiki/OpenId)
@@ -10,7 +10,6 @@ topic: reference
 <a name="community"></a>
 # Community Resources
 
-  - [Authentication in Service Stack REST Services](http://www.binaryforge-software.com/wpblog/?p=242) by [@binaryforge](https://twitter.com/binaryforge)
   - [Building a ServiceStack OAuth2 resource server using DotNetOpenAuth](http://dylanbeattie.blogspot.com/2013/08/building-servicestack-based-oauth2.html) by [@dylanbeattie](https://twitter.com/dylanbeattie)
   - [Declarative authorization in REST services in SharePoint with F#](http://sergeytihon.wordpress.com/2013/06/28/declarative-authorization-in-rest-services-in-sharepoint-with-f-and-servicestack/) by [@sergey_tihon](https://twitter.com/sergey_tihon)
   - [Authenticate ServiceStack services against an Umbraco membership provider](http://stackoverflow.com/a/16845317/85785) by [Gavin Faux](http://stackoverflow.com/users/1664508/gavin-faux)

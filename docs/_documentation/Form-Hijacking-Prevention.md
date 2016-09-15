@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: form-hijacking-prevention
 ---
 The `SuppressFormsAuthenticationRedirectModule` module prevents the asp.net built in `FormsAuthenticationModule` from hijacking 401 requests and redirecting to a login page.  Normally, this is the desired behavior if you are using a web browser and access an unauthorized page, but in the case of an API, we do not want that.
 

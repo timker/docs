@@ -1,10 +1,9 @@
 ---
-topic: reference
-title: SOAP Support
+slug: soap-support
 ---
 If you want to support SOAP, you have to ensure you adhere to some additional constraints where each method needs to be defined with the `Any()` endpoint and each DTO needs to be decorated with `[DataContract]` and `[DataMember]` attributes so their metadata is generated in your Services XSD and WSDL metadata.
 
-## Soap + Rest
+## SOAP + REST
 
 SOAP only supports a single `POST` request but REST services also make use of `GET`, `PUT`, `DELETE`, etc requests, which aren't used in SOAP. So if you want to support SOAP and REST, you need to create one service for each operation which is also the [recommended API structure](http://stackoverflow.com/a/15235822/85785) for creating [message-based Services](http://stackoverflow.com/a/15941229/85785). The difference to be able to support SOAP is that Service implementations need to be defined with `Any()`, e.g:
 
@@ -51,23 +50,9 @@ The Custom `[Route]` definitions are used to control how you want services expos
 
 This Web Service now supports both **REST and SOAP** with REST API's using the above custom routes and SOAP requests posting WSDL Requests to their fixed `/soap11` or `/soap12` endpoints.
 
-### Raw Access to WCF SOAP Message
-
-`IRequiresSoapMessage` works similar to [IRequiresRequestStream](https://github.com/ServiceStack/ServiceStack/wiki/Serialization-deserialization) interface to tell ServiceStack to skip de-serialization of the request and instead pass the raw WCF Message to the Service instead for manual processing, e.g:
-
-```csharp
-public class RawWcfMessage : IRequiresSoapMessage {
-	public Message Message { get; set; }
-}
-
-public object Post(RawWcfMessage request) { 
-	request.Message... //Raw WCF SOAP Message
-}
-```
-
 ## SOAP Limitations
 
-SOAP expects that **each request always returns the same response DTO**. So you need to **follow the response DTO naming convention**, otherwise **ServiceStack won't be able to generate the WSDLs** and the SOAP endpoint won't work. 
+SOAP expects that each request always returns the same response DTO. So you need to follow the **Response DTO naming convention**, otherwise ServiceStack won't be able to generate the WSDLs and the SOAP endpoint won't be able to work. 
 
 ### DTO Naming Conventions
 
@@ -178,6 +163,20 @@ You can exclude specific Request DTO's from being emitted in WSDL's and XSD's wi
 ```csharp
 [Exclude(Feature.Soap)]
 public class HiddenFromSoap { .. } 
+```
+
+### Raw Access to WCF SOAP Message
+
+`IRequiresSoapMessage` works similar to [IRequiresRequestStream](https://github.com/ServiceStack/ServiceStack/wiki/Serialization-deserialization) interface to tell ServiceStack to skip de-serialization of the request and instead pass the raw WCF Message to the Service instead for manual processing, e.g:
+
+```csharp
+public class RawWcfMessage : IRequiresSoapMessage {
+	public Message Message { get; set; }
+}
+
+public object Post(RawWcfMessage request) { 
+	request.Message... //Raw WCF SOAP Message
+}
 ```
 
 ### Customize SOAP Response

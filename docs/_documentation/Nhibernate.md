@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 # Community Resources
   - [Using NHibernate with ServiceStack](http://www.philliphaydon.com/2012/06/using-nhibernate-with-servicestack/) by [@philliphaydon](https://twitter.com/philliphaydon)

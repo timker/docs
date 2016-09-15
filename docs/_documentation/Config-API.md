@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: config-api
 ---
 Despite being avid protesters in the anti-XML config movement, we're still 100% for app Config in general though it should be **limited to what's actually configurable by your application**. Instead of building tiered configSection manatees we prefer to store structured data in Web.config's appSetting's values which are still able to express rich object config graphs but does so in a much more human-friendly and manageable size.
 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 Built into ServiceStack is an optional Authentication feature you can use to add Authentication to your services by providing web services to Authenticate existing users, Register new users as well Assign/UnAssign Roles to existing users (if you need them). It's highly pluggable and customizable where you can plug-in your own Auth logic, change the caching and session providers as well as what RDBMS is used to persist UserAuth data.
 
@@ -34,10 +34,12 @@ The high-level overview below shows how all the different parts fit together and
 From the overview we can see the built-in AuthProviders that are included:
 
   * **Credentials** - For authenticating with username/password credentials by posting to the `/auth/credentials` service
-  * **AspNetWindowsAuthProvider** - Allowing users to authenticate with Windows Authentication
+  * **API Keys** - Allowing users to authenticate with API Keys
+  * **JWT Tokens** - Allowing users to authenticate with JWT Tokens
   * **Basic Auth** - Allowing users to authenticate with HTTP Basic Auth
   * **Digest Auth** - Allowing users to authenticate with HTTP Digest Authentication 
   * **Custom Credentials** - By inheriting CredentialsAuthProvider and providing your own Username/Password `TryAuthenticate` implementation
+  * **AspNetWindowsAuthProvider** - Allowing users to authenticate with Windows Authentication
   * **Twitter OAuth** - Allow users to Register and Authenticate with Twitter
   * **Facebook OAuth** - Allow users to Register and Authenticate with Facebook 
   * **GitHub OAuth** - Allow users to Register and Authenticate with GitHub 
@@ -64,9 +66,18 @@ The [ServiceStack.Authentication.OpenId](https://nuget.org/packages/ServiceStack
   * **MyOpenId** - Allow users to Register and Authenticate with MyOpenId
   * **OpenId** - Allow users to Register and Authenticate with **any** custom OpenId provider
 
+### [API Key AuthProvider](https://github.com/ServiceStack/ServiceStack/wiki/API-Key-AuthProvider)
+
+The `ApiKeyAuthProvider` provides an alternative method for allowing external 3rd Parties access to your protected Services without needing to specify a password. 
+
+### [JWT AuthProvider](https://github.com/ServiceStack/ServiceStack/wiki/JWT-AuthProvider)
+
+The `JwtAuthProvider` is our integrated stateless Auth solution for the popular [JSON Web Tokens](https://jwt.io/) (JWT) industry standard.
+
 ### Community Auth Providers
 
-  * **[Azure Active Directory](https://github.com/jfoshee/ServiceStack.Authentication.Aad)** - Allow Custom App to login with Azure Active Directory
+  - [Azure Active Directory](https://github.com/jfoshee/ServiceStack.Authentication.Aad) - Allow Custom App to login with Azure Active Directory
+  - [ServiceStack.Authentication.IdentityServer](https://github.com/MacLeanElectrical/servicestack-authentication-identityserver) - Integration with ASP.NET IdentityServer and provides OpenIDConnect / OAuth 2.0 Single Sign-On Authentication
 
 Find more info about [OpenId 2.0 providers on the wiki](https://github.com/ServiceStack/ServiceStack/wiki/OpenId).
 
@@ -128,6 +139,7 @@ A good starting place to create your own Auth provider that relies on username/p
 The Authentication module allows you to use your own persistence back-ends but for the most part you should be able to use one of the existing InMemory, Redis, OrmLite or MongoDB adapters. Use the OrmLite adapter if you want to store the Users Authentication information in any of the RDBMS's that [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) supports, which as of this writing includes Sql Server, Sqlite, MySql, PostgreSQL and Firebird. 
 
   - **OrmLite**: `OrmLiteAuthRepository` in [ServiceStack.Server](https://nuget.org/packages/ServiceStack.Server)
+    - [OrmLiteAuthRepositoryMultitenancy](https://github.com/ServiceStack/ServiceStack/wiki/Multitenancy#multitenancy-rdbms-authprovider)
   - **Redis**: `RedisAuthRepository` in [ServiceStack](https://nuget.org/packages/ServiceStack)
   - **In Memory**: `InMemoryAuthRepository` in [ServiceStack](https://nuget.org/packages/ServiceStack)
   - **AWS DynamoDB**: `DynamoDbAuthRepository` in [ServiceStack.Aws](https://nuget.org/packages/ServiceStack.Aws)
@@ -240,6 +252,8 @@ new AuthFeature = {
 The `AuthService` is registered at paths `/auth` and `/auth/{provider}` where the Provider maps to the `IAuthProvider.Provider` property of the registered AuthProviders. The urls for clients authenticating against the built-in AuthProviders are:
 
   * `/auth/credentials` - CredentialsAuthProvider
+  * `/auth/apikey` - ApiKeyAuthProvider
+  * `/auth/jwt` - JwtAuthProvider
   * `/auth/basic` - BasicAuthProvider
   * `/auth/twitter` - TwitterAuthProvider
   * `/auth/facebook` - FacebookAuthProvider

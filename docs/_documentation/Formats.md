@@ -1,7 +1,5 @@
 ---
-topic: formats
-title: Overview
-priority: 1
+slug: formats
 ---
 ServiceStack supports 6 response formats out of the box:
 

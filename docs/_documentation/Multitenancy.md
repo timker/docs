@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: multitenancy
 ---
 ServiceStack provides a number of ways of changing the database connection used at runtime based on an incoming Request. You can use a [Request Filter](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters#global-request-filters), use the `[ConnectionInfo]` [Request Filter Attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes#request-filter-attributes), use the `[NamedConnection]` attribute on [[Auto Query]] Services, access named connections in Custom Service implementations or override `GetDbConnection(IRequest)` in your AppHost.
 
@@ -148,10 +148,19 @@ Any normal AutoQuery Services like `QueryOrders` will use the default SQL Server
 `QuerySales` will execute its query on the PostgreSQL `Reporting` Database instead:
 
 ```csharp
-public class QueryOrders : QueryBase<Order> {}
+public class QueryOrders : QueryDb<Order> {}
 
+[ConnectionInfo(NamedConnection = "Reporting")]
+public class QuerySales : QueryDb<Sales> {}
+```
+
+An alternative to specifying the `[ConnectionInfo]` Request Filter Attribute on the AutoQuery Request DTO, is to specify the named connection on the **POCO Table** instead, e.g:
+
+```csharp
 [NamedConnection("Reporting")]
-public class QuerySales : QueryBase<Sales> {}
+public class Sales { ... }
+
+public class QuerySales : QueryDb<Sales> {}
 ```
 
 ### Resolving Named Connections in Services
@@ -210,6 +219,52 @@ public virtual IMessageProducer MessageProducer
 ```
 
 E.g. to change the DB Connection your Service uses you can override `GetDbConnection(IRequest)` in your `AppHost`.
+
+## Multitenancy RDBMS AuthProvider
+
+ServiceStack resolves its `IAuthProvider` from the overridable `GetAuthRepository(IRequest)` AppHost factory method just like the other "Multitenancy-aware" dependencies above letting you dynamically change which AuthProvider should be used 
+based on the incoming request.
+
+This can be used with the new `OrmLiteAuthRepositoryMultitenancy` provider to maintain isolated 
+User Accounts per tenant in all [major supported RDBMS](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
+
+Since each tenant database uses their own isolated UserAuth tables we need to provide the list of db 
+connection strings that the OrmLite AuthRepository uses to check and create any missing User Auth tables:
+
+```csharp
+var connectionStrings = 100.Times(i => GetConnectionStringForTenant(i));
+container.Register<IAuthRepository>(c =>
+    new OrmLiteAuthRepositoryMultitenancy(c.TryResolve<IDbConnectionFactory>(),
+        connectionStrings));
+
+container.Resolve<IAuthRepository>().InitSchema(); // Create any missing UserAuth tables
+```
+
+However if you've already created all UserAuth table schema's for each tenant or are manually creating 
+them out-of-band you can register it without the list of connection strings:
+
+```csharp
+container.Register<IAuthRepository>(c =>
+    new OrmLiteAuthRepositoryMultitenancy(c.TryResolve<IDbConnectionFactory>()));
+```
+
+Then to specify which AuthRepository should be used for each request we can override `GetAuthRepository()` 
+in your AppHost and return the `OrmLiteAuthRepositoryMultitenancy` configured to use the same Multitenant 
+DB connection used in that request, e.g:
+
+```csharp
+public override IAuthRepository GetAuthRepository(IRequest req = null)
+{
+    return req != null
+        ? new OrmLiteAuthRepositoryMultitenancy(GetDbConnection(req)) //At Runtime
+        : TryResolve<IAuthRepository>();                              //On Startup
+}
+```
+
+Now when `GetAuthRepository()` is called within the context of a request it uses the same Multitenancy 
+DB as your other services, otherwise when called outside (e.g. on Startup) it uses the default IOC 
+Registration configured with the connectionStrings for each Multitenant DB that it can use to create any
+missing UserAuth table schemas not found in any of the Multitenant databases. 
 
 ### [Multi Tenancy Example](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/MultiTennantAppHostTests.cs)
 

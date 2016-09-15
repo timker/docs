@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 *by [Darren Reid](https://twitter.com/layoric)*
 
