@@ -78,7 +78,7 @@ var preferredLayout = httpReq.Items["Template"];
 
 ## Advantages for having dependency-free services
 
-If you don't need to access the HTTP specific features your services can be called by any non-HTTP endpoint,  like from a [message queue](https://github.com/ServiceStack/ServiceStack/wiki/Messaging).
+If you don't need to access the HTTP specific features your services can be called by any non-HTTP endpoint,  like from a [message queue](?id=Messaging).
 
 ### Injecting the IRequest into your Service
 

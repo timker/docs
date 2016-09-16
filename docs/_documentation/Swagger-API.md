@@ -22,11 +22,11 @@ public override void Configure(Container container)
 }
 ```
 
-Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page).
+Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](?id=Metadata-page).
 
 #### Configuring ServiceStack with MVC
 
-If you're [Hosting ServiceStack with MVC](https://github.com/ServiceStack/ServiceStack/wiki/Mvc-integration) then you'll need to tell MVC to ignore the path where ServiceStack is hosted, e.g:
+If you're [Hosting ServiceStack with MVC](?id=Mvc-integration) then you'll need to tell MVC to ignore the path where ServiceStack is hosted, e.g:
 
 ```csharp
 routes.IgnoreRoute("api/{*pathInfo}"); 

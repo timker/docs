@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: azure
 ---
 # Community Resources
 

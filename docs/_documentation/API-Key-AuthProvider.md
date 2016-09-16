@@ -45,7 +45,7 @@ ApiKey apiKey = req.GetApiKey();
 ```
 
 The `ApiKey` can be later inspected throughout the 
-[request pipeline](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations) 
+[request pipeline](?id=Order-of-Operations) 
 to determine which API Key, Type and Environment was used.
 
 #### Interoperable
@@ -58,7 +58,7 @@ Or as a HTTP Bearer Token in the **Authorization** HTTP Request Header:
 
 > curl https://api.stripe.com/v1/charges -H "Authorization: Bearer yDOr26HsxyhpuRB3qbG07qfCmDhqutnA"
  
-Both of these methods are built into most HTTP Clients. Here are a few different ways which you can send them using ServiceStack's [.NET Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client):
+Both of these methods are built into most HTTP Clients. Here are a few different ways which you can send them using ServiceStack's [.NET Service Clients](?id=C%23-client):
 
 ```csharp
 var client = new JsonServiceClient(baseUrl) {
@@ -70,7 +70,7 @@ var client = new JsonHttpClient(baseUrl) {
 };
 ```
 
-Or using the [HTTP Utils](https://github.com/ServiceStack/ServiceStack/wiki/Http-Utils) extension methods:
+Or using the [HTTP Utils](?id=Http-Utils) extension methods:
 
 ```csharp
 var response = baseUrl.CombineWith("/secured").GetStringFromUrl(
@@ -107,7 +107,7 @@ Plugins.Add(new AuthFeature(...,
 ```
 
 If preferred, any of the API Key Provider options can instead be specified in 
-[App Settings](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings) following the `apikey.{PropertyName}` format, e.g:
+[App Settings](?id=AppSettings) following the `apikey.{PropertyName}` format, e.g:
 
 ```xml
 <add key="apikey.KeyTypes" value="secret,publishable" />
@@ -116,7 +116,7 @@ If preferred, any of the API Key Provider options can instead be specified in
 #### Multitenancy
 
 Thanks to the ServiceStack's trivial support for enabling 
-[Multitenancy](https://github.com/ServiceStack/ServiceStack/wiki/Multitenancy), the minimal configuration required to register and API Key Auth Provider that persists to a **LiveDb** SQL Server database and also allows Services called with an Test API Key to query the alternative **TestDb** database instead, is just:
+[Multitenancy](?id=Multitenancy), the minimal configuration required to register and API Key Auth Provider that persists to a **LiveDb** SQL Server database and also allows Services called with an Test API Key to query the alternative **TestDb** database instead, is just:
 
 ```csharp
 class AppHost : AppSelfHostBase

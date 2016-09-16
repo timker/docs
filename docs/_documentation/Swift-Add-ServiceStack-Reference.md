@@ -27,7 +27,7 @@ Use the **Add ServiceStack Reference** Menu option to bring up the Add Reference
 
 After clicking **Add Reference**, 2 files will be added to your XCode project yielding an instant typed API:
 
- - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client)
+ - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](?id=C%23-client)
  - `{FileName}.dtos.swift` - Your Services DTO Types converted in Swift
 
 ### Update ServiceStack Reference
@@ -201,7 +201,7 @@ import Foundation;
 
 ## [JsonServiceClient.swift](https://github.com/ServiceStack/ServiceStack.Swift/blob/master/dist/JsonServiceClient.swift)
 
-The same ideal, high-level API available in [.NET's ServiceClients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
+The same ideal, high-level API available in [.NET's ServiceClients](?id=C%23-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
 
 ```swift
 public protocol ServiceClient
@@ -407,7 +407,7 @@ As Swift doesn't support Attributes any exported .NET Attributes are emitted in 
 public class GetTechnology : IReturn { ... }
 ```
 
-This also means that the Custom Routes aren't used when making Service Requests and instead just uses ServiceStack's built-in [pre-defined routes](https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes). 
+This also means that the Custom Routes aren't used when making Service Requests and instead just uses ServiceStack's built-in [pre-defined routes](?id=Routing#pre-defined-routes). 
 
 But when preferred `JsonServiceClient` can also be used to call Services using Custom Routes, e.g:
 
@@ -581,7 +581,7 @@ public func loadImageAsync(url:String) -> Promise<UIImage?> {
 
 As `JsonServiceClient.swift` has no external dependencies and only relies on core `Foundation` classes it can be used anywhere Swift can including OSX Cocoa Desktop and Command Line Apps and Frameworks.
 
-Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) and how much auto-querying functionality they can provide for free.
+Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](?id=Auto-Query) and how much auto-querying functionality they can provide for free.
 
 E.g. The TechStacks Desktop app is essentially powered with these 2 AutoQuery Services:
 
@@ -593,7 +593,7 @@ public class FindTechStacks : QueryBase<TechnologyStack> {}
 public class FindTechnologies : QueryBase<Technology> {}
 ```
 
-Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions) automatically infer it from the table being queried.
+Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](?id=Auto-Query#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](?id=Auto-Query#implicit-conventions) automatically infer it from the table being queried.
 
 The TechStacks Desktop UI is then built around these 2 AutoQuery Services allowing querying against each field and utilizing a subset of the implicit conventions supported:
 

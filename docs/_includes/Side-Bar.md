@@ -29,7 +29,7 @@
     - [Debugging](?id=debugging)
 - Clients
     - [Overview](?id=clients-overview)
-    - [C# client](?id=c#-client)
+    - [C# client](?id=csharp-client)
     - [Silverlight client](?id=silverlight-client)
     - [JavaScript client](?id=javascript-client)
     - [Dart Client](?id=dart-client)
@@ -38,7 +38,7 @@
     - [Overview](?id=formats)
     - [JSON/JSV and XML](?id=json-jsv-and-xml)
     - [ServiceStack's new HTML5 Report Format](?id=html5reportformat)
-    - [ServiceStack's new CSV Format](?id=servicestack-csv-format)
+    - [ServiceStack's new CSV Format](?id=csv-format)
     - [MessagePack Format](?id=messagepack-format)
     - [ProtoBuf Format](?id=protobuf-format)
 - View Engines
@@ -54,8 +54,8 @@
         - [Messaging and Redis](?id=messaging-and-redis)
         - [Rabbit MQ](?id=rabbit-mq)
     - [Mono](?id=mono)
-        - [Run ServiceStack as a daemon on Linux](?id=run-servicestack-as-a-daemon-on-linux)
-        - [Run ServiceStack in Fastcgi hosted on nginx](?id=run-servicestack-in-fastcgi-hosted-on-nginx)
+        - [Run ServiceStack as a daemon on Linux](?id=servicestack-as-daemon-on-linux)
+        - [Run ServiceStack in Fastcgi hosted on nginx](?id=servicestack-in-fastcgi-hosted-on-nginx)
         - [Linux-Hosting-Options](?id=linux-hosting-options)
 - Security
     - [Authentication/authorization](?id=authentication-and-authorization)
@@ -100,7 +100,6 @@
     - [Real world performance](?id=real-world-performance) 
 - How To
     - [Sending stream to ServiceStack](http://www.codeproject.com/Articles/501608/SendingplusstreamplustoplusServiceStack)
-    - [Setting UserAgent in ServiceStack JsonServiceClient](http://www.serverside-developer.com/2012/09/setting-useragent-in-servicestack.html)
     - [ServiceStack adding to allowed file extensions](http://jaspreetchahal.org/servicestack-adding-to-allowed-file-extensions/)
     - [Default web service page how to](http://jaspreetchahal.org/servicestack-default-web-index-page/)
 - Future

@@ -18,7 +18,7 @@ Plugins.RemoveAll(x => x is HttpCacheFeature);
 Caching options in ServiceStack include using the existing `ToOptimizedResult*` API's to create **Server Caches** within your Services as well as returning a customized `HttpResult` to take advantage of **HTTP Caching** Client features. 
 
 ## [[CacheResponse Attribute]]
-The new declarative `[CacheResponse]` [Request Filter attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes) provides the best of both worlds supporting both Server and HTTP Client features which is both non-invasive and simple to enhance, as a result we expect it to be the most popular option for adding caching to your Services in future.
+The new declarative `[CacheResponse]` [Request Filter attribute](?id=Filter-attributes) provides the best of both worlds supporting both Server and HTTP Client features which is both non-invasive and simple to enhance, as a result we expect it to be the most popular option for adding caching to your Services in future.
 
 ## [[Cache-Aware Clients]]
 
@@ -28,7 +28,7 @@ The **Server Caching** and **HTTP Caching** features in ServiceStack will automa
 
 To explain the new HTTP Caching features we'll revisit the ServiceStack's previous caching support which
 enables what we refer to as **Server Caching** where the response of a Service is cached in the registered
-[Caching Provider](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
+[Caching Provider](?id=Caching)
 by calling the `ToOptimizedResult*` API's which lets you programmatically construct the Cache Key and/or
 how long the cache should be persisted for, e.g:
 

@@ -53,7 +53,7 @@ catch (WebServiceException webEx)
 
 Where the `StatusCode` and `StatusDescription` are the HTTP StatusCode and Description which shows the top-level HTTP-layer details that all HTTP Clients see. The StatusDescription is typically short and used to indicate the type of Error returned which by default is the Type of the Exception thrown. HTTP Clients normally inspect the `StatusCode` to determine how to handle the error on the client.
 
-All [Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview) also have access to Application-level Error details which are returned in the Error Response DTO Body where the `ErrorCode` holds the Exception Type and is what clients would inspect to determine and handle the Type of Exception it is whilst the `ErrorMessage` holds the Server Exception Message which provides a human-friendly, longer and descriptive description of the Error that can be displayed to the end user. In [DebugMode](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode) the `StackTrace` is populated with the Server StackTrace to help front-end developers from identifying the cause and location of the Error.
+All [Service Clients](?id=Clients-overview) also have access to Application-level Error details which are returned in the Error Response DTO Body where the `ErrorCode` holds the Exception Type and is what clients would inspect to determine and handle the Type of Exception it is whilst the `ErrorMessage` holds the Server Exception Message which provides a human-friendly, longer and descriptive description of the Error that can be displayed to the end user. In [DebugMode](?id=Debugging#debugmode) the `StackTrace` is populated with the Server StackTrace to help front-end developers from identifying the cause and location of the Error.
 
 If the Error refers to a particular field such as a Field Validation Exception, `GetFieldErrors()` holds the error information for each field that has an Error.
 
@@ -77,7 +77,7 @@ The `{RequestDto}Response` is returned, regardless of the service method's respo
 #### Otherwise, if it doesn't:
 A generic `ErrorResponse` gets returned with a populated **ResponseStatus** property.
 
-The [Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview) transparently handles the different Error Response types, and for schema-less formats like JSON/JSV/etc there's no actual visible difference between returning a **ResponseStatus** in a custom or generic `ErrorResponse` - as they both output the same response on the wire.
+The [Service Clients](?id=Clients-overview) transparently handles the different Error Response types, and for schema-less formats like JSON/JSV/etc there's no actual visible difference between returning a **ResponseStatus** in a custom or generic `ErrorResponse` - as they both output the same response on the wire.
 
 ## Custom Exceptions
 
@@ -172,7 +172,7 @@ public class CustomFieldException : Exception, IResponseStatusConvertible
 ### Implementing [IHasStatusCode](https://github.com/ServiceStack/ServiceStack/blob/42c93be28091e3023a1e9720eb5601d4c4fa01a0/src/ServiceStack.Interfaces/Model/IResponseStatusConvertible.cs#L13)
 
 In addition to customizing the HTTP Response Body of C# Exceptions with 
-[IResponseStatusConvertible](https://github.com/ServiceStack/ServiceStack/wiki/Error-Handling#implementing-iresponsestatusconvertible), 
+[IResponseStatusConvertible](?id=Error-Handling#implementing-iresponsestatusconvertible), 
 you can also customize the HTTP Status Code by implementing `IHasStatusCode`:
 
 ```csharp
@@ -216,7 +216,7 @@ public virtual void OnExceptionTypeFilter(
 
 ### Custom HTTP Errors
 
-In Any Request or Response Filter you can short-circuit the [Request Pipeline](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations) by emitting a Custom HTTP Response and Ending the request, e.g:
+In Any Request or Response Filter you can short-circuit the [Request Pipeline](?id=Order-of-Operations) by emitting a Custom HTTP Response and Ending the request, e.g:
 
 ```csharp
 this.PreRequestFilters.Add((req,res) => 

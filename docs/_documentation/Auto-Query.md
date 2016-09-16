@@ -9,7 +9,7 @@ The AutoQuery support in ServiceStack adds Auto Querying functionality akin to O
 
 [[Why not OData]] goes through what aspects make OData a poor Services technology who's Services anti-patterns violates Microsoft's own Services Design guidelines where its implementation, complexity, poor performance, tight-coupling and inhibitive versionability is reminiscent of their earlier rigid, heavy-weight SOAP/SOA frameworks that's still entrenched in a number of legacy systems - [poorly ideologised, over-engineered Services technology](http://www.infoq.com/articles/interview-servicestack) many companies are still trying to recover from.
 
-## Introducing [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-RDBMS)
+## Introducing [AutoQuery](?id=AutoQuery-RDBMS)
 
 The solution to overcome most of OData issues is ultimately quite simple: enhance the ideal API the developer would naturally write and complete their implementation for them! This is essentially the philosophy behind AutoQuery which utilizes conventions to automate creation of intent-based self-descriptive APIs that are able to specify configurable conventions and leverage extensibility options to maximize the utility of AutoQuery services.
 
@@ -17,7 +17,7 @@ AutoQuerying aims to work like optional typing by making it easy to expose contr
 
 ### AutoQuery Services are ServiceStack Services
 
-An important point worthy of highlighting is that AutoQuery Services are just normal ServiceStack Services, utilizing the same [Request Pipeline](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations), which can be mapped to any [user-defined route](https://github.com/ServiceStack/ServiceStack/wiki/Routing), is available in all [registered formats](https://github.com/ServiceStack/ServiceStack/wiki/Formats) and can be [consumed from existing typed Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview). 
+An important point worthy of highlighting is that AutoQuery Services are just normal ServiceStack Services, utilizing the same [Request Pipeline](?id=Order-of-Operations), which can be mapped to any [user-defined route](?id=Routing), is available in all [registered formats](?id=Formats) and can be [consumed from existing typed Service Clients](?id=Clients-overview). 
 
 In addition to leveraging ServiceStack's existing functionality, maximizing re-use in this way reduces the cognitive overhead required for developers who can re-use their existing knowledge in implementing, customizing, introspecting and consuming ServiceStack services. 
 
@@ -25,7 +25,7 @@ In addition to leveraging ServiceStack's existing functionality, maximizing re-u
 
 Enables the rapid development of high-performance, fully-queryable typed RDBMS data-driven services and [supports most major Relational Databases](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget)
 
-### [AutoQuery Data](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Data) Sources
+### [AutoQuery Data](?id=AutoQuery-Data) Sources
 
 AutoQuery Data's Open Provider model supports multiple back-end data sources. The 3 data source providers available include:
 
@@ -58,7 +58,7 @@ If you're just getting started AutoQuery we also recommend registering the [Auto
 
 #### Features
 
- - [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query)
+ - [AutoQuery](?id=Auto-Query)
    - [Northwind AutoQuery DTOs](https://github.com/ServiceStackApps/Northwind/blob/master/src/Northwind/Northwind.ServiceModel/AutoQuery.cs)
    - [OrmLite Sqlite](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
 
@@ -70,13 +70,13 @@ If you're just getting started AutoQuery we also recommend registering the [Auto
 
 #### Features
 
- - [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query)
+ - [AutoQuery](?id=Auto-Query)
    - [StackApis AutoQuery DTO](https://github.com/ServiceStackApps/StackApis#stackapis-autoquery-service)
    - [OrmLite Sqlite](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
 
 ## [AutoQuery Viewer](https://github.com/ServiceStackApps/AutoQueryViewer)
 
-AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible [ServiceStack AutoQuery Service](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) from an iPad. 
+AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible [ServiceStack AutoQuery Service](?id=Auto-Query) from an iPad. 
 
 [![AutoQuery Viewer on AppStore](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/autoquery/autoqueryviewer-appstore.png)](https://itunes.apple.com/us/app/autoquery-viewer/id968625288?ls=1&mt=8)
 
@@ -88,6 +88,6 @@ AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing
 
 ## [TechStacks Cocoa OSX Desktop App](https://github.com/ServiceStackApps/TechStacksDesktopApp)
 
-TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality [AutoQuery Services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) provides for free and how easy they are to call with [ServiceStack's new support for Swift and XCode](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference).
+TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality [AutoQuery Services](?id=Auto-Query) provides for free and how easy they are to call with [ServiceStack's new support for Swift and XCode](?id=Swift-Add-ServiceStack-Reference).
 
 [![TechStack Desktop Search Fields](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-desktop-field.png)](https://github.com/ServiceStackApps/TechStacksDesktopApp)

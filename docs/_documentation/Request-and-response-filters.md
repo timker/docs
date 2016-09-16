@@ -79,4 +79,4 @@ public override void Configure(Container container)
 
 ### Message Queue Endpoints
 
-Non-HTTP requests like [Redis MQ](https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-Redis) are treated as _Internal Requests_ which only execute the alternate `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` and Action [[Filter attributes]]. 
+Non-HTTP requests like [Redis MQ](?id=Messaging-and-Redis) are treated as _Internal Requests_ which only execute the alternate `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` and Action [[Filter attributes]]. 

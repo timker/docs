@@ -76,7 +76,7 @@ A list of all of the plugins available on ServiceStack and how to add them:
 These plugins below **are already added by default**, you can remove or customize them using the methods described above.
 
 ### Metadata Feature
-Provides ServiceStack's [auto-generated metadata pages](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page).  
+Provides ServiceStack's [auto-generated metadata pages](?id=Metadata-page).  
 
 ```csharp
 var feature = Plugins.FirstOrDefault(x => x is MetadataFeature); 
@@ -84,7 +84,7 @@ Plugins.RemoveAll(x => x is MetadataFeature);
 ```
 
 ### Predefined Routes
-Provides ServiceStack's [pre-defined routes](https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes) used in the built-in [C# Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client).  
+Provides ServiceStack's [pre-defined routes](?id=Routing#pre-defined-routes) used in the built-in [C# Service Clients](?id=C%23-client).  
 
 ```csharp
 var feature = Plugins.FirstOrDefault(x => x is PredefinedRoutesFeature); 
@@ -109,16 +109,16 @@ Plugins.RemoveAll(x => x is CsvFormat);
 
 Note: By default the CSV Format tries serialize the Response object directly into CSV which is only ideal if your responses return `List<Poco>`. If however you mark your Response DTO with the **[Csv(CsvBehavior.FirstEnumerable)]** attribute the CSV Format instead will only serialize the first `IEnumerable<T>` it finds on your Response DTO e.g. if you had a `List<Poco> Results` property it will only serialize this list in the tabular CSV Format which is typically the behaviour you want.
 
-### [Html Format](https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat)
-Providing ServiceStack's [Html Format](https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat). 
+### [Html Format](?id=HTML5ReportFormat)
+Providing ServiceStack's [Html Format](?id=HTML5ReportFormat). 
 
 ```csharp
 var feature = Plugins.FirstOrDefault(x => x is HtmlFormat); 
 Plugins.RemoveAll(x => x is HtmlFormat); 
 ```
 
-### [Razor Markdown Format](https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor)
-This provides ServiceStack's [Razor Markdown Format](https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor) and also enables ServiceStack to serve static **.md** or **.markdown** files in either plain text, rendered as HTML (partial), or rendered in HTML inside a static **_Layout.shtml** HTML template. 
+### [Razor Markdown Format](?id=Markdown-Razor)
+This provides ServiceStack's [Razor Markdown Format](?id=Markdown-Razor) and also enables ServiceStack to serve static **.md** or **.markdown** files in either plain text, rendered as HTML (partial), or rendered in HTML inside a static **_Layout.shtml** HTML template. 
 
 ```csharp
 var feature = Plugins.FirstOrDefault(x => x is MarkdownFormat); 
@@ -127,8 +127,8 @@ Plugins.RemoveAll(x => x is MarkdownFormat);
 
 The entire [docs.servicestack.net](http://docs.servicestack.net/docs) website is rendered using static Markdown. More information of Razor Markdown features can be found in:
 
-  - [Introduction to Markdown Razor](https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor)
-  - [Markdown Razor Features](https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor)
+  - [Introduction to Markdown Razor](?id=Markdown-Razor)
+  - [Markdown Razor Features](?id=Markdown-Razor)
   - [How Docs is built with Markdown](http://docs.servicestack.net/markdown/about)
 
 ## Available Plugins
@@ -155,14 +155,14 @@ Plugins.Add(new ServerEventsFeature());
 
 ## [[Postman]]
 
-The [Postman Rest Client](http://www.getpostman.com/) is a very popular and easy to use HTTP Request composer that makes it easy to call web services, similar to [Fiddler's Composer](https://www.blackbaud.com/files/support/guides/infinitydevguide/Subsystems/inwebapi-developer-help/Content/InfinityWebAPI/coUsingFiddlerCreateHTTPRequest.htm). It also provides as an alternative for auto-generating API documentation to [ServiceStack's Swagger support](https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API) that makes it easier to call existing services but does require users to install the [Postman Rest Client](http://www.getpostman.com/).
+The [Postman Rest Client](http://www.getpostman.com/) is a very popular and easy to use HTTP Request composer that makes it easy to call web services, similar to [Fiddler's Composer](https://www.blackbaud.com/files/support/guides/infinitydevguide/Subsystems/inwebapi-developer-help/Content/InfinityWebAPI/coUsingFiddlerCreateHTTPRequest.htm). It also provides as an alternative for auto-generating API documentation to [ServiceStack's Swagger support](?id=Swagger-API) that makes it easier to call existing services but does require users to install the [Postman Rest Client](http://www.getpostman.com/).
 
 ```csharp
 Plugins.Add(new PostmanFeature());
 Plugins.Add(new CorsFeature());
 ```
 
-### [Swagger support](https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API)
+### [Swagger support](?id=Swagger-API)
 
 Swagger support an optional add-on available in the [ServiceStack.Api.Swagger](https://nuget.org/packages/ServiceStack.Api.Swagger/) NuGet package.
 
@@ -199,7 +199,7 @@ Plugins.Add(new RazorFormat());
 
 It's an optional .NET 4.0 plugin that is available in the [ServiceStack.Razor](https://nuget.org/packages/ServiceStack.Razor) NuGet package.
 
-### [Validation](https://github.com/ServiceStack/ServiceStack/wiki/Validation)
+### [Validation](?id=Validation)
 Enable the validation feature if you want to ensure all of ServiceStack's Fluent validators for Request DTOs `IValidator<TRequestDto>` are automatically validated on every request. 
 
 ```csharp
@@ -208,8 +208,8 @@ Plugins.Add(new ValidationFeature());
 
 More information on ServiceStack's built-in Fluent Validation support is described on the [[Validation]] page.
 
-### [Authentication](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization)
-The Authentication Feature enables the [Authentication and Authorization](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) support in ServiceStack. It makes available the AuthService at the default route at `/auth/{provider}`, registers **AssignRoles** and **UnAssignRoles** services (at `/assignroles` and `/unassignroles` default routes) and auto-enables Session support if it's not added already.
+### [Authentication](?id=Authentication-and-authorization)
+The Authentication Feature enables the [Authentication and Authorization](?id=Authentication-and-authorization) support in ServiceStack. It makes available the AuthService at the default route at `/auth/{provider}`, registers **AssignRoles** and **UnAssignRoles** services (at `/assignroles` and `/unassignroles` default routes) and auto-enables Session support if it's not added already.
 
 An example AuthFeature registration (taken from the [SocialBootstrapApi](https://github.com/ServiceStack/SocialBootstrapApi/blob/master/src/SocialBootstrapApi/App_Start/AppHost.cs#L161) project):
 
@@ -226,7 +226,7 @@ Plugins.Add(new AuthFeature(
 
 This registers and provides your ServiceStack host a myriad of different Authentication options as described above.
 
-### [Session support](https://github.com/ServiceStack/ServiceStack/wiki/Sessions)
+### [Session support](?id=Sessions)
 
 If you're **not** using the AuthFeature above and you still want Session support you need to enable it explicitly with:
 
@@ -234,7 +234,7 @@ If you're **not** using the AuthFeature above and you still want Session support
 Plugins.Add(new SessionFeature());
 ```
 
-This will add a [Request Filter](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters) to instruct any HTTP client calling a ServiceStack web service to create a Temporary (ss-id) and Permanent (ss-pid) cookie if not already done so.
+This will add a [Request Filter](?id=Request-and-response-filters) to instruct any HTTP client calling a ServiceStack web service to create a Temporary (ss-id) and Permanent (ss-pid) cookie if not already done so.
 
 ### Registration
 
@@ -246,21 +246,21 @@ Plugins.Add(new RegistrationFeature());
 
 See the [SocialBootstrapApi](https://github.com/ServiceStack/SocialBootstrapApi) project for a working example of Registration and Authentication.
 
-### [MessagePack format](https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format)
-To add fast binary [MessagePack support](https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format) to ServiceStack install the **[ServiceStack.Plugins.MsgPack](https://nuget.org/packages/ServiceStack.Plugins.MsgPack)** NuGet package and register the plugin with:
+### [MessagePack format](?id=MessagePack-Format)
+To add fast binary [MessagePack support](?id=MessagePack-Format) to ServiceStack install the **[ServiceStack.Plugins.MsgPack](https://nuget.org/packages/ServiceStack.Plugins.MsgPack)** NuGet package and register the plugin with:
 
 ```csharp
 Plugins.Add(new MsgPackFormat());
 ```
 
-### [ProtoBuf format](https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format)
-To enable [ProtoBuf support](https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format) install the **[ServiceStack.Plugins.ProtoBuf](https://nuget.org/packages/ServiceStack.Plugins.ProtoBuf)** NuGet package and register the plugin with:
+### [ProtoBuf format](?id=Protobuf-format)
+To enable [ProtoBuf support](?id=Protobuf-format) install the **[ServiceStack.Plugins.ProtoBuf](https://nuget.org/packages/ServiceStack.Plugins.ProtoBuf)** NuGet package and register the plugin with:
 
 ```csharp
 Plugins.Add(new ProtoBufFormat());
 ```
 
-### [Request Logger](https://github.com/ServiceStack/ServiceStack/wiki/Request-logger)
+### [Request Logger](?id=Request-logger)
 
 Add an In-Memory `IRequestLogger` and service with the default route at `/requestlogs` which maintains a live log of the most recent requests (and their responses). Supports multiple config options incl. Rolling-size capacity, error and session tracking, hidden request bodies for sensitive services, etc.
 
@@ -288,7 +288,7 @@ Plugins.Add(new EncryptedMessagesFeature {
 });
 ```
 
-Where `PrivateKeyXml` is the Servers RSA Private Key Serialized as XML. See the [Encrypted Messaging docs](https://github.com/ServiceStack/ServiceStack/wiki/Encrypted-Messaging) for more info.
+Where `PrivateKeyXml` is the Servers RSA Private Key Serialized as XML. See the [Encrypted Messaging docs](?id=Encrypted-Messaging) for more info.
 
 ## [[Cancellable Requests]]
 

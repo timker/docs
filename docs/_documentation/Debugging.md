@@ -49,7 +49,7 @@ To provide better visibility to the hidden functionality in ServiceStack we've a
 
 The **Debug Links** section is only available in **DebugMode**.
 
-You can add links to your own [Plugins](https://github.com/ServiceStack/ServiceStack/wiki/Plugins) in the metadata pages with:
+You can add links to your own [Plugins](?id=Plugins) in the metadata pages with:
 
 ```csharp
 appHost.GetPlugin<MetadataFeature>()
@@ -67,9 +67,9 @@ There are a number of plugins that can help with debugging:
 
 ### Request Info
 
-Provides ServiceStack's Request Info feature useful for debugging requests. Just add **?debug=requestinfo** in your `/pathinfo` and ServiceStack will return a dump of all the HTTP Request parameters to help with with debugging interoperability issues. The RequestInfoFeature is only enabled in [DebugMode](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode).
+Provides ServiceStack's Request Info feature useful for debugging requests. Just add **?debug=requestinfo** in your `/pathinfo` and ServiceStack will return a dump of all the HTTP Request parameters to help with with debugging interoperability issues. The RequestInfoFeature is only enabled in [DebugMode](?id=Debugging#debugmode).
 
-### [Request Logger](https://github.com/ServiceStack/ServiceStack/wiki/Request-logger)
+### [Request Logger](?id=Request-logger)
 
 Add an In-Memory `IRequestLogger` and service with the default route at `/requestlogs` which maintains a live log of the most recent requests (and their responses). Supports multiple config options incl. Rolling-size capacity, error and session tracking, hidden request bodies for sensitive services, etc.
 

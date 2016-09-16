@@ -1,7 +1,7 @@
 ---
 slug: cacheresponse-attribute
 ---
-The `[CacheResponse]` is a normal [Request Filter Attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes)
+The `[CacheResponse]` is a normal [Request Filter Attribute](?id=Filter-attributes)
 which can be added at the top-level of your Service class in which case it will cache the response of 
 **All** Service implementations for **60 seconds**, e.g:
 
@@ -27,7 +27,7 @@ public object Any(GetCustomer request)
 
 ### Caching AutoQuery Services
 
-Request Filter attributes can also be applied on Request DTO's, as we seen with [AutoQuery DynamoDB's QueryRockstarAlbums](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-DynamoDB#caching-autoquery-services) Request DTO:
+Request Filter attributes can also be applied on Request DTO's, as we seen with [AutoQuery DynamoDB's QueryRockstarAlbums](?id=AutoQuery-DynamoDB#caching-autoquery-services) Request DTO:
 
 ```csharp
 [CacheResponse(Duration = 60)]
@@ -124,7 +124,7 @@ enhance it with custom logic.
 is just a wrapper around initializing a populated 
 [CacheInfo](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/CacheInfo.cs) POCO
 that it drops into the `IRequest.Items` dictionary where it's visible to your Service and any remaining Filters 
-in ServiceStack's [Request Pipeline](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations). 
+in ServiceStack's [Request Pipeline](?id=Order-of-Operations). 
 Essentially it's just doing this:
 
 ```csharp
@@ -138,7 +138,7 @@ handle all Service responses the `[CacheResponse]` attribute uses the `IRequest.
 most requests, if QueryString params were sent in a different case or in a different order it would generate 
 a different url and multiple caches for essentially the same request. We can remedy this behavior by changing 
 the base CacheKey used which is just a matter retrieving the populated the `CacheInfo` and change the 
-`KeyBase` to use the predictable [Reverse Routing](https://github.com/ServiceStack/ServiceStack/wiki/Routing#reverse-routing)
+`KeyBase` to use the predictable [Reverse Routing](?id=Routing#reverse-routing)
 `ToGetUrl()` API instead, e.g:
 
 ```csharp

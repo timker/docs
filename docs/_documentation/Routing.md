@@ -13,7 +13,7 @@ e.g. the pre-defined url to call a JSON 'Hello' Service is:
 
     /json/reply/hello
 
-#### [Auto Batched Requests](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Batched-Requests)
+#### [Auto Batched Requests](?id=Auto-Batched-Requests)
 
     /json/reply/Hello[]
 ### SOAP Web Service urls
@@ -217,7 +217,7 @@ public class AppHost : AppHostBase
 
 ## Routing Resolution Order
 
-This is described in more detail on the [New API Design wiki](https://github.com/ServiceStack/ServiceStack/wiki/New-API) but the weighting used to select a route is based on:
+This is described in more detail on the [New API Design wiki](?id=New-API) but the weighting used to select a route is based on:
 
   1. Any exact Literal Matches are used first
   2. Exact Verb match is preferred over All Verbs
@@ -244,11 +244,11 @@ Will match the following Route definitions in order from highest precedence to l
 [Route("/content/{Slug*}")]
 ```
 
-See the [RestPathTests.cs](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.ServiceHost.Tests/RestPathTests.cs) and [Smart Routing](https://github.com/ServiceStack/ServiceStack/wiki/New-API) section on the wiki for more examples.
+See the [RestPathTests.cs](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.ServiceHost.Tests/RestPathTests.cs) and [Smart Routing](?id=New-API) section on the wiki for more examples.
 
 ### Reverse Routing
 
-If you use `[Route]` metadata attributes (as opposed to the Fluent API) you will be able to generate strong-typed URI's using just the DTOs, letting you create urls outside of ServiceStack web framework as done with [.NET Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C#-client) using the `ToUrl(HttpMethod)` and `ToAbsoluteUri(HttpMethod)`, e.g:
+If you use `[Route]` metadata attributes (as opposed to the Fluent API) you will be able to generate strong-typed URI's using just the DTOs, letting you create urls outside of ServiceStack web framework as done with [.NET Service Clients](?id=CSharp-client) using the `ToUrl(HttpMethod)` and `ToAbsoluteUri(HttpMethod)`, e.g:
 
 ```csharp
 [Route("/reqstars/search", "GET")]
@@ -280,7 +280,7 @@ new RequestDto().ToReplyUrl();
 ### Customize urls used with `IUrlFilter`
 
 Request DTO's can customize urls used in Service Clients or any libraries using ServiceStack's typed 
-[Reverse Routing](https://github.com/ServiceStack/ServiceStack/wiki/Routing#reverse-routing) by having 
+[Reverse Routing](?id=Routing#reverse-routing) by having 
 Request DTO's implement 
 [IUrlFilter](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IUrlFilter.cs).
 

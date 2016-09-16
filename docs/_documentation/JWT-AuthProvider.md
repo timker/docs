@@ -17,7 +17,7 @@ Whilst creating a new one in memory as above will work, a new Auth Key will be c
 AppDomain recycles which will invalidate all existing JWT Tokens created with the previous key. 
 
 So you'll typically want to generate the AuthKey out-of-band and configure it with the `JwtAuthProvider` at
-registration which you can do in code using any of the [AppSettings providers](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings):
+registration which you can do in code using any of the [AppSettings providers](?id=AppSettings):
 
 ```csharp
 new JwtAuthProvider(AppSettings) { 
@@ -336,15 +336,15 @@ Plugins.Add(new AuthFeature(() => new AuthUserSession(),
     new [] { new JwtAuthProviderReader(AppSettings) }));
 ```
 
-Which can be configured in [AppSettings](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings):
+Which can be configured in [AppSettings](?id=AppSettings):
 
 ```xml
 <add key="jwt.AuthKeyBase64" value="{Base64AuthKey}" />
 ```
 
 Which no longer needs access to a 
-[IUserAuthRepository](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization#userauth-persistence---the-iuserauthrepository)
-or [Sessions](https://github.com/ServiceStack/ServiceStack/wiki/Sessions) since they're populated entirely
+[IUserAuthRepository](?id=Authentication-and-authorization#userauth-persistence---the-iuserauthrepository)
+or [Sessions](?id=Sessions) since they're populated entirely
 from JWT Tokens. Whilst you can use the default **HS256** HashAlgorithm, RSA is ideal for this use-case
 as you can limit access to the **PrivateKey** to only the central Auth Service issuing the tokens and then 
 only distribute the **PublicKey** to each Service which needs to validate them.
@@ -444,7 +444,7 @@ var jwtToken = authClient.Send(new Authenticate {
 Another useful Service that `JwtAuthProvider` provides is being able to Convert your current Authenticated
 Session into a Token. Authenticating via Credentials Auth establishes an **Authenticated Session** with the
 server which is captured in the 
-[Session Cookies](https://github.com/ServiceStack/ServiceStack/wiki/Sessions#cookie-session-ids)
+[Session Cookies](?id=Sessions#cookie-session-ids)
 that gets populated on the HTTP Client. This lets us access protected Services immediately after we've
 successfully Authenticated, e.g:
 
@@ -574,7 +574,7 @@ new JwtAuthProvider {
 }
 ```
 
-Or in [AppSettings](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings):
+Or in [AppSettings](?id=AppSettings):
 
 ```xml
 <appSettings>

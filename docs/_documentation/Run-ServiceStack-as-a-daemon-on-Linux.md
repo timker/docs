@@ -1,5 +1,5 @@
 ---
-slug: run-servicestack-as-a-daemon-on-linux
+slug: servicestack-as-daemon-on-linux
 ---
 When your web application is predominantly javascript with a REST service at the back-end there are many reasons why you might want to simply serve the static content through apache (or alternative) and run the service as a ...well... service.
 Some examples are:
@@ -12,7 +12,7 @@ Fortunately this is quite simple.
 
 ## Service example
 
-The earlier example of [self hosting](https://github.com/ServiceStack/ServiceStack/wiki/Self-hosting) provides a good starting point, but needs to be modified slightly if running as a daemon. 
+The earlier example of [self hosting](?id=Self-hosting) provides a good starting point, but needs to be modified slightly if running as a daemon. 
 
 ```csharp
 using System;

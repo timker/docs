@@ -13,7 +13,7 @@
             for(var i = 0; i < matches.length; i++) {
                 var text = matches[i].replaceAll('[[','').replaceAll(']]','');
                 result = result.replace(matches[i],
-                    '<a href="documentation/' +
+                    '<a href="/documentation/' +
                     text.replaceAll(' ','-') +
                     '.html">' + text + '</a>')
             }

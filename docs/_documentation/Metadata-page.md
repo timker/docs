@@ -32,7 +32,7 @@ public class MyRequestDto
 }
 ```
 
-If now the detail page of the specific service is inspected, the description configured above will be displayed on both the [Swagger UI](github.com/ServiceStack/ServiceStack/wiki/Swagger-API) and Metadata Detail Page:
+If now the detail page of the specific service is inspected, the description configured above will be displayed on both the [Swagger UI](?id=Swagger-API) and Metadata Detail Page:
 
 ![Metadata Detail Page](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/metadata-swagger-api.png)
 
@@ -46,7 +46,7 @@ A good place to provide better visibility of functionality in ServiceStack is wi
 
 The Debug Links section is only available in **DebugMode** (recap: set by default in Debug builds or explicitly with `Config.DebugMode = true`). In addition, users with the **Admin** role (or if `Config.AdminAuthSecret` is enabled) can also view the debug Plugins UI's in production.
 
-You can add links to your own [Plugins](https://github.com/ServiceStack/ServiceStack/wiki/Plugins) in the metadata pages with:
+You can add links to your own [Plugins](?id=Plugins) in the metadata pages with:
 
 ```csharp
 appHost.GetPlugin<MetadataFeature>()
@@ -151,7 +151,7 @@ public class MyServices : Service
 }
 ``` 
 
-## Auth Info in [Metadata Pages](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page)
+## Auth Info in [Metadata Pages](?id=Metadata-page)
 
 The Metadata pages also label protected Services. On the metadata index page it displays a yellow key next to
 each Service requiring Authentication:

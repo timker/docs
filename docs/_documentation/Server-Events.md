@@ -13,17 +13,17 @@ We've chosen to adopt Server Sent Events for Server Notifications as it's a beau
 
 ### Server Event Clients
 
-  - [JavaScript Client](https://github.com/ServiceStack/ServiceStack/wiki/JavaScript-Server-Events-Client)
-  - [C# Client](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client)
+  - [JavaScript Client](?id=JavaScript-Server-Events-Client)
+  - [C# Client](?id=C%23-Server-Events-Client)
 
 ### Server Event Providers
 
   - Memory Server Events (default)
-  - [Redis Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Redis-Server-Events)
+  - [Redis Server Events](?id=Redis-Server-Events)
 
 ## Registering
 
-Like most other [modular functionality](https://github.com/ServiceStack/ServiceStack/wiki/Plugins) in ServiceStack, Server Sent Events is encapsulated in a single Plugin that can be registered in your AppHost with:
+Like most other [modular functionality](?id=Plugins) in ServiceStack, Server Sent Events is encapsulated in a single Plugin that can be registered in your AppHost with:
 
 ```csharp
 Plugins.Add(new ServerEventsFeature());
@@ -74,7 +74,7 @@ class ServerEventsFeature
 
 The way your Services send notifications is via the `IServerEvents` API which defaults to an in-memory `MemoryServerEvents` implementation which keeps a record of all subscriptions and connections in memory:
 
-> Server Events can also be configured to use a [distributed Redis backend](https://github.com/ServiceStack/ServiceStack/wiki/Redis-Server-Events) which allows Server Events to work across load-balanced app servers.
+> Server Events can also be configured to use a [distributed Redis backend](?id=Redis-Server-Events) which allows Server Events to work across load-balanced app servers.
 
 ```csharp
 public interface IServerEvents : IDisposable
@@ -113,7 +113,7 @@ public interface IServerEvents : IDisposable
 }
 ```
 
-The API's your Services predominantly deal with are the **External API's** which allow sending of messages at different levels of granularity. As Server Events have deep integration with ServiceStack's [Sessions](https://github.com/ServiceStack/ServiceStack/wiki/Sessions) and [Authentication Providers](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) you're also able to notify specific users by either:
+The API's your Services predominantly deal with are the **External API's** which allow sending of messages at different levels of granularity. As Server Events have deep integration with ServiceStack's [Sessions](?id=Sessions) and [Authentication Providers](?id=Authentication-and-authorization) you're also able to notify specific users by either:
 
 ```csharp
 NotifyUserId()   // UserAuthId
@@ -200,7 +200,7 @@ The following Server and Client callbacks are fired when a client first makes a 
  5. `ServerEventsFeature.OnSubscribe()` - Fired after the subscription is registered. This callback can be used to send any custom messages to the client
  6. **(Client)** - If `ServerEventsFeature.NotifyChannelOfSubscriptions = true` every client in the same channel receives a `cmd.onJoin` message to notify them that a new subscription has joined the channel as well as a `cmd.onLeave` message when subscription leaves the channel
 
-> The `cmd.onConnect`, `cmd.onJoin` and `cmd.onLeave` messages can be handled with the [Global Event Handlers](https://github.com/ServiceStack/ServiceStack/wiki/JavaScript-Server-Events-Client#global-event-handlers) on the JavaScript Client and the [Message Event Handlers](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client#message-event-handlers) or the [Global Receiver](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client#the-global-receiver) .NET ServerEventClient.
+> The `cmd.onConnect`, `cmd.onJoin` and `cmd.onLeave` messages can be handled with the [Global Event Handlers](?id=JavaScript-Server-Events-Client#global-event-handlers) on the JavaScript Client and the [Message Event Handlers](?id=C%23-Server-Events-Client#message-event-handlers) or the [Global Receiver](?id=C%23-Server-Events-Client#the-global-receiver) .NET ServerEventClient.
 
 ### Heartbeats
 
@@ -470,7 +470,7 @@ demo into a [TypeScript](http://www.typescriptlang.org/), [React](http://faceboo
 ## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
 
 Xamarin.Android Chat utilizes the 
-[.NET PCL Server Events Client](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client)
+[.NET PCL Server Events Client](?id=C%23-Server-Events-Client)
 to create an Android Chat App connecting to the existing 
 [chat.servicestack.net](http://chat.servicestack.net/) Server Events back-end where it's able to communicate 
 with existing Ajax clients and other connected Android Chat Apps. 

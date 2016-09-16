@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: authentication-and-authorization
 ---
 Built into ServiceStack is an optional Authentication feature you can use to add Authentication to your services by providing web services to Authenticate existing users, Register new users as well Assign/UnAssign Roles to existing users (if you need them). It's highly pluggable and customizable where you can plug-in your own Auth logic, change the caching and session providers as well as what RDBMS is used to persist UserAuth data.
 
@@ -57,7 +57,7 @@ The [ServiceStack.Authentication.OAuth2](https://nuget.org/packages/ServiceStack
   * **LinkedIn OAuth2** - Allow users to Register and Authenticate with LinkedIn OAuth2
   * **Microsoft Live OAuth2** - Allow users to Register and Authenticate with Microsoft Live OAuth2
 
-### [OpenId Auth Providers](https://github.com/ServiceStack/ServiceStack/wiki/OpenId)
+### [OpenId Auth Providers](?id=OpenId)
 
 The [ServiceStack.Authentication.OpenId](https://nuget.org/packages/ServiceStack.Authentication.OpenId) NuGet package provides OpenId Auth Providers support to ServiceStack that includes:
 
@@ -66,11 +66,11 @@ The [ServiceStack.Authentication.OpenId](https://nuget.org/packages/ServiceStack
   * **MyOpenId** - Allow users to Register and Authenticate with MyOpenId
   * **OpenId** - Allow users to Register and Authenticate with **any** custom OpenId provider
 
-### [API Key AuthProvider](https://github.com/ServiceStack/ServiceStack/wiki/API-Key-AuthProvider)
+### [API Key AuthProvider](?id=API-Key-AuthProvider)
 
 The `ApiKeyAuthProvider` provides an alternative method for allowing external 3rd Parties access to your protected Services without needing to specify a password. 
 
-### [JWT AuthProvider](https://github.com/ServiceStack/ServiceStack/wiki/JWT-AuthProvider)
+### [JWT AuthProvider](?id=JWT-AuthProvider)
 
 The `JwtAuthProvider` is our integrated stateless Auth solution for the popular [JSON Web Tokens](https://jwt.io/) (JWT) industry standard.
 
@@ -79,7 +79,7 @@ The `JwtAuthProvider` is our integrated stateless Auth solution for the popular 
   - [Azure Active Directory](https://github.com/jfoshee/ServiceStack.Authentication.Aad) - Allow Custom App to login with Azure Active Directory
   - [ServiceStack.Authentication.IdentityServer](https://github.com/MacLeanElectrical/servicestack-authentication-identityserver) - Integration with ASP.NET IdentityServer and provides OpenIDConnect / OAuth 2.0 Single Sign-On Authentication
 
-Find more info about [OpenId 2.0 providers on the wiki](https://github.com/ServiceStack/ServiceStack/wiki/OpenId).
+Find more info about [OpenId 2.0 providers on the wiki](?id=OpenId).
 
 ### OAuth Configuration
 
@@ -139,7 +139,7 @@ A good starting place to create your own Auth provider that relies on username/p
 The Authentication module allows you to use your own persistence back-ends but for the most part you should be able to use one of the existing InMemory, Redis, OrmLite or MongoDB adapters. Use the OrmLite adapter if you want to store the Users Authentication information in any of the RDBMS's that [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) supports, which as of this writing includes Sql Server, Sqlite, MySql, PostgreSQL and Firebird. 
 
   - **OrmLite**: `OrmLiteAuthRepository` in [ServiceStack.Server](https://nuget.org/packages/ServiceStack.Server)
-    - [OrmLiteAuthRepositoryMultitenancy](https://github.com/ServiceStack/ServiceStack/wiki/Multitenancy#multitenancy-rdbms-authprovider)
+    - [OrmLiteAuthRepositoryMultitenancy](?id=Multitenancy#multitenancy-rdbms-authprovider)
   - **Redis**: `RedisAuthRepository` in [ServiceStack](https://nuget.org/packages/ServiceStack)
   - **In Memory**: `InMemoryAuthRepository` in [ServiceStack](https://nuget.org/packages/ServiceStack)
   - **AWS DynamoDB**: `DynamoDbAuthRepository` in [ServiceStack.Aws](https://nuget.org/packages/ServiceStack.Aws)
@@ -148,7 +148,7 @@ The Authentication module allows you to use your own persistence back-ends but f
 
 ### Caching / Sessions - the [ICacheClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClient.cs)
 
-Once authenticated the **AuthUserSession** model is populated and stored in the Cache using one of ServiceStack's [supported Caching providers](https://github.com/ServiceStack/ServiceStack/wiki/Caching). ServiceStack's Sessions simply uses the `ICacheClient` API so any new provider added can be used for both Session and Caching options. Which currently include the following implementations:
+Once authenticated the **AuthUserSession** model is populated and stored in the Cache using one of ServiceStack's [supported Caching providers](?id=Caching). ServiceStack's Sessions simply uses the `ICacheClient` API so any new provider added can be used for both Session and Caching options. Which currently include the following implementations:
 
   - **In Memory**: `MemoryCacheClient` in [ServiceStack](https://nuget.org/packages/ServiceStack)
   - **Redis**: `RedisClient`, `PooledRedisClientManager` or `BasicRedisClientManager` in [ServiceStack.Redis](https://nuget.org/packages/ServiceStack.Redis)
@@ -183,7 +183,7 @@ To illustrate Authentication integration with ServiceStack, see the authenticati
     - Twitter, Facebook, Google, LinkedIn and Credentials Auth
   - [AWS Auth](http://awsapps.servicestack.net/awsauth/) 
     - Twitter, Facebook, GitHub, Google, Yahoo, LinkedIn, and Credentials Auth
-  - [MVC and WebForms Example](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-Integration) 
+  - [MVC and WebForms Example](?id=ServiceStack-Integration) 
     - Twitter, Facebook, GitHub, Google, Yahoo, LinkedIn, VK, Credentials and Windows Auth
   - [Chat](https://github.com/ServiceStackApps/LiveDemos#chat)
     - Twitter and GitHub OAuth
@@ -285,7 +285,7 @@ client.Post(new Authenticate { provider = "logout" });
 
 ### Authenticating with .NET Service Clients
 
-On the client you can use the [C#/.NET Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) to easily consume your authenticated Services.
+On the client you can use the [C#/.NET Service Clients](?id=C%23-client) to easily consume your authenticated Services.
 
 To authenticate using your `CustomCredentialsAuthProvider` by POST'ing a `Authenticate` Request, e.g:
 
@@ -333,7 +333,7 @@ When the client now tries to authenticate with the request above and the auth su
 
 ### User Sessions Cache
 
-ServiceStack uses the [Cache Provider](https://github.com/ServiceStack/ServiceStack/wiki/Caching) which was registered in the IoC container:
+ServiceStack uses the [Cache Provider](?id=Caching) which was registered in the IoC container:
 
 ```csharp
 //Register to use an In Memory Cache Provider (default)
@@ -402,7 +402,7 @@ If you want, that authentication is only required for GET and PUT requests for e
 [Authenticate(ApplyTo.Get | ApplyTo.Put)] 
 ```
 
-Of course `Authenticate` can also be placed on top of a service instead on top of a DTO, because it's a normal [filter attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes).
+Of course `Authenticate` can also be placed on top of a service instead on top of a DTO, because it's a normal [filter attribute](?id=Filter-attributes).
 
 ## `RequiredRole` and `RequiredPermission` attributes
 
@@ -491,7 +491,7 @@ class MyService : MyServiceBase {
 
 ### Using a Global Request Filter
 
-Otherwise you can use a [global Request Filter](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters) if you wanted to restrict all requests any other way, e.g something like:
+Otherwise you can use a [global Request Filter](?id=Request-and-response-filters) if you wanted to restrict all requests any other way, e.g something like:
 
 ```csharp
 appHost.RequestFilters.Add((httpReq, httpResp, requestDto) =>
@@ -509,7 +509,7 @@ Different customization and extension points and strategies to extend the UserAu
 
 ### Customizing User Roles and Permissions
 
-The default implementation of User Roles and Permissions on [AuthUserSession](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AuthUserSession.cs) shows how ServiceStack's `[RequiredRole]` and `[RequiredPermission]` [Roles and Permission attributes](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization#the-requiredrole-and-requiredpermission-attributes) are validated:
+The default implementation of User Roles and Permissions on [AuthUserSession](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AuthUserSession.cs) shows how ServiceStack's `[RequiredRole]` and `[RequiredPermission]` [Roles and Permission attributes](?id=Authentication-and-authorization#the-requiredrole-and-requiredpermission-attributes) are validated:
  
 ```csharp
 public virtual bool HasPermission(string permission)
@@ -675,7 +675,7 @@ new CredentialsAuthProvider {
 
 When enabled this lets **In Process** Service Requests to login as a specified user without needing to provide their password. 
 
-For example this could be used to create an [Intranet Restricted](https://github.com/ServiceStack/ServiceStack/wiki/Restricting-Services) **Admin-Only** Service that lets you login as another user so you can debug their account without knowing their password with:
+For example this could be used to create an [Intranet Restricted](?id=Restricting-Services) **Admin-Only** Service that lets you login as another user so you can debug their account without knowing their password with:
 
 ```csharp
 [RequiredRole("Admin")]

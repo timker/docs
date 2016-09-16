@@ -3,7 +3,7 @@ slug:
 ---
 ### Deploying multiple ASP.NET Websites to AWS with WebDeploy
 
-We've [previously discussed](](https://github.com/ServiceStack/ServiceStack/wiki/Deploy-Multiple-Sites-to-single-AWS-Instance#why-deploy-multiple-sites-to-a-single-aws-instance)) the cost and automation benefits of **deploying multiple websites to a single AWS instance** using [TeamCity and Octopus Deploy](https://github.com/ServiceStack/ServiceStack/wiki/Deploy-Multiple-Sites-to-single-AWS-Instance) which is a great combination for managing production website deployments, taking advantage of the automation capabilities of TeamCity and the release management features of Octopus Deploy. 
+We've [previously discussed](](?id=Deploy-Multiple-Sites-to-single-AWS-Instance#why-deploy-multiple-sites-to-a-single-aws-instance)) the cost and automation benefits of **deploying multiple websites to a single AWS instance** using [TeamCity and Octopus Deploy](?id=Deploy-Multiple-Sites-to-single-AWS-Instance) which is a great combination for managing production website deployments, taking advantage of the automation capabilities of TeamCity and the release management features of Octopus Deploy. 
 
 There's an even simpler option for deploying multiple ASP.NET Websites to a single AWS instance which can be initiated directly from within VS.NET (i.e. without needing any external TeamCity and OctopusDeploy services) by using VS.NET's built-in **Web Deploy** tool. In this tutorial we'll walkthrough 2 different approaches for deploying websites using either VS.NET's **Publish Web Deploy wizard** or alternatively using a **Gulp Task** which is better suited for deploying Single Page Apps requiring any necessary pre and post processing packaging and deployment steps.
 
@@ -47,7 +47,7 @@ Open the IIS Manager, right click on **Sites**, select **Add Website...** and pr
  
 ## Deploy using Publish from Visual Studio
 
-With the remote server setup to accept Web Deployed applications, we can create an application to deploy. For this example, we are going to use the **ServiceStack ASP.NET with Bootstrap** template from [ServiceStackVS](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project). This will create a simple HelloWorld application that we can use to test our deployment.
+With the remote server setup to accept Web Deployed applications, we can create an application to deploy. For this example, we are going to use the **ServiceStack ASP.NET with Bootstrap** template from [ServiceStackVS](?id=Creating-your-first-project). This will create a simple HelloWorld application that we can use to test our deployment.
 
 ![Bootstrap template selection](https://github.com/ServiceStack/Assets/raw/master/img/wikis/web-deploy/bootstrap-app-template-select.png)
  

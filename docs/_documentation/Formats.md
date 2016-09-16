@@ -5,19 +5,19 @@ ServiceStack supports 6 response formats out of the box:
 
 - [JSON](https://github.com/ServiceStack/ServiceStack.Text)
 - XML
-- [SOAP 1.1/1.2](https://github.com/ServiceStack/ServiceStack/wiki/SOAP-support)
+- [SOAP 1.1/1.2](?id=SOAP-support)
 - [JSV](https://github.com/ServiceStack/ServiceStack.Text#servicestacktypeserializer-and-the-jsv-format) _(hybrid CSV-style escaping + JSON format that is optimized for both size and speed)_
-- [CSV](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format)
-- [HTML5 Report](https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat) _(provides a readable and semantic HTML layout letting you visualize all the data returned by your web service)_
-- [HTML with Markdown Razor](https://github.com/ServiceStack/ServiceStack/wiki/Markdown-Razor) _(Razor combined with markdown)_
+- [CSV](?id=ServiceStack-CSV-Format)
+- [HTML5 Report](?id=HTML5ReportFormat) _(provides a readable and semantic HTML layout letting you visualize all the data returned by your web service)_
+- [HTML with Markdown Razor](?id=Markdown-Razor) _(Razor combined with markdown)_
 
 ### Additional Formats
 
-Additional Formats are available as [external Plugins](https://github.com/ServiceStack/ServiceStack/wiki/Plugins):
+Additional Formats are available as [external Plugins](?id=Plugins):
 
 - [HTML with MVC Razor](http://razor.servicestack.net/)
-- [Message Pack](https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format)
-- [Protocol Buffers](https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format)
+- [Message Pack](?id=MessagePack-Format)
+- [Protocol Buffers](?id=Protobuf-format)
 
 ## Rest endpoint
 
@@ -59,4 +59,4 @@ Examples:
 
 The SOAP endpoint only supports XML of course.
 
-> Tip: If you have forgotten the details about the specific endpoints, you can re-read [this article](https://github.com/ServiceStack/ServiceStack/wiki/Endpoints)
+> Tip: If you have forgotten the details about the specific endpoints, you can re-read [this article](?id=Endpoints)

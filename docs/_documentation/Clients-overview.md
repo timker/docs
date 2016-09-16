@@ -3,33 +3,33 @@ slug: clients-overview
 ---
 As ServiceStack is just a pure HTTP web service it can be accessed with any HTTP-capable client. 
 
-Although in addition to this the [ServiceStack.Client](http://nuget.org/packages/ServiceStack.Client) library and NuGet package also include multiple service clients on [Xamarin iOS, Android, Windows Store, Silverlight 5, WPF, etc](https://github.com/ServiceStackApps/HelloMobile) which are optimized for consuming ServiceStack Services including built-in [Error handling](https://github.com/ServiceStack/ServiceStack/wiki/Error-Handling), [Predefined Routes](https://github.com/ServiceStack/ServiceStack/wiki/Routing), [Auto Batched Requests](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Batched-Requests), etc. 
+Although in addition to this the [ServiceStack.Client](http://nuget.org/packages/ServiceStack.Client) library and NuGet package also include multiple service clients on [Xamarin iOS, Android, Windows Store, Silverlight 5, WPF, etc](https://github.com/ServiceStackApps/HelloMobile) which are optimized for consuming ServiceStack Services including built-in [Error handling](?id=Error-Handling), [Predefined Routes](?id=Routing), [Auto Batched Requests](?id=Auto-Batched-Requests), etc. 
 
 ### ServiceStack Clients
 
   * [[C# client]]
-  * [TypeScript client](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
-  * [Java/Kotlin Client](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
-  * [Swift Client](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
-  * [Silverlight client](https://github.com/ServiceStack/ServiceStack/wiki/SilverlightServiceClient)
+  * [TypeScript client](?id=TypeScript-Add-ServiceStack-Reference)
+  * [Java/Kotlin Client](?id=Java-Add-ServiceStack-Reference)
+  * [Swift Client](?id=Swift-Add-ServiceStack-Reference)
+  * [Silverlight client](?id=SilverlightServiceClient)
   * [[JavaScript client]]
   * [[Dart Client]]
-  * [MQ Clients](https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-redis)
+  * [MQ Clients](?id=Messaging-and-redis)
 
 ### Add ServiceStack Reference
 
-You can also use [ServiceStackVS](https://github.com/ServiceStack/ServiceStack/wiki/Creating-your-first-project#step-1-download-and-install-servicestackvs)'s **Add ServiceStack Reference** feature for adding generated Native Types to client VS.NET C#, F# and VB.NET projects. This gives developers a consistent way of creating and updating your DTOs regardless of your language of choice.
+You can also use [ServiceStackVS](?id=Creating-your-first-project#step-1-download-and-install-servicestackvs)'s **Add ServiceStack Reference** feature for adding generated Native Types to client VS.NET C#, F# and VB.NET projects. This gives developers a consistent way of creating and updating your DTOs regardless of your language of choice.
 
 ### Supported Languages
 
 
-* [C# Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference)
-* [TypeScript Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
-* [Swift Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
-* [Java Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
-* [Kotlin Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference)
-* [F# Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference)
-* [VB.NET Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference)
+* [C# Add ServiceStack Reference](?id=CSharp-Add-ServiceStack-Reference)
+* [TypeScript Add ServiceStack Reference](?id=TypeScript-Add-ServiceStack-Reference)
+* [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
+* [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
+* [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
+* [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
+* [VB.NET Add ServiceStack Reference](?id=VB.Net-Add-ServiceStack-Reference)
 
 ***
 

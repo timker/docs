@@ -35,7 +35,7 @@ public class ServiceStackController : Controller
 
 ### Use ServiceStack Authentication
 
-One benefit of integration with ServiceStack is to be able to make use of ServiceStack's simple and flexible [Authentication Providers](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) which require minimal configuration and supports a number of different [Session Providers](https://github.com/ServiceStack/ServiceStack/wiki/Caching) and persistent [Data Store back-ends](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization#userauth-persistence---the-iuserauthrepository) to make it easy to integrate with an existing environment.
+One benefit of integration with ServiceStack is to be able to make use of ServiceStack's simple and flexible [Authentication Providers](?id=Authentication-and-authorization) which require minimal configuration and supports a number of different [Session Providers](?id=Caching) and persistent [Data Store back-ends](?id=Authentication-and-authorization#userauth-persistence---the-iuserauthrepository) to make it easy to integrate with an existing environment.
 
 ### New MVC and WebForms Examples
 
@@ -182,7 +182,7 @@ Posting HTML Forms directly to ServiceStack Services isn't that much more effort
 
 ![MVC Register with HTML](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/mvc-register.png)
 
-We can then use ServiceStack's built-in [ss-utils.js JavaScript Libraray](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library) to take care of Ajaxifying, auto-binding and submitting the form via Ajax. It also has built-in support for [Bootstrap Forms Field Validation conventions](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library#bootstrap-forms) to automatically bind errors to the appropriate fields. The only custom code required is to bind the form is then:
+We can then use ServiceStack's built-in [ss-utils.js JavaScript Libraray](?id=ss-utils.js-JavaScript-Client-Library) to take care of Ajaxifying, auto-binding and submitting the form via Ajax. It also has built-in support for [Bootstrap Forms Field Validation conventions](?id=ss-utils.js-JavaScript-Client-Library#bootstrap-forms) to automatically bind errors to the appropriate fields. The only custom code required is to bind the form is then:
 
 ```javascript
 $("#form-register").bindForm({

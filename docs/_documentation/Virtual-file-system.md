@@ -3,7 +3,7 @@ slug: virtual-file-system
 ---
 In order to access physical files in view engines from multiple sources, ServiceStack includes its own pluggable virtual file system API that lets it support multiple filesystem backends. 
 
-The virtual file system (VFS) is what allows ServiceStack to support view engines in a standard ASP.NET websites (e.g. serving directories from the root directory) as well in self-hosting stand-alone HttpListener websites and Windows Services serving from the output `/bin` directory as well as embedded resources inside .dlls, [in memory filesystems](https://github.com/ServiceStack/ServiceStack/wiki/HTML%2C-CSS-and-JavaScript-Minification#minify-static-js-css-and-html-files) populated at runtime, [remote datastores like AWS S3](https://github.com/ServiceStack/ServiceStack.Aws#s3virtualpathprovider) or any combination of either.
+The virtual file system (VFS) is what allows ServiceStack to support view engines in a standard ASP.NET websites (e.g. serving directories from the root directory) as well in self-hosting stand-alone HttpListener websites and Windows Services serving from the output `/bin` directory as well as embedded resources inside .dlls, [in memory filesystems](?id=HTML%2C-CSS-and-JavaScript-Minification#minify-static-js-css-and-html-files) populated at runtime, [remote datastores like AWS S3](https://github.com/ServiceStack/ServiceStack.Aws#s3virtualpathprovider) or any combination of either.
 
 ## Embedded Resources
 
@@ -82,7 +82,7 @@ You can also globally replace the VFS used by setting it in your AppHost, e.g. I
 base.VirtualPathProvider = new InMemoryVirtualPathProvider(this);
 ```
 
-Fine-grained control on which VFS to use can also be specified on any [Plugins](https://github.com/ServiceStack/ServiceStack/wiki/Plugins) requiring access to the FileSystem like ServiceStack's built-in HTML ViewEngines, here's how you could override the VFS used in ServiceStack's Razors support:
+Fine-grained control on which VFS to use can also be specified on any [Plugins](?id=Plugins) requiring access to the FileSystem like ServiceStack's built-in HTML ViewEngines, here's how you could override the VFS used in ServiceStack's Razors support:
 
 ```csharp
 Plugins.Add(new RazorFormat { 

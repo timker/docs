@@ -273,7 +273,7 @@ Whilst Named Receivers are used to handle messages sent to a specific namespaced
 ### UpdateSubscriber APIs
 
 You can use any of the APIs below in the
-[ss-utils JavaScript library](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library)
+[ss-utils JavaScript library](?id=ss-utils.js-JavaScript-Client-Library)
 to update an active Subscriptions Channels:
 
 ```javascript

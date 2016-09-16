@@ -3,7 +3,7 @@ slug: autoquery-service
 ---
 ### AutoQuery Service Data Source
 
-The next step after [MemorySource](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Memory) in querying for even richer result-sets, whether you want to add custom validation, access multiple dependencies, construct complex queries or other custom business logic, you can use a **Service Source** instead which lets you call a Service and use its Response as the dynamic Data Source that you can apply Auto Querying logic on.
+The next step after [MemorySource](?id=AutoQuery-Memory) in querying for even richer result-sets, whether you want to add custom validation, access multiple dependencies, construct complex queries or other custom business logic, you can use a **Service Source** instead which lets you call a Service and use its Response as the dynamic Data Source that you can apply Auto Querying logic on.
 
 `ServiceSource` is very similar to `MemorySource` however instead of passing in the in-memory collection 
 you want to query directly, you'll need to pass a **Request DTO** of the Service you want called instead.
@@ -15,7 +15,7 @@ and provide some examples of when you may want to use them below.
 
 The `UserLogin` ServiceSouce shows you can just pass an empty Request DTO as-is to execute its Service. 
 The `RockstarAlbum` and `GithubRepo` Service Sources are however leveraging the built-in
-[Auto Mapping](https://github.com/ServiceStack/ServiceStack/wiki/Auto-mapping) to copy any matching 
+[Auto Mapping](?id=Auto-mapping) to copy any matching 
 properties from the AutoQuery Request DTO to the downstream `GetRockstarAlbums` and `GetGithubRepos` 
 Request DTO's. Finally the responses for the `GithubRepo` Service is **cached for 5 minutes** so any 
 subsequent matching requests end up querying the cached result set instead of re-executing the `GetGithubRepos` 
@@ -124,7 +124,7 @@ hosts :)
 ### Custom AutoQuery Data Implementation
 
 Just like you can 
-[Create a Custom implementation](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#custom-autoquery-implementations)
+[Create a Custom implementation](?id=Auto-Query#custom-autoquery-implementations)
 in AutoQuery, you can do the same in AutoQuery Data by just defining an implementation for your AutoQuery 
 Data Request DTO. But instead of `IAutoQueryDb` you'd reference the `IAutoQueryData` dependency to construct 
 and execute your custom AutoQuery Data query.
@@ -133,7 +133,7 @@ When overriding the default implementation of an AutoQuery Data Service you also
 a Data Source as you can specify the Data Source in-line when calling `AutoQuery.CreateQuery()`.
 
 For our custom AutoQuery Data implementation we'll look at creating a useful Service which reads the
-daily CSV Request and Error Logs from the new [CsvRequestLogger](https://github.com/ServiceStack/ServiceStack/wiki/Request-logger#csv-request-logger) and queries it by 
+daily CSV Request and Error Logs from the new [CsvRequestLogger](?id=Request-logger#csv-request-logger) and queries it by 
 wrapping the POCO `RequestLogEntry` results into a `MemoryDataSource`:
 
 ```csharp

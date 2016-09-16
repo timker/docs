@@ -48,7 +48,7 @@ We were heavily inspired by [Ivan Korneliuk's proposal](http://korneliuk.blogspo
 
 ### Recommended for future Web Service Development
 
-As the new API Design offers many benefits over the existing API, we're recommending its use for any new web service development. It will take us some time, but we intend to port all the old examples to adopt the new API ourselves. One reason to still prefer the older API is if you also wanted to [support SOAP clients and endpoints](https://github.com/ServiceStack/ServiceStack/wiki/SOAP-support) which still requires the strict-ness enforced by the previous approach.
+As the new API Design offers many benefits over the existing API, we're recommending its use for any new web service development. It will take us some time, but we intend to port all the old examples to adopt the new API ourselves. One reason to still prefer the older API is if you also wanted to [support SOAP clients and endpoints](?id=soap-support) which still requires the strict-ness enforced by the previous approach.
 
 ## ServiceStack's New API Design
 
@@ -283,7 +283,7 @@ catch (WebServiceException webEx)
 }
 ```
 
-In addition to standard C# exceptions your services can also return multiple, rich and detailed validation errors as enforced by [Fluent Validation's validators](https://github.com/ServiceStack/ServiceStack/wiki/Validation).
+In addition to standard C# exceptions your services can also return multiple, rich and detailed validation errors as enforced by [Fluent Validation's validators](?id=validation).
 
 ### Overriding the default Exception handling
 
@@ -373,7 +373,7 @@ The Route on the Action that was declared first gets selected, i.e:
 
 ### Custom Hooks
 
-The ability to extend ServiceStack's service execution pipeline with Custom Hooks is an advanced customisation feature that for most times is not needed as the preferred way to add composable functionality to your services is to use [Request / Response Filter attributes](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes) or apply them globally with [Global Request/Response Filters](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters).
+The ability to extend ServiceStack's service execution pipeline with Custom Hooks is an advanced customisation feature that for most times is not needed as the preferred way to add composable functionality to your services is to use [Request / Response Filter attributes](?id=Filter-attributes) or apply them globally with [Global Request/Response Filters](?id=Request-and-response-filters).
 
 Although this is another area we've improved on as you can now add your own custom hooks without needing to subclass any services. To do this we've introduced the concept of a [IServiceRunner](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IServiceRunner.cs) that decouples the execution of your service from the implementation of it.
 

@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: vbnet
 ---
 There are some nostalgic developers who prefer not to leave their VB.NET days behind them, luckily they blog so other VB.NET developers can easily follow in their footsteps:
 

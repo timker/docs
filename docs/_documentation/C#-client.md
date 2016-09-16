@@ -1,5 +1,5 @@
 ---
-slug: c#-client
+slug: csharp-client
 ---
 Using DTOs to define your web service interface makes it possible to provide strong-typed generic service clients without any code-gen or extra build-steps, leading to a productive end-to-end type-safe communication gateway from client to server.
 
@@ -7,15 +7,15 @@ Using DTOs to define your web service interface makes it possible to provide str
 
     PM> Install-Package ServiceStack.Client
 
-Alternatively you can use the [HttpClient-based JsonHttpClient](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#jsonhttpclient) in:
+Alternatively you can use the [HttpClient-based JsonHttpClient](?id=C%23-client#jsonhttpclient) in:
 
     PM> Install-Package ServiceStack.HttpClient
 
 These packages also contain PCL versions of the Service Clients available with support for [Xamarin.iOS, Xamarin.Android, Windows Store, WPF and Silverlight 5](https://github.com/ServiceStackApps/HelloMobile) platforms.
 
-### [Cache Aware Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Cache-Aware-Clients)
+### [Cache Aware Service Clients](?id=Cache-Aware-Clients)
 
-When [caching is enabled on Services](https://github.com/ServiceStack/ServiceStack/wiki/HTTP-Caching), the Cache-aware Service Clients can dramatically improve performance by eliminating server requests entirely as well as reducing bandwidth for re-validated requests. They also offer an additional layer of resiliency as re-validated requests that result in Errors will transparently fallback to using pre-existing locally cached responses. For bandwidth-constrained environments like Mobile Apps they can dramatically improve the User Experience.
+When [caching is enabled on Services](?id=HTTP-Caching), the Cache-aware Service Clients can dramatically improve performance by eliminating server requests entirely as well as reducing bandwidth for re-validated requests. They also offer an additional layer of resiliency as re-validated requests that result in Errors will transparently fallback to using pre-existing locally cached responses. For bandwidth-constrained environments like Mobile Apps they can dramatically improve the User Experience.
 
 The Cache-Aware clients implement the full `IServiceClient` interface so they should be an easy drop-in enhancement for existing Apps:
 
@@ -118,7 +118,7 @@ var response = await client.SendAsync<HelloResponse>(
     new Hello { Name = "World!" });
 ```
 
-The service clients use the automatic [pre-defined routes](https://github.com/ServiceStack/ServiceStack/wiki/Endpoints#) for each service.
+The service clients use the automatic [pre-defined routes](?id=Endpoints#) for each service.
 
 <a name="native-responses"></a>
 ## Support for Native built-in Response Types
@@ -194,7 +194,7 @@ using (var sr = new StreamReader(stream)) {
 
 ### Accessing raw service responses
 
-ServiceStack isn't limited to just returning POCO's as you can effectively [return anything you want](https://github.com/ServiceStack/ServiceStack/wiki/Service-return-types) even images 
+ServiceStack isn't limited to just returning POCO's as you can effectively [return anything you want](?id=Service-return-types) even images 
 [/helloimage/ServiceStack?Width=600&height=300&Foreground=Yellow](http://test.servicestack.net/image-draw/ServiceStack?Width=600&height=300&Foreground=Yellow). These native responses can also be mark on your Request DTO `IReturn<T>` interface marker to give you a terse end-to-end API for fetching raw responses, e.g:
 
 ```csharp
@@ -460,12 +460,12 @@ await client.SendAsync(new HelloByPut { Name = "World" }); //PUT
 ```
 
 Interface markers is supported in all .NET Service Clients, they're also included in the generated 
-[Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) DTO's so they're also available in the
-[Java JsonServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference) and
-[Swift JsonServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference). It's also available in our 3rd Party [StripeGateway](https://github.com/ServiceStack/Stripe).
+[Add ServiceStack Reference](?id=Add-ServiceStack-Reference) DTO's so they're also available in the
+[Java JsonServiceClient](?id=Java-Add-ServiceStack-Reference) and
+[Swift JsonServiceClient](?id=Swift-Add-ServiceStack-Reference). It's also available in our 3rd Party [StripeGateway](https://github.com/ServiceStack/Stripe).
 
 Whilst a simple feature, it enables treating your remote services as a message-based API 
-[yielding its many inherent advantages](https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services#advantages-of-message-based-designs) 
+[yielding its many inherent advantages](?id=Advantages-of-message-based-web-services#advantages-of-message-based-designs) 
 where your Application API's need only pass Request DTO models around to be able to invoke remote Services, decoupling the Service Request from its implementation which can be now easily managed by a high-level adapter that takes care of proxying the Request to the underlying Service Client. The adapter could also add high-level functionality of it's own including auto retrying of failed requests, generic error handling, logging/telemetrics, event notification, throttling, offline queuing/syncing, etc.
 
 ### Multiple File Uploads
@@ -612,9 +612,9 @@ Whilst the list below contain the built-in clients based on .NET's built-in `Htt
     (uses default endpoint with **XML**)
     - [CsvServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/CsvServiceClient.cs)
     (uses default endpoint with **CSV**)
-    - [MsgPackServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format)
+    - [MsgPackServiceClient](?id=MessagePack-Format)
     (uses default endpoint with **Message-Pack**)
-    - [ProtoBufServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format)
+    - [ProtoBufServiceClient](?id=Protobuf-format)
     (uses default endpoint with **Protocol Buffers**)
 - implements `IServiceClient` only:
     - [Soap11ServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/Soap11ServiceClient.cs) (uses **SOAP 11** endpoint)

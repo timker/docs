@@ -1,7 +1,7 @@
 ---
 slug: view-and-template-selection
 ---
-ServiceStack provides multiple ways to select the Razor View that will be used to render your services response with. First if the `IHttpRequest.Items["View"]` has been set [via any Global, Request, Response or Action Filter](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations) it will use that, otherwise the fallback convention is to use the view with the same name as the **Request DTO** followed finally by one with the **Response DTO** name.
+ServiceStack provides multiple ways to select the Razor View that will be used to render your services response with. First if the `IHttpRequest.Items["View"]` has been set [via any Global, Request, Response or Action Filter](?id=Order-of-Operations) it will use that, otherwise the fallback convention is to use the view with the same name as the **Request DTO** followed finally by one with the **Response DTO** name.
 
 To illustrate this, the below service is overloaded with different ways to select a Razor View, each are assigned a priority number starting from `#1`:
 
@@ -60,7 +60,7 @@ Although the above example only shows how to select the View (e.g. Page Body), t
 ## Debuggable Razor Views
 
 Razor Views are now debuggable for 
-[Debug builds](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode) by default, it can also be explicitly specified on:
+[Debug builds](?id=Debugging#debugmode) by default, it can also be explicitly specified on:
 
 ```csharp
 Plugins.Add(new RazorFormat {

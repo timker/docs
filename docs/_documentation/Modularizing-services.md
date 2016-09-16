@@ -1,7 +1,7 @@
 ---
 slug: modularizing-services
 ---
-ServiceStack only allows a **single App Host** for each App Domain. As you might be able to infer from the name, the role of the **Host** project is to be the conduit for binding all your services concrete dependencies, plugins, filters and everything else your service needs. The configuration of your service should be immutable after everything is initialized in your `AppHost.Configure()` method. The [Physical project structure wiki page](https://github.com/ServiceStack/ServiceStack/wiki/Physical-project-structure) wiki shows the recommended physical project structure for typical solutions.
+ServiceStack only allows a **single App Host** for each App Domain. As you might be able to infer from the name, the role of the **Host** project is to be the conduit for binding all your services concrete dependencies, plugins, filters and everything else your service needs. The configuration of your service should be immutable after everything is initialized in your `AppHost.Configure()` method. The [Physical project structure wiki page](?id=Physical-project-structure) wiki shows the recommended physical project structure for typical solutions.
 
 ### Modularizing services in multiple assemblies
 
@@ -41,7 +41,7 @@ public class AppHost : AppHostBase
 
 ### Encapsulating Services inside Plugins
 
-One way of modularizing services is to encapsulate them inside [Plugins](https://github.com/ServiceStack/ServiceStack/wiki/Plugins) which allows you to manually register services, custom routes, filters, content types, allow customization and anything else your module needs.
+One way of modularizing services is to encapsulate them inside [Plugins](?id=Plugins) which allows you to manually register services, custom routes, filters, content types, allow customization and anything else your module needs.
 
 To illustrate this point, we'll show what a Basic [Auth Feature](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AuthFeature.cs) example might look like:
 

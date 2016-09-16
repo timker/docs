@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: real-world-performance
 ---
 We maintain a list of external benchmark results here people have been experiencing to provide an idea of the relative performance you can expect from real-world usage:
 

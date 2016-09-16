@@ -3,7 +3,7 @@ slug: service-gateway
 ---
 The Service Gateway is implemented on top of ServiceStack's existing message-based architecture to open up 
 exciting new possibilities for development of loosely-coupled
-[Modularized Service Architectures](https://github.com/ServiceStack/ServiceStack/wiki/Modularizing-services).
+[Modularized Service Architectures](?id=Modularizing-services).
 
 The new [IServiceGateway](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IServiceGateway.cs)
 interfaces represent the minimal surface area required to support ServiceStack's different calling conventions 
@@ -51,7 +51,7 @@ optional `IServiceGatewayAsync`, but will use native async implementations for t
 
 Naked Request DTO's without annotations are sent as a **POST** but alternative Verbs are also supported 
 by annotating Request DTO's with 
-[HTTP Verb Interface Markers](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#http-verb-interface-markers)
+[HTTP Verb Interface Markers](?id=C%23-client#http-verb-interface-markers)
 where Request DTO's containing `IGet`, `IPut`, etc. are sent using the typed Verb API, e.g:
 
 ```csharp
@@ -133,7 +133,7 @@ The ServiceGateway is the same interface whether you're calling an Internal Serv
 remote Service from a client. It exposes an ideal message-based API that's
 [optimal for remote Service Integrations](http://www.infoq.com/articles/interview-servicestack) 
 that also supports 
-[Auto Batched Requests](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Batched-Requests) 
+[Auto Batched Requests](?id=Auto-Batched-Requests) 
 for combining multiple Service Calls into a single Request, minimizing latency when possible.
 
 ### Substitutable Service Gateways
@@ -204,7 +204,7 @@ of an entire system being reduced into smaller, more manageable logical scopes w
 
 The ServiceGateway and its Services Discovery ecosystem together with ServiceStack's recommended use of 
 impl-free reusable POCO DTO's and its ability to 
-[modularize Service implementations across multiple projects](https://github.com/ServiceStack/ServiceStack/wiki/Modularizing-services)
+[modularize Service implementations across multiple projects](?id=Modularizing-services)
 naturally promote a microservices-ready architecture where Service interactions are loosely-coupled behind 
 well-defined, reusable, coarse-grained messages. Designing systems in this way later allows the isolated
 Service Implementation .dll to be extracted from the main System and wrapped into its own AppHost. Together 

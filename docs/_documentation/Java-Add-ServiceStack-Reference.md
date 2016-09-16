@@ -55,9 +55,9 @@ dependencies {
 
 This also lets you to change which ServiceStack Client library version you want to use, the example above uses **1.0.21**.
 
-### [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference)
+### [Add ServiceStack Reference](?id=Add-ServiceStack-Reference)
 
-If you've previously used [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) in any of the supported IDE's before, you'll be instantly familiar with Add ServiceStack Reference in Android Studio. The only additional field is **Package**, required in order to comply with Java's class definition rules. 
+If you've previously used [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) in any of the supported IDE's before, you'll be instantly familiar with Add ServiceStack Reference in Android Studio. The only additional field is **Package**, required in order to comply with Java's class definition rules. 
 
 To add a ServiceStack Reference, right-click (or press `Ctrl+Alt+Shift+R`) on the **Package folder** in your Java sources where you want to add the POJO DTO's. This will bring up the **New >** Items Context Menu where you can click on the **ServiceStack Reference...** Menu Item to open the **Add ServiceStack Reference** Dialog: 
 
@@ -104,7 +104,7 @@ For example the package name can be changed by uncommenting the **Package:** opt
 ### JsonServiceClient API
 The goal of Native Types is to provide a productive end-to-end typed API to facilitate  consuming remote services with minimal effort, friction and cognitive overhead. One way we achieve this is by promoting a consistent, forwards and backwards-compatible message-based API that's works conceptually similar on every platform where each language consumes remote services by sending  **Typed DTO's** using a reusable **Generic Service Client** and a consistent client library API.
 
-To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the [.NET Service Clients API](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) closely, as allowed within Java's language and idiomatic-style constraints. 
+To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the [.NET Service Clients API](?id=C%23-client) closely, as allowed within Java's language and idiomatic-style constraints. 
 
 Thanks to C#/.NET being heavily inspired by Java, the resulting Java `JsonServiceClient` ends up bearing a close resemblance with .NET's Service Clients. The primary differences being due to language limitations like Java's generic type erasure and lack of language features like property initializers making Java slightly more verbose to work with, however as **Add ServiceStack Reference** is able to take advantage of code-gen we're able to mitigate most of these limitations to retain a familiar developer UX.
 
@@ -199,7 +199,7 @@ GetTechnologyResponse response = client.get(request);
 
 ### AutoQuery Example Usage
 
-You can also send requests composed of both a Typed DTO and untyped String Dictionary by providing a Java Map of additional args. This is typically used when querying [implicit conventions in AutoQuery services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions), e.g:
+You can also send requests composed of both a Typed DTO and untyped String Dictionary by providing a Java Map of additional args. This is typically used when querying [implicit conventions in AutoQuery services](?id=Auto-Query#implicit-conventions), e.g:
 
 ```java
 QueryResponse<Technology> response = client.get(new FindTechnologies(),

@@ -49,7 +49,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="/js/fuzzy.js"></script>
 {% if jekyll.environment == 'production' %}
-<script src="/js/fix-double-bracket-links.js"></script>
 <script>
     (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;
@@ -66,6 +65,7 @@
     ga("send", "pageview");
 </script>
 {% endif %}
+<script src="/js/fix-double-bracket-links.js"></script>
 <script>
     // Use slug ids to fix links.
     // This is so relative links can be done by:
@@ -77,9 +77,14 @@
 
     $("a[href^='?id=']").attr('href', function () {
         var slugId = this.search.substr(4);
-        this.href = docSlugMapping[slugId];
+        if(slugId) {
+            slugId = slugId.toLocaleLowerCase().replaceAll(' ','-');
+        }
+        if(docSlugMapping[slugId])
+            this.href = this.hash.length > 0 ? docSlugMapping[slugId] + this.hash : docSlugMapping[slugId];
+        else
+            console.log('Slug ID not found - ' + slugId)
     })
 </script>
-
 </body>
 </html>

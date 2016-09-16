@@ -8,8 +8,8 @@ Querying alternative data sources as well.
 ### Learn Once, Query Everywhere 
 
 All features from [[AutoQuery RDBMS]] except for the RDBMS-specific 
-[Joining Tables](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#joining-tables) and 
-[Raw SQL Filters](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#raw-sql-filters) features
+[Joining Tables](?id=Auto-Query#joining-tables) and 
+[Raw SQL Filters](?id=Auto-Query#raw-sql-filters) features
 also have an equivalent in AutoQuery Data as well. 
 
 Like AutoQuery you can declaratively create AutoQuery Data Services using just Request DTO's but instead of 
@@ -25,8 +25,8 @@ public class QueryCustomers : QueryData<Customer> {}
 
 The API to call and consume both RDBMS AutoQuery and AutoQuery Data Services are indistinguishable to 
 external clients where both are queried using the same 
-[implicit](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions) and 
-[explicit conventions](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#explicit-conventions) 
+[implicit](?id=Auto-Query#implicit-conventions) and 
+[explicit conventions](?id=Auto-Query#explicit-conventions) 
 and both return the same `QueryResponse<T>` Response DTO. 
 
 ### Use AutoQuery Viewer

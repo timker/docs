@@ -116,9 +116,9 @@ The `default.cshtml` home page shows how easy it is to call ServiceStack Service
 ### [[Testing]]
 The project templates from the ServiceStackVS extension also include a Tests project. The project structure and addition of the Tests project is there to encourage a pattern that will scale to larger applications whilst maintaining a easy to understand and testable application.
 
-## [Create a WebService from scratch](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice)
+## [Create a WebService from scratch](?id=Create-your-first-webservice)
 
-If you prefer, you can instead [create a ServiceStack Web Service from a blank ASP.NET Web Application](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice) another popular option is to [Add ServiceStack to an existing ASP.NET MVC Application](https://github.com/ServiceStack/ServiceStack/wiki/Mvc-integration)
+If you prefer, you can instead [create a ServiceStack Web Service from a blank ASP.NET Web Application](?id=Create-your-first-webservice) another popular option is to [Add ServiceStack to an existing ASP.NET MVC Application](?id=Mvc-integration)
 
 ## [Explore more ServiceStack features](https://github.com/ServiceStackApps/EmailContacts/)
 

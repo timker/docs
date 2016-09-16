@@ -160,11 +160,11 @@ SetConfig(new HostConfig {
 });
 ```
 
-> You will still need to "Copy to Output Directory" in RELEASE builds if you're not using [Embedded Resources](https://github.com/ServiceStack/ServiceStack/wiki/Virtual-file-system#embedded-resources) so the Console App can locate the Razor Views and Static files at runtime.
+> You will still need to "Copy to Output Directory" in RELEASE builds if you're not using [Embedded Resources](?id=Virtual-file-system#embedded-resources) so the Console App can locate the Razor Views and Static files at runtime.
 
 ### Host as a Windows or Linux Console Host, Windows Service or Linux Daemon
 
-This will run in as a Console Host in any Operating System with .NET 3.5 or Mono installed. In addition this can also be wrapped-up and run inside a [Windows Service](https://github.com/ServiceStack/ServiceStack.Examples/tree/master/src/StarterTemplates/WinServiceAppHost) or run as a [Linux Daemon](https://github.com/ServiceStack/ServiceStack/wiki/Run-ServiceStack-as-a-daemon-on-Linux) which you can optionally elect to serve behind [Apache or Nginx reverse proxies](https://github.com/ServiceStack/ServiceStack/wiki/Run-ServiceStack-as-a-daemon-on-Linux).
+This will run in as a Console Host in any Operating System with .NET 3.5 or Mono installed. In addition this can also be wrapped-up and run inside a [Windows Service](https://github.com/ServiceStack/ServiceStack.Examples/tree/master/src/StarterTemplates/WinServiceAppHost) or run as a [Linux Daemon](?id=Run-ServiceStack-as-a-daemon-on-Linux) which you can optionally elect to serve behind [Apache or Nginx reverse proxies](?id=Run-ServiceStack-as-a-daemon-on-Linux).
 
 ### Easily Convert to an ASP.NET Web Service
 

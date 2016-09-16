@@ -13,7 +13,7 @@ Contained in the [ServiceStack.Authentication.OpenId](http://nuget.org/packages/
 
 ## Easy configuration, plugs into ServiceStack's Auth Provider model
 
-As you might expect adding OpenId support works seamlessly with ServiceStack's existing [Auth Providers](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) where you can enable support for any Specific OpenId 2.0 provider with just **1-line of registration** each. Below is the example taken from [SocialBootstrapApi's AppHost](https://github.com/ServiceStack/SocialBootstrapApi/blob/master/src/SocialBootstrapApi/AppHost.cs#L171) showing how to extend their existing Auth Providers with new OpenId 2.0 options:
+As you might expect adding OpenId support works seamlessly with ServiceStack's existing [Auth Providers](?id=Authentication-and-authorization) where you can enable support for any Specific OpenId 2.0 provider with just **1-line of registration** each. Below is the example taken from [SocialBootstrapApi's AppHost](https://github.com/ServiceStack/SocialBootstrapApi/blob/master/src/SocialBootstrapApi/AppHost.cs#L171) showing how to extend their existing Auth Providers with new OpenId 2.0 options:
 
 ```csharp
 var appSettings = new AppSettings(); //Access Web.Config AppSettings
@@ -87,4 +87,4 @@ For a live demo of ServiceStack's Auth Providers in action check out the MVC + S
 
 ### Automatically Merges Registration and Authentication information from multiple Auth Providers
 
-One of the benefits of using [ServiceStack's Auth Providers](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) is that it allows a single user to login via multiple Auth Providers and it takes care of merging authentication and registration info from multiple Authentication sources into the same UserAuth Account. It also automatically maintains updates of users latest registration information on each login and their session is automatically populated with all of their previously authenticated providers, e.g. If a user logs in the 2nd time with Facebook, their session is also populated with their earlier Twitter account information.
+One of the benefits of using [ServiceStack's Auth Providers](?id=Authentication-and-authorization) is that it allows a single user to login via multiple Auth Providers and it takes care of merging authentication and registration info from multiple Authentication sources into the same UserAuth Account. It also automatically maintains updates of users latest registration information on each login and their session is automatically populated with all of their previously authenticated providers, e.g. If a user logs in the 2nd time with Facebook, their session is also populated with their earlier Twitter account information.

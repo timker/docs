@@ -19,7 +19,7 @@ with existing Java code where projects can mix-and-match Java and Kotlin code to
 making Kotlin a very attractive and easy choice for Android Development.
 
 As we expect more Android and Java projects to be written in Kotlin in future we've added first-class 
-[Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) 
+[Add ServiceStack Reference](?id=Add-ServiceStack-Reference) 
 support for Kotlin with IDE integration in 
 [Android Studio](http://developer.android.com/tools/studio/index.html) and 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/) where App Devlopers can create and update an end-to-end typed 
@@ -88,9 +88,9 @@ Search for **ServiceStack** and click **Install plugin**
 
 Restart to load the installed ServiceStack IDEA plugin
 
-### [Download and Install ServiceStack IDEA Manually](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference#download-and-install-servicestack-idea-manually)
+### [Download and Install ServiceStack IDEA Manually](?id=Java-Add-ServiceStack-Reference#download-and-install-servicestack-idea-manually)
 
-See docs on [Java Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference#download-and-install-servicestack-idea-manually)
+See docs on [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference#download-and-install-servicestack-idea-manually)
 for instructions on other ways to install the ServiceStack IDEA plugin in Android Studio or IntelliJ.
 
 ### Manually adding client dependency to your Project
@@ -111,10 +111,10 @@ This also lets you to change which ServiceStack Client library version you want 
 `JavaServiceClient` that your projects use to call remote ServiceStack Services using the typed Kotlin DTO's
 added to your project by the **Add ServiceStack Reference** feature.
 
-### [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference)
+### [Add ServiceStack Reference](?id=Add-ServiceStack-Reference)
 
 If you've previously used 
-[Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) 
+[Add ServiceStack Reference](?id=Add-ServiceStack-Reference) 
 in any of the supported IDE's before, you'll be instantly familiar with Add ServiceStack Reference in 
 Android Studio. The only additional field is **Package**, required in order to comply with Kotlin's class 
 definition rules. 
@@ -176,10 +176,10 @@ forwards and backwards-compatible message-based API that's works conceptually si
 each language consumes remote services by sending  **Typed DTO's** using a reusable **Generic Service Client** 
 and a consistent client library API. Thanks to its seamless integration with Java, Kotlin is able to re-use the
 same Java Client Library used by 
-[Java Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference).
+[Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference).
 
 To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the 
-[.NET Service Clients API](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) closely, as allowed 
+[.NET Service Clients API](?id=C%23-client) closely, as allowed 
 within Java's language and idiomatic-style constraints. 
 
 Thanks to C#/.NET being heavily inspired by Java, the resulting Java `JsonServiceClient` ends up bearing a close 
@@ -278,7 +278,7 @@ val response = client.get("http://techstacks.io/overview", OverviewResponse::cla
 
 You can also send requests composed of both a Typed DTO and untyped String Map by providing a Hash Map of 
 additional args. This is typically used when querying 
-[implicit conventions in AutoQuery services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions), e.g:
+[implicit conventions in AutoQuery services](?id=Auto-Query#implicit-conventions), e.g:
 
 ```kotlin
 val response = client.get(FindTechnologies(), hashMapOf(Pair("DescriptionContains","framework")))

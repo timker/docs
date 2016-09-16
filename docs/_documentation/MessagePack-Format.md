@@ -21,7 +21,7 @@ The NuGet plugin also includes the **MsgPackServiceClient** client below so you 
 
 ## Client Usage
 
-Just like the rest of ServiceStack C# Clients, MsgPackServiceClient is interchangeable with the other clients that equally supports all your ServiceStack's services including the [New API Design](https://github.com/ServiceStack/ServiceStack/wiki/New-Api), e.g:
+Just like the rest of ServiceStack C# Clients, MsgPackServiceClient is interchangeable with the other clients that equally supports all your ServiceStack's services including the [New API Design](?id=New-Api), e.g:
 
 ```csharp
 var client = new MsgPackServiceClient(BaseUri);

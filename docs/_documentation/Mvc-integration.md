@@ -37,7 +37,7 @@ Typically when hosting ServiceStack with MVC you'd want to host it at the `/api`
 </location>
 ```
 
-> See [Run Side-by-Side with another web framework](https://github.com/ServiceStack/ServiceStack/wiki/Run-servicestack-side-by-side-with-another-web-framework) for other web.config examples of hosting ServiceStack, e.g with IIS6/Mono.
+> See [Run Side-by-Side with another web framework](?id=Run-servicestack-side-by-side-with-another-web-framework) for other web.config examples of hosting ServiceStack, e.g with IIS6/Mono.
 
 ### Add your ServiceStack AppHost
 
@@ -177,7 +177,7 @@ The Urls for metadata page and included Services:
   * [/api/todos](http://bootstrapapi.servicestack.net/api/todos) - Simple REST Service see: http://todos.servicestack.net
   * [/default.htm](http://todos.servicestack.net/) - Backbone.js TODO application talking to the TODO REST service at /api/todos
 
-## [Accessing ServiceStack from MVC](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-Integration)
+## [Accessing ServiceStack from MVC](?id=ServiceStack-Integration)
 
 Once you have MVC + ServiceStack up and running checkout [[ServiceStack Integration]] docs to explore different ways of accessing ServiceStack from MVC.
 

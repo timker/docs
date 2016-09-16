@@ -23,7 +23,7 @@ Plugins.Add(new RazorFormat {
 
 ### Retains optimal development workflow
 
-The Compiled Views support continues to retain a great development experience in [DebugMode](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode) as all Razor Views are initially loaded from the Assembly but also continues to monitor the file system for modified views, automatically compiling and loading them on the fly so AppDomain reloads aren't required to see changes.
+The Compiled Views support continues to retain a great development experience in [DebugMode](?id=Debugging#debugmode) as all Razor Views are initially loaded from the Assembly but also continues to monitor the file system for modified views, automatically compiling and loading them on the fly so AppDomain reloads aren't required to see changes.
 
 ## Example Projects
 

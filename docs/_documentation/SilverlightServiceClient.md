@@ -1,5 +1,5 @@
 ---
-slug: silverlight-service-client
+slug: silverlight-client
 ---
 The **recommended** way to get Silverlight builds of ServiceStack client libraries is from [NuGet](https://nuget.org/packages/ServiceStack.Client.Silverlight):
 

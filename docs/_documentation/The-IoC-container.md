@@ -5,9 +5,9 @@ ServiceStack uses a slightly modified version of [Funq](http://funq.codeplex.com
 
 If you so wish, you can still elect to use your favourite IOC by creating an `IContainerAdapter` for them. See below for examples of adapters for popular IOC's. All ServiceStack's customizable hooks support Auto-wiring out-of-the-box, namely:
 
-- [Services](https://github.com/ServiceStack/ServiceStack/wiki/Your-first-webservice-explained)
-- [Request and Response Filter attributes](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes) _(are executed before a service gets called)_
-- [Validators](https://github.com/ServiceStack/ServiceStack/wiki/Validation) _(validates a request DTO before the service gets called)_
+- [Services](?id=Your-first-webservice-explained)
+- [Request and Response Filter attributes](?id=Filter-attributes) _(are executed before a service gets called)_
+- [Validators](?id=Validation) _(validates a request DTO before the service gets called)_
 
 For each of these features, dependencies are resolved for all parameters in the constructor that has the most arguments as well as all public properties.
 

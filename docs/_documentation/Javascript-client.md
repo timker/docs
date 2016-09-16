@@ -3,7 +3,7 @@ slug: javascript-client
 ---
 Of course, you're able to call your ServiceStack webservice from your JavaScript client, too. 
 
-We do provide our own JsonServiceClients which mimics the [.NET Clients](https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview) in functionality that we make use of in our [Redis Admin UI](http://www.servicestack.net/RedisAdminUI/AjaxClient/):
+We do provide our own JsonServiceClients which mimics the [.NET Clients](?id=Clients-overview) in functionality that we make use of in our [Redis Admin UI](http://www.servicestack.net/RedisAdminUI/AjaxClient/):
 
   - [JsonServiceClient.js](https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JsonServiceClient.js) - Pure JavaScript client
   - [JsonServiceClient.closure.js](https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JsonServiceClient.closure.js) - a [Google Closure](https://developers.google.com/closure/) enabled version of the client allowing compilation and bundling within a Closure project
