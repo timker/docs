@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: advantages-of-message-based-web-services
 ---
 ### This is in response to a recent question from [mailing group](https://groups.google.com/forum/?fromgroups#!topic/servicestack/qkV5fzdnzt8):
 

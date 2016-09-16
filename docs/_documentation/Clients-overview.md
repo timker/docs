@@ -1,7 +1,5 @@
---- 
-topic: clients
-title: Overview
-priority: 1
+---
+slug: clients-overview
 ---
 As ServiceStack is just a pure HTTP web service it can be accessed with any HTTP-capable client. 
 
@@ -10,6 +8,9 @@ Although in addition to this the [ServiceStack.Client](http://nuget.org/packages
 ### ServiceStack Clients
 
   * [[C# client]]
+  * [TypeScript client](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
+  * [Java/Kotlin Client](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
+  * [Swift Client](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
   * [Silverlight client](https://github.com/ServiceStack/ServiceStack/wiki/SilverlightServiceClient)
   * [[JavaScript client]]
   * [[Dart Client]]
@@ -21,10 +22,14 @@ You can also use [ServiceStackVS](https://github.com/ServiceStack/ServiceStack/w
 
 ### Supported Languages
 
+
 * [C# Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference)
+* [TypeScript Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
+* [Swift Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
+* [Java Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
+* [Kotlin Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference)
 * [F# Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference)
 * [VB.NET Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference)
-* [TypeScript Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
 
 ***
 

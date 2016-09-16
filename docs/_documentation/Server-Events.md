@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: server-events
 ---
 [Server Sent Events](http://www.html5rocks.com/en/tutorials/eventsource/basics/) (SSE) is an elegant [web technology](http://dev.w3.org/html5/eventsource/) for efficiently receiving push notifications from any HTTP Server. It can be thought of as a mix between long polling and one-way WebSockets and contains many benefits over each:
 
@@ -130,9 +130,9 @@ NotifySubscription() // Unique Subscription Id
 There are also API's to retrieve a users single event subscription as well as all subscriptions for a user:
 
 ```csharp
-IEventSubscription GetSubscription(string id);
+SubscriptionInfo GetSubscriptionInfo(string id);
 
-List<IEventSubscription> GetSubscriptionsByUserId(string userId);
+List<SubscriptionInfo> GetSubscriptionInfosByUserId(string userId);
 ```
 
 ## Event Subscription
@@ -452,6 +452,12 @@ If your web server is configured to automatically buffer the response it will de
 Alternatively you can switch to use Visual Studio Development Server which doesn't buffer by default.
 
 # ServerEvent Examples
+
+## [Gistlyn](https://github.com/ServiceStack/Gistlyn)
+
+Gistlyn is a C# Gist IDE for creating, running and sharing stand-alone, executable C# snippets.
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/gistlyn/home-screenshot.png)](http://gistlyn.com)
 
 ## [React Chat](https://github.com/ServiceStackApps/ReactChat)
 

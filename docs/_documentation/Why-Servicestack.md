@@ -1,4 +1,5 @@
 ---
+slug: why-servicestack
 title: Why ServiceStack?
 ---
 Developed in the modern age, Service Stack provides an alternate, cleaner POCO-driven way of creating web services.
@@ -41,7 +42,7 @@ Service Stack re-uses the custom artefacts above and with zero-config and withou
 
 Unfortunately this best-practices convention is effectively discouraged by Microsoft's WCF SOAP Web Services framework as they encourage you to develop API-specific RPC method calls by mandating the use of method signatures to define your web services API. This results in less re-usable, more client-specific APIs that encourages more remote method calls. 
 
-Unhappy with this perceived anti-pattern in WCF, ServiceStack was born providing a Web Sevice framework that embraces best-practices for calling remote services, using config-free, convention-based DTO's.
+Unhappy with this perceived anti-pattern in WCF, ServiceStack was born providing a Web Service framework that embraces best-practices for calling remote services, using config-free, convention-based DTO's.
 
 ### ServiceStack encourages development of message-style, re-usable and batch-full web services
 

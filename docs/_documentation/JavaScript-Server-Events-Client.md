@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: javascript-server-events-client
 ---
 Like ServiceStack's other JavaScript interop libraries, the client bindings for ServiceStack's Server Events is in ServiceStack's JavaScript client bindings [/js/ss-utils.js](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/js/ss-utils.js) that's embedded in `ServiceStack.dll` and available from any page with:
 
@@ -288,6 +288,14 @@ $.ss.unsubscribeFromChannels(["chan3","chan4"], response => ..., error => ...);
 
 
 # ServerEvent JavaScript Examples
+
+## [Gistlyn](https://github.com/ServiceStack/Gistlyn)
+
+Gistlyn is a C# Gist IDE for creating, running and sharing stand-alone, executable C# snippets.
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/gistlyn/home-screenshot.png)](http://gistlyn.com)
+
+> Live Demo: http://gistlyn.com
 
 ## [React Chat](https://github.com/ServiceStackApps/ReactChat)
 

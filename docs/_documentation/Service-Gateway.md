@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: service-gateway
 ---
 The Service Gateway is implemented on top of ServiceStack's existing message-based architecture to open up 
 exciting new possibilities for development of loosely-coupled
@@ -56,7 +56,7 @@ where Request DTO's containing `IGet`, `IPut`, etc. are sent using the typed Ver
 
 ```csharp
 [Route("/customers/{Id}")]
-public class GetCustomer : IReturn<Customer>, IGet
+public class GetCustomer : IGet, IReturn<Customer>
 {
     public int Id { get; set ;}
 }
@@ -80,7 +80,7 @@ public object Any(GetCustomerOrders request)
     using (var orderService = base.ResolveService<OrderService>())
     {
         return new GetCustomerOrders {
-            Customer = (Customer)base.ExecuteRequest(new GetCustomer { Id = request.Id }),
+            Customer = (Customer)base.ExecuteRequest(new GetCustomer {Id=request.Id}),
             Orders = orderService.Any(new QueryOrders { CustomerId = request.Id })
         };
     }
@@ -199,8 +199,8 @@ enough to justify the additional latency, management and infrastructure overhead
 value in the development process of
 [designing for Microservices](https://channel9.msdn.com/events/Build/2016/C918) where decoupling naturally 
 isolated components into loosely-coupled subsystems has software-architecture benefits with overall complexity 
-of an entire system being reduced into smaller, more manageable logical scopes which encapsulates their capabilities 
-[behind small, re-usable, well-defined facades](http://stackoverflow.com/a/32940275/85785).
+of an entire system being reduced into smaller, more manageable logical scopes which encapsulates their capabilities behind re-usable, 
+[coarse-grained messages to small, well-defined facades](http://stackoverflow.com/a/32940275/85785).
 
 The ServiceGateway and its Services Discovery ecosystem together with ServiceStack's recommended use of 
 impl-free reusable POCO DTO's and its ability to 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 A summary of Service Stack's available and recommended Web Service end points.
 

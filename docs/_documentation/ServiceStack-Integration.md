@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: servicestack-integration
 ---
 This article explains how to make use of ServiceStack components in existing **ASP.NET MVC** and **WebForms** Web Applications. The base `ServiceStackController` and WebForms `ServiceStackPage` both share a common code-base  to provide easy access to the same clean, high-performance components found in ServiceStack's `Service` base class, directly from within your MVC Controllers and WebForm pages.
 

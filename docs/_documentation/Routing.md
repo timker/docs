@@ -1,5 +1,5 @@
 ---
-topic: reference 
+slug: routing
 ---
 ## Pre-defined Routes
 

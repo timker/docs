@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: iis
 ---
 ## Register ServiceStack ASP.NET HttpHandler
 

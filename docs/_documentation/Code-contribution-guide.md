@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 - Please use whitespace instead of tabs.
 - If you implement a new feature, please add tests for it.

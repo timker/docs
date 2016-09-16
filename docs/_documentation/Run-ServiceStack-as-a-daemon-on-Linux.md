@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: run-servicestack-as-a-daemon-on-linux
 ---
 When your web application is predominantly javascript with a REST service at the back-end there are many reasons why you might want to simply serve the static content through apache (or alternative) and run the service as a ...well... service.
 Some examples are:

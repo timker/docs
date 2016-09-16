@@ -1,13 +1,12 @@
 ---
-topic: reference 
+slug: validation
+title: Validation and Error Handling
 ---
-# Validation and Error Handling
-
 As validation and error handling is an essential part of developing services, ServiceStack provides a rich array of error handling options that work intuitively out-of-the-box. 
 
 Optimized for developer happiness ServiceStack allows you to idiomatically throw C# exceptions directly in your services and trivially consume them on the client with minimal effort, intuitively and conventionally - allowing the opportunity to inject generic error handling routines to handle errors for all your web services. 
 
-For bonus REST Internet points the most appropriate HTTP Status code is returned based upon the C# Exception type.
+As a bonus the most appropriate HTTP Status code is returned based upon the C# Exception type.
 
 ### Typed, Structured Exceptions end-to-end
 The error handling support works end-to-end where all errors get auto-serialized into your Response DTO and re-hydrated into a C# Exception on ServiceStack's generic Service Clients. This allows you to idiomatically treat errors like normal C# Exceptions - providing easy access to rich, structured error messages in your clients. 
@@ -19,12 +18,13 @@ To make it trivial to consume errors in JavaScript, you can use the lightweight 
 
 All Error handling and validation options described below are treated in the same way - serialized into the `ResponseStatus` property of your Response DTO making it possible for your clients applications to generically treat all Web Service Errors in the same way.
 
-> **Note:** The response DTO must follow the **`{Request DTO}Response` naming convention** and has to be in the **same namespace** as the request DTO!
+> **Note:** The response DTO must follow the **`{Request DTO}Response` naming convention** and has to be in the **same namespace** as the Request DTO
 
 ```csharp
-public class Hello {}
+public class Hello : IReturn<HelloResponse> {}
 
-public class HelloResponse //Follows naming convention and is in the same namespace as 'Hello'
+//Follows naming convention and is in the same namespace as 'Hello'
+public class HelloResponse 
 {
     public ResponseStatus ResponseStatus { get; set; } //Exception gets serialized here
 }
@@ -90,7 +90,7 @@ catch (WebServiceException webEx)
 
 By default display StackTraces in your Response DTOs are disabled, but they're a good to have for development, which you can enable with:
 
-    SetConfig(new EndpointHostConfig { DebugMode = true });
+    SetConfig(new HostConfig { DebugMode = true });
 
 ## Customized Error Messages
 
@@ -180,10 +180,9 @@ public class UserValidator : AbstractValidator<User>
 > Normally FluentValidation only executes the matching rule set and **ignores** all other rules (whether they're in a rule set or not) and the rules which don't belong 
 > to any rule set are normally only executed, if no rule set-name was given to the validate method of the validator. 
 
-Like services registered in the IoC container, validators are also auto-wired, so if there's a public property which can be resolved by the IoC container, the IoC container will inject it. In this case, the IoC container will resolve the property `AddressValidator`, if an object of the type `IAdressValidator` was registered.
+Like services registered in the IoC container, validators are also auto-wired, so if there's a public property which can be resolved by the IoC container, the IoC container will inject it. In this case, the IoC container will resolve the property `AddressValidator`, if an object of the type `IAddressValidator` was registered.
 
-> **Tip:** You can access the http request in a validator by implementing `IRequiresHttpRequest`. Attention, it's lazily loaded and so only available in the validation delegates.
-
+> **Tip:** You can access the current `IRequest` in your Custom Validator from `base.Request`
 
 ### Register Validators
 

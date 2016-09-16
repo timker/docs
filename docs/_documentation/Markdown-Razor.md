@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: markdown-razor
 ---
 ## Markdown Razor View Engine
 

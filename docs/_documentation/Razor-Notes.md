@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: razor-notes
 ---
 ## VS.NET Intelli-sense for self-hosting projects
 
@@ -13,30 +13,62 @@ The `@model T` attribute isn't known to VS.NET intelli-sense when self-hosting w
 
     @inherits ViewPage<T>
 
-## Missing Razor configuration
+### Web Configuration for Razor
 
-The razor Web.config sections added by [ServiceStack.Razor](https://www.nuget.org/packages/ServiceStack.Razor) normally use the version of ASP.NET WebPages that's installed on your computer included with VS.NET installation and updates and is normally located under: 
+All ASP.NET Razor VS.NET Templates in [ServiceStackVS](https://github.com/ServiceStack/ServiceStackVS) uses the optimal `Web.config` template below `Web.config` for editing Razor pages without designer errors in VS.NET 2015: 
 
-    C:\Program Files (x86)\Microsoft ASP.NET\ASP.NET Web Pages\
+```xml
+<configuration>
+    <configSections>
+        <sectionGroup name="system.web.webPages.razor" type="System.Web.WebPages.Razor.Configuration.RazorWebSectionGroup, System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35">
+            <section name="host" type="System.Web.WebPages.Razor.Configuration.HostSection, System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false"/>
+            <section name="pages" type="System.Web.WebPages.Razor.Configuration.RazorPagesSection, System.Web.WebPages.Razor, Version=3.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35" requirePermission="false"/>
+        </sectionGroup>
+    </configSections>
 
-This holds the different version of ASP.NET Web pages installed, e.g:
+    <appSettings>
+        <add key="webPages:Enabled" value="false" />
+    </appSettings>
 
-    v1.0\
-    v2.0\
+    <system.web.webPages.razor>
+        <host factoryType="System.Web.Mvc.MvcWebRazorHostFactory, System.Web.Mvc, Version=5.0.0.0, Culture=neutral, PublicKeyToken=31BF3856AD364E35"/>
+        <pages pageBaseType="ServiceStack.Razor.ViewPage">
+            <namespaces>
+                <add namespace="System" />
+                <add namespace="System.Linq" />
+                <add namespace="ServiceStack" />
+                <add namespace="ServiceStack.Html" />
+                <add namespace="ServiceStack.Razor" />
+                <add namespace="ServiceStack.Text" />
+                <add namespace="ServiceStack.OrmLite" />
+                <add namespace="ProjectNamespace" />
+                <add namespace="ProjectNamespace.ServiceModel" />
+            </namespaces>
+        </pages>
+    </system.web.webPages.razor>
+</configuration>
+```
 
-#### Install [ASP.NET MVC3 using the Web Platform Installer](http://www.microsoft.com/web/downloads/platform.aspx)
+The [ServiceStack.Razor](https://www.nuget.org/packages/ServiceStack.Razor) NuGet package uses the official 
+[Microsoft.AspNet.Razor](https://www.nuget.org/packages/Microsoft.AspNet.Razor/) 
+but to minimize errors in VS.NET's Razor editor, the ServiceStack' Razor templates also reference MVC's
+[Microsoft.AspNet.WebPages](https://www.nuget.org/packages/Microsoft.AspNet.WebPages/) 
+NuGet package which is only used to assist Razor intellisense as ServiceStack doesn't use or need itself.
 
-If this is missing, you can add it to your local machine by installing [ASP.NET MVC3 using the Web Platform Installer](http://www.microsoft.com/web/downloads/platform.aspx).
+To remove the last designer error **Content pages** can inherit:
 
-Another option for installing [ASP.NET WebPages](https://www.nuget.org/packages/Microsoft.AspNet.WebPages) is via NuGet, i.e:
+```html
+@inherits ViewPage
+```
 
-    PM> Install-Package Microsoft.AspNet.WebPages -Version 1.0.20105.408
+And Typed **View Pages** can inherit:
 
-If you instead installed the latest version of WebPages (currently at v3.1.1), e.g:
+```html
+@inherits ViewPage<TResponse>
+```
 
-    PM> Install-Package Microsoft.AspNet.WebPages
-
-You would need to change the version number in the [Razor Web.config](https://github.com/ServiceStack/ServiceStack/blob/master/NuGet/ServiceStack.Razor/content/web.config.transform) to reference **Version=3.0.0.0**.
+Which also doesn't affect the pages behavior, but can remove the final design-time warning showing up in
+VS.NET's error list.
 
 #### Only configuration section used
 

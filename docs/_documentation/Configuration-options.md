@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: configuration-options
 ---
 As you might have seen in the last tutorials, the main configuration is made in the app host `Configure` method.
 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: autoquery-rdbms
 ---
 AutoQuery RDBMS enables the rapid development of high-performance, fully-queryable typed RDBMS data-driven services with just a POCO Request DTO class definition and [supports most major RDBMS](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget) courtesy of building on [OrmLite's high-performance RDBMS-agnostic API's](https://github.com/ServiceStack/ServiceStack.OrmLite).
 
@@ -62,6 +62,8 @@ public class FindMovies : QueryDb<Movie> {}
 
 Which just like other Request DTO's in ServiceStack falls back to using ServiceStack's [pre-defined routes](https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes)
 
+### IQuery
+
 `QueryDb<T>` is just an abstract class that implements `IQuery<T>` and returns a typed `QueryResponse<T>`:
 
 ```csharp
@@ -70,10 +72,12 @@ public abstract class QueryDb<T> : QueryDb,
 
 public interface IQuery
 {
-    int? Skip { get; set; }
-    int? Take { get; set; }
-    string OrderBy { get; set; }
-    string OrderByDesc { get; set; }
+    int? Skip { get; set; }           // How many results to skip
+    int? Take { get; set; }           // How many results to return
+    string OrderBy { get; set; }      // List of fields to sort by
+    string OrderByDesc { get; set; }  // List of fields to sort by descending
+    string Include { get; set; }      // Aggregate queries to include
+    string Fields { get; set; }       // The fields to return
 }
 ```
 
@@ -86,7 +90,7 @@ The behavior of queries can be completely customized by simply providing your ow
 ```csharp
 public class MyQueryServices : Service
 {
-    public IAutoQuery AutoQuery { get; set; }
+    public IAutoQueryDb AutoQuery { get; set; }
 
     //Override with custom implementation
     public object Any(FindMovies query)
@@ -757,7 +761,7 @@ var top250 = client.GetLazy(new QueryMovies {
 
 Another benefit we get from AutoQuery Services being regular ServiceStack services is taking advantage of [ServiceStack's built-in formats](https://github.com/ServiceStack/ServiceStack/wiki/Formats). 
 
-The [CSV Format](https://github.com/ServiceStack/ServiceStack/wiki/ServiceStack-CSV-Format) especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.
+The [[CSV Format]] especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.
 
 ServiceStack provides a number of ways to [request your preferred content-type](https://github.com/ServiceStack/ServiceStack/wiki/Routing#content-negotiation), the easiest of which is to just use the `.{format}` extension at the end of the `/pathinfo` e.g:
 
@@ -784,7 +788,16 @@ Any normal AutoQuery Services like `QueryOrders` will use the default SQL Server
 ```csharp
 public class QueryOrders : QueryDb<Order> {}
 
+[ConnectionInfo(NamedConnection = "Reporting")]
+public class QuerySales : QueryDb<Sales> {}
+```
+
+An alternative to specifying the `[ConnectionInfo]` Request Filter Attribute on the AutoQuery Request DTO, is to specify the named connection on the **POCO Table** instead, e.g:
+
+```csharp
 [NamedConnection("Reporting")]
+public class Sales { ... }
+
 public class QuerySales : QueryDb<Sales> {}
 ```
 
@@ -984,7 +997,7 @@ We've already covered some of extensibility options with Customizable **QueryDbF
 ```csharp
 public class MyQueryServices : Service
 {
-    public IAutoQuery AutoQuery { get; set; }
+    public IAutoQueryDb AutoQuery { get; set; }
 
     //Override with custom implementation
     public object Any(FindMovies dto)

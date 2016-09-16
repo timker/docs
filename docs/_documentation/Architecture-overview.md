@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET [IHttpHandler's](http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx). Existing abstractions and [xmlconfig-encumbered legacy ASP.NET providers](http://mono.servicestack.net/mvc-powerpack/) have been abandoned, in favour of fresh, simple and clean [Caching](https://github.com/ServiceStack/ServiceStack/wiki/Caching), [Session](https://github.com/ServiceStack/ServiceStack/wiki/Sessions) and [Authentication](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) providers all based on clean POCOs, supporting multiple back-ends and all working seamlessly with each other. Our best-practices architecture is purposely kept simple, introduces no new concepts or artificial constructs and can all be eloquently captured in the diagram below:
 

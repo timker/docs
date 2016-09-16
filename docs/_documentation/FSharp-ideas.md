@@ -1,4 +1,4 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 _Ideas / TODO items how we can provide a better story for F#_

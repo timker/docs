@@ -1,7 +1,5 @@
 ---
-topic: clients
-title: Java Add Reference
-priority: 4
+slug: java-add-servicestack-reference
 ---
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/android-studio-splash.png)
 

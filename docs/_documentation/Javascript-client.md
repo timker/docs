@@ -1,6 +1,5 @@
 ---
-topic: reference
-title: JavaScript Client Library (ss-utils.js)
+slug: javascript-client
 ---
 Of course, you're able to call your ServiceStack webservice from your JavaScript client, too. 
 

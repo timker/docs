@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: why-not-odata
 ---
 [Microsoft's own Services Design guidelines](http://msdn.microsoft.com/en-us/library/ms954638.aspx) provides a good initial summary on why OData-like services are a Services anti-pattern:
 

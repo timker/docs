@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: request-logger
 ---
 Add an In-Memory `IRequestLogger` and service with the default route at `/requestlogs` which maintains a live log of the most recent requests (and their responses). Supports multiple config options incl. Rolling-size capacity, error and session tracking, hidden request bodies for sensitive services, etc.
 
@@ -7,11 +7,7 @@ Add an In-Memory `IRequestLogger` and service with the default route at `/reques
 
 ### CSV Request Logger
 
-Flipping the switch on CSV Deserialization has opened up the potential for a lot more useful features.
-One of the areas we thought to be particularly valuable is being able to store daily Request Logs in a 
-plain-text structured format, that way they could be immediately inspectable with a text editor or for even 
-better inspection, opened in a spreadsheet and benefit from its filterable, movable, resizable and 
-sortable columns.
+One of the areas where ServiceStack's [CSV Support](https://github.com/ServiceStack/ServiceStack/wiki/CSV-Format) shines is being able to store daily Request Logs in a plain-text structured format, that way they could be immediately inspectable with a text editor or for even better inspection, opened in a spreadsheet and benefit from its filterable, movable, resizable and sortable columns.
 
 To enable CSV Request Logging you just need to register the `RequestLogsFeature` and configure it to use the
 [CsvRequestLogger](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/CsvRequestLogger.cs):
@@ -27,10 +23,10 @@ This will register the CSV Request logger with the following overridable default
 ```csharp
 Plugins.Add(new RequestLogsFeature {
     RequestLogger = new CsvRequestLogger(
-        files = new FileSystemVirtualPathProvider(this, Config.WebHostPhysicalPath),
-        requestLogsPattern = "requestlogs/{year}-{month}/{year}-{month}-{day}.csv",
-        errorLogsPattern = "requestlogs/{year}-{month}/{year}-{month}-{day}-errors.csv"
-        appendEvery = TimeSpan.FromSeconds(1)
+        files: new FileSystemVirtualPathProvider(this, Config.WebHostPhysicalPath),
+        requestLogsPattern: "requestlogs/{year}-{month}/{year}-{month}-{day}.csv",
+        errorLogsPattern: "requestlogs/{year}-{month}/{year}-{month}-{day}-errors.csv",
+        appendEvery: TimeSpan.FromSeconds(1)
     ),
 });
 ```

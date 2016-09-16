@@ -1,11 +1,11 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 ### Deploying multiple ASP.NET Websites to AWS with WebDeploy
 
 We've [previously discussed](](https://github.com/ServiceStack/ServiceStack/wiki/Deploy-Multiple-Sites-to-single-AWS-Instance#why-deploy-multiple-sites-to-a-single-aws-instance)) the cost and automation benefits of **deploying multiple websites to a single AWS instance** using [TeamCity and Octopus Deploy](https://github.com/ServiceStack/ServiceStack/wiki/Deploy-Multiple-Sites-to-single-AWS-Instance) which is a great combination for managing production website deployments, taking advantage of the automation capabilities of TeamCity and the release management features of Octopus Deploy. 
 
-There's an even simpler option for deploying multiple ASP.NET Websites to a single AWS instance which can be initiated directly from within VS.NET (i.e. without needing any external TeamCity and OctopusDeploy services) by using VS.NET's built-in **Web Deploy** tool. In this tutorial we'll walkthrough 2 different approaches for deploying websites using either VS.NET's **Publish Web Deploy wizard** or alternatively using a **Grunt Task** which is better suited for deploying Single Page Apps requiring any necessary pre and post processing packaging and deployment steps.
+There's an even simpler option for deploying multiple ASP.NET Websites to a single AWS instance which can be initiated directly from within VS.NET (i.e. without needing any external TeamCity and OctopusDeploy services) by using VS.NET's built-in **Web Deploy** tool. In this tutorial we'll walkthrough 2 different approaches for deploying websites using either VS.NET's **Publish Web Deploy wizard** or alternatively using a **Gulp Task** which is better suited for deploying Single Page Apps requiring any necessary pre and post processing packaging and deployment steps.
 
 ## Setting up the instance
 
@@ -73,9 +73,9 @@ The first deployment might take some time due to having to copy all files requir
 
 ![Publish wizard demo](https://github.com/ServiceStack/Assets/raw/master/img/wikis/web-deploy/webdeploy_bootstrap.gif)
 
-## Deploy using Grunt
+## Deploy using Gulp
 
-Although the Publish wizard is a great tool, by default, it doesn't work well with single page applications like AngularJS where the client side of the application that requires pre/post processing of client side scripts and assets. Another way to publish still using Web Deploy (msdeploy) is by using a Grunt task. The Grunt task simply wraps msdeploy ([base on grunt-msdeploy written by Jack Davis](https://www.npmjs.org/~mrjackdavis)). If we create a new project using the **AngularJS App (beta)** template from ServiceStackVS, we can modify what is already there very quickly to get our application to deploy to our AWS instance.
+Although the Publish wizard is a great tool, by default, it doesn't work well with single page applications like AngularJS where the client side of the application that requires pre/post processing of client side scripts and assets. Another way to publish still using Web Deploy (msdeploy) is by using a Gulp task. The Gulp task simply wraps msdeploy using the [gulp-msdeploy Gulp package](https://github.com/ServiceStack/gulp-msdeploy) ([base on grunt-msdeploy written by Jack Davis](https://www.npmjs.org/~mrjackdavis)). If we create a new project using the **AngularJS App** template from ServiceStackVS, we can modify what is already there very quickly to get our application to deploy to our AWS instance.
  
 Once the prject is created, we will fill out the same details given to the Publish wizard, but in a configuration file located at `/wwwroot_build/publish/config.json`. By default, it has placeholder values shown below:
 
@@ -95,13 +95,9 @@ Where the `iisApp` value is the name of your project. Below is the filled in exa
         "password" : "MyPassword123"
     }
 
-Once filled in, we can run the provided tasks 2 and 3 to package our application and task 4 to deploy it. If you are running Visual Studio 2013 and have the Task Runner Explorer extension installed, these Grunt tasks can be very simply from the extension’s UI:
+Once filled in, we can run the provided tasks 2 and 3 to package our application and task 4 to deploy it. If you are running Visual Studio 2015 (or 2013 with extension), these Gulp tasks can be very simply from Task Runner Explorer UI.
 
-![](https://github.com/ServiceStack/Assets/raw/master/img/wikis/web-deploy/webdeploy_angular_app.gif)
-
-> Even though by using Github's default Visual Studio .gitignore the config will not turn up in source control, the password is still **stored in plain text**. This should be taken into account when deciding if this method of deployment is suitable for your development/deployment environment.
+> Even though by using GitHub's default Visual Studio .gitignore the config will not turn up in source control, the password is still **stored in plain text**. This should be taken into account when deciding if this method of deployment is suitable for your development/deployment environment.
 
 ### Bundling ###
-This template is also taking care of optimizations like CSS and JS minification in the packaging steps. Package of the server files and client files separately enable us to update and deploy an optimized client side version of our application quickly as only our client side resources will have to be updated: 
-
-![](https://github.com/ServiceStack/Assets/raw/master/img/wikis/web-deploy/webdeploy_angular_app1.gif)
+This template is also taking care of optimizations like CSS and JS minification in the packaging steps. Package of the server files and client files separately enable us to update and deploy an optimized client side version of our application quickly as only our client side resources will have to be updated.

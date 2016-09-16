@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: autoquery-service
 ---
 ### AutoQuery Service Data Source
 
@@ -117,7 +117,7 @@ public object Get(GetGithubRepos request)
 ```
 
 A hidden feature ServiceSources are naturally able to take advantage of due to its behind-the-scenes usage 
-of the new **ServiceGateway** (announced later) is that the exact code above could still function if the
+of the new [[Service Gateway]] is that the exact code above could still function if the
 `QueryGithubRepo` AutoQuery Data Service and underlying `GetGithubRepos` Service were moved to different
 hosts :)
 
@@ -133,7 +133,7 @@ When overriding the default implementation of an AutoQuery Data Service you also
 a Data Source as you can specify the Data Source in-line when calling `AutoQuery.CreateQuery()`.
 
 For our custom AutoQuery Data implementation we'll look at creating a useful Service which reads the
-daily CSV Request and Error Logs from the new `CsvRequestLogger` (announced later) and queries it by 
+daily CSV Request and Error Logs from the new [CsvRequestLogger](https://github.com/ServiceStack/ServiceStack/wiki/Request-logger#csv-request-logger) and queries it by 
 wrapping the POCO `RequestLogEntry` results into a `MemoryDataSource`:
 
 ```csharp
@@ -153,11 +153,12 @@ public class CustomAutoQueryDataServices : Service
     {
         var date = query.Date.GetValueOrDefault(DateTime.UtcNow);
         var logSuffix = query.ViewErrors ? "-errors" : "";
-        var csvLogsFile = VirtualFileSources.GetFile("requestlogs/{0}-{1}/{0}-{1}-{2}{3}.csv".Fmt(
-            date.Year.ToString("0000"),
-            date.Month.ToString("00"),
-            date.Day.ToString("00"),
-            logSuffix));
+        var csvLogsFile = VirtualFileSources.GetFile(
+            "requestlogs/{0}-{1}/{0}-{1}-{2}{3}.csv".Fmt(
+                date.Year.ToString("0000"),
+                date.Month.ToString("00"),
+                date.Day.ToString("00"),
+                logSuffix));
 
         if (csvLogsFile == null)
             throw HttpError.NotFound("No logs found on " + date.ToShortDateString());
@@ -205,9 +206,9 @@ public object Any(YesterdayErrorLogs request) =>
     Any(new QueryRequestLogs { Date = DateTime.UtcNow.AddDays(-1), ViewErrors = true });
 ```
 
-### View Request Logs in AutoQuery Viewer
+### View Request Logs in [AutoQuery Viewer](https://github.com/ServiceStack/Admin)
 
-And with no more effort we can jump back to `/ss_admin/` and use AutoQuery Viewer's nice UI to quickly 
+And with no more effort we can jump back to `/ss_admin/` and use [AutoQuery Viewer's](https://github.com/ServiceStack/Admin) nice UI to quickly 
 inspect Todays and Yesterdays Request and Error Logs :)
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/autoqueryviewer-csv-logs.png)

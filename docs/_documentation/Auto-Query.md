@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: auto-query
 ---
 ## AutoQuery - Instant Queryable APIs
 
@@ -7,9 +7,9 @@ The AutoQuery support in ServiceStack adds Auto Querying functionality akin to O
 
 ### [[Why not OData]] 
 
-[[Why not OData]] goes through what aspects make OData a poor Services technology who's Services anti-patterns violates Microsoft's own Services Design guidelines where its implementation, complexity, poor performance, tight-coupling and inhibitive versionability is reminiscent of their earlier rigid, heavy-weight SOAP/SOA frameworks that's still entrenched in a number of legacy systems - poorly ideologised, over-engineered Services technology many companies are still trying to recover from.
+[[Why not OData]] goes through what aspects make OData a poor Services technology who's Services anti-patterns violates Microsoft's own Services Design guidelines where its implementation, complexity, poor performance, tight-coupling and inhibitive versionability is reminiscent of their earlier rigid, heavy-weight SOAP/SOA frameworks that's still entrenched in a number of legacy systems - [poorly ideologised, over-engineered Services technology](http://www.infoq.com/articles/interview-servicestack) many companies are still trying to recover from.
 
-## Introducing AutoQuery
+## Introducing [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-RDBMS)
 
 The solution to overcome most of OData issues is ultimately quite simple: enhance the ideal API the developer would naturally write and complete their implementation for them! This is essentially the philosophy behind AutoQuery which utilizes conventions to automate creation of intent-based self-descriptive APIs that are able to specify configurable conventions and leverage extensibility options to maximize the utility of AutoQuery services.
 
@@ -21,11 +21,11 @@ An important point worthy of highlighting is that AutoQuery Services are just no
 
 In addition to leveraging ServiceStack's existing functionality, maximizing re-use in this way reduces the cognitive overhead required for developers who can re-use their existing knowledge in implementing, customizing, introspecting and consuming ServiceStack services. 
 
-### AutoQuery Options
+### [[AutoQuery RDBMS]]
 
- - [[AutoQuery RDBMS]] - enables the rapid development of high-performance, fully-queryable typed RDBMS data-driven services and [supports most major Relational Databases](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget)
+Enables the rapid development of high-performance, fully-queryable typed RDBMS data-driven services and [supports most major Relational Databases](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget)
 
-#### [AutoQuery Data](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Data) Sources
+### [AutoQuery Data](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Data) Sources
 
 AutoQuery Data's Open Provider model supports multiple back-end data sources. The 3 data source providers available include:
 

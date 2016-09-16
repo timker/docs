@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: concurrency-model
 ---
 ServiceStack doesn't have a configurable concurrency model per AppHost, it is dependent upon the AppHost that your ServiceStack services are hosted with:
 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: http-utils
 ---
 The recommended way to call ServiceStack services is to use any of the [C# Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) which have a nice DRY and typed API optimized for this use. However when doing server programming you will often need to consume 3rd Party HTTP APIs, unfortunately the built-in way to do this in .NET doesn't make for a good development experience since it makes use of **WebRequest** - one of the legacy classes inherited from the early .NET days. WebRequest is an example of a class that's both versatile but also suffers from exposing an out-dated and unpleasant API for your application code to bind to.
 
@@ -42,11 +42,11 @@ List<User> users = "http://example.org/xml-rpc/users"
     .FromXml<List<User>>();
 ```
 
-For any other Content-Type you can specify it with the optional `acceptContentType` param:
+For any other Content-Type you can specify it with the optional `accept` param:
 
 ```csharp
 var csv = "http://example.org/users.csv"
-    .GetStringFromUrl(acceptContentType:"text/csv");
+    .GetStringFromUrl(accept:"text/csv");
 ```
 
 ### Customizing the WebRequest
@@ -147,7 +147,69 @@ var response = "http://example.org/login"
   .PostStringToUrl("<User>mythz</User><Pass>p@ss</Pass>", contentType:"application/xml");
 ```
 
-The above API's also apply to **PUT** data as well by using the `PutToUrl` extension methods.
+The above API's also apply to **PUT** or **PATCH** data as well by using the `PutToUrl` and `PatchToUrl` extension methods.
+
+The same [HTTP Utils extension methods for Post and Put](https://github.com/ServiceStack/ServiceStack/wiki/Http-Utils#posting-data) also have `Patch()` equivalents.
+
+### PATCH Example
+
+We use the new `Patch()` support in Gistlyn's
+[GitHubServices.cs](https://github.com/ServiceStack/Gistlyn/blob/master/src/Gistlyn.ServiceInterface/GitHubServices.cs)
+to update contents of existing Gists:
+
+```csharp
+var GithubApiBaseUrl = "https://api.github.com/";
+var updateResponse = GithubApiBaseUrl.CombineWith("gists", gist)
+    .PatchJsonToUrl(new UpdateGithubGist {
+        description = request.Description,
+        files = request.Files,
+    }, 
+    requestFilter: req => {
+        req.UserAgent = "Gistlyn";
+        req.Headers["Authorization"] = "token " + github.AccessTokenSecret;
+    });
+```
+
+### Creating a Proxy using HTTP Utils
+
+As the HTTP Utils offers a flexible API it becomes trivial to create a generic HTTP Proxy which you can implement with the ServiceStack Service below:
+
+```csharp
+[Route("/proxy")]
+public class Proxy : IRequiresRequestStream, IReturn<string>
+{
+    public string Url { get; set; }
+    public Stream RequestStream { get; set; }
+}
+
+public object Any(Proxy request)
+{
+    if (string.IsNullOrEmpty(request.Url))
+        throw new ArgumentNullException("Url");
+
+    var hasRequestBody = base.Request.Verb.HasRequestBody();
+    try
+    {
+        var bytes = request.Url.SendBytesToUrl(
+          method: base.Request.Verb,
+          requestBody: hasRequestBody ? request.RequestStream.ReadFully() : null,
+          contentType: hasRequestBody ? base.Request.ContentType : null,
+          accept: ((IHttpRequest)base.Request).Accept,
+          requestFilter: req => req.UserAgent = "Gistlyn",
+          responseFilter: res => base.Request.ResponseContentType = res.ContentType);
+
+        return bytes;
+    }
+    catch (WebException webEx)
+    {
+        var errorResponse = (HttpWebResponse)webEx.Response;
+        base.Response.StatusCode = (int)errorResponse.StatusCode;
+        base.Response.StatusDescription = errorResponse.StatusDescription;
+        var bytes = errorResponse.GetResponseStream().ReadFully();
+        return bytes;
+    }
+}
+```
 
 ## Async HTTP Utils
 
@@ -233,17 +295,17 @@ string GetJsonFromUrl(this string url, Action<HttpWebRequest> requestFilter=null
 string GetXmlFromUrl(this string url, Action<HttpWebRequest> requestFilter=null, 
   Action<HttpWebResponse> responseFilter=null)
 
-string GetStringFromUrl(this string url, string acceptContentType = "*/*", 
+string GetStringFromUrl(this string url, string accept = "*/*", 
   Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 string PostStringToUrl(this string url, string requestBody = null,
-    string contentType = null, string acceptContentType = "*/*",
+    string contentType = null, string accept = "*/*",
     Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null)
 
-string PostToUrl(this string url, string formData=null, string acceptContentType="*/*",
+string PostToUrl(this string url, string formData=null, string accept="*/*",
   Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
-string PostToUrl(this string url, object formData = null, string acceptContentType="*/*",
+string PostToUrl(this string url, object formData = null, string accept="*/*",
   Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 string PostJsonToUrl(this string url, string json,
@@ -259,13 +321,13 @@ string PostXmlToUrl(this string url, object data,
     Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null)
 
 string PutStringToUrl(this string url, string requestBody = null,
-    string contentType = null, string acceptContentType = "*/*",
+    string contentType = null, string accept = "*/*",
     Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null)
 
-string PutToUrl(this string url, string formData=null, string acceptContentType="*/*",
+string PutToUrl(this string url, string formData=null, string accept="*/*",
   Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
-string PutToUrl(this string url, object formData = null, string acceptContentType = "*/*",
+string PutToUrl(this string url, object formData = null, string accept = "*/*",
   Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 string PutJsonToUrl(this string url, string json,
@@ -280,32 +342,32 @@ string PutXmlToUrl(this string url, string xml,
 string PutXmlToUrl(this string url, object data,
     Action<HttpWebRequest> requestFilter = null, Action<HttpWebResponse> responseFilter = null)
 
-string DeleteFromUrl(this string url, string acceptContentType = "*/*",
+string DeleteFromUrl(this string url, string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
-string OptionsFromUrl(this string url, string acceptContentType = "*/*",
+string OptionsFromUrl(this string url, string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
-string HeadFromUrl(this string url, string acceptContentType = "*/*",
+string HeadFromUrl(this string url, string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 string SendStringToUrl(this string url, string method = null,
-    string requestBody = null, string contentType = null, string acceptContentType = "*/*",
+    string requestBody = null, string contentType = null, string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
-byte[] GetBytesFromUrl(this string url, string acceptContentType = "*/*", 
+byte[] GetBytesFromUrl(this string url, string accept = "*/*", 
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 byte[] PostBytesToUrl(this string url, byte[] requestBody = null, string contentType = null, 
-    string acceptContentType = "*/*",
+    string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 byte[] PutBytesToUrl(this string url, byte[] requestBody = null, string contentType = null, 
-    string acceptContentType = "*/*",
+    string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 byte[] SendBytesToUrl(this string url, string method = null,
-    byte[] requestBody = null, string contentType = null, string acceptContentType = "*/*",
+    byte[] requestBody = null, string contentType = null, string accept = "*/*",
     Action<HttpWebRequest> requestFilter=null, Action<HttpWebResponse> responseFilter=null)
 
 bool IsAny300(this Exception ex)
@@ -331,12 +393,12 @@ Whilst some additional HTTP APIs can be found in the [ServiceStack.ServiceClient
 HttpWebResponse GetErrorResponse(this string url)
 
 WebResponse PostFileToUrl(this string url, FileInfo uploadFileInfo, string uploadFileMimeType,
-    string acceptContentType = null, Action<HttpWebRequest> requestFilter = null)
+    string accept = null, Action<HttpWebRequest> requestFilter = null)
 
 WebResponse UploadFile(this WebRequest webRequest, FileInfo uploadFileInfo, string uploadFileMimeType)
 
 UploadFile(this WebRequest webRequest, Stream fileStream, string fileName, string mimeType,
-    string acceptContentType = null, Action<HttpWebRequest> requestFilter = null)
+    string accept = null, Action<HttpWebRequest> requestFilter = null)
 
 void UploadFile(this WebRequest webRequest, Stream fileStream, string fileName)
 ```

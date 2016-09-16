@@ -1,7 +1,5 @@
 ---
-topic: clients
-title: C#/.NET Client
-priority: 2
+slug: c#-client
 ---
 Using DTOs to define your web service interface makes it possible to provide strong-typed generic service clients without any code-gen or extra build-steps, leading to a productive end-to-end type-safe communication gateway from client to server.
 
@@ -447,11 +445,11 @@ client.Get(new Hello { Name = "World" }); //Auto populates Version and SessionId
 You can decorate your Request DTO's using the `IGet`, `IPost`, `IPut`, `IDelete` and `IPatch` interface markers and the `Send` and  `SendAsync` API's will use it to automatically send the Request using the selected HTTP Method. E.g:
 
 ```csharp
-public class HelloByGet : IReturn<HelloResponse>, IGet 
+public class HelloByGet : IGet, IReturn<HelloResponse>
 {
     public string Name { get; set; }
 }
-public class HelloByPut : IReturn<HelloResponse>, IPut 
+public class HelloByPut : IPut, IReturn<HelloResponse> 
 {
     public string Name { get; set; }
 }
@@ -612,6 +610,8 @@ Whilst the list below contain the built-in clients based on .NET's built-in `Htt
     (uses default endpoint with **JSV**)
     - [XmlServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/XmlServiceClient.cs)
     (uses default endpoint with **XML**)
+    - [CsvServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/CsvServiceClient.cs)
+    (uses default endpoint with **CSV**)
     - [MsgPackServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/MessagePack-Format)
     (uses default endpoint with **Message-Pack**)
     - [ProtoBufServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/Protobuf-format)

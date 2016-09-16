@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: filter-attributes
 ---
 ServiceStack also contains interfaces for attributes which can be executed before and after a request like request/response filters. The filter attributes are great for composing re-usable functionality as you can wrap common functionality in a Filter Attribute and selectively annotate which Services they should apply to. 
 

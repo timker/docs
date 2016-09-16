@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: view-and-template-selection
 ---
 ServiceStack provides multiple ways to select the Razor View that will be used to render your services response with. First if the `IHttpRequest.Items["View"]` has been set [via any Global, Request, Response or Action Filter](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations) it will use that, otherwise the fallback convention is to use the view with the same name as the **Request DTO** followed finally by one with the **Response DTO** name.
 

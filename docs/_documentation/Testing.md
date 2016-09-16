@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: testing
 ---
 The tests in [ServiceStack.WebHost.Endpoints.Tests](https://github.com/ServiceStack/ServiceStack/tree/master/tests/ServiceStack.WebHost.Endpoints.Tests) show good examples of how to create stand-alone integration tests that just use a self-hosted HttpListener AppHost. 
 
@@ -7,6 +7,112 @@ The tests in [ServiceStack.WebHost.Endpoints.Tests](https://github.com/ServiceSt
 
   - [BufferedRequestTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/BufferedRequestTests.cs)
   - [AuthTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/AuthTests.cs)
+
+## Integration Testing
+
+The [CustomerRestExample.cs](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/CustomerRestExample.cs) shows an example of a stand-alone integration test. Integration tests in ServiceStack just involves starting a standard [self-host](https://github.com/ServiceStack/ServiceStack/wiki/Self-hosting) ServiceStack Instance when the Test Fixture Starts up and disposing it when it tears down. Your integration tests can then communicate with the self-host exactly the same as if it were a remote ServiceStack instance (since that's all it is), e.g:
+
+```csharp
+//Create your ServiceStack AppHost with only the dependencies it needs
+public class AppHost : AppSelfHostBase
+{
+    public AppHost() : base("Customer REST Example", typeof(CustomerService).Assembly) {}
+
+    public override void Configure(Container container)
+    {
+        container.Register<IDbConnectionFactory>(c => 
+            new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider));
+
+        using (var db = container.Resolve<IDbConnectionFactory>().Open())
+        {
+            db.CreateTableIfNotExists<Customer>();
+        }
+    }
+}
+
+//Add Service Contract DTO's and Data Models
+[Route("/customers", "GET")]
+public class GetCustomers : IReturn<GetCustomersResponse> {}
+
+public class GetCustomersResponse
+{
+    public List<Customer> Results { get; set; } 
+}
+
+[Route("/customers", "POST")]
+public class CreateCustomer : IReturn<Customer>
+{
+    public string Name { get; set; }
+}
+
+public class Customer
+{
+    [AutoIncrement]
+    public int Id { get; set; }
+
+    public string Name { get; set; }
+}
+
+//Implement your Service Contracts
+public class CustomerService : Service
+{
+    public object Get(GetCustomers request)
+    {
+        return new GetCustomersResponse { Results = Db.Select<Customer>() };
+    }
+
+    public object Post(CreateCustomer request)
+    {
+        var customer = new Customer { Name = request.Name };
+        Db.Save(customer);
+        return customer;
+    }
+}
+
+//Write your Integration tests
+[TestFixture]
+public class CustomerRestExample
+{
+    const string BaseUri = "http://localhost:2000/";
+    ServiceStackHost appHost;
+
+    [TestFixtureSetUp]
+    public void TestFixtureSetUp()
+    {
+        //Start your AppHost on TestFixtureSetUp
+        appHost = new AppHost() 
+            .Init()
+            .Start(BaseUri);
+    }
+
+    [TestFixtureTearDown]
+    public void TestFixtureTearDown()
+    {
+        //Dispose it on TearDown
+        appHost.Dispose();     
+    }
+
+    /* Write your Integration Tests against the self-host instance */
+
+    [Test]
+    public void Can_GET_and_Create_Customers()
+    {
+        var client = new JsonServiceClient(BaseUri);
+
+        //GET /customers
+        var all = client.Get(new GetCustomers());
+        Assert.That(all.Results.Count, Is.EqualTo(0));
+
+        //POST /customers
+        var customer = client.Post(new CreateCustomer { Name = "Foo" });
+        Assert.That(customer.Id, Is.EqualTo(1));
+
+        //GET /customers
+        all = client.Get(new GetCustomers());
+        Assert.That(all.Results.Count, Is.EqualTo(1));
+    }
+}
+```
 
 ## Unit testing
 

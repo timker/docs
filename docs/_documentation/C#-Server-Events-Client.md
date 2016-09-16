@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: c#-server-events-client
 ---
 Like ServiceStack's other [C# Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client), the new `ServerEventsClient` is a [portable library](https://github.com/ServiceStackApps/HelloMobile) contained in the `ServiceStack.Client` NuGet package:
 

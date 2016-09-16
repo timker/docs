@@ -1,10 +1,8 @@
 ---
-topic: designing-apis
-title: ServiceStack API Design
+slug: new-api
+title: ServiceStack’s API design
 ---
-## ServiceStack's new API design
-
-We're excited to announce a brand new API design for ServiceStack that's essentially better in every way than our previous API design:
+We're excited to announce a ServiceStack New API design that's essentially better in every way than our original legacy v3 API design:
 
   - Promotes a more succinct, typed, end-to-end client API 
   - Works with all the existing JSON, XML and JSV Service Clients
@@ -28,7 +26,7 @@ public class AllReqstars : IReturn<List<Reqstar>> { }
 
 public class ReqstarsService : Service
 {
-    public List<Reqstar> Get(AllReqstars request) 
+    public object Get(AllReqstars request) 
     {
         return Db.Select<Reqstar>();
     }
@@ -52,67 +50,45 @@ We were heavily inspired by [Ivan Korneliuk's proposal](http://korneliuk.blogspo
 
 As the new API Design offers many benefits over the existing API, we're recommending its use for any new web service development. It will take us some time, but we intend to port all the old examples to adopt the new API ourselves. One reason to still prefer the older API is if you also wanted to [support SOAP clients and endpoints](https://github.com/ServiceStack/ServiceStack/wiki/SOAP-support) which still requires the strict-ness enforced by the previous approach.
 
-## Less invasive and more flexible
-
-### A recap of the older API
-
-Since its inception all ServiceStack's services were based upon this simple interface:
-
-```csharp
-public interface IService<TRequest>
-{
-    public object Execute(object request);
-}
-```
-
-Where `Execute()` is called regardless of which Verb or Endpoint the request was received on.
-As REST services require different implementations for each HTTP Verb, we introduced a new `IRestService<T>` interface and base class which is used to provide different implementations for selected HTTP Methods:
-
-```csharp
-public class RestServiceBase<T>
-{
-    object OnGet(T request) { .. }
-    object OnPost(T request) { .. }
-    object OnPut(T request) { .. }
-    object OnDelete(T request) { .. }
-    object OnPatch(T request) { .. }
-}
-```
-
-Service event hooks and built-in error handling routines were also contained on the `ServiceBase` and `RestServiceBase` base classes which you would need to subclass in order to override the built-in functionality.
-
-## Introducing the New API
+## ServiceStack's New API Design
 
 We'll walk through a few examples here but for a more detailed look into the usages and capabilities of the new API design checkout its
 [Comprehensive Test Suite](https://github.com/ServiceStack/ServiceStack/blob/master/tests/RazorRockstars.Console.Files/ReqStarsService.cs)
 
-The new API design simplifies the existing `IService<T>` and `IRestService<T>` with this single unified interface:
+The new API design simplifies the existing Services with the single unified interface:
 
 ```csharp
 public interface IService {}
 ```
 
 That is now able to handle both RPC Service and Rest Service requests in a single class.
-The interface is just used as a Marker interface that ServiceStack uses to find, register and auto-wire your existing services.
-A convenience concrete `Service` class is also included which contains easy access to ServiceStack's providers:
+The interface is just used as a Marker interface that ServiceStack uses to find, register and auto-wire your existing services. A convenience concrete `Service` class is also included which contains easy access to ServiceStack's providers:
 
 ```csharp
 public class Service : IService {
-    T TryResolve<T>();                        //Resolve dependency at runtime
-    T ResolveService<T>();                    //Resolve an auto-wired service to delegate to
     IRequest Request { get; }                 //HTTP Request Wrapper
     IResponse Response { get; }               //HTTP Response Wrapper
+    IServiceGateway Gateway { get; }          //Built-in Service Gateway
+    IVirtualPathProvider VirtualFileSources   //Virtual FileSystem Sources
+    IVirtualFiles VirtualFiles { get; }       //Writable Virtual FileSystem
     ICacheClient Cache { get; }               //Registered Caching Provider
-    IDbConnection Db { get; }                 //Registered ADO.NET IDbConnection (if any)
+    MemoryCacheClient LocalCache { get; }     //Local InMemory Caching Provider
+    IDbConnection Db { get; }                 //Registered ADO.NET IDbConnection
+    IRedisClient Redis { get; }               //Registered RedisClient 
+    IMessageProducer MessageProducer { get; } //Message Producer for Registered MQ Server
     ISession SessionBag { get; }              //Dynamic Session Bag
-    TUserSession SessionAs<TUserSession>();   //Typed UserSession
-    void Dispose();                           //Override to dispose of any un-managed dependencies
+    TUserSession SessionAs<TUserSession>();   //Resolve Typed UserSession
+    T TryResolve<T>();                        //Resolve dependency at runtime
+    T ResolveService<T>();                    //Resolve an auto-wired service
+    void PublishMessage(T message);           //Publish messages to Registered MQ Server
+    bool IsAuthenticated { get; }             //Is Authenticated Request
+    void Dispose();                           //Override to implement custom Dispose
 }
 ```
 
 ### Basic example - Handling Any HTTP Verb
 
-From here an equivalent example to the first `ServiceBase.Execute(TRequest)` shown at the start is:
+Lets revisit the Simple example from earlier:
 
 ```csharp
 [Route("/reqstars")]
@@ -120,7 +96,7 @@ public class AllReqstars : IReturn<List<Reqstar>> { }
 
 public class ReqstarsService : Service
 {
-    public List<Reqstar> Any(AllReqstars request) 
+    public object Any(AllReqstars request) 
     {
         return Db.Select<Reqstar>();
     }
@@ -132,6 +108,7 @@ The new API maps HTTP Requests to your Services **Actions**. An Action is any me
   - Is public 
   - Only contains a single argument - the typed Request DTO
   - Has a Method name matching a HTTP Method or **Any** which is used as a fallback if it exists
+  - Can specify either `T` or `object` Return type, both have same behavior 
 
 The above example will handle any `AllReqstars` request made on any **HTTP Verb** or **endpoint** and will return the complete `List<Reqstar>` contained in your configured RDBMS. 
 
@@ -165,7 +142,7 @@ List<Reqstar> response = client.Get(new AllReqstars());
 ```
 
 Which makes a **GET** web request to the `/reqstars` route.
-When a custom route is not present on the client it automatically falls back to using ServiceStack's [pre-defined routes](http://www.servicestack.net/ServiceStack.Hello/#predefinedroutes).
+When a custom route is not present on the client it automatically falls back to using ServiceStack's [pre-defined routes](http://mono.servicestack.net/ServiceStack.Hello/#predefinedroutes).
 	
 Finally you can also use the previous more explicit client API (ideal for when you don't have the `IReturn<>` marker):
 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 # Run ServiceStack in Fastcgi hosted on nginx 
 

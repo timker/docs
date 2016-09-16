@@ -1,8 +1,10 @@
 ---
-#File header for Jekyll to pick up 
+slug: mono
 ---
 ServiceStack supports running on [Mono](http://www.mono-project.com).
 
+  - [Guide for running ServiceStack on Mono/Linux](https://github.com/ServiceStackApps/mono-server-config)
+  - [Docker image for running ServiceStack in a Docker container](https://github.com/ServiceStackApps/mono-docker-config)
   - [[Run ServiceStack as a daemon on Linux]]
   - [[Run ServiceStack in Fastcgi hosted on nginx]]
   - [[Linux-Hosting-Options]]

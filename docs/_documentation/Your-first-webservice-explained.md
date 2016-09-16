@@ -1,5 +1,5 @@
 ---
-topic: getting-started
+slug: your-first-webservice-explained
 ---
 Let's look a bit deeper into the Hello World service you created:
 

@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: messaging-and-redis
 ---
 ## MQ Examples
 
@@ -16,7 +16,7 @@ public object Any(SMessage request)
     var sw = Stopwatch.StartNew();
     if (!request.Defer) //Process sequentially or Defer execution
     {
-        //Executes service sequentially: N+1 service calls, will timeout if N is too big
+        //Executes service sequentially: N+1 service calls, times out if N too big
         var results = new List<SMessageReceipt>();
         results.AddRange(Email.Send(request));
         results.AddRange(FacebookR.Send(request));
@@ -25,7 +25,7 @@ public object Any(SMessage request)
     }
     else
     {
-        //Split service into smaller tasks and defers messages in MQ broker for processing in parallel
+        //Split in smaller tasks and defers messages in MQ broker for parallel processing
         Email.CreateMessages(request).ForEach(MessageProducer.Publish);
         Facebook.CreateMessages(request).ForEach(MessageProducer.Publish);
         Twitter.CreateMessages(request).ForEach(MessageProducer.Publish);
@@ -37,16 +37,16 @@ public object Any(SMessage request)
 }
 ```
 
-### Process each service concurrently without holding up the processing of other tasks
+#### Process each service concurrently without holding up the processing of other tasks
 Another benefit of dispatching messages into multiple sub tasks is if the Email API is slow, it doesn't hold up the processing of the other tasks which are all running concurrently in the background each individually processing messages as fast as they can.
 
-### Easily Parallelize and Multiply your services throughput
+#### Easily Parallelize and Multiply your services throughput
 The RedisMqServer also supports spawning any number of background threads for individual requests, so if Posting to twitter was an IO intensive operation you can double the throughput by simply assigning 2 or more worker threads, e.g:
 
 ```csharp
-mqService.RegisterHandler<PostStatusTwitter>(ServiceController.ExecuteMessage, noOfThreads:2);
-mqService.RegisterHandler<CallFacebook>(ServiceController.ExecuteMessage);
-mqService.RegisterHandler<EmailMessage>(ServiceController.ExecuteMessage);
+mqService.RegisterHandler<PostStatusTwitter>(ExecuteMessage, noOfThreads:2);
+mqService.RegisterHandler<CallFacebook>(ExecuteMessage);
+mqService.RegisterHandler<EmailMessage>(ExecuteMessage);
 ```
 
 ## Redis MQ Client / Server
@@ -83,10 +83,6 @@ MQ/Web Services that don't return any output have their Request DTOs sent to a r
 Although you can host RedisMqServer in any ASP.NET web app, the benefit of hosting inside ServiceStack is that your web services are **already capable** of processing Redis MQ messages **without any changes required** since they're already effectively designed to work like a Message service to begin with, i.e. C# POCO-in -> C# POCO-out.
 
 This is another example of how ServiceStack's prescribed DTO-first architecture continues to pay dividends since each web service is a DI clean-room allowing your C# logic to be kept pure as it only has to deal with untainted POCO DTOs, allowing your same web service to be re-used in: SOAP, REST (JSON,XML,JSV,CSV,HTML) web services, view models for dynamic HTML pages and now as a MQ service!
-
-## Future Roadmap
-
-Eventually (based on feedback) there will be posts/documentation/examples forthcoming covering how to use it, in the meantime you can Check out the Messaging API to see how simple it is to use. To see some working code showing some of the capabilities listed above, view the tests.
 
 ## Example
 
@@ -127,23 +123,20 @@ mqClient.Publish(new Hello { Name = "ServiceStack" });
 
 Redis is a  NoSQL datastore that runs as a network server. To start it you need to run an instance of redis-server either locally or remotely accessible.
 
-Probably will help to understand the background concepts behind Redis so you can get a better idea of how it works. 
-A good start is this brief overview of Redis which also includes as how you can install it: 
-http://stackoverflow.com/a/2760282/85785
+Probably will help to understand the background concepts behind Redis so you can get a better idea of how it works. This StackOverflow answer has a [good overview about Redis in .NET](http://stackoverflow.com/a/2760282/85785).
 
-The RedisMQ Host is in ServiceStack.Redis project which is a dependency on the ServiceStack NuGet package (if that's how you have ServiceStack installed).
+The `RedisMqServer` is in [ServiceStack.Server](https://www.nuget.org/packages/ServiceStack.Server) project and can be installed with:
 
-At the moment the there is not much documentation available and will look to improve this after I get the next release of ServiceStack out.
+    PM> Install-Package ServiceStack.Server
 
-You can look through the tests to get a better idea of how it works, especially the [Request/Reply Example](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/RedisMqServerTests.cs#L291)
+Redis MQ works by listening for messages published to the central `mq:topic:in` Redis Channel and processes any messages sent in separate background threads which are started from inside your AppHost when calling `RedisMqServer.Start()`.
 
-Basically the RedisMQ runs as a separate background thread you start from inside your AppHostHttpListenerBase.
-
-For duplex communication each client and server will require its own AppHostHttpListenerBase + RedisMQ Host, although unless your server is going to call HTTP services on the client you don't need it and you can use [BasicAppHost](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Testing/BasicAppHost.cs)
+For duplex communication each client and server will require its own AppHost + RedisMqServer Host, although unless your server is going to call HTTP services on the client you can use a [BasicAppHost](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Testing/BasicAppHost.cs).
 
 Here is a simple example of a client/server with HTTP + RedisMQ enabled on the server, and just RedisMQ on the client: 
 
-`Shared.cs`:
+#### Shared.cs
+
 ```csharp
 using System;
 
@@ -158,7 +151,8 @@ namespace TestMqShared
 }
 ```
 
-`Server.cs`:
+#### Server.cs
+
 ```csharp
 using System;
 using Funq;
@@ -190,13 +184,13 @@ namespace TestMq
                 .Add<Hello>("/hello/{Name}");
 
             var redisFactory = new PooledRedisClientManager("localhost:6379");
-            container.Register<IRedisClientsManager>(redisFactory); // req. to log exceptions in redis
+            container.Register<IRedisClientsManager>(redisFactory); 
             var mqHost = new RedisMqServer(redisFactory, retryCount:2);
 
             //Server - MQ Service Impl:
 
-            //Listens for 'Hello' messages sent with 'mqClient.Publish(new Hello { Name = "Client" });'
-            mqHost.RegisterHandler<Hello>(this.ServiceController.ExecuteMessage);
+            //Listens for 'Hello' messages sent with: mqClient.Publish(new Hello { ... })
+            mqHost.RegisterHandler<Hello>(base.ExecuteMessage);
             mqHost.Start(); //Starts listening for messages
         }
     }
@@ -209,13 +203,15 @@ namespace TestMq
             serverAppHost.Init(); 
             serverAppHost.Start("http://localhost:1400/");
             Console.WriteLine("Server running.  Press enter to terminate...");
-            Console.ReadLine(); //Block the server from exiting (i.e. if running inside Console App)
+            //Prevent server from exiting (when running in ConsoleApp)
+            Console.ReadLine(); 
         }
     }
 }
 ```
 
-`Client.cs`:
+#### Client.cs
+
 ```csharp
 using System;
 using Funq;
@@ -236,9 +232,9 @@ namespace TestMqCli
             var mqServer = new RedisMqServer(redisFactory, retryCount:2);
 
             //Client - MQ Service Impl:
-            //Listens for 'HelloResponse' as returned by the 'Hello' service on the server
+            //Listens for 'HelloResponse' returned by the 'Hello' Service
             mqServer.RegisterHandler<HelloResponse>(m => {  
-                Console.WriteLine("Received: " + m.GetBody().Result);  //Fired 
+                Console.WriteLine("Received: " + m.GetBody().Result);
                 // See comments below
                 // m.Options = (int)MessageOption.None;
                 return null;
@@ -254,7 +250,7 @@ namespace TestMqCli
             mqClient.Publish(new Hello { Name = "Client 1" });
 
             Console.WriteLine("Client running.  Press any key to terminate...");
-            Console.ReadLine(); //Block the server from exiting (i.e. if running inside Console App)
+            Console.ReadLine(); //Prevent self-hosted Console App from exiting
         }
     }
 }
@@ -266,6 +262,28 @@ When the server returns a 'HelloResponse' message it gets put on the 'HelloRespo
 
 Note that the `HelloResponse` will get put back on a 'transient' message queue, `mq.HelloResponse.outq` with a maximum message limit of 100 (by default).  You can subscribe to this queue to get a notification and do further processing, such as recording the number of messages handled.  Or you can clear the message `NotifyOneWay` option to prevent this.
 
+### RedisMQ Client
+
+Clients can use a `RedisMessageProducer` to be able to publish a message, e.g:
+
+```csharp
+var redisManager = new RedisManagerPool("localhost:6379");
+using (var mqClient = new RedisMessageProducer(redisManager))
+{
+    mqClient.Publish(new Hello { Name = "Client 1" });
+}
+```
+
+Or if preferred can instead use a `RedisMessageFactory` which provide access to both [IMessageQueueClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/IMessageQueueClient.cs) and [IMessageProducer](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/IMessageProducer.cs):
+
+```csharp
+IMessageFactory redisMqFactory = new RedisMessageFactory(redisManager);
+using (var mqClient = redisMqFactory.CreateMessageQueueClient())
+{
+    mqClient.Publish(new Hello { Name = "Client 1" });
+}
+```
+
 ### Request + Reply MQ Pattern
 
 However MQ's are normally used for async OneWay messages as any client host listening to 'HelloResponse' could receive the response message, and only 1 will, which is not guaranteed to be the client that sent the original message. For this reason you want to make use of the ReplyTo field of the Message for Request/Reply responses.
@@ -276,7 +294,8 @@ var clientMsg = new Message<Hello>(new Hello { Name = "Client 1" }) {
    ReplyTo =  uniqueCallbackQ
 };
 mqClient.Publish( clientMsg );
-var response = mqClient.Get(clientMsg).ToMessage<HelloResponse>();  //Blocks thread on client until reply message is received
+//Blocks thread on client until reply message is received
+var response = mqClient.Get(clientMsg).ToMessage<HelloResponse>();  
 ```
 
 

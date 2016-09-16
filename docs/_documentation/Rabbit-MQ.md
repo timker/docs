@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: rabbit-mq
 ---
 A nice advantage of ServiceStack's message-based design is its ability to host its Services on a variety of different endpoints. This design makes it possible to host Services via [MQ Servers](https://github.com/ServiceStack/ServiceStack/wiki/Messaging), enable [SOAP support](https://github.com/ServiceStack/ServiceStack/wiki/SOAP-support) in addition to ServiceStack's strong HTTP Web Services story. One MQ Server we support is the extremely popular and robust Open Source AMQP messaging broker: [Rabbit MQ](http://www.rabbitmq.com).
 
@@ -44,7 +44,7 @@ var mqServer = new RabbitMqServer("amqp://localhost:5672");
 
 More connection strings examples are available on [Rabbit MQ's URI Specification](http://www.rabbitmq.com/uri-spec.html) page.
 
-> Run-able examples of these code-samples are available in the [RabbitMqServerIntroTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs#L13).
+> Run-able examples of these code-samples are available in the [RabbitMqServerIntroTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs).
 
 #### Message Filters
 
@@ -243,7 +243,7 @@ This is useful for recovering failed messages after identifying and fixing bugs 
 
 ## Adding Rabbit MQ support to ServiceStack
 
-Whilst RabbitMqServer is useful on its own, it also has the distinct advantage of being able to directly Execute ServiceStack Services which you can do by just routing the handler for each **Request DTO** you want to process through to ServiceStack's **ServiceController.ExecuteMessage**, e.g:
+Whilst `RabbitMqServer` is useful on its own, it also has the distinct advantage of being able to directly Execute ServiceStack Services which you can do by just routing the handler for each **Request DTO** you want to process through to ServiceStack's AppHost **ExecuteMessage**, e.g:
 
 ```csharp
 public class AppHost : AppHostHttpListenerBase
@@ -256,7 +256,7 @@ public class AppHost : AppHostHttpListenerBase
 
         var mqServer = container.Resolve<IMessageService>();
 
-        mqServer.RegisterHandler<Hello>(ServiceController.ExecuteMessage);
+        mqServer.RegisterHandler<Hello>(ExecuteMessage);
         mqServer.Start();
     }
 }
@@ -302,7 +302,7 @@ var appHost = new BasicAppHost(typeof(HelloService).Assembly) {
 
         var mqServer = host.Container.Resolve<IMessageService>();
 
-        mqServer.RegisterHandler<Hello>(host.ServiceController.ExecuteMessage);
+        mqServer.RegisterHandler<Hello>(host.ExecuteMessage);
         mqServer.Start();
     }
 }.Init();

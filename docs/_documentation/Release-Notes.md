@@ -1,4 +1,4 @@
 ---
-#File header for Jekyll to pick up 
+slug: 
 ---
 Moved to [servicestack.net/release-notes](https://servicestack.net/release-notes)

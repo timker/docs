@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: built-in-profiling
 ---
 ServiceStack's [HTML5 JSON Report Format](https://github.com/ServiceStack/ServiceStack/wiki/HTML5ReportFormat) also includes the excellent [Mvc Mini Profiler](http://code.google.com/p/mvc-mini-profiler/) - by [@jarrod_dixon](https://twitter.com/jarrod_dixon) and [@samsaffron](https://twitter.com/samsaffron).
 It's the same profiler used to profile and help speed up sites like [Stack Overflow](http://www.stackoverflow.com) and more recently the much faster [NuGet v2.0](http://nuget.org) website.

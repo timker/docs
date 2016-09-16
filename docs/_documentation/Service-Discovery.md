@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: service-discovery
 ---
 ServiceStack is fortunate to have a vibrant community which quickly saw the capabilities on offer in [[Service Gateway]] whom have jumped in with a number of high-quality, well-documented and supported value-added OSS solutions:
 
@@ -103,3 +103,6 @@ In addition to this Redis Discovery Service Richard is also developing a series 
 that enhances the functionality of ServiceStack.Discovery.Redis and provides cluster awareness to 
 additional aspects of a ServiceStack AppHost's internal state.
 
+# Community Resources
+
+  - [Service discovery, load balancing and routing](http://www.wwwlicious.com/2016/05/11/servicestack-microservices-discovery-routing-3/) by [@wwwlicious](https://twitter.com/wwwlicious)

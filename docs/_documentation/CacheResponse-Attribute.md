@@ -1,5 +1,5 @@
 ---
-#File header for Jekyll to pick up 
+slug: cacheresponse-attribute
 ---
 The `[CacheResponse]` is a normal [Request Filter Attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes)
 which can be added at the top-level of your Service class in which case it will cache the response of 
@@ -25,7 +25,9 @@ public object Any(GetCustomer request)
 }
 ```
 
-Or on Request DTO's, as we saw earlier on the `QueryRockstarAlbums` AutoQuery DynamoDB Request DTO:
+### Caching AutoQuery Services
+
+Request Filter attributes can also be applied on Request DTO's, as we seen with [AutoQuery DynamoDB's QueryRockstarAlbums](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-DynamoDB#caching-autoquery-services) Request DTO:
 
 ```csharp
 [CacheResponse(Duration = 60)]
@@ -56,7 +58,7 @@ public class MyCachedAutoQueryServices : Service
 }
 ```
 
-#### Server Cached and HTTP Caching enabled responses
+### Server Cached and [[HTTP Caching]] enabled responses
 
 When only specifying a `Duration=60` ServiceStack only **caches the Server Response** so it behaves similar
 to using the existing `ToOptimizedResult()` API, e.g:
@@ -70,7 +72,7 @@ public object Any(GetCustomer request)
 }
 ```
 
-To also enable **HTTP Caching** features you'll need to opt-in by specifying an additional HTTP Caching directive. 
+To also enable [[HTTP Caching]] features you'll need to opt-in by specifying an additional HTTP Caching directive. 
 E.g. including a `MaxAge` instructs ServiceStack to apply **HTTP Caching** logic and return the appropriate headers:
 
 ```csharp

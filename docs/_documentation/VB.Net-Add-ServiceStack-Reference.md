@@ -1,7 +1,5 @@
 ---
-topic: clients
-title: VB.NET Add Reference
-priority: 4
+slug: vbnet-add-servicestack-reference
 ---
 ![VB.NET Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png)
 
