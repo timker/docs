@@ -586,7 +586,7 @@ A hidden gem in AutoQuery's approach that's not immediately obvious is how every
 
 ### Advantages of well-defined Service Contracts
 
-The advantages of formalizing the conventions you end up using is that they can be consumed with ServiceStack's [Typed Service Clients](?id=C%23-client):
+The advantages of formalizing the conventions you end up using is that they can be consumed with ServiceStack's [Typed Service Clients](?id=CSharp-client):
 
 ```csharp
 var response = client.Get(new QueryRockstars { AgeOlderThan = 42 });
@@ -737,7 +737,7 @@ When specifying multiple order by's you can sort specific fields in reverse orde
 
 ## Service Clients Support
 
-One of the major benefits of using Typed DTO's to define your Service Contract is that it allows usage of ServiceStack's [.NET Service Clients](?id=C%23-client) which enables an end-to-end API without code-gen for [most .NET and PCL client platforms](https://github.com/ServiceStack/Hello). 
+One of the major benefits of using Typed DTO's to define your Service Contract is that it allows usage of ServiceStack's [.NET Service Clients](?id=CSharp-client) which enables an end-to-end API without code-gen for [most .NET and PCL client platforms](https://github.com/ServiceStack/Hello). 
 
 With the richer semantics available in queries, we've been able to enhance the Service Clients new `GetLazy()` API that allows lazy streaming of responses to provide transparent paging of large result-sets, e.g:
 

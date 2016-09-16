@@ -94,7 +94,7 @@ Updating a ServiceStack Reference is even easier we just specify the path to the
 ## Advantages over WCF
 
  - **Simple** Server provides DTOs based on metadata and options provided. No heavy client side tools, just a HTTP request!
- - **Versatile** Clean DTOs works in all JSON, XML, JSV, MsgPack and ProtoBuf [generic service clients](?id=C%23-client#built-in-clients)
+ - **Versatile** Clean DTOs works in all JSON, XML, JSV, MsgPack and ProtoBuf [generic service clients](?id=CSharp-client#built-in-clients)
  - **Reusable** Generated DTOs are not coupled to any endpoint or format. Defaults are both partial and virtual for maximum re-use 
  - **Resilient** Messaging-based services offer a number of [advantages over RPC Services](?id=Advantages-of-message-based-web-services)
  - **Flexible** DTO generation is customizable, Server and Clients can override built-in defaults

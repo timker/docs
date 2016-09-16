@@ -59,7 +59,7 @@ To illustrate how to use AutoQuery with DynamoDB we'll walk through a simple exa
 For this example we'll specify
 [explicit conventions](?id=Auto-Query#explicit-conventions)
 so we can use ServiceStack's 
-[typed .NET Service Clients](?id=C%23-client) 
+[typed .NET Service Clients](?id=CSharp-client) 
 to show which fields we're going to query and also lets us call the Service with a convenient typed API:
 
 ```csharp
@@ -323,7 +323,7 @@ So with just the above single Request DTO we've declaratively created a fully-qu
 Service that transparently executes the most ideal DynamoDB queries for each request, has it's optimal 
 representation efficiently cached on both Server and clients, whose Typed DTO can be reused as-is on the 
 client to call Services with an end-to-end Typed API using any
-[.NET Service Client](?id=C%23-client), 
+[.NET Service Client](?id=CSharp-client), 
 that's also available to external developers in a clean typed API, natively in their preferred language of 
 choice, accessible with just a right-click menu integrated inside VS.NET, Xcode, Android Studio, IntelliJ 
 and Eclipse - serving both PCL Xamarin.iOS/Android as well as native iOS and Android developers by just  

@@ -71,9 +71,7 @@
     // This is so relative links can be done by:
     // [my link to internal page](?id=slug)
     var docSlugMapping = {};
-    {% for doc in site.documentation %}
-    docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';
-    {% endfor %}
+    {% for doc in site.documentation %}docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';{% endfor %}
 
     $("a[href^='?id=']").attr('href', function () {
         var slugId = this.search.substr(4);
@@ -84,7 +82,8 @@
             this.href = this.hash.length > 0 ? docSlugMapping[slugId] + this.hash : docSlugMapping[slugId];
         else
             console.log('Slug ID not found - ' + slugId)
-    })
+    });
+
 </script>
 </body>
 </html>

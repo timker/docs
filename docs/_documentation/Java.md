@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: java
 ---
 # Java ServiceStack Resources
 

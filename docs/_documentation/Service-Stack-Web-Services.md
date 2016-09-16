@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: service-stack-web-services
 ---
 A summary of Service Stack's available and recommended Web Service end points.
 

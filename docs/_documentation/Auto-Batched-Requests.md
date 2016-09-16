@@ -9,7 +9,7 @@ A common use-case that can be improved are clients making multiple requests to t
 
 Thanks to it's [message-based design](?id=Advantages-of-message-based-web-services), ServiceStack is able to enable high-level generic functionality like Request Batching which is now implicitly available for all Services, without any additional effort - where multiple requests of the same type can be sent together in a single HTTP Request.
 
-This is enabled in all [.NET Service Clients](?id=C%23-client) via the new `SendAll()` and `SendAllOneWay()` API's, e.g:
+This is enabled in all [.NET Service Clients](?id=CSharp-client) via the new `SendAll()` and `SendAllOneWay()` API's, e.g:
 
 ```csharp
 var client = new JsonServiceClient(BaseUrl);

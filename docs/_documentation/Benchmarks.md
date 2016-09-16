@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: benchmarks
 ---
 ## Links to ServiceStack-related Benchmarks 
 

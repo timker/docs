@@ -58,7 +58,7 @@ Or as a HTTP Bearer Token in the **Authorization** HTTP Request Header:
 
 > curl https://api.stripe.com/v1/charges -H "Authorization: Bearer yDOr26HsxyhpuRB3qbG07qfCmDhqutnA"
  
-Both of these methods are built into most HTTP Clients. Here are a few different ways which you can send them using ServiceStack's [.NET Service Clients](?id=C%23-client):
+Both of these methods are built into most HTTP Clients. Here are a few different ways which you can send them using ServiceStack's [.NET Service Clients](?id=CSharp-client):
 
 ```csharp
 var client = new JsonServiceClient(baseUrl) {

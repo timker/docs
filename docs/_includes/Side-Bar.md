@@ -1,10 +1,10 @@
+## [ServiceStack Documentation](/)
 ***  
-
  - [Why ServiceStack?](?id=why-servicestack)
   - [What is a message based web service](?id=what-is-a-message-based-web-service)
   - [Advantages of message based web services](?id=advantages-of-message-based-web-services)
   - [Why remote services should use separate DTOs](http://stackoverflow.com/a/15369736/85785)
-
+  
 ***
 
 - Getting Started
@@ -64,7 +64,7 @@
     - [Restricting Services](?id=restricting-services)
 - Advanced
     - [Configuration options](?id=configuration-options)
-        - [Run ServiceStack side-by-side with another web framework](?id=run-servicestack-side-by-side-with-another-web-framework)
+        - [Run ServiceStack side-by-side with another web framework](?id=servicestack-side-by-side-with-another-web-framework)
     - [Access HTTP specific features in services](?id=access-http-specific-features-in-services)
     - [Logging](?id=logging)
     - [Serialization/deserialization](?id=serialization-deserialization)

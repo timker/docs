@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: simple-deployments-to-aws
 ---
 ### Deploying multiple ASP.NET Websites to AWS with WebDeploy
 

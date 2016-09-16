@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: how-to-contribute
 ---
 There are many ways to say thanks to ServiceStack:
 

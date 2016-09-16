@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: starlibs
 ---
 # A call for high quality .NET #starlibs
 

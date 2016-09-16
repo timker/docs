@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: code-contribution-guide
 ---
 - Please use whitespace instead of tabs.
 - If you implement a new feature, please add tests for it.

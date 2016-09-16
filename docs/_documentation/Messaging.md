@@ -340,7 +340,7 @@ With the ServiceStack Host and Service implemented, we can start listening to bo
 new AppHost().Start("http://localhost:1337/");
 ```
 
-Then on the Client we can authenticate using UserName/Password credentials using the HTTP [Service Client](?id=C%23-client), e.g:
+Then on the Client we can authenticate using UserName/Password credentials using the HTTP [Service Client](?id=CSharp-client), e.g:
 
 ```csharp
 var client = new JsonServiceClient("http://localhost:1337/");

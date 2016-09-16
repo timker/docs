@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: contributing
 ---
 ## Ask a support question
 

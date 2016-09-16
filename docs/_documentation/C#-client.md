@@ -7,7 +7,7 @@ Using DTOs to define your web service interface makes it possible to provide str
 
     PM> Install-Package ServiceStack.Client
 
-Alternatively you can use the [HttpClient-based JsonHttpClient](?id=C%23-client#jsonhttpclient) in:
+Alternatively you can use the [HttpClient-based JsonHttpClient](?id=CSharp-client#jsonhttpclient) in:
 
     PM> Install-Package ServiceStack.HttpClient
 

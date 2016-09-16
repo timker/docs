@@ -84,7 +84,7 @@ Plugins.RemoveAll(x => x is MetadataFeature);
 ```
 
 ### Predefined Routes
-Provides ServiceStack's [pre-defined routes](?id=Routing#pre-defined-routes) used in the built-in [C# Service Clients](?id=C%23-client).  
+Provides ServiceStack's [pre-defined routes](?id=Routing#pre-defined-routes) used in the built-in [C# Service Clients](?id=CSharp-client).  
 
 ```csharp
 var feature = Plugins.FirstOrDefault(x => x is PredefinedRoutesFeature); 

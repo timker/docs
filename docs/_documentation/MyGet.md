@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: myget
 ---
 ## ServiceStack pre-release MyGet Feed
 

@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: nuget
 ---
 A more complete listing of ServiceStack NuGet packages is maintained at: https://servicestack.net/download
 

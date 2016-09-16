@@ -1,7 +1,7 @@
 ---
 slug: http-utils
 ---
-The recommended way to call ServiceStack services is to use any of the [C# Service Clients](?id=C%23-client) which have a nice DRY and typed API optimized for this use. However when doing server programming you will often need to consume 3rd Party HTTP APIs, unfortunately the built-in way to do this in .NET doesn't make for a good development experience since it makes use of **WebRequest** - one of the legacy classes inherited from the early .NET days. WebRequest is an example of a class that's both versatile but also suffers from exposing an out-dated and unpleasant API for your application code to bind to.
+The recommended way to call ServiceStack services is to use any of the [C# Service Clients](?id=CSharp-client) which have a nice DRY and typed API optimized for this use. However when doing server programming you will often need to consume 3rd Party HTTP APIs, unfortunately the built-in way to do this in .NET doesn't make for a good development experience since it makes use of **WebRequest** - one of the legacy classes inherited from the early .NET days. WebRequest is an example of a class that's both versatile but also suffers from exposing an out-dated and unpleasant API for your application code to bind to.
 
 ### Creating a pleasant DRY API with just extension methods
 

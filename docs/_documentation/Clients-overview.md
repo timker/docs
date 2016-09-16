@@ -11,7 +11,7 @@ Although in addition to this the [ServiceStack.Client](http://nuget.org/packages
   * [TypeScript client](?id=TypeScript-Add-ServiceStack-Reference)
   * [Java/Kotlin Client](?id=Java-Add-ServiceStack-Reference)
   * [Swift Client](?id=Swift-Add-ServiceStack-Reference)
-  * [Silverlight client](?id=SilverlightServiceClient)
+  * [Silverlight client](?id=silverlight-client)
   * [[JavaScript client]]
   * [[Dart Client]]
   * [MQ Clients](?id=Messaging-and-redis)
@@ -29,7 +29,7 @@ You can also use [ServiceStackVS](?id=Creating-your-first-project#step-1-downloa
 * [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
 * [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
 * [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-* [VB.NET Add ServiceStack Reference](?id=VB.Net-Add-ServiceStack-Reference)
+* [VB.NET Add ServiceStack Reference](?id=VBNet-Add-ServiceStack-Reference)
 
 ***
 

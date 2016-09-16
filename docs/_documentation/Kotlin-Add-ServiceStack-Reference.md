@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: kotlin-add-servicestack-reference
 ---
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/android-studio-splash-kotlin.png)
 
@@ -179,7 +179,7 @@ same Java Client Library used by
 [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference).
 
 To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the 
-[.NET Service Clients API](?id=C%23-client) closely, as allowed 
+[.NET Service Clients API](?id=CSharp-client) closely, as allowed 
 within Java's language and idiomatic-style constraints. 
 
 Thanks to C#/.NET being heavily inspired by Java, the resulting Java `JsonServiceClient` ends up bearing a close 

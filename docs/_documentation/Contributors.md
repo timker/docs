@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: contributors
 ---
 ## Big thanks to our 300+ .NET Open Source Contributors!
 

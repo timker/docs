@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: dump-utils
 ---
 ServiceStack.Text has extension methods which recursively dumps all the public properties of any type into a human readable **pretty formatted** string. The `Dump()` utils are invaluable when explanatory coding or creating tests as you can quickly see what's in an object without having to set breakpoints and navigate nested properties in VS.NET's Watch window.
 

@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: swift
 ---
 # Swift ServiceStack Resources
 

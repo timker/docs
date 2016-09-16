@@ -30,7 +30,7 @@ As there's no configuration stored about the ServiceStack Reference you might be
 
 ### F# Client Example
 
-Just like with C#, F# Native Types can be used in ServiceStack's [Generic Service Clients](?id=C%23-client) providing and end-to-end Typed API whose PCL support also allows F# to be used in [mobile clients apps](https://github.com/ServiceStackApps/HelloMobile) without having to share compiled DTOs:
+Just like with C#, F# Native Types can be used in ServiceStack's [Generic Service Clients](?id=CSharp-client) providing and end-to-end Typed API whose PCL support also allows F# to be used in [mobile clients apps](https://github.com/ServiceStackApps/HelloMobile) without having to share compiled DTOs:
 
 ```fsharp
 let client = new JsonServiceClient("http://stackapis.servicestack.net")

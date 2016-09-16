@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: deploy-multiple-sites-to-aws
 ---
 *by [Darren Reid](https://twitter.com/layoric)*
 

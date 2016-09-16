@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: community-resources
 ---
 ### Blog posts
 

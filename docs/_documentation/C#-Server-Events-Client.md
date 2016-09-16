@@ -1,7 +1,7 @@
 ---
 slug: csharp-server-events-client
 ---
-Like ServiceStack's other [C# Service Clients](?id=C%23-client), the new `ServerEventsClient` is a [portable library](https://github.com/ServiceStackApps/HelloMobile) contained in the `ServiceStack.Client` NuGet package:
+Like ServiceStack's other [C# Service Clients](?id=CSharp-client), the new `ServerEventsClient` is a [portable library](https://github.com/ServiceStackApps/HelloMobile) contained in the `ServiceStack.Client` NuGet package:
 
 ```
 PM> Install-Package ServiceStack.Client

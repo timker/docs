@@ -104,7 +104,7 @@ For example the package name can be changed by uncommenting the **Package:** opt
 ### JsonServiceClient API
 The goal of Native Types is to provide a productive end-to-end typed API to facilitate  consuming remote services with minimal effort, friction and cognitive overhead. One way we achieve this is by promoting a consistent, forwards and backwards-compatible message-based API that's works conceptually similar on every platform where each language consumes remote services by sending  **Typed DTO's** using a reusable **Generic Service Client** and a consistent client library API.
 
-To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the [.NET Service Clients API](?id=C%23-client) closely, as allowed within Java's language and idiomatic-style constraints. 
+To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the [.NET Service Clients API](?id=CSharp-client) closely, as allowed within Java's language and idiomatic-style constraints. 
 
 Thanks to C#/.NET being heavily inspired by Java, the resulting Java `JsonServiceClient` ends up bearing a close resemblance with .NET's Service Clients. The primary differences being due to language limitations like Java's generic type erasure and lack of language features like property initializers making Java slightly more verbose to work with, however as **Add ServiceStack Reference** is able to take advantage of code-gen we're able to mitigate most of these limitations to retain a familiar developer UX.
 

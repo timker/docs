@@ -66,19 +66,19 @@ _This is the documentation about the core web service framework. Please see the 
     - [[Error Handling]]
     - [[Security]]
     - [[Debugging]]
-    - [JavaScript Client Library (ss-utils.js)](?id=ss-utils.js-JavaScript-Client-Library)
+    - [JavaScript Client Library (ss-utils.js)](?id=ss-utils-js-javascript-client-library)
 
 - Clients
     - [Overview](?id=Clients-overview)
-    - [C#/.NET client](?id=C%23-client)
+    - [C#/.NET client](?id=CSharp-client)
         - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md)
     - [[Add ServiceStack Reference]]
         - [C# Add ServiceStack Reference](?id=CSharp-Add-ServiceStack-Reference)
         - [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-        - [VB.NET Add ServiceStack Reference](?id=VB.Net-Add-ServiceStack-Reference)
+        - [VB.NET Add ServiceStack Reference](?id=VBNet-Add-ServiceStack-Reference)
         - [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
         - [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
-    - [Silverlight client](?id=SilverlightServiceClient)
+    - [Silverlight client](?id=silverlight-client)
     - [[JavaScript client]]
         - [Add TypeScript Reference](?id=TypeScript-Add-ServiceStack-Reference)
     - [[Dart Client]]
@@ -202,7 +202,7 @@ _This is the documentation about the core web service framework. Please see the 
     - [[FSharp]]
         - [Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
     - [VB.NET](?id=vbnet)
-        - [Add ServiceStack Reference](?id=VB.Net-Add-ServiceStack-Reference)
+        - [Add ServiceStack Reference](?id=VBNet-Add-ServiceStack-Reference)
     - [[Swift]]
         - [Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
     - [Java](https://github.com/ServiceStack/ServiceStack.Java)
@@ -219,7 +219,7 @@ _This is the documentation about the core web service framework. Please see the 
 - Deployment
     - [[Deploy Multiple Sites to single AWS Instance]]
         - [[Simple Deployments to AWS with WebDeploy]]
-    - [[Advanced Deployments with OctopusDeploy]]
+    - [Advanced Deployments with OctopusDeploy](?id=advanced-deployment-octopus-deploy)
 
 - Install 3rd Party Products
     - [Redis on Windows](https://github.com/ServiceStack/redis-windows)

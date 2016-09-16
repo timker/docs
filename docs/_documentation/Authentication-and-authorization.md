@@ -285,7 +285,7 @@ client.Post(new Authenticate { provider = "logout" });
 
 ### Authenticating with .NET Service Clients
 
-On the client you can use the [C#/.NET Service Clients](?id=C%23-client) to easily consume your authenticated Services.
+On the client you can use the [C#/.NET Service Clients](?id=CSharp-client) to easily consume your authenticated Services.
 
 To authenticate using your `CustomCredentialsAuthProvider` by POST'ing a `Authenticate` Request, e.g:
 

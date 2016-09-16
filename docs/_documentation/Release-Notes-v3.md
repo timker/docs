@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: release-notes-v3
 ---
 .
 

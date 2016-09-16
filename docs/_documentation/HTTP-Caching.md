@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: http-caching
 ---
 ServiceStack's HTTP Caching support transparently improves the behavior of existing `ToOptimized` Cached 
 Responses, provides a typed API to opt-in to **HTTP Client** features, introduces a simpler declarative API 

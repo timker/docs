@@ -51,7 +51,7 @@ optional `IServiceGatewayAsync`, but will use native async implementations for t
 
 Naked Request DTO's without annotations are sent as a **POST** but alternative Verbs are also supported 
 by annotating Request DTO's with 
-[HTTP Verb Interface Markers](?id=C%23-client#http-verb-interface-markers)
+[HTTP Verb Interface Markers](?id=CSharp-client#http-verb-interface-markers)
 where Request DTO's containing `IGet`, `IPut`, etc. are sent using the typed Verb API, e.g:
 
 ```csharp

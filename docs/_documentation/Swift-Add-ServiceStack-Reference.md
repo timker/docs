@@ -27,7 +27,7 @@ Use the **Add ServiceStack Reference** Menu option to bring up the Add Reference
 
 After clicking **Add Reference**, 2 files will be added to your XCode project yielding an instant typed API:
 
- - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](?id=C%23-client)
+ - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](?id=CSharp-client)
  - `{FileName}.dtos.swift` - Your Services DTO Types converted in Swift
 
 ### Update ServiceStack Reference
@@ -201,7 +201,7 @@ import Foundation;
 
 ## [JsonServiceClient.swift](https://github.com/ServiceStack/ServiceStack.Swift/blob/master/dist/JsonServiceClient.swift)
 
-The same ideal, high-level API available in [.NET's ServiceClients](?id=C%23-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
+The same ideal, high-level API available in [.NET's ServiceClients](?id=CSharp-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
 
 ```swift
 public protocol ServiceClient

@@ -1,5 +1,5 @@
 ---
-slug: 
+slug: advanced-deployment-octopus-deploy
 ---
 *by [Darren Reid](https://twitter.com/layoric)*
 
