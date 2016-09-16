@@ -1,5 +1,6 @@
 ---
 slug: soap-support
+title: SOAP support
 ---
 If you want to support SOAP, you have to ensure you adhere to some additional constraints where each method needs to be defined with the `Any()` endpoint and each DTO needs to be decorated with `[DataContract]` and `[DataMember]` attributes so their metadata is generated in your Services XSD and WSDL metadata.
 

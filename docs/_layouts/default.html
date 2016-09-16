@@ -71,12 +71,11 @@
         return target.split(search).join(replacement);
     };
 
-    var myarray = [];
+    var docSlugMapping = {};
     {% for doc in site.documentation %}
-    myarray.push('{{doc.url}}');
+    docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';
     {% endfor %}
 
-    console.log(myarray);
     function fixDoubleBracketLinks(cssSelector) {
         var sidebarText = $(cssSelector)[0].innerHTML;
         var matches = sidebarText.match(/\[\[(.+?)\]\]/g);
@@ -118,7 +117,8 @@
     });
 
     $("a[href^='?id=']").attr('href', function () {
-
+        var slugId = this.search.substr(4);
+        this.href = docSlugMapping[slugId];
     })
 </script>
 

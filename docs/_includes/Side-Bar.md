@@ -24,7 +24,7 @@
     - [Customize HTTP Responses](?id=customize-http-responses)
     - [Plugins](?id=plugins)
     - [Validation](?id=validation)
-    - [Error Handling](?id=error handling)
+    - [Error Handling](?id=error-handling)
     - [Security](?id=security)
     - [Debugging](?id=debugging)
 - Clients

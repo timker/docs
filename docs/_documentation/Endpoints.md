@@ -1,5 +1,6 @@
 ---
 slug: endpoints
+title: Rest, SOAP & default endpoints
 ---
 When you create a service, there are by default three endpoints:
 

@@ -1,8 +1,7 @@
 ---
 slug: new-api
+title: ServiceStack’s API design
 ---
-## ServiceStack's API design
-
 We're excited to announce a ServiceStack New API design that's essentially better in every way than our original legacy v3 API design:
 
   - Promotes a more succinct, typed, end-to-end client API 
