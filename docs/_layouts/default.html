@@ -49,6 +49,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script src="/js/fuzzy.js"></script>
 {% if jekyll.environment == 'production' %}
+<script src="/js/fix-double-bracket-links.js"></script>
 <script>
     (function (i, s, o, g, r, a, m) {
         i["GoogleAnalyticsObject"] = r;
@@ -66,8 +67,12 @@
 </script>
 {% endif %}
 <script>
+    // Use slug ids to fix links.
+    // This is so relative links can be done by:
+    // [my link to internal page](?id=slug)
     var docSlugMapping = {};
-    {% for doc in site.documentation %}docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';
+    {% for doc in site.documentation %}
+    docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';
     {% endfor %}
 
     $("a[href^='?id=']").attr('href', function () {
