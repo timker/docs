@@ -1,8 +1,7 @@
 ---
 slug: messaging
+title: Messaging API
 ---
-## API
-
 ServiceStack provides a [high-level Messaging API](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/) exposing a number of essential messaging features in order to publish and receive messages as well as registering and processing handlers for different message types. A class diagram of the core interfaces is below:
 
 ![Messaging API](https://raw.github.com/mythz/rabbitmq-windows/master/img/messaging-api.png)
@@ -255,7 +254,7 @@ We can then Execute the MQ Service with this custom Request Context with:
 return this.ExecuteMessage(m, req);
 ```
 
-> See the [Session docs](?id=Sessions﻿) for more info about Sessions in ServiceStack
+> See the [Session docs](?id=sessions) for more info about Sessions in ServiceStack
 
 We'll walk-through a minimal example using this approach to make authenticated Requests and access the Users Session in a Service that's accessible via both HTTP and MQ transports.
 

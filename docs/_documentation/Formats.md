@@ -7,7 +7,7 @@ ServiceStack supports 6 response formats out of the box:
 - XML
 - [SOAP 1.1/1.2](?id=SOAP-support)
 - [JSV](https://github.com/ServiceStack/ServiceStack.Text#servicestacktypeserializer-and-the-jsv-format) _(hybrid CSV-style escaping + JSON format that is optimized for both size and speed)_
-- [CSV](?id=ServiceStack-CSV-Format)
+- [CSV](?id=csv-format)
 - [HTML5 Report](?id=HTML5ReportFormat) _(provides a readable and semantic HTML layout letting you visualize all the data returned by your web service)_
 - [HTML with Markdown Razor](?id=Markdown-Razor) _(Razor combined with markdown)_
 
