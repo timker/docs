@@ -217,8 +217,8 @@ _This is the documentation about the core web service framework. Please see the 
   - [Getting Started with AWS](https://github.com/ServiceStackApps/AwsGettingStarted)
 
 - Deployment
-    - [[Deploy Multiple Sites to single AWS Instance]]
-        - [[Simple Deployments to AWS with WebDeploy]]
+    - [Deploy Multiple Sites to single AWS Instance](?id=deploy-multiple-sites-to-aws)
+        - [Simple Deployments to AWS with WebDeploy](?id=simple-deployments-to-aws)
     - [Advanced Deployments with OctopusDeploy](?id=advanced-deployment-octopus-deploy)
 
 - Install 3rd Party Products
@@ -227,7 +227,7 @@ _This is the documentation about the core web service framework. Please see the 
 
 - Use Cases
     - [[Single Page Apps]] 
-      - [[HTML, CSS and JavaScript Minification]]
+      - [HTML, CSS and JavaScript Minification](?id=html-css-and-javascript-minification)
     - [[Azure]]
       - [Connecting to Azure Redis via SSL](?id=Secure-SSL-Redis-connections-to-Azure-Redis)
     - [[Logging]] 
