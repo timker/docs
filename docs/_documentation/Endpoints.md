@@ -31,6 +31,7 @@ public class Hello
 
 ### SOAP endpoint
 `POST` example.org/soap11
+
 ```xml
 <?xml version="1.0" encoding="utf-8"?>
 <soap:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/soap/envelope/">
@@ -46,12 +47,14 @@ public class Hello
 
 ### Rest endpoint:
 `POST` example.org/hello
+
 ```js
 {"Name":"World"}
 ```
 
 ### Default endpoint:
 `POST` example.org/json/reply/Hello
+
 ```js
 {"Name":"World"}
 ```
