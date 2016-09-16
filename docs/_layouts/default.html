@@ -66,55 +66,9 @@
 </script>
 {% endif %}
 <script>
-    String.prototype.replaceAll = function(search, replacement) {
-        var target = this;
-        return target.split(search).join(replacement);
-    };
-
     var docSlugMapping = {};
-    {% for doc in site.documentation %}
-    docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';
+    {% for doc in site.documentation %}docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';
     {% endfor %}
-
-    function fixDoubleBracketLinks(cssSelector) {
-        var sidebarText = $(cssSelector)[0].innerHTML;
-        var matches = sidebarText.match(/\[\[(.+?)\]\]/g);
-        var result = sidebarText;
-        if(matches != null) {
-            for(var i = 0; i < matches.length; i++) {
-                var text = matches[i].replaceAll('[[','').replaceAll(']]','');
-                result = result.replace(matches[i],
-                        '<a href="documentation/' +
-                        text.replaceAll(' ','-') +
-                        '.html">' + text + '</a>')
-            }
-            $(cssSelector).html(result);
-        }
-    }
-
-    fixDoubleBracketLinks('#page-content-wrapper');
-    fixDoubleBracketLinks('#sidebar-wrapper');
-
-    var allMenuItems = $('.sidebar-doc-item');
-    var allDocTitles = allMenuItems.map(function() {
-        return $(this).text();
-    }).get();
-    var inputElem = $('#searchInput');
-    inputElem.bind('keyup input paste', function (event) {
-        var results = fuzzy.filter(inputElem.val(),allDocTitles);
-        var itemsToShow = allMenuItems.map(function () {
-            var itemText = $(this).text();
-            for(var i = 0; i < results.length; i++) {
-                if(results[i].original === itemText) {
-                    return $(this);
-                }
-            }
-        });
-        allMenuItems.hide();
-        itemsToShow.map(function () {
-            $(this).show();
-        })
-    });
 
     $("a[href^='?id=']").attr('href', function () {
         var slugId = this.search.substr(4);
