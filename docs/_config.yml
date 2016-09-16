@@ -11,6 +11,7 @@ collections:
   documentation:
     title: Documentation
     output: true
+    permalink: /:slug.html
 gems:
   - github-pages
 

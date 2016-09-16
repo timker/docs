@@ -13,8 +13,8 @@
             for(var i = 0; i < matches.length; i++) {
                 var text = matches[i].replaceAll('[[','').replaceAll(']]','');
                 result = result.replace(matches[i],
-                    '<a href="/documentation/' +
-                    text.replaceAll(' ','-') +
+                    '<a href="/' +
+                    encodeURIComponent(text.replaceAll(' ','-').toLocaleLowerCase()) +
                     '.html">' + text + '</a>')
             }
             $(cssSelector).html(result);

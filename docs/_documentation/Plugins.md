@@ -124,12 +124,8 @@ This provides ServiceStack's [Razor Markdown Format](?id=Markdown-Razor) and als
 var feature = Plugins.FirstOrDefault(x => x is MarkdownFormat); 
 Plugins.RemoveAll(x => x is MarkdownFormat); 
 ```
-
-The entire [docs.servicestack.net](http://docs.servicestack.net/docs) website is rendered using static Markdown. More information of Razor Markdown features can be found in:
-
   - [Introduction to Markdown Razor](?id=Markdown-Razor)
   - [Markdown Razor Features](?id=Markdown-Razor)
-  - [How Docs is built with Markdown](http://docs.servicestack.net/markdown/about)
 
 ## Available Plugins
 
