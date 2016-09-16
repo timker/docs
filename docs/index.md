@@ -1,5 +1,6 @@
 ---
 layout: default
+title: ServiceStack Documentation
 ---
 ## Where can I ask questions?
 
