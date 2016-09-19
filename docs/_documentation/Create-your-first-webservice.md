@@ -22,6 +22,7 @@ To install ServiceStack into your application, you have two options to get the b
 #### Manual Download
 
 Only current option for manual download is to download source and build yourself.
+
 ***
 
 ### Register ServiceStack Handler
