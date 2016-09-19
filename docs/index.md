@@ -1,8 +1,7 @@
 ---
 layout: default
+title: ServiceStack Resources
 ---
-
-## ServiceStack Resources
 
 - [StackOverflow](http://stackoverflow.com/search?q=servicestack) - Ask questions on StackOverflow using the `servicestack` tag
 - [Customer Forums](https://forums.servicestack.net/) - Customers can get Technical Support in the Customer Forums

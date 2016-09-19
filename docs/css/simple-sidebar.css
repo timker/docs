@@ -10,6 +10,13 @@
 
 /* Toggle Styles */
 
+h1#servicestack-resources {
+    margin: 0 0 10px 0;
+}
+h1, h2 {
+    font-size: 26px;
+}
+
 #wrapper {
     padding-left: 0;
     -webkit-transition: all 0.5s ease;
