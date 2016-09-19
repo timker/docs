@@ -86,6 +86,7 @@
             console.log('Slug ID not found - ' + slugId)
     });
 
+    // Add .active class to active link + scroll into view
     if (location.pathname != "/")
     {
         var activeLink = $("a[href='" + location.pathname + "']")
@@ -97,6 +98,10 @@
             });
         }
     }
+
+    // Add external link icon next to external menu links
+    $(".sidebar-nav a[href^=http]")
+        .append('<i class="fa fa-external-link" style="margin-left:-15px"></i>');
 
 </script>
 </body>
