@@ -1,40 +1,39 @@
 ---
 layout: default
-title: ServiceStack Documentation
 ---
-## Where can I ask questions?
 
-- **[StackOverflow](http://stackoverflow.com/search?q=servicestack)** - Use `servicestack` tag for questions on StackOverflow
-  - Support options for ServiceStack are listed in your account page: https://servicestack.net/account/support
-- **[ServiceStack G+ Community](https://plus.google.com/communities/112445368900682590445)** Get in touch with the ServiceStack Community
-- **[Live Demos!](https://github.com/ServiceStackApps/LiveDemos)**
+## ServiceStack Resources
 
-## Resources
-- [Release Notes](https://servicestack.net/release-notes)
-- [[Architecture Overview]]
-- [Official ServiceStack website](http://www.servicestack.net/)
-- [Feature Requests](http://servicestack.uservoice.com/forums/176786-feature-requests)
-- [Documentation for v3](https://github.com/ServiceStackV3/ServiceStackV3)
+- [StackOverflow](http://stackoverflow.com/search?q=servicestack) - Ask questions on StackOverflow using the `servicestack` tag
+- [Customer Forums](https://forums.servicestack.net/) - Customers can get Technical Support in the Customer Forums
+- [Issue Tracker](https://github.com/ServiceStack/Issues) - Report issues on our Issue Tracker
+- [Feature Requests](http://servicestack.uservoice.com/forums/176786-feature-requests) - Request features on UserVoice
+- [Live Demos](https://github.com/ServiceStackApps/LiveDemos) - Checkout Live Demos and source code created with ServiceStack
+- [Gistlyn](http://gistlyn.com) - Explore ServiceStack Live on Gistlyn
+- [Release Notes](https://servicestack.net/release-notes) - Stay up to date with ServiceStack's latest features
+- [servicestack.net](http://www.servicestack.net/) - See ServiceStack's Official Website for product info and pricing 
 
-***
+## ServiceStack Downloads
 
-- **[ServiceStack's packages available on NuGet](https://servicestack.net/download)**
-  - [Pre-release packages available on MyGet](?id=MyGet)
+- [ServiceStack Downloads](https://servicestack.net/download) - Official downloads are available on NuGet
+- [Pre-release MyGet Packages](?id=MyGet) - The latest downloads in-between each release are available on MyGet
 
-***
-- **[[Contributors]]** Special thanks to all of ServiceStack's Contributors
-- **[[Community-Resources]]** (Blog Posts, Gists, StackOverflow, Pod casts...)
-- [Contributing Guide](?id=Contributing) 
+## ServiceStack Community
 
-# Documentation
-_This is the documentation about the core web service framework. Please see the individual projects for documentation on the [Redis client](https://github.com/ServiceStack/ServiceStack.Redis), [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) or [Text Serializers](https://github.com/ServiceStack/ServiceStack.Text)._
+- [ServiceStack G+ Community](https://plus.google.com/communities/112445368900682590445) Get in touch with the ServiceStack Community
+- [[Community-Resources]] (Blog Posts, Gists, StackOverflow, Pod casts...)
+- [[Contributors]] - Special thanks to all of ServiceStack's Contributors
+- [Contributing Guide](?id=Contributing) - Read our Contributing Guide before contributing
+
+## ServiceStack Documentation
 
 > [[Prerequisites]] - Before you start reading, you should know the basics about HTTP (HTTP methods/verbs, status codes etc) and REST/SOAP
 
-  - [Why ServiceStack?](?id=Why-Servicestack)
-  - [What is a message based web service?](?id=What-is-a-message-based-web-service)
-  - [[Advantages of message based web services]]
-  - [Why remote services should use separate Data Transfer Objects](http://stackoverflow.com/a/15369736/85785)
+ - [Why ServiceStack?](?id=Why-Servicestack)
+ - [[Architecture Overview]]
+ - [What is a message based web service?](?id=What-is-a-message-based-web-service)
+ - [[Advantages of message based web services]]
+ - [Why remote services should use separate Data Transfer Objects](http://stackoverflow.com/a/15369736/85785)
 
 - Getting Started
     - [Creating your first Project](?id=Creating-your-first-project)

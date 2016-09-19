@@ -30,11 +30,23 @@
     height: 100%;
     margin-left: -350px;
     overflow-y: auto;
-    background: #000;
+    background: #f1f1f1;
     -webkit-transition: all 0.5s ease;
     -moz-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
+}
+
+#sidebar-wrapper h2 {
+    font-size: 26px;
+    background: url(../images/favicon.png) no-repeat; 
+    margin: 10px 0 0 0;
+    padding: 0 0 10px 50px;
+    line-height: 40px;
+    white-space: nowrap;
+}
+#sidebar-wrapper h2 a:hover {
+    text-decoration: none;
 }
 
 #wrapper.toggled #sidebar-wrapper {
@@ -60,6 +72,17 @@
     margin: 0;
     padding: 0 20px 0 0;
     list-style: none;
+    overflow-x: hidden;
+}
+
+.sidebar-nav > ul > li {
+    font-size: 18px;
+    font-weight: bold;
+}
+.sidebar-nav > ul > li a {
+    font-size: 14px;
+    font-weight: normal;
+    text-indent: 20px;
 }
 
 .sidebar-nav li ul {
@@ -72,20 +95,22 @@
 }
 
 .sidebar-nav li {
-    text-indent: 20px;
+    text-indent: 10px;
     line-height: 40px;
+    white-space: nowrap;
 }
 
 .sidebar-nav li a {
     display: block;
+    width: 350px;
     text-decoration: none;
-    color: #999999;
+    color: #666;
 }
 
 .sidebar-nav li a:hover {
     text-decoration: none;
-    color: #fff;
-    background: rgba(255,255,255,0.2);
+    color: #444;
+    background: rgba(255,255,255,0.7);
 }
 
 .sidebar-nav li a:active,
@@ -159,3 +184,6 @@ img {
         display: none;
     }
 }
+
+::-webkit-scrollbar { width:5px; height:5px }
+::-webkit-scrollbar-thumb { background-color:#ccc; }

@@ -1,11 +1,3 @@
-## [ServiceStack Documentation](/)
-***  
- - [Why ServiceStack?](?id=why-servicestack)
-  - [What is a message based web service](?id=what-is-a-message-based-web-service)
-  - [Advantages of message based web services](?id=advantages-of-message-based-web-services)
-  - [Why remote services should use separate DTOs](http://stackoverflow.com/a/15369736/85785)
-  
-***
 
 - Getting Started
     - [Create your first webservice](?id=create-your-first-webservice)

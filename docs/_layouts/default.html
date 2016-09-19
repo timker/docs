@@ -15,7 +15,8 @@
 <div id="wrapper">
 
     <!-- Sidebar -->
-    <div id="sidebar-wrapper">
+    <div id="sidebar-wrapper" class="sidebar-nav">
+        <h2><a href="/">ServiceStack Documentation</a></h2>
         {% capture my-include %}{% include Side-Bar.md %}{% endcapture %}
         {{ my-include | markdownify }}
     </div>
