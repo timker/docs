@@ -16,9 +16,6 @@ h1 {
 h1, h2 {
     font-size: 26px;
 }
-#page-content-wrapper {
-    width: 900px;
-}
 blockquote {
     font-size: 14px;
 }
@@ -67,7 +64,7 @@ blockquote {
 }
 
 #page-content-wrapper {
-    width: 100%;
+    width: 900px;
     position: absolute;
     padding: 15px;
 }

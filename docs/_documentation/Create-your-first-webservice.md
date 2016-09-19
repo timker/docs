@@ -68,6 +68,7 @@ Each service in ServiceStack consists of three parts:
 That's the core philosophy in ServiceStack. Each service has a strongly-typed, code-first (normal POCOs) request DTO and response DTO. You can read a detailed explanation what advantages exist if you're using DTOs in the [ReadMe](https://github.com/ServiceStack/ServiceStack/blob/master/README.md) or in [Why should I use ServiceStack?] (?id=Why-Servicestack).
 
 1) Create the name of your Web Service (i.e. the Request DTO)
+
 ```csharp
 [Route("/hello")]
 [Route("/hello/{Name}")]
@@ -78,6 +79,7 @@ public class Hello
 ```
 
 2) Define what your Web Service will return (i.e. Response DTO)
+
 ```csharp
 public class HelloResponse
 {
@@ -86,6 +88,7 @@ public class HelloResponse
 ```
 
 3) Create your Web Service implementation
+
 ```csharp
 public class HelloService : Service
 {
@@ -152,6 +155,7 @@ As you can see after clicking on this link, ServiceStack also contains a HTML re
 
 ## Troubleshooting
 If you happen to generate requests from the wsdls with a tool like soapUI you may end up with an incorrectly generated request like this:
+
 ```xml
 <soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:typ="http://schemas.servicestack.net/types">
   <soap:Header/>
@@ -185,6 +189,8 @@ Rebuild and regenerate the request from the updated wsdl. You should get a corre
 
 The [EmailContacts solution](https://github.com/ServiceStackApps/EmailContacts/) is a new guidance available that walks through the recommended setup and physical layout structure of typical medium-sized ServiceStack projects, including complete documentation of how to create the solution from scratch, whilst explaining all the ServiceStack features it makes use of along the way.
 
+<div id="resources">
+
 # Community Resources
 
   - [Creating A Simple Service Using ServiceStack](http://shashijeevan.net/2015/09/20/creating-a-simple-service-using-servicestack/) by [Shashi Jeevan](http://shashijeevan.net/author/shashijeevan/)
@@ -215,3 +221,5 @@ The [EmailContacts solution](https://github.com/ServiceStackApps/EmailContacts/)
   - [Building a Tridion WebService with jQuery and ServiceStack](http://www.curlette.com/?p=161) by [@robrtc](https://twitter.com/robrtc)
   - [Anonymous type + Dynamic + ServiceStack == Consuming cloud has never been easier](http://www.ienablemuch.com/2012/05/anonymous-type-dynamic-servicestack.html) by [@ienablemuch](https://twitter.com/ienablemuch)
   - [Handful of examples of using ServiceStack based on the ServiceStack.Hello Tutorial](https://github.com/jfoshee/TryServiceStack) by [@82unpluggd](https://twitter.com/82unpluggd)
+
+</div>
