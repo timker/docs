@@ -85,7 +85,6 @@
 - Use Cases
     - [Single Page Apps](?id=single-page-apps) 
     - [Azure](?id=azure)
-    - [Logging](?id=logging) 
     - [Bundling and Minification](?id=bundling-and-minification)
     - [NHibernate](?id=nhibernate) 
 - Performance
