@@ -86,6 +86,15 @@
             console.log('Slug ID not found - ' + slugId)
     });
 
+    var activeLink = $("a[href='" + location.pathname + "']")
+        .addClass('active')[0];
+    if (activeLink) {
+        activeLink.scrollIntoView({
+            behavior: "smooth", // or "auto" or "instant"
+            block: "start" // or "end"
+        });
+    }
+
 </script>
 </body>
 </html>
