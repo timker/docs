@@ -15,7 +15,9 @@ To see it in action, **view the source** in your browser. Webkit and Firefox use
 
     view-source:http://northwind.servicestack.net/customers/ALFKI
 
-Note: To view the web services in a different format simply append **?format=[json|xml|html|csv|jsv]** to the query string.
+Note: To view the web services in a different format simply append **?format={ext}** to the query string, e.g:
+
+    ?format=[json|xml|html|csv|jsv]
 
 ### [The Magic AutoGrid Partial](https://github.com/ServiceStackApps/HttpBenchmarks#the-magic-autogrid-partial)
 
@@ -64,12 +66,16 @@ This shouldn't be important but as the technique of using JavaScript to generate
 This is a new type of HTML5 report that breaks the normal conventional techniques of generating a HTML page.
 Instead of using a server programming and template language to generate the HTML on the server, the data is simply embedded as JSON, unaltered inside the tag:
 
-    <script id="dto" type="text/json">{jsondto}</script>
+```xml
+<script id="dto" type="text/json">{jsondto}</script>
+```
 
 Because of the browser behaviour of the script tag, you can embed any markup or javascript unescaped.
 Unless it has none or a 'javascript' type attribute, the browser doesn't execute it letting you to access the contents with:
 
-    document.getElementById('dto').innerHTML
+```js
+document.getElementById('dto').innerHTML
+```
     
 From there, javascript invoked just before the closing body tag (i.e. the fastest time to run DOM-altering javascript) which takes the data, 
 builds up a html string and injects the generated markup in the contents of the page.
@@ -86,9 +92,3 @@ No code-changes were required in order to take advantage of the new formats, the
 Being able to generically provide new features like this shows the advantage of ServiceStack's strong-typed, code-first approach to developing web services that lets you focus on your app-specific logic as you only need to return C#/.NET objects or throw C#/.NET exceptions which gets automatically handled, and hosted on a number of different endpoints in a variety of different formats.
  
 Out of the box REST, RPC and SOAP endpoints types are automatically provided, in JSON, XML, CSV, JSV and now the new HTML report format above.
-
-Follow [@demisbellot](http://twitter.com/demisbellot) and [@ServiceStack](http://twitter.com/ServiceStack) for twitter updates
-
-
-
-[<Wiki Home](https://github.com/ServiceStack/ServiceStack/wiki)
