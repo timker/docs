@@ -1,5 +1,5 @@
 ---
-slug: customize json responses
+slug: customize-json-responses
 title: Customize JSON Responses
 ---
 

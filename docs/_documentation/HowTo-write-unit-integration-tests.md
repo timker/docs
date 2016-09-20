@@ -1,6 +1,8 @@
 ---
 slug: howto-write-unit-integration-tests
+title: How to write Unit & Integration tests
 ---
+
 ## Integration test example
 
 The [CustomerRestExample.cs](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/CustomerRestExample.cs) shows an example of a stand-alone integration test:

@@ -116,6 +116,7 @@
     - [AutoQuery Data Memory](?id=autoquery-memory)
     - [AutoQuery Data Service](?id=autoquery-service)
     - [AutoQuery Data DynamoDB](?id=autoquery-dynamodb)
+    - [AutoQuery UI](https://github.com/ServiceStack/Admin)
 - Server Events
     - [Overview](?id=server-events)
     - [JavaScript Client](?id=javascript-server-events-client)
@@ -144,6 +145,10 @@
     - [React, Redux Chat App](https://github.com/ServiceStackApps/ReactChat)
     - [AngularJS App Template](https://github.com/ServiceStack/ServiceStackVS/blob/master/docs/angular-spa.md)
     - [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)
+- Single Page Apps
+    - [Overview](?id=single-page-apps) 
+    - [HTML, CSS and JS Minifiers](?id=html-css-and-javascript-minification)
+    - [Bundling and Minification](?id=bundling-and-minification)
 - Java
     - [Java ServiceStack Resources](?id=java)
     - [Android Studio & IntelliJ](?id=java-add-servicestack-reference#servicestack-idea-android-studio-plugin)
@@ -164,10 +169,6 @@
 - Install 3rd Party Products
     - [Redis on Windows](https://github.com/ServiceStack/redis-windows)
     - [RabbitMQ on Windows](https://github.com/ServiceStack/rabbitmq-windows)
-- Single Page Apps
-    - [Overview](?id=single-page-apps) 
-    - [HTML, CSS and JS Minifiers](?id=html-css-and-javascript-minification)
-    - [Bundling and Minification](?id=bundling-and-minification)
 - Use Cases
     - [Azure](?id=azure)
     - [NHibernate](?id=nhibernate) 
