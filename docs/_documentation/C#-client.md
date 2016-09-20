@@ -39,11 +39,15 @@ IServiceClient client = new CachedHttpClient(new JsonHttpClient(baseUrl));
 
 All ServiceStack's C# clients share the same interfaces and are created by passing in the **Base URI** of your ServiceStack service in the clients constructor, e.g. if your ServiceStack instance was hosted on the root path `/` on the 8080 custom port:
 
-    var client = new JsonServiceClient("http://host:8080/");
+```csharp
+var client = new JsonServiceClient("http://host:8080/");
+```
 
 Or if hosted on the `/api` custom path:
 
-    var client = new JsonServiceClient("http://host/api/");
+```csharp
+var client = new JsonServiceClient("http://host/api/");
+```
 
 In addition, the Service Clients provide HTTP verbs (Get, Post & PostFile, Put, Delete, Patch, etc) enabling a productive typed API for consuming ServiceStack Services with their best matching Custom Routes as seen in the examples below:
 
@@ -55,6 +59,7 @@ In addition, the Service Clients provide HTTP verbs (Get, Post & PostFile, Put, 
 HelloResponse response = client.Get(new Hello { Name = "World!" });
 response.Result.Print();
 ```
+
 **Async Example**
 
 Using C# `await`:
@@ -83,8 +88,6 @@ response.Result.Print();
 ```csharp
 var response = await client.GetAsync<HelloResponse>("/hello/World!");
 ```
-
-***
 
 ## Service Client API
 
@@ -121,6 +124,7 @@ var response = await client.SendAsync<HelloResponse>(
 The service clients use the automatic [pre-defined routes](?id=Endpoints#) for each service.
 
 <a name="native-responses"></a>
+
 ## Support for Native built-in Response Types
 
 All of ServiceStack's generic Service Clients also allow you to fetch raw `string`, `byte[]` and `Stream` responses of any existing service, or when you need it, the underlying `HttpWebResponse` allowing fine-grained access to the HTTP Response. e.g With just the Service below:
@@ -157,6 +161,7 @@ response.Result //Hello, World
 ```
 
 Or as get the JSON as a raw string:
+
 ```csharp
 string responseJson = client.Get<string>("/poco/World");
 var dto = responseJson.FromJson<PocoResponse>();
@@ -164,6 +169,7 @@ dto.Result //Hello, World
 ```
 
 Or as raw bytes:
+
 ```csharp
 byte[] responseBytes = client.Get<byte[]>("/poco/World");
 var dto = responseBytes.FromUtf8Bytes().FromJson<PocoResponse>();
@@ -171,6 +177,7 @@ dto.Result //Hello, World
 ```
 
 Or as a Stream:
+
 ```csharp
 using (Stream responseStream = client.Get<Stream>("/poco/World")) {
     var dto = responseStream.ReadFully()
@@ -181,6 +188,7 @@ using (Stream responseStream = client.Get<Stream>("/poco/World")) {
 ```
 
 Or even access the populated `HttpWebResponse` object:
+
 ```csharp
 HttpWebResponse webResponse = client.Get<HttpWebResponse>("/poco/World");
 
@@ -271,6 +279,7 @@ using (Stream stream = client.Get(new Streams { Text = Guid.NewGuid().ToString()
 ```
 
 All these APIs are also available asynchronously as well:
+
 ```csharp
 using (HttpWebResponse response = await client.GetAsync(
     new Strings { Text = "Test" })) {
@@ -380,6 +389,7 @@ client.OnDownloadProgress = (done, total) =>
 
 var response = await client.GetAsync(new Request());
 ```
+
 > Note: total = -1 when 'Transfer-Encoding: chunked'
 
 Whilst the `OnUploadProgress` callback gets fired when uploading files, e.g:

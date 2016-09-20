@@ -1,6 +1,7 @@
 ---
 slug: auto-query
 ---
+
 ## AutoQuery - Instant Queryable APIs
 
 The AutoQuery support in ServiceStack adds Auto Querying functionality akin to OData's querying support for Web Api, although we've strongly disregarded their approach which we've long considered [promotes web service anti-patterns](http://stackoverflow.com/a/9579090/85785). To explain the design goals behind AutoQuery it's important to identify and avoid the parts of OData we consider make it a poor fit for services. 

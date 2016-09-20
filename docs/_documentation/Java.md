@@ -1,6 +1,7 @@
 ---
 slug: java
 ---
+
 # Java ServiceStack Resources
 
  - [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)

@@ -1,6 +1,7 @@
 ---
 slug: swift
 ---
+
 # Swift ServiceStack Resources
 
  - [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)

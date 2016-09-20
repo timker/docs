@@ -1,5 +1,6 @@
 ---
 slug: autoquery-memory
+title: AutoQuery Memory
 ---
 
 ### AutoQuery Memory Data Source

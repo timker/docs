@@ -1,6 +1,8 @@
 ---
 slug: api-key-authprovider
+title: API Key Auth Provider
 ---
+
 The API Key Auth Provider provides an alternative method for allowing external 3rd Parties access to 
 your protected Services without needing to specify a password. API Keys is the preferred approach for 
 many well-known public API providers used in system-to-system scenarios for several reasons:

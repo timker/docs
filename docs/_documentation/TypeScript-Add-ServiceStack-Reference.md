@@ -1,6 +1,7 @@
 ---
 slug: typescript-add-servicestack-reference
 ---
+
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)
 
 ServiceStack's **Add ServiceStack Reference** feature allows clients to generate Native Types from directly within VS.NET using [ServiceStackVS VS.NET Extension](?id=Creating-your-first-project) - providing a simple way to give clients typed access to your ServiceStack Services.

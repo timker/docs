@@ -8,6 +8,7 @@ slug: security
 
 
 <a name="community"></a>
+
 # Community Resources
 
   - [Building a ServiceStack OAuth2 resource server using DotNetOpenAuth](http://dylanbeattie.blogspot.com/2013/08/building-servicestack-based-oauth2.html) by [@dylanbeattie](https://twitter.com/dylanbeattie)

@@ -1,6 +1,7 @@
 ---
 slug: service-gateway
 ---
+
 The Service Gateway is implemented on top of ServiceStack's existing message-based architecture to open up 
 exciting new possibilities for development of loosely-coupled
 [Modularized Service Architectures](?id=Modularizing-services).

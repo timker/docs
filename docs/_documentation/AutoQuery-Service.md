@@ -1,7 +1,7 @@
 ---
 slug: autoquery-service
+title: AutoQuery Service Data Source
 ---
-### AutoQuery Service Data Source
 
 The next step after [MemorySource](?id=AutoQuery-Memory) in querying for even richer result-sets, whether you want to add custom validation, access multiple dependencies, construct complex queries or other custom business logic, you can use a **Service Source** instead which lets you call a Service and use its Response as the dynamic Data Source that you can apply Auto Querying logic on.
 

@@ -1,6 +1,7 @@
 ---
 slug: cancellable-requests
 ---
+
 The Cancellable Requests Feature makes it easy to design long-running Services that are cancellable with an external Web Service Request. To enable this feature, register the `CancellableRequestsFeature` plugin:
 
 ```csharp

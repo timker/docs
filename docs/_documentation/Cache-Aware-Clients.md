@@ -1,6 +1,8 @@
 ---
 slug: cache-aware-clients
+title: Cache Aware Service Clients
 ---
+
 To implement a complete end-to-end HTTP Caching story you can use the cache-aware `CachedServiceClient` to enhance all existing `HttpWebRequest` based Service Clients which manages its own local cache as instructed by the Server HTTP Caching directives, whilst the `CachedHttpClient` does the same for the HttpClient-based `JsonHttpClient`.
 
 Both Cache-Aware clients implement the full 

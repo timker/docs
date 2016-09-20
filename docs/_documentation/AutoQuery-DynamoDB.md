@@ -1,6 +1,8 @@
 ---
 slug: autoquery-dynamodb
+title: AutoQuery DynamoDB Data Source
 ---
+
 AutoQuery Data's `DynamoDbSource` provides the most productive development experience for effortlessly creating rich, queryable and optimized Services for [DynamoDB data stores](https://aws.amazon.com/dynamodb/).
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/dynamodb-banner.png)](https://github.com/ServiceStack/PocoDynamo)

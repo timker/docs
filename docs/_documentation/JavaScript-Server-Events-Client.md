@@ -1,6 +1,8 @@
 ---
 slug: javascript-server-events-client
+title: JavaScript Server Events Client
 ---
+
 Like ServiceStack's other JavaScript interop libraries, the client bindings for ServiceStack's Server Events is in ServiceStack's JavaScript client bindings [/js/ss-utils.js](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/js/ss-utils.js) that's embedded in `ServiceStack.dll` and available from any page with:
 
 ```html

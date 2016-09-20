@@ -1,6 +1,7 @@
 ---
 slug: postman
 ---
+
 The [Postman Rest Client](http://www.getpostman.com/) is a very popular and easy to use HTTP Request composer that makes it easy to call web services, similar to [Fiddler's Composer](https://www.blackbaud.com/files/support/guides/infinitydevguide/Subsystems/inwebapi-developer-help/Content/InfinityWebAPI/coUsingFiddlerCreateHTTPRequest.htm). It also provides as an alternative for autogenerating API documentation to [ServiceStack's Swagger support](?id=Swagger-API) that makes it easier to call existing services but does require users to install the [Postman Rest Client](http://www.getpostman.com/).
 
 Support for Postman is built into ServiceStack and can be enabled by registering the Plugins below:

@@ -1,6 +1,8 @@
 ---
 slug: cacheresponse-attribute
+title: CacheResponse attribute
 ---
+
 The `[CacheResponse]` is a normal [Request Filter Attribute](?id=Filter-attributes)
 which can be added at the top-level of your Service class in which case it will cache the response of 
 **All** Service implementations for **60 seconds**, e.g:

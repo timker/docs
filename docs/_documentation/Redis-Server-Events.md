@@ -1,6 +1,7 @@
 ---
 slug: redis-server-events
 ---
+
 One limitation the default `MemoryServerEvents` implementation has is being limited for use within a single App Server where all client connections are maintained. This is no longer a limitation with the new **Redis ServerEvents back-end** which utilizes a distributed redis-server back-end to provide a scale-out option capable of serving fan-out/load-balanced App Servers. If you're familiar with SignalR, this is akin to [SignalR's scaleout with Redis back-end](http://www.asp.net/signalr/overview/signalr-20/performance-and-scaling/scaleout-with-redis).
 
 `RedisServerEvents` is a drop-in replacement for the built-in `MemoryServerEvents` that's effectively a transparent implementation detail, invisible to Server or Client API's where both implementations even [share the same integration Tests](https://github.com/ServiceStack/ServiceStack/blob/b9eb34eb80ff64fa1171d2f7f29ef359c3580eed/tests/ServiceStack.WebHost.Endpoints.Tests/ServerEventTests.cs#L169-L189).

@@ -1,6 +1,7 @@
 ---
 slug: corsfeature
 ---
+
 ### Enabling Global CORS support
 
 The **CorsFeature** wraps CORS headers into an encapsulated [Plugin][1] to make it much easier to add CORS support to your ServiceStack services. 

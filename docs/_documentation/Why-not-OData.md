@@ -1,6 +1,8 @@
 ---
 slug: why-not-odata
+title: Why not OData?
 ---
+
 [Microsoft's own Services Design guidelines](http://msdn.microsoft.com/en-us/library/ms954638.aspx) provides a good initial summary on why OData-like services are a Services anti-pattern:
 
  - There is virtually no contract. A service consumer has no idea how to use the service (for example, what are valid Command arguments, encoding expectations, and so on).

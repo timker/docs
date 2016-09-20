@@ -1,7 +1,8 @@
 ---
 slug: endpoints
-title: Rest, SOAP & default endpoints
+title: REST, SOAP & default endpoints
 ---
+
 When you create a service, there are by default three endpoints:
 
 - User-defined REST endpoint
@@ -30,6 +31,7 @@ public class Hello
 ## Option 1
 
 ### SOAP endpoint
+
 `POST` example.org/soap11
 
 ```xml

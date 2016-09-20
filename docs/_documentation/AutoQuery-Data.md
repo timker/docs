@@ -1,6 +1,8 @@
 ---
 slug: autoquery-data
+title: AutoQuery Data
 ---
+
 AutoQuery Data is a new implementation that closely follows the dev model you're used to with [[AutoQuery RDBMS]]
 where any experience gained in creating RDBMS AutoQuery Services previously are now also applicable to 
 Querying alternative data sources as well.

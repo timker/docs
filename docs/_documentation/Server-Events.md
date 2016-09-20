@@ -1,6 +1,7 @@
 ---
 slug: server-events
 ---
+
 [Server Sent Events](http://www.html5rocks.com/en/tutorials/eventsource/basics/) (SSE) is an elegant [web technology](http://dev.w3.org/html5/eventsource/) for efficiently receiving push notifications from any HTTP Server. It can be thought of as a mix between long polling and one-way WebSockets and contains many benefits over each:
 
   - **Simple** - Server Sent Events is just a single long-lived HTTP Request that any HTTP Server can support

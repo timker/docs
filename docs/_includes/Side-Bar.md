@@ -22,10 +22,20 @@
 - Clients
     - [Overview](?id=clients-overview)
     - [C# client](?id=csharp-client)
-    - [Silverlight client](?id=silverlight-client)
     - [JavaScript client](?id=javascript-client)
+    - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/edit/netcore/docs/pages/netcore.md)
+    - [Silverlight client](?id=silverlight-client)
     - [Dart Client](?id=dart-client)
     - [MQ Clients](?id=messaging)
+- Add ServiceStack Reference
+    - [Overview](?id=add-servicestack-reference)
+    - [C# Add Reference](?id=csharp-add-servicestack-reference)
+    - [TypeScript Add Reference](?id=typescript-add-servicestack-reference)
+    - [Swift Add Reference](?id=swift-add-servicestack-reference)
+    - [Java Add Reference](?id=java-add-servicestack-reference)
+    - [Kotlin Add Reference](?id=kotlin-add-servicestack-reference)
+    - [F# Add Reference](?id=fsharp-add-servicestack-reference)
+    - [VB.NET Add Reference](?id=vbnet-add-servicestack-reference)
 - Formats
     - [Overview](?id=formats)
     - [JSON/JSV and XML](?id=json-jsv-and-xml)
@@ -35,35 +45,38 @@
     - [ProtoBuf Format](?id=protobuf-format)
 - View Engines
     - [Razor & Markdown Razor](http://razor.servicestack.net/)
-      - [View and Template Selection](?id=view-and-template-selection)
-      - [Razor Views vs Content Pages](http://stackoverflow.com/questions/13206038/servicestack-razor-default-page/13206221#13206221)
-      - [Self-Hosted Razor Views](http://www.ienablemuch.com/2012/12/self-hosting-servicestack-serving.html) 
+    - [View and Template Selection](?id=view-and-template-selection)
+    - [Razor Views vs Content Pages](http://stackoverflow.com/questions/13206038/servicestack-razor-default-page/13206221#13206221)
+    - [Self-Hosted Razor Views](http://www.ienablemuch.com/2012/12/self-hosting-servicestack-serving.html) 
     - [Markdown Razor](?id=markdown-razor)
 - Hosts
     - [IIS](?id=iis)
     - [Self-hosting](?id=self-hosting)
-    - [Messaging](?id=messaging)
-        - [Messaging and Redis](?id=messaging-and-redis)
-        - [Rabbit MQ](?id=rabbit-mq)
-    - [Mono](?id=mono)
-        - [Run ServiceStack as a daemon on Linux](?id=servicestack-as-daemon-on-linux)
-        - [Run ServiceStack in Fastcgi hosted on nginx](?id=servicestack-in-fastcgi-hosted-on-nginx)
-        - [Linux-Hosting-Options](?id=linux-hosting-options)
+- MQ Messaging
+    - [Overview](?id=messaging)
+    - [Messaging and Redis](?id=messaging-and-redis)
+    - [Rabbit MQ](?id=rabbit-mq)
+- Mono
+    - [Overview](?id=mono)
+    - [Run ServiceStack as a daemon on Linux](?id=servicestack-as-daemon-on-linux)
+    - [Run ServiceStack in Fastcgi hosted on nginx](?id=servicestack-in-fastcgi-hosted-on-nginx)
+    - [Linux-Hosting-Options](?id=linux-hosting-options)
 - Security
     - [Authentication/authorization](?id=authentication-and-authorization)
-       - [Open Id 2.0 Support](?id=openid)
+    - [JWT AuthProvider](?id=jwt-authprovider)
+    - [API Key AuthProvider](?id=api-key-authprovider)
+    - [Open Id 2.0 Support](?id=openid)
     - [Sessions](?id=sessions)
     - [Restricting Services](?id=restricting-services)
 - Advanced
     - [Configuration options](?id=configuration-options)
-        - [Run ServiceStack side-by-side with another web framework](?id=servicestack-side-by-side-with-another-web-framework)
+    - [Run ServiceStack side-by-side with another web framework](?id=servicestack-side-by-side-with-another-web-framework)
     - [Access HTTP specific features in services](?id=access-http-specific-features-in-services)
     - [Logging](?id=logging)
     - [Serialization/deserialization](?id=serialization-deserialization)
     - [Request/response filters](?id=request-and-response-filters)
     - [Filter attributes](?id=filter-attributes)
     - [Concurrency Model](?id=concurrency-model)
-    - [Built-in caching options](?id=caching)
     - [Built-in profiling](?id=built-in-profiling)
     - [Form Hijacking Prevention](?id=form-hijacking-prevention)
     - [Auto-Mapping](?id=auto-mapping)
@@ -73,25 +86,74 @@
     - [Physical Project Structure](?id=physical-project-structure)
     - [Modularizing Services](?id=modularizing-services)
     - [MVC Integration](?id=mvc-integration)
+- Caching
+    - [Overview](?id=caching)
+    - [HTTP Caching](?id=http-caching)
+    - [CacheResponse Attribute](?id=cacheresponse-attribute)
+    - [Cache Aware Clients](?id=cache-aware-clients)
+- AutoQuery
+    - [Overview](?id=auto-query)
+    - [Why Not OData](?id=why-not-odata)
+    - [AutoQuery RDBMS](?id=autoquery-rdbms)
+    - [AutoQuery Data](?id=autoquery-data)
+    - [AutoQuery Data Memory](?id=autoquery-memory)
+    - [AutoQuery Data Service](?id=autoquery-service)
+    - [AutoQuery Data DynamoDB](?id=autoquery-dynamodb)
+- Server Events
+    - [Overview](?id=server-events)
+    - [JavaScript Client](?id=javascript-server-events-client)
+    - [C# Server Events Client](?id=csharp-server-events-client)
+    - [Redis Server Events](?id=redis-server-events)
+- Service Gateway
+    - [Overview](?id=service-gateway)
+    - [Service Discovery](?id=service-discovery)
+- Encrypted Messaging
+    - [Overview](?id=encrypted-messaging)
+    - [Encrypted Service Client](?id=encrypted-messaging#encrypted-service-client)
 - Plugins
+    - [CORS Feature](?id=corsfeature)
     - [Request logger](?id=request-logger)
     - [Swagger API](?id=swagger-api)
+    - [Postman](?id=postman)
+    - [Sitemaps](?id=sitemaps)
+    - [Cancellable Requests](?id=cancellable-requests)
 - Tests
     - [Testing](?id=testing) 
     - [HowTo write unit/integration tests](?id=howto-write-unit-integration-tests)
+- Java
+    - [Java ServiceStack Resources](?id=java)
+    - [Android Studio & IntelliJ](?id=java-add-servicestack-reference#servicestack-idea-android-studio-plugin)
+    - [Eclipse Integration](https://github.com/ServiceStack/ServiceStack.Java/tree/master/src/ServiceStackEclipse#eclipse-integration-with-servicestack)
 - Other Languages
+    - [Swift](?id=swift)
     - [FSharp](?id=fsharp)
     - [VB.NET](?id=vbnet)
-- Use Cases
-    - [Single Page Apps](?id=single-page-apps) 
-    - [Azure](?id=azure)
+- Amazon Web Services
+    - [ServiceStack.Aws](https://github.com/ServiceStack/ServiceStack.Aws)
+    - [PocoDynamo](https://github.com/ServiceStack/PocoDynamo)
+    - [AWS Live Demos](http://awsapps.servicestack.net)
+    - [Getting Started with AWS](https://github.com/ServiceStackApps/AwsGettingStarted)
+- Deployment
+    - [Deploy Multiple Sites to single AWS Instance](?id=deploy-multiple-sites-to-aws)
+    - [Simple Deployments to AWS with WebDeploy](?id=simple-deployments-to-aws)
+    - [Advanced Deployments with OctopusDeploy](?id=advanced-deployment-octopus-deploy)
+- Install 3rd Party Products
+    - [Redis on Windows](https://github.com/ServiceStack/redis-windows)
+    - [RabbitMQ on Windows](https://github.com/ServiceStack/rabbitmq-windows)
+- Single Page Apps
+    - [Overview](?id=single-page-apps) 
     - [Bundling and Minification](?id=bundling-and-minification)
+    - [HTML, CSS and JS Minifiers](?id=html-css-and-javascript-minification)
+- Use Cases
+    - [Azure](?id=azure)
     - [NHibernate](?id=nhibernate) 
 - Performance
     - [Real world performance](?id=real-world-performance) 
-- How To
-    - [Sending stream to ServiceStack](http://www.codeproject.com/Articles/501608/SendingplusstreamplustoplusServiceStack)
-    - [ServiceStack adding to allowed file extensions](http://jaspreetchahal.org/servicestack-adding-to-allowed-file-extensions/)
-    - [Default web service page how to](http://jaspreetchahal.org/servicestack-default-web-index-page/)
+- Other Products
+    - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
+    - [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
+    - [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text)
+    - [ServiceStack.Aws](https://github.com/ServiceStack/ServiceStack.Aws)
+    - [Stripe](https://github.com/ServiceStack/Stripe)
 - Future
     - [Roadmap](?id=roadmap)

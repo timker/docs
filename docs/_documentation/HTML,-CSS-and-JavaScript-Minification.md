@@ -1,6 +1,8 @@
 ---
 slug: html-css-and-javascript-minification
+title: HTML, CSS and JavaScript Minification
 ---
+
 As part of our quest to provide a complete and productive solution for developing highly responsive Web and Single Page Apps, ServiceStack now includes minifiers for compressing HTML, CSS and JavaScript available from the new `Minifiers` class: 
 
 ```csharp
