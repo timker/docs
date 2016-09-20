@@ -23,7 +23,6 @@
     - [Overview](?id=clients-overview)
     - [C# client](?id=csharp-client)
     - [JavaScript client](?id=javascript-client)
-    - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/edit/netcore/docs/pages/netcore.md)
     - [Silverlight client](?id=silverlight-client)
     - [Dart Client](?id=dart-client)
     - [MQ Clients](?id=messaging)
@@ -149,6 +148,9 @@
     - [NHibernate](?id=nhibernate) 
 - Performance
     - [Real world performance](?id=real-world-performance) 
+- .NET Core
+    - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md)
+    - [.NET Core Redis](https://github.com/ServiceStack/ServiceStack.Redis/blob/master/docs/pages/netcore.md)
 - Other Products
     - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
     - [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)

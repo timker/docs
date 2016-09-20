@@ -1,9 +1,7 @@
 ---
 slug: html5reportformat
+title: HTML5 JSON Report Format
 ---
-#New JavaScript HTML5 Report Format
-
-## New HTML5 + JSON Report Format
 
 These examples are simply links to existing ServiceStack web services, which based on your browsers user-agent (i.e. Accept: 'text/html') provides this HTML format instead of the other serialization formats. 
 
