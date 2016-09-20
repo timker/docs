@@ -15,7 +15,7 @@ collections:
   releases:
     title: Release Notes
     output: true
-    permalink: /releases/:slug.html    
+    permalink: /:slug.html
 gems:
   - github-pages
 
