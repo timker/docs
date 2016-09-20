@@ -48,15 +48,16 @@ As you can see, this approach only works with `json` and `xml`.
 
 ## Default endpoint
 
-`/[xml|json|html|jsv|csv]/[reply|oneway]/[servicename]`
+    /[xml|json|html|jsv|csv]/[reply|oneway]/[servicename]
 
 Examples:
 
-- /xml/[reply|oneway]/[servicename] will be XML
-- /json/[reply|oneway]/[servicename] will be JSON
+ - /json/reply/Hello (will be JSON)
+ - /xml/oneway/SendEmail (will be XML)
 
 ## SOAP endpoint
 
 The SOAP endpoint only supports XML of course.
 
 > Tip: If you have forgotten the details about the specific endpoints, you can re-read [this article](?id=Endpoints)
+
