@@ -12,10 +12,10 @@ collections:
     title: Documentation
     output: true
     permalink: /:slug.html
-  release-notes:
+  releases:
     title: Release Notes
     output: true
-    permalink: /release-notes/:slug.html    
+    permalink: /releases/:slug.html    
 gems:
   - github-pages
 
