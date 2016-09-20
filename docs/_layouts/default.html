@@ -87,9 +87,10 @@
     });
 
     // Add .active class to active link + scroll into view
-    if (location.pathname != "/")
+    var pathinfo = location.pathname + location.hash;
+    if (pathinfo != "/")
     {
-        $("a[href='" + location.pathname + "']")
+        $("a[href='" + pathinfo + "']")
             .addClass('active')
             .parents().filter("div>ul>li")[0].scrollIntoView({
                 behavior: "smooth",
