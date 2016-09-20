@@ -1,6 +1,8 @@
 ---
 slug: servicestack-integration
+title: ServiceStack Integration
 ---
+
 This article explains how to make use of ServiceStack components in existing **ASP.NET MVC** and **WebForms** Web Applications. The base `ServiceStackController` and WebForms `ServiceStackPage` both share a common code-base  to provide easy access to the same clean, high-performance components found in ServiceStack's `Service` base class, directly from within your MVC Controllers and WebForm pages.
 
 This is an outline of the API's found in MVC's `ServiceStackController` and WebForms `ServiceStackPage`:

@@ -1,7 +1,7 @@
 ---
 slug: appsettings
+title: Configuration & AppSettings
 ---
-## Configuration and AppSettings
 
 Instead of building verbose nested XML configSection classes our preference is to instead store structured configuration in Web.config's `<appSetting/>` which can still express rich config graphs but in a much more human-friendly and manageable way.
 

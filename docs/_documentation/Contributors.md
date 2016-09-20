@@ -1,6 +1,7 @@
 ---
 slug: contributors
 ---
+
 ## Big thanks to our 300+ .NET Open Source Contributors!
 
 These last few weeks have been the most eventful in ServiceStack's history where we've delivered [considerable enhancements](?id=Release-Notes) to the framework that includes our [compelling new HTML Story](http://razor.servicestack.net) followed shortly after by our [new API Design](?id=New-Api) which promotes an even more flexible and enjoyable server and client apis that we we're happy to see was [well received by the Hacker Community](http://news.ycombinator.com/item?id=4564416). 

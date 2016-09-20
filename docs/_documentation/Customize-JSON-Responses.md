@@ -1,6 +1,8 @@
 ---
 slug: customize json responses
+title: Customize JSON Responses
 ---
+
 The JSON Responses for all ServiceStack Services can be configured Globally, individually per-Service or customized per-request by the client using the `?jsconfig` QueryString modifier.
 
 ## Global Default JSON Configuration

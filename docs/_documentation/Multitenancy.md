@@ -1,6 +1,8 @@
 ---
 slug: multitenancy
+title: Multitenancy
 ---
+
 ServiceStack provides a number of ways of changing the database connection used at runtime based on an incoming Request. You can use a [Request Filter](?id=Request-and-response-filters#global-request-filters), use the `[ConnectionInfo]` [Request Filter Attribute](?id=Filter-attributes#request-filter-attributes), use the `[NamedConnection]` attribute on [[Auto Query]] Services, access named connections in Custom Service implementations or override `GetDbConnection(IRequest)` in your AppHost.
 
 ### Change Database Connection at Runtime

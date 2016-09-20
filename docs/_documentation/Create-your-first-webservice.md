@@ -1,206 +1,140 @@
 ---
 slug: create-your-first-webservice
-title: Create your first Web Service
+title: Create your first WebService
 ---
 
-> Fastest way to get started is to [create a project with ServiceStack's VS.NET Templates](?id=creating-your-first-project).
-In addition to this, there are a number of great walk-thru's into ServiceStack in the 
-[Community Resources](?id=create-your-first-webservice#community-resources) section below. Like this [detailed walk-thru with Screenshots](http://nilsnaegele.com/codeedge/servicestack.html) by [@nilsnagele](https://twitter.com/nilsnagele).
+This is a quick walkthrough of getting your first web service up and running whilst having a look at the how some of the different components work. 
 
-## Step 1: Create an application
+## Step 1: Download and Install ServiceStackVS 
+First we want to install ServiceStackVS Visual Studio extension. The easiest way to do this is to look for it from within Visual Studio by going to Tools->Extensions and Updates and searching the Visual Studio Gallery as seen below.
 
-ServiceStack can be hosted in a few ways: console application, windows service, ASP.NET Web Form or MVC in IIS, etc.
+[![](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/tools_extensions.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/tools_extensions.png)
 
-For this tutorial, an empty ASP.NET Web Application (non MVC) is assumed.
+[![](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/search_download.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/search_download.png)
 
-## Step 2: Install ServiceStack
-To install ServiceStack into your application, you have two options to get the binaries:
+Optionally it can be downloaded and installed from the [VS.NET Gallery](http://visualstudiogallery.msdn.microsoft.com/5bd40817-0986-444d-a77d-482e43a48da7)
 
-### NuGet
-![Install-Pacakage ServiceStack](http://servicestack.net/img/nuget-servicestack.png)
+[![VS.NET Gallery Download](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/vsgallery-download.png)](http://visualstudiogallery.msdn.microsoft.com/5bd40817-0986-444d-a77d-482e43a48da7)
 
-> **Tip:** You can find an explanation about all NuGet packages which ServiceStack offers [here](?id=NuGet). The package above only adds the binaries, but there also exist some packages which add the required configurations etc.
+ServiceStackVS supports both VS.NET 2013 and 2012.
 
-#### Manual Download
+### VS.NET 2012 Prerequisites
 
-Only current option for manual download is to download source and build yourself.
+  - VS.NET 2012 Users must install the [Microsoft Visual Studio Shell Redistributable](http://www.microsoft.com/download/details.aspx?id=40764)
+  - It's also highly recommended to [Update to the latest NuGet](http://docs.nuget.org/docs/start-here/installing-nuget). 
 
-***
+> Alternatively if continuing to use an older version of the **NuGet Package Manager** you will need to click on **Enable NuGet Package Restore** after creating a new project to ensure its NuGet dependencies are installed.
 
-### Register ServiceStack Handler
+## Step 2: Selecting a template
 
-After you've added the binaries, you need to register ServiceStack in `web.config`:
+Once the ServiceStackVS extension is installed, you will have new project templates available when creating a new project. For this example, let's choose ServiceStack ASP.NET Empty to get started.
 
-If you want to host ServiceStack at root path (`/`), you should use this configuration:
+[![](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/new_project_aspnet_empty.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/new_project_aspnet_empty.png)
 
-```xml
-<!-- For IIS 6.0/Mono -->
-<system.web>
-  <httpHandlers>    
-    <add path="*" type="ServiceStack.HttpHandlerFactory, ServiceStack" verb="*"/>
-  </httpHandlers>
-</system.web>
+Once you've created your application from the template, you should have 4 projects in your new solution. If you left the default name, you'll end up with a solution with the following structure.
 
-<!-- For IIS 7.0+ -->
-<system.webServer>
-  <validation validateIntegratedModeConfiguration="false" />
-  <handlers>
-    <add path="*" name="ServiceStack.Factory" preCondition="integratedMode" 
-         type="ServiceStack.HttpHandlerFactory, ServiceStack" 
-         verb="*" resourceType="Unspecified" allowPathInfo="true" />
-  </handlers>
-</system.webServer>
-```
+[![](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/empty_project_solution.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/empty_project_solution.png)
 
-> **Tip:** If you want to host your webservice on a custom path to avoid conflicts with another web framework (eg ASP.Net MVC), see [Run ServiceStack side-by-side with another web framework](?id=servicestack-side-by-side-with-another-web-framework).
+## Step 3: Run your project
 
-> **Note:** Due to limitations in IIS 6 - host [ServiceStack at a /custompath](http://mono.servicestack.net/ServiceStack.Hello/#custompath) which must end with `.ashx`, e.g: `path="api.ashx"`
+Press F5 and run your project!
 
+[![](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/empty_project_run.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/empty_project_run.png)
 
-## Step 3: Create your first webservice
+> If you are continuing to use an older version of the **NuGet Package Manager** you will need to click on **Enable NuGet Package Restore** after creating a new project to ensure its NuGet dependencies are installed. Without this enabled, Visual Studio will not pull down the ServiceStack dependencies and successfully build the project.
 
-If  `Global.asax.cs` doesn't already exist you have to add it manually. To do this **Right-click** on your project and go 
-**Add -> New Item**, then select the **Global Application** class.
+#### How does it work?
 
-Each service in ServiceStack consists of three parts:
-
-- Request DTO
-- Service implementation
-- Response DTO
-
-That's the core philosophy in ServiceStack. Each service has a strongly-typed, code-first (normal POCOs) request DTO and response DTO. You can read a detailed explanation what advantages exist if you're using DTOs in the [ReadMe](https://github.com/ServiceStack/ServiceStack/blob/master/README.md) or in [Why should I use ServiceStack?] (?id=Why-Servicestack).
-
-1) Create the name of your Web Service (i.e. the Request DTO)
+Now that your new project is running, let's have a look at what we have. The template comes with a single web service route which comes from the request DTO (Data Transfer Object) which is located in the WebApplication1.ServiceModel project under `Hello.cs` file.
 
 ```csharp
-[Route("/hello")]
 [Route("/hello/{Name}")]
-public class Hello
+public class Hello : IReturn<HelloResponse>
 {
     public string Name { get; set; }
 }
-```
 
-2) Define what your Web Service will return (i.e. Response DTO)
-
-```csharp
 public class HelloResponse
 {
     public string Result { get; set; }
 }
 ```
 
-3) Create your Web Service implementation
+The `Route` attribute is specifying what path `/hello/{Name}` where `{Name}` binds it's value to the public string property of 'Name'.
+
+Let's access the route to see what comes back. Go to the following URL in your address bar, where <root_path> is your server address.
+
+    http://<root_path>/hello/world
+
+You will see a snapshot of the Result in a HTML response format. To change the return format to Json, simply add `?format=json` to the end of the URL. You'll learn more about formats, endpoints (URLs, etc) when you continue reading the documentation.
+
+If we go back to the solution and find the WebApplication1.ServiceInterface and open the `MyServices.cs` file, we can have a look at the code that is responding to the browser, giving us the `Result` back.
 
 ```csharp
-public class HelloService : Service
+public class MyServices : Service
 {
-    public object Any(Hello request)
-    {
-        return new HelloResponse { Result = "Hello, " + request.Name };
-    }
-} 
-```
-
-## Step 4: Registering your web services and starting your application
-
-The final step is to configure setup to tell ServiceStack where to find your web services. To do that, add this code to your `Global.asax.cs`:
-
-```csharp
-public class Global : System.Web.HttpApplication
-{
-    public class AppHost : AppHostBase
-    {
-        //Tell ServiceStack the name of your application and where to find your services
-        public AppHost() : base("Hello Web Services", typeof(HelloService).Assembly) { }
-
-        public override void Configure(Funq.Container container)
-        {
-            //register any dependencies your services use, e.g:
-            //container.Register<ICacheClient>(new MemoryCacheClient());
-        }
-    }
-
-    //Initialize your application singleton
-    protected void Application_Start(object sender, EventArgs e)
-    {
-        new AppHost().Init();
-    }
+  public object Any(Hello request)
+  {
+    return new HelloResponse { Result = "Hello, {0}!".Fmt(request.Name) };
+  }
 }
 ```
 
-Done! You now have a working application :)
+If we look at the code above, there are a few things to note. The name of the method `Any` means the server will run this method for any of the valid HTTP Verbs. Service methods are where you control what returns from your service.
 
-As you can see, you have created an `AppHost`. Mainly all configuration related to ServiceStack is made in the `AppHost`. It's the starting point in your application.
+## Step 4: Exploring the AngularJS Template
 
-#### Disable WebApi from the default MVC4 VS.NET template
+Starting a new ServiceStack ASP.NET with AngularJS application will also give you 4 new projects.
 
-If you are using MVC4 then you need to comment line in global.asax.cs to disable WebApi 
+- Host project
+- Service Interface project
+- Service Model project
+- Unit Testing project
 
-    //WebApiConfig.Register(GlobalConfiguration.Configuration);
+[![AngularJS Solution](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/angularjs_solution.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/angularjs_solution.png)
 
-## ServiceStack is now Ready!
+The Host project contains an AppHost which has been configured with the RazorFormat plugin as well as hosting all the required JavaScript packages like AngularJS, Bootstrap and jQuery. It is setup initially with a single `_Layout.cshtml` using the default Bootstrap template and a `default.cshtml` which contains the HelloWorld demo.
 
-Now that you have a working Web Service lets see what ServiceStack does for you out of the box:
+[![AngularJS Project](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/angularjs_main_project.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/angularjs_main_project.png)
 
-If everything is configured correctly you can go to `http://<root_path>/metadata` to see a list of your web services and the various end points its available on.
+The Host project has dependencies on the Service Model and Service Interface projects. These are the projects that contain your request/response DTOs, validators and filters. This structure is trying to encourage have your data structures and services in separate projects make testing and reuse easier.
 
-![Metadata page](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/metadata-chat.png)
+[![AngularJS Other Projects](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/angularjs_other_projects.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/angularjs_other_projects.png)
 
-> **Tip:** In the screenshot the root path is `http://localhost/ServiceStack.Hello/servicestack`. On your development box the root path might be something like `http://localhost:60335` (ie the URL on which your webservice is hosted).
+The Unit Testing project, also as a dependency on these projects as it tests them in isolation of the main Host project. In the template, we are using the BasicAppHost to mock the AppHost we are using in the Host project. The example unit test is using NUit to setup and run the tests.
 
-Let's access the HelloWorld service you created in your browser, so write the following URL in your address bar:
+### The Demo
 
-`GET http://<root_path>/hello/YourName`
-eg http://mono.servicestack.net/hello/Max. 
-    
-As you can see after clicking on this link, ServiceStack also contains a HTML response format, which makes the XML/Json (...) output human-readable. To change the return format to Json, simply add `?format=json` to the end of the URL. You'll learn more about formats, endpoints (URLs, etc) when you continue reading the documentation.
+The simple HelloWorld angular application that is provided in the template calls the `/hello/{Name}` route and displays the result in the `<p>` below. 
 
-## Troubleshooting
-If you happen to generate requests from the wsdls with a tool like soapUI you may end up with an incorrectly generated request like this:
+[![AngularJS Demo](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/servicestackvs-templates.gif)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/servicestackvs-templates.gif)
 
-```xml
-<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:typ="http://schemas.servicestack.net/types">
-  <soap:Header/>
-  <soap:Body>
-    <typ:Hello/>
-  </soap:Body>
-</soap:Envelope>
-```
+### Home Page
 
-You can resolve this issue by adding the following line to your AssemblyInfo file
-```csharp
-[assembly: ContractNamespace("http://schemas.servicestack.net/types", 
-           ClrNamespace = "<YOUR NAMESPACE>")]
-```
+The `default.cshtml` home page shows how easy it is to call ServiceStack Services from within AngularJS:
 
-Rebuild and regenerate the request from the updated wsdl. You should get a correct request this time.
+[![AngularJS Home](https://github.com/ServiceStack/ServiceStackVS/raw/master/Images/angularjs_hello_app.png)](https://github.com/ServiceStack/ServiceStackVS/raw/master/Images/angularjs_hello_app.png)
 
-```xml
-<soap:Envelope xmlns:soap="http://www.w3.org/2003/05/soap-envelope" xmlns:typ="http://schemas.servicestack.net/types">
-   <soap:Header/>
-   <soap:Body>
-      <typ:Hello>
-         <!--Optional:-->
-         <typ:Name>?</typ:Name>
-      </typ:Hello>
-   </soap:Body>
-</soap:Envelope>
-```
+### [[Testing]]
+The project templates from the ServiceStackVS extension also include a Tests project. The project structure and addition of the Tests project is there to encourage a pattern that will scale to larger applications whilst maintaining a easy to understand and testable application.
 
-## Explore more ServiceStack features
+## [Create a WebService from scratch](?id=Create-your-first-webservice)
+
+If you prefer, you can instead [create a ServiceStack Web Service from a blank ASP.NET Web Application](?id=Create-your-first-webservice) another popular option is to [Add ServiceStack to an existing ASP.NET MVC Application](?id=Mvc-integration)
+
+## [Explore more ServiceStack features](https://github.com/ServiceStackApps/EmailContacts/)
 
 The [EmailContacts solution](https://github.com/ServiceStackApps/EmailContacts/) is a new guidance available that walks through the recommended setup and physical layout structure of typical medium-sized ServiceStack projects, including complete documentation of how to create the solution from scratch, whilst explaining all the ServiceStack features it makes use of along the way.
 
-# Community Resources
+
+## Community Resources
 
   - [Creating A Simple Service Using ServiceStack](http://shashijeevan.net/2015/09/20/creating-a-simple-service-using-servicestack/) by [Shashi Jeevan](http://shashijeevan.net/author/shashijeevan/)
   - [Introducing ServiceStack](http://www.dotnetcurry.com/showarticle.aspx?ID=1056) by [@dotnetcurry](https://twitter.com/DotNetCurry)
   - [Create web services in .NET in a snap with ServiceStack](http://www.techrepublic.com/article/create-web-services-in-net-in-a-snap-with-servicestack/) by [@techrepublic](https://twitter.com/techrepublic)
   - [How to build web services in MS.Net using ServiceStack](http://kborra.wordpress.com/2014/07/29/how-to-build-web-services-in-ms-net-using-service-stack/) by [@kishoreborra](http://kborra.wordpress.com/about/)
-  - [Getting Started with ServiceStack: Part 1](http://blogs.askcts.com/2014/04/23/getting-started-with-servicestack-part-one/) by [Lydon Bergin](http://www.lydonbergin.com/)
-  - [Getting Started with ServiceStack: Part 2](http://blogs.askcts.com/2014/05/07/getting-started-with-servicestack-part-2/) by [Lydon Bergin](http://www.lydonbergin.com)
-  - [Getting Started with ServiceStack Part 3](http://blogs.askcts.com/2014/05/15/getting-started-with-servicestack-part-3/) by [Lydon Bergin](http://www.lydonbergin.com)
+  - [Creating a Web API using ServiceStack](http://blogs.askcts.com/2014/05/15/getting-started-with-servicestack-part-3/) by [Lydon Bergin](http://blogs.askcts.com/)
+  - [Getting Started with ServiceStack: Part 1](http://blogs.askcts.com/2014/04/23/getting-started-with-servicestack-part-one/) by [Lydon Bergin](http://blogs.askcts.com/)
   - [Getting started with ServiceStack – Creating a service](http://dilanperera.wordpress.com/2014/02/22/getting-started-with-servicestack-creating-a-service/)
   - [ServiceStack Quick Start](http://mediocresoft.com/things/servicestack-quick-start) by [@aarondandy](https://github.com/aarondandy)
   - [Fantastic Step-by-step walk-thru into ServiceStack with Screenshots!](http://nilsnaegele.com/codeedge/servicestack.html) by [@nilsnagele](https://twitter.com/nilsnagele)
@@ -212,13 +146,12 @@ The [EmailContacts solution](https://github.com/ServiceStackApps/EmailContacts/)
   - [Using ServiceStack with CodeFluent Entities](http://blog.codefluententities.com/2013/03/06/using-servicestack-with-codefluent-entities/) by [@SoftFluent](https://twitter.com/SoftFluent)
   - [ServiceStack, Rest Service and EasyHttp](http://blogs.lessthandot.com/index.php/WebDev/ServerProgramming/servicestack-restservice-and-easyhttp) by [@chrissie1](https://twitter.com/chrissie1)
   - [Building a Web API in SharePoint 2010 with ServiceStack](http://www.mattjcowan.com/funcoding/2012/05/04/building-a-web-api-in-sharepoint-2010-with-servicestack)
-  - [JQueryMobile and ServiceStack: EventsManager tutorial part #3](http://paymentnetworks.wordpress.com/2012/04/24/jquerymobile-and-service-stack-eventsmanager-tutorial-post-3/) by [+Kyle Hodgson](https://plus.google.com/u/0/113523377752095590770/posts)
   - [REST Raiding. ServiceStack](http://dgondotnet.blogspot.de/2012/04/rest-raiding-servicestack.html) by [Daniel Gonzalez](http://www.blogger.com/profile/13468563783321963413)
   - [JQueryMobile and Service Stack: EventsManager tutorial](http://kylehodgson.com/2012/04/21/jquerymobile-and-service-stack-eventsmanager-tutorial-post-2/) / [Part 3](http://kylehodgson.com/2012/04/23/jquerymobile-and-service-stack-eventsmanager-tutorial-post-3/) by [+Kyle Hodgson](https://plus.google.com/u/0/113523377752095590770/posts)
   - [Like WCF: Only cleaner!](http://kylehodgson.com/2012/04/18/like-wcf-only-cleaner-9/) by [+Kyle Hodgson](https://plus.google.com/u/0/113523377752095590770/posts)
   - [ServiceStack I heart you. My conversion from WCF to SS](http://www.philliphaydon.com/2012/02/service-stack-i-heart-you-my-conversion-from-wcf-to-ss/) by [@philliphaydon](https://twitter.com/philliphaydon)
   - [Service Stack vs WCF Data Services](http://codealoc.wordpress.com/2012/03/24/service-stack-vs-wcf-data-services/)
   - [Creating a basic catalogue endpoint with ServiceStack](http://blogs.7digital.com/dev/2011/10/17/creating-a-basic-catalogue-endpoint-with-servicestack/) by [7digital](http://blogs.7digital.com)
-  - [Building a Tridion WebService with jQuery and ServiceStack](http://www.curlette.com/?p=161) by [@robrtc](https://twitter.com/robrtc)
+  - [Buildiing a Tridion WebService with jQuery and ServiceStack](http://www.curlette.com/?p=161) by [@robrtc](https://twitter.com/#!/robrtc)
   - [Anonymous type + Dynamic + ServiceStack == Consuming cloud has never been easier](http://www.ienablemuch.com/2012/05/anonymous-type-dynamic-servicestack.html) by [@ienablemuch](https://twitter.com/ienablemuch)
   - [Handful of examples of using ServiceStack based on the ServiceStack.Hello Tutorial](https://github.com/jfoshee/TryServiceStack) by [@82unpluggd](https://twitter.com/82unpluggd)

@@ -53,7 +53,7 @@ In-terms of accessibility and interoperability, ServiceStack 1-ups Amazon here s
 
 Although Amazon holds the SOA edge, Google, like Amazon also benefits from message-based design for nearly all their internal communications using their own Data Interchange Format - [Protocol Buffers](http://code.google.com/p/protobuf/), which like JSON is both fast, compact and tolerant:
 
->>Protocol Buffers are a way of encoding structured data in an efficient yet extensible format. Google uses Protocol Buffers for almost all of its internal RPC protocols and file formats.
+> Protocol Buffers are a way of encoding structured data in an efficient yet extensible format. Google uses Protocol Buffers for almost all of its internal RPC protocols and file formats.
 
 A simple DSL is used to define their Protocol Buffer message DTOs:
 

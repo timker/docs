@@ -1,6 +1,7 @@
 ---
 slug: community-resources
 ---
+
 ### Blog posts
 
   - [Journey into Microservices](http://www.wwwlicious.com/2016/05/03/servicestack-microservices-1/) by [@wwwlicious](https://twitter.com/wwwlicious)

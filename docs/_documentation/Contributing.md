@@ -1,6 +1,7 @@
 ---
 slug: contributing
 ---
+
 ## Ask a support question
 
 The easiest way to ask support questions is on [Stack Overflow](http://stackoverflow.com/search?q=servicestack) using the #ServiceStack hash tag. ServiceStack Customers also have access to the customer support channels [listed on their support page](http://servicestack.net/account/support).

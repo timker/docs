@@ -20,193 +20,195 @@ title: ServiceStack Resources
 ## ServiceStack Community
 
 - [ServiceStack G+ Community](https://plus.google.com/communities/112445368900682590445) Get in touch with the ServiceStack Community
-- [[Community-Resources]] (Blog Posts, Gists, StackOverflow, Pod casts...)
-- [[Contributors]] - Special thanks to all of ServiceStack's Contributors
-- [Contributing Guide](?id=Contributing) - Read our Contributing Guide before contributing
+- [Community-Resources](?id=community-resources) (Blog Posts, Gists, StackOverflow, Pod casts...)
+- [Contributors](?id=contributors) - Special thanks to all of ServiceStack's Contributors
+- [Contributing Guide](?id=contributing) - Read our Contributing Guide before contributing
 
 ## ServiceStack Documentation
 
-> [[Prerequisites]] - Before you start reading, you should know the basics about HTTP (HTTP methods/verbs, status codes etc) and REST/SOAP
+> [Prerequisites](?id=prerequisites) - Before you start reading, you should know the basics about HTTP (HTTP methods/verbs, status codes etc) and REST/SOAP
 
- - [Why ServiceStack?](?id=Why-Servicestack)
- - [[Architecture Overview]]
- - [What is a message based web service?](?id=What-is-a-message-based-web-service)
- - [[Advantages of message based web services]]
- - [Why remote services should use separate Data Transfer Objects](http://stackoverflow.com/a/15369736/85785)
+- [Why ServiceStack?](?id=why-servicestack)
+- [Architecture Overview](?id=architecture-overview)
+- [What is a message-based WebService?](?id=What-is-a-message-based-web-service)
+- [Advantages of message-based WebServices](?id=advantages-of-message-based-web-services)
+- [Why remote services should use DTOs?](http://stackoverflow.com/a/15369736/85785)
 
 - Getting Started
-    - [Creating your first Project](?id=Creating-your-first-project)
-      - [Creating a WebService from scratch](?id=Create-your-first-webservice)
-    - [[Your first webservice explained]]
+    - [Create your first WebService](?id=create-your-first-webservice)
+      - [Creating a WebService from scratch](?id=create-webservice-from-scratch)
+    - [Your first webservice explained](?id=your-first-webservice-explained)
     - [Example Projects Overview](http://stackoverflow.com/a/15869816/85785)    
     - [Learning Resources](?id=Learning-ServiceStack)
 
 - Designing APIs
-    - [ServiceStack API Design](?id=New-API)
+    - [ServiceStack's API Design](?id=api-design)
     - [Designing a REST-ful service with ServiceStack](http://stackoverflow.com/a/15235822/85785)
       - [Simple Customer REST Example](http://stackoverflow.com/a/30273466/85785)
     - [How to design a Message-Based API](http://stackoverflow.com/a/15941229/85785)
     - [Software complexity, goals of Services and important role of DTOs](http://stackoverflow.com/a/32940275/85785)
 
 - Reference
-    - [[Order of Operations]]
-    - [[The IoC container]]
-    - [Configuration and AppSettings](?id=AppSettings)
+    - [Order of Operations](?id=order-of-operations)
+    - [The IoC container](?id=the-ioc-container)
+    - [Configuration & AppSettings](?id=appsettings)
     - [Metadata page](?id=Metadata-page)
-    - [Rest, SOAP & default endpoints](?id=Endpoints)
-    - [[SOAP support]]
-    - [[Routing]]
-    - [[Service return types]]
-    - [[Customize HTTP Responses]]
-    - [[Customize JSON Responses]]
-    - [[Plugins]]
+    - [REST, SOAP & default endpoints](?id=endpoints)
+    - [SOAP support](?id=soap-support)
+    - [Routing](?id=routing)
+    - [Service return types](?id=service-return-types)
+    - [Customize HTTP Responses](?id=customize-http-responses)
+    - [Customize JSON Responses](?id=customize-json-responses)
+    - [Plugins](?id=plugins)
     - [Validation](?id=Validation)
-    - [[Error Handling]]
-    - [[Security]]
-    - [[Debugging]]
-    - [JavaScript Client Library (ss-utils.js)](?id=ss-utils-js-javascript-client-library)
+    - [Error Handling](?id=error-handling)
+    - [Security](?id=security)
+    - [Debugging](?id=debugging)
+    - [JavaScript Client Library (ss-utils.js)](?id=ss-utils-js)
 
 - Clients
-    - [Overview](?id=Clients-overview)
-    - [C#/.NET client](?id=CSharp-client)
+    - [Overview](?id=clients-overview)
+    - [C#/.NET client](?id=csharp-client)
         - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md)
-    - [[Add ServiceStack Reference]]
-        - [C# Add ServiceStack Reference](?id=CSharp-Add-ServiceStack-Reference)
-        - [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-        - [VB.NET Add ServiceStack Reference](?id=VBNet-Add-ServiceStack-Reference)
-        - [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
-        - [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
+    - [Add ServiceStack Reference](?id=add-servicestack-reference)
+        - [C# Add Reference](?id=csharp-add-servicestack-reference)
+        - [TypeScript Add Reference](?id=typescript-add-servicestack-reference)
+        - [Swift Add Reference](?id=swift-add-servicestack-reference)
+        - [Java Add Reference](?id=java-add-servicestack-reference)
+        - [Kotlin Add Reference](?id=kotlin-add-servicestack-reference)
+        - [F# Add Reference](?id=fsharp-add-servicestack-reference)
+        - [VB.NET Add Reference](?id=vbnet-add-servicestack-reference)
+    - [JavaScript client](?id=javascript-client)
     - [Silverlight client](?id=silverlight-client)
-    - [[JavaScript client]]
-        - [Add TypeScript Reference](?id=TypeScript-Add-ServiceStack-Reference)
-    - [[Dart Client]]
-    - [MQ Clients](?id=Messaging)
+    - [Dart Client](?id=dart-client)
+    - [MQ Clients](?id=messaging#mq-client-architecture)
 
 - Formats
     - [Overview](?id=Formats)
-    - [JSON/JSV and XML](?id=json-jsv-and-xml)
-    - [HTML5 Report Format](?id=HTML5ReportFormat)
-    - [[CSV Format]]
-    - [[MessagePack Format]]
-    - [[ProtoBuf Format]]
+    - [JSON, JSV & XML](?id=json-jsv-and-xml)
+    - [CSV Format](?id=csv-format)
+    - [MessagePack Format](?id=messagepack-format)
+    - [ProtoBuf Format](?id=protobuf-format)
+    - [HTML5 Report Format](?id=html5reportformat)
 
 - View Engines
     - [Razor & Markdown Razor](http://razor.servicestack.net/)
-      - [[Razor Notes]]
-      - [[View and Template Selection]]
-      - [[Compiled Razor Views]]
+    - [Razor Notes](?id=razor-notes)
+    - [View and Template Selection](?id=view-and-template-selection)
+      - [Compiled Razor Views](?id=compiled-razor-views)
       - [Razor Views vs Content Pages](http://stackoverflow.com/questions/13206038/servicestack-razor-default-page/13206221#13206221)
       - [Self-Hosted Razor Views](http://www.ienablemuch.com/2012/12/self-hosting-servicestack-serving.html) 
       - [Theming Razor Views](http://www.mattjcowan.com/funcoding/2013/06/24/theming-servicestack-razor-views/)
-    - [[Markdown Razor]]
+    - [Markdown Razor](?id=markdown-razor)
 
 - Hosts
-    - [[IIS]]
-    - [[Self-hosting]]
-    - [[Messaging]]
-        - [[Rabbit MQ]]
-        - [Redis MQ](?id=messaging-and-redis)
+    - [IIS](?id=iis)
+    - [Self-hosting](?id=self-hosting)
+    - [Messaging](?id=messaging)
+        - [Rabbit MQ](?id=rabbit-mq)
+        - [Rabbit MQ](?id=rabbit-mq)
         - [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
-    - [[Mono]]
+    - [Mono](?id=mono)
         - [Run ServiceStack as a daemon on Linux](?id=servicestack-as-daemon-on-linux)
         - [Recommended guide for hosting on Mono](https://github.com/ServiceStackApps/mono-server-config)
         - [Docker image for running in a docker container](https://github.com/ServiceStackApps/mono-docker-config)
-        - [[Linux-Hosting-Options]]
+    - [Linux-Hosting-Options](?id=linux-hosting-options)
 
 - Security
-    - [Authentication and Authorization](?id=Authentication-and-authorization)
-       - [[JWT AuthProvider]]
-       - [[API Key AuthProvider]]
-       - [Open Id 2.0 Support](?id=OpenId)
-    - [[Sessions]]
-    - [[Restricting Services]]
-    - [[Encrypted Messaging]]
+    - [Authentication & Authorization](?id=authentication-and-authorization)
+        - [JWT AuthProvider](?id=jwt-authprovider)
+        - [API Key AuthProvider](?id=api-key-authprovider)
+        - [Open Id 2.0 Support](?id=openid)
+    - [Sessions](?id=sessions)
+    - [Restricting Services](?id=restricting-services)
+    - [Encrypted Messaging](?id=encrypted-messaging)
 
 - Advanced
-    - [Configuration options](?id=Configuration-options)
+    - [Configuration options](?id=configuration-options)
         - [Run ServiceStack side-by-side with another web framework](?id=servicestack-side-by-side-with-another-web-framework)
-    - [[Access HTTP specific features in services]]
+    - [Access HTTP specific features in services](?id=access-http-specific-features-in-services)
     - [Logging](?id=Logging)
-    - [Serialization/deserialization](?id=serialization-deserialization)
-    - [Request/response filters](?id=Request-and-response-filters)
-    - [Filter attributes](?id=Filter-attributes)
-    - [[Concurrency Model]]
-    - [Built-in profiling](?id=Built-in-profiling)
-    - [[Form Hijacking Prevention]]
-    - [[Auto-Mapping]]
-    - [[HTTP Utils]]
-    - [[Dump Utils]]
-    - [[Virtual File System]]
-    - [[Config API]]
-    - [[Physical Project Structure]]
-    - [[Modularizing Services]]
-    - [[MVC Integration]]
-    - [[ServiceStack Integration]]
+    - [Serialization & Deserialization](?id=serialization-deserialization)
+    - [Request & Response filters](?id=request-and-response-filters)
+    - [Filter attributes](?id=filter-attributes)
+    - [Concurrency Model](?id=concurrency-model)
+    - [Built-in profiling](?id=built-in-profiling)
+    - [Form Hijacking Prevention](?id=form-hijacking-prevention)
+    - [Auto-Mapping](?id=auto-mapping)
+    - [HTTP Utils](?id=http-utils)
+    - [Dump Utils](?id=dump-utils)
+    - [Virtual File System](?id=virtual-file-system)
+    - [Config API](?id=config-api)
+    - [Physical Project Structure](?id=physical-project-structure)
+    - [Modularizing Services](?id=modularizing-services)
+    - [MVC Integration](?id=mvc-integration)
+    - [ServiceStack Integration](?id=servicestack-integration)
     - [Embedded Native Desktop Apps](https://github.com/ServiceStack/ServiceStack.Gap)
-    - [[Auto Batched Requests]]
-    - [[Versioning]]
-    - [[Multitenancy]]
+    - [Auto Batched Requests](?id=auto-batched-requests)
+    - [Versioning](?id=versioning)
+    - [Multitenancy](?id=multitenancy)
 
 - Caching
-  - [Caching Providers](?id=Caching)
-  - [[HTTP Caching]]
-    - [[CacheResponse Attribute]]
-    - [[Cache Aware Clients]]
+    - [Overview](?id=caching)
+    - [HTTP Caching](?id=http-caching)
+        - [CacheResponse Attribute](?id=cacheresponse-attribute)
+        - [Cache Aware Clients](?id=cache-aware-clients)
 
 - Auto Query
-  - [Overview](?id=Auto-Query)
-  - [[Why Not OData]]
-  - [[AutoQuery RDBMS]]
-  - [[AutoQuery Data]]
-    - [[AutoQuery Memory]]
-    - [[AutoQuery Service]]
-    - [[AutoQuery DynamoDB]] 
+    - [Overview](?id=autoquery)
+    - [Why Not OData](?id=why-not-odata)
+    - [AutoQuery RDBMS](?id=autoquery-rdbms)
+    - [AutoQuery Data](?id=autoquery-data)
+        - [AutoQuery Data Memory](?id=autoquery-memory)
+        - [AutoQuery Data Service](?id=autoquery-service)
+        - [AutoQuery Data DynamoDB](?id=autoquery-dynamodb)
 
 - Server Events
-    - [Overview](?id=Server-Events)
-    - [JavaScript Client](?id=JavaScript-Server-Events-Client)
+    - [Overview](?id=server-events)
+    - [JavaScript Client](?id=javascript-server-events-client)
     - [C# Server Events Client](?id=csharp-server-events-client)
-    - [[Redis Server Events]]
+    - [Redis Server Events](?id=redis-server-events)
 
 - Service Gateway
-    - [Overview](?id=Service-Gateway)
-    - [[Service Discovery]]
+    - [Overview](?id=service-gateway)
+    - [Service Discovery](?id=service-discovery)
 
 - Encrypted Messaging
-    - [Overview](?id=Encrypted-Messaging)
-    - [Encrypted Client](?id=Encrypted-Messaging#encrypted-service-client)
+    - [Overview](?id=encrypted-messaging)
+    - [Encrypted Service Client](?id=encrypted-messaging#encrypted-service-client)
   
 - Plugins
-    - [[Swagger API]]
-    - [[Postman]]
-    - [[Request logger]]
-    - [[Sitemaps]]
-    - [[Cancellable Requests]]
-    - [[CorsFeature]]
+    - [Overview](?id=plugins)
+    - [Swagger API](?id=swagger-api)
+    - [Postman](?id=postman)
+    - [CORS Feature](?id=corsfeature)
+    - [Request logger](?id=request-logger)
+    - [Sitemaps](?id=sitemaps)
+    - [Cancellable Requests](?id=cancellable-requests)
 
 - Tests
-    - [[Testing]] 
+    - [Testing](?id=testing) 
     - [HowTo write unit/integration tests](?id=HowTo-write-unit-integration-tests)
 
 - ServiceStackVS
-    - [[Install ServiceStackVS]]
-    - [[Add ServiceStack Reference]]
+    - [Install ServiceStackVS](?id=install-servicestackvs)
+    - [Add ServiceStack Reference](?id=add-servicestack-reference)
     - [TypeScript React Template](https://github.com/ServiceStackApps/typescript-react-template/)
       - [React, Redux Chat App](https://github.com/ServiceStackApps/ReactChat)
     - [AngularJS App Template](https://github.com/ServiceStack/ServiceStackVS/blob/master/docs/angular-spa.md)
     - [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)
 
 - Other Languages
-    - [[FSharp]]
-        - [Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-    - [VB.NET](?id=vbnet)
-        - [Add ServiceStack Reference](?id=VBNet-Add-ServiceStack-Reference)
-    - [[Swift]]
-        - [Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
     - [Java](https://github.com/ServiceStack/ServiceStack.Java)
         - [Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
         - [Android Studio & IntelliJ](?id=Java-Add-ServiceStack-Reference#servicestack-idea-android-studio-plugin)
         - [Eclipse](https://github.com/ServiceStack/ServiceStack.Java/tree/master/src/ServiceStackEclipse#eclipse-integration-with-servicestack)
+    - [Swift](?id=swift)
+        - [Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
+    - [F#](?id=fsharp)
+        - [Add ServiceStack Reference](?id=fSharp-add-servicestack-reference)
+    - [VB.NET](?id=vbnet)
+        - [Add ServiceStack Reference](?id=vbnet-add-servicestack-reference)
 
 - Amazon Web Services
   - [ServiceStack.Aws](https://github.com/ServiceStack/ServiceStack.Aws)
@@ -224,21 +226,23 @@ title: ServiceStack Resources
     - [RabbitMQ on Windows](https://github.com/ServiceStack/rabbitmq-windows)
 
 - Use Cases
-    - [[Single Page Apps]] 
+    - [Single Page Apps](?id=single-page-apps) 
       - [HTML, CSS and JavaScript Minification](?id=html-css-and-javascript-minification)
-    - [[Azure]]
+    - [Azure](?id=azure)
       - [Connecting to Azure Redis via SSL](?id=Secure-SSL-Redis-connections-to-Azure-Redis)
-    - [[Logging]] 
-    - [[Bundling and Minification]]
-    - [[NHibernate]] 
+    - [Logging](?id=logging)
+    - [Bundling and Minification](?id=bundling-and-minification)
+    - [NHibernate](?id=nhibernate) 
 
 - Performance
-    - [[Real world performance]] 
+    - [Real world performance](?id=real-world-performance) 
 
 - Other Products
     - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
     - [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
     - [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text)
+    - [ServiceStack.Aws](https://github.com/ServiceStack/ServiceStack.Aws)
+    - [Stripe](https://github.com/ServiceStack/Stripe)
 
 - Future
-    - [[Roadmap]]
+    - [Roadmap](?id=roadmap)

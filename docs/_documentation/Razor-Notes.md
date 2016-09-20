@@ -1,6 +1,8 @@
 ---
 slug: razor-notes
+title: Razor Notes
 ---
+
 ## VS.NET Intelli-sense for self-hosting projects
 
 VS.NET Intelli-sense relies on the `Web.config` that VS.NET looks for in the root directory of your host projects. As self-hosting projects are **Console Applications** they instead use `App.config` instead which is all ServiceStack looks at for configuring Razor. 

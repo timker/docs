@@ -1,6 +1,8 @@
 ---
 slug: install-servicestackvs
+title: Install ServiceStackVS
 ---
+
 First we want to install [ServiceStackVS Visual Studio extension](http://visualstudiogallery.msdn.microsoft.com/5bd40817-0986-444d-a77d-482e43a48da7). The easiest way to do this is to look for it from within Visual Studio by going to Tools->Extensions and Updates and searching the Visual Studio Gallery as seen below.
 
 [![](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/tools_extensions.png)](https://raw.githubusercontent.com/ServiceStack/ServiceStackVS/master/Images/tools_extensions.png)

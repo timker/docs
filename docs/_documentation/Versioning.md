@@ -1,6 +1,7 @@
 ---
 slug: versioning
 ---
+
 ### Implicit Versioning
 
 You can populate Version numbers in all Request DTO's implementing `IHasVersion`, i.e:
