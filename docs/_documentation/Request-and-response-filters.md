@@ -1,6 +1,8 @@
 ---
 slug: request-and-response-filters
+title: Request & Response filters
 ---
+
 A recent addition to ServiceStack is the ability to register custom Request and Response filters. These should be registered in your `AppHost.Configure()` onload script: 
 
 ### Global Request Filters

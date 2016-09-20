@@ -1,9 +1,7 @@
 ---
 slug: autoquery-memory
-title: AutoQuery Memory
+title: AutoQuery Memory Data Source
 ---
-
-### AutoQuery Memory Data Source
 
 The simplest data source we can query is an in-memory .NET collection registered with `ctx.MemorySource()`. 
 But how the collection is populated remains up to you. The example below shows registering collections from 

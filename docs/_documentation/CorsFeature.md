@@ -1,5 +1,6 @@
 ---
 slug: corsfeature
+title: CORS Feature
 ---
 
 ### Enabling Global CORS support

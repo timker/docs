@@ -1,11 +1,12 @@
 ---
 slug: servicestack-in-fastcgi-hosted-on-nginx
+title: Run ServiceStack in FastCGI hosted on nginx
 ---
-# Run ServiceStack in Fastcgi hosted on nginx 
 
 FastCGI is a protocol for interfacing programs with a web server. In this case we're going to interface with nginx. This guide will show you how to host a simple hello world application in nginx.
 
 ## Install prerequisites 
+
 The tutorial is written using Ubuntu 12.04. At the time of writing I using the following versions.
 
 * nginx - 1.1.19-1

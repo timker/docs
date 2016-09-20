@@ -1,6 +1,8 @@
 ---
 slug: config-api
+title: Config API
 ---
+
 Despite being avid protesters in the anti-XML config movement, we're still 100% for app Config in general though it should be **limited to what's actually configurable by your application**. Instead of building tiered configSection manatees we prefer to store structured data in Web.config's appSetting's values which are still able to express rich object config graphs but does so in a much more human-friendly and manageable size.
 
 ### ServiceStack's Configuration API
@@ -26,11 +28,15 @@ By default ServiceStack ships with an [AppSettings](https://github.com/ServiceSt
 
 Here's a quick example show-casing how to use the popular **AppSettings*:
 
-    <appSettings>
+```xml
+<appSettings>
 	<add key="LastUpdated" value="01/01/2012 12:00:00" />
 	<add key="AllowedUsers" value="Tom,Mick,Harry" />
 	<add key="RedisConfig" value="{Host:localhost,Port:6379,Database:1,Timeout:10000}" />
-    </appSettings>
+</appSettings>
+```
+
+Accessing the above appSettings in C#:
 
 ```csharp
 var appSettings = new AppSettings();

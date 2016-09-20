@@ -1,5 +1,6 @@
 ---
 slug: jwt-authprovider
+title: JWT Auth Provider
 ---
 
 The `JwtAuthProvider` is our integrated Auth solution for the popular [JSON Web Tokens](https://jwt.io/) (JWT) industry standard which is easily enabled by registering the `JwtAuthProvider` with the `AuthFeature` plugin:

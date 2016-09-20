@@ -1,9 +1,7 @@
 ---
 slug: openid
+title: OpenId 2.0 Auth Providers
 ---
-.
-
-#OpenId 2.0 Authentication Support
 
 Contained in the [ServiceStack.Authentication.OpenId](http://nuget.org/packages/ServiceStack.Authentication.OpenId) NuGet package is ServiceStack's support of OpenId 2.0 Authentication. This allows ServiceStack-enabled ASP.NET / MVC sites and web services to authenticate and accept registration from any OpenId 2.0 Authentication provider. Like most .NET OpenId libraries, we leverage the de-facto and excellent [DotNetOpenAuth](http://www.dotnetopenauth.net/) library to enable our OpenId and OAuth2 support. 
 
@@ -45,38 +43,38 @@ Plugins.Add(new AuthFeature(() => new CustomUserSession(),
 Creating a custom OpenId provider is trivially done by just inheriting from `OpenIdOAuthProvider` and providing a unique Id and Auth Realm Url for the provider. This is the source code for [GoogleOpenIdOAuthProvider](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Authentication.OpenId/GoogleOpenIdOAuthProvider.cs):
 
 ```csharp
-    public class GoogleOpenIdOAuthProvider : OpenIdOAuthProvider {
-        public const string Name = "GoogleOpenId";
-        public static string Realm = "https://www.google.com/accounts/o8/id";
+public class GoogleOpenIdOAuthProvider : OpenIdOAuthProvider {
+    public const string Name = "GoogleOpenId";
+    public static string Realm = "https://www.google.com/accounts/o8/id";
 
-        public GoogleOpenIdOAuthProvider(IResourceManager appSettings)
-            : base(appSettings, Name, Realm) { }
-    }
+    public GoogleOpenIdOAuthProvider(IResourceManager appSettings)
+        : base(appSettings, Name, Realm) { }
+}
 ```
 
 With just `GoogleOpenIdOAuthProvider` class and it's registration above we can now enable authentication for our websites by just adding a HTML Form to **POST** to the `/auth/{AuthProviderName}` AuthService, e.g:
 
 ```html
-    <form action="/api/auth/googleopenid" method="POST">
-        <input type="image" src="/Content/img/sign-in-with-google.png" alt="Sign in with Google">
-    </form>
+<form action="/api/auth/googleopenid" method="POST">
+    <input type="image" src="/Content/img/sign-in-with-google.png" alt="Sign in with Google">
+</form>
 ```
 
 Any other custom OpenId provider can be added in the same way, here is the HTML Form for Yahoo OpenId:
 
 ```html
-    <form action="/api/auth/yahooopenid" method="POST">
-        <input type="image" src="/Content/img/sign-in-with-yahoo.png" alt="Sign in with Yahoo!">
-    </form>
+<form action="/api/auth/yahooopenid" method="POST">
+    <input type="image" src="/Content/img/sign-in-with-yahoo.png" alt="Sign in with Yahoo!">
+</form>
 ```
 
 Finally you can allow registration of any other OpenId 2.0 provider at run-time by including their Url in the **OpenIdUrl** Form POST variable, e.g:
 
 ```html
-    <form action="/api/auth/openid" method="POST">
-        <input type="text" name="OpenIdUrl" value="http://myopenid.com" />
-        <input type="submit" class="btn" value="Sign In"/>
-    </form>
+<form action="/api/auth/openid" method="POST">
+    <input type="text" name="OpenIdUrl" value="http://myopenid.com" />
+    <input type="submit" class="btn" value="Sign In"/>
+</form>
 ```
 
 The above sample markup from the [Bootstrap Api project Index.cshtml](https://github.com/ServiceStack/SocialBootstrapApi/blob/master/src/SocialBootstrapApi/Views/Shared/Index.cshtml#L366) page, which when rendered looks like:

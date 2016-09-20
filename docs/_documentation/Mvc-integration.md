@@ -1,6 +1,8 @@
 ---
 slug: mvc-integration
+title: MVC Integration
 ---
+
 ### Add ServiceStack to an existing MVC Project
 
 You can easily add ServiceStack to any ASP.NET MVC project by getting it from NuGet with:

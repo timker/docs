@@ -1,6 +1,8 @@
 ---
 slug: servicestack-side-by-side-with-another-web-framework
+title: Run ServiceStack side-by-side with another Framework
 ---
+
 In order to avoid conflicts with your existing ASP.NET web framework it is recommended to host your ServiceStack web services at a custom path.
 This will allow you to use ServiceStack together with an existing web framework e.g. ASP.NET MVC 3 or FUBU MVC, etc.
 
@@ -49,11 +51,12 @@ Configuration for also running on Mono / IIS 6:
   <!-- ... --> 
 </configuration>
 ```
+
 > **Note:** Due to limitations in IIS 6 - the `/custompath` must end with `.ashx`, e.g: `path="api.ashx"`
 
 You also need to configure the root path in your AppHost.
 
-```c#
+```csharp
 public override void Configure(Container container)
 {
     SetConfig(new HostConfig { HandlerFactoryPath = "api" });
@@ -63,14 +66,14 @@ public override void Configure(Container container)
 **To avoid conflicts with ASP.NET MVC add an ignore rule** in `Global.asax RegisterRoutes` method e.g: `routes.IgnoreRoute ("api/{*pathInfo}");`
 
 **For MVC4 applications you also need to unregister WebApi**, by commenting out this line in `Global.asax.cs`:
+
 ```csharp
-    //WebApiConfig.Register(GlobalConfiguration.Configuration);
+  //WebApiConfig.Register(GlobalConfiguration.Configuration);
 ```
 
 > **Note:** If you used Nuget to install the bits, remove the original handler from the web.config system.webserver node e.g: 
 
 ```xml
-
 <add path="*" name="ServiceStack.Factory"
     type="ServiceStack.HttpHandlerFactory, ServiceStack" verb="*" 
     preCondition="integratedMode" resourceType="Unspecified" allowPathInfo="true" />

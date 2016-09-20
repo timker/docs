@@ -1,6 +1,6 @@
 ---
 slug: cacheresponse-attribute
-title: CacheResponse attribute
+title: CacheResponse Attribute
 ---
 
 The `[CacheResponse]` is a normal [Request Filter Attribute](?id=Filter-attributes)

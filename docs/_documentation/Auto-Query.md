@@ -1,5 +1,6 @@
 ---
-slug: auto-query
+slug: autoquery
+title: AutoQuery
 ---
 
 ## AutoQuery - Instant Queryable APIs

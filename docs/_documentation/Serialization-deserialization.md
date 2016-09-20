@@ -1,7 +1,7 @@
 ---
 slug: serialization-deserialization
+title: Serialization and Deserialization
 ---
-# Serialization and deserialization
 
 ### Passing complex objects in the Query String
 

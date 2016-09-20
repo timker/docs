@@ -1,6 +1,8 @@
 ---
 slug: fsharp
+title: F# Resources
 ---
+
 Thanks to the simplicity, elegance, strong typing and philosophy of both solutions, FSharp and ServiceStack are quickly becoming a popular choice for creating friction-less REST and message-based remote services.
 
 ### [Complete F# Console Self-Host Example](https://github.com/ServiceStack/Test/blob/713f1e2c9fce2351446b168d39fe8b0248f252fc/src/VS.FSharp.SelfHost/Program.fs)

@@ -1,6 +1,8 @@
 ---
 slug: azure
+title: Azure Resources
 ---
+
 # Community Resources
 
   - [Using the Azure Cache With ServiceStack](http://blog.emmanuelnelson.com/post/33303196083/using-the-azure-cache-with-service-stack) by [@emmanuelnelson](http://emmanuelnelson.com/about-me)

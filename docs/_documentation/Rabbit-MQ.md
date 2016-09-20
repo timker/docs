@@ -1,6 +1,8 @@
 ---
 slug: rabbit-mq
+title: Rabbit MQ
 ---
+
 A nice advantage of ServiceStack's message-based design is its ability to host its Services on a variety of different endpoints. This design makes it possible to host Services via [MQ Servers](?id=Messaging), enable [SOAP support](?id=SOAP-support) in addition to ServiceStack's strong HTTP Web Services story. One MQ Server we support is the extremely popular and robust Open Source AMQP messaging broker: [Rabbit MQ](http://www.rabbitmq.com).
 
 ## Getting Started

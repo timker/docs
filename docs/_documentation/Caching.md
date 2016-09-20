@@ -1,7 +1,7 @@
 ---
 slug: caching
+title: Caching Providers
 ---
-# Caching
 
 As caching is an essential technology in the development of high-performance web services, Service Stack has a number of different caching options available that each share the same
 [common client interface (ICacheClient)](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClient.cs)

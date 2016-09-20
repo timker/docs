@@ -1,6 +1,8 @@
 ---
 slug: authentication-and-authorization
+title: Authentication and Authorization
 ---
+
 Built into ServiceStack is an optional Authentication feature you can use to add Authentication to your services by providing web services to Authenticate existing users, Register new users as well Assign/UnAssign Roles to existing users (if you need them). It's highly pluggable and customizable where you can plug-in your own Auth logic, change the caching and session providers as well as what RDBMS is used to persist UserAuth data.
 
 A minimal configuration needed to get Basic Authentication up and running is the following in `AppHost.Config()` (derived from the [AuthTests unit test](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/AuthTests.cs)):

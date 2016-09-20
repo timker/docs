@@ -9,15 +9,13 @@
     - [Order of Operations](?id=order-of-operations)
     - [The IoC container](?id=the-ioc-container)
     - [Metadata page](?id=metadata-page)
-    - [Rest, SOAP & default endpoints](?id=endpoints)
-    - [SOAP support](?id=soap-support)
     - [Routing](?id=routing)
+    - [REST, SOAP & default endpoints](?id=endpoints)
+    - [SOAP support](?id=soap-support)
     - [Service return types](?id=service-return-types)
     - [Customize HTTP Responses](?id=customize-http-responses)
-    - [Plugins](?id=plugins)
     - [Validation](?id=validation)
     - [Error Handling](?id=error-handling)
-    - [Security](?id=security)
     - [Debugging](?id=debugging)
 - Clients
     - [Overview](?id=clients-overview)
@@ -37,11 +35,11 @@
     - [VB.NET Add Reference](?id=vbnet-add-servicestack-reference)
 - Formats
     - [Overview](?id=formats)
-    - [JSON/JSV and XML](?id=json-jsv-and-xml)
-    - [ServiceStack's new HTML5 Report Format](?id=html5reportformat)
-    - [ServiceStack's new CSV Format](?id=csv-format)
+    - [JSON, JSV & XML](?id=json-jsv-and-xml)
+    - [CSV Format](?id=csv-format)
     - [MessagePack Format](?id=messagepack-format)
     - [ProtoBuf Format](?id=protobuf-format)
+    - [HTML5 Report Format](?id=html5reportformat)
 - View Engines
     - [Razor & Markdown Razor](http://razor.servicestack.net/)
     - [View and Template Selection](?id=view-and-template-selection)
@@ -61,6 +59,7 @@
     - [Run ServiceStack in Fastcgi hosted on nginx](?id=servicestack-in-fastcgi-hosted-on-nginx)
     - [Linux-Hosting-Options](?id=linux-hosting-options)
 - Security
+    - [Overview](?id=security)
     - [Authentication/authorization](?id=authentication-and-authorization)
     - [JWT AuthProvider](?id=jwt-authprovider)
     - [API Key AuthProvider](?id=api-key-authprovider)
@@ -72,8 +71,8 @@
     - [Run ServiceStack side-by-side with another web framework](?id=servicestack-side-by-side-with-another-web-framework)
     - [Access HTTP specific features in services](?id=access-http-specific-features-in-services)
     - [Logging](?id=logging)
-    - [Serialization/deserialization](?id=serialization-deserialization)
-    - [Request/response filters](?id=request-and-response-filters)
+    - [Serialization & Deserialization](?id=serialization-deserialization)
+    - [Request & Response filters](?id=request-and-response-filters)
     - [Filter attributes](?id=filter-attributes)
     - [Concurrency Model](?id=concurrency-model)
     - [Built-in profiling](?id=built-in-profiling)
@@ -91,7 +90,7 @@
     - [CacheResponse Attribute](?id=cacheresponse-attribute)
     - [Cache Aware Clients](?id=cache-aware-clients)
 - AutoQuery
-    - [Overview](?id=auto-query)
+    - [Overview](?id=autoquery)
     - [Why Not OData](?id=why-not-odata)
     - [AutoQuery RDBMS](?id=autoquery-rdbms)
     - [AutoQuery Data](?id=autoquery-data)
@@ -110,6 +109,7 @@
     - [Overview](?id=encrypted-messaging)
     - [Encrypted Service Client](?id=encrypted-messaging#encrypted-service-client)
 - Plugins
+    - [Overview](?id=plugins)
     - [CORS Feature](?id=corsfeature)
     - [Request logger](?id=request-logger)
     - [Swagger API](?id=swagger-api)
@@ -118,7 +118,7 @@
     - [Cancellable Requests](?id=cancellable-requests)
 - Tests
     - [Testing](?id=testing) 
-    - [HowTo write unit/integration tests](?id=howto-write-unit-integration-tests)
+    - [HowTo write unit & integration tests](?id=howto-write-unit-integration-tests)
 - Java
     - [Java ServiceStack Resources](?id=java)
     - [Android Studio & IntelliJ](?id=java-add-servicestack-reference#servicestack-idea-android-studio-plugin)

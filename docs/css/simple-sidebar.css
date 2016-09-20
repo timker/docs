@@ -156,8 +156,7 @@ h1, h2 {
 }
 
 img {
-    width: 100%;
-    max-width:960px;
+    max-width:900px;
 }
 
 @media(min-width:768px) {
