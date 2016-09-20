@@ -1,6 +1,8 @@
 ---
 slug: advantages-of-message-based-web-services
+title: Advantages of message-based WebServices
 ---
+
 ### This is in response to a recent question from [mailing group](https://groups.google.com/forum/?fromgroups#!topic/servicestack/qkV5fzdnzt8):
 
     It seems like ServiceStack is designed for use primarily in a greenfield 
@@ -29,14 +31,16 @@ If you look at an [example of Amazons EC2 Web Service APIs](http://docs.amazonwe
  
 ### Example Response
 
-    <AttachVolumeResponse xmlns="http://ec2.amazonaws.com/doc/2012-06-01/">
-      <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
-      <volumeId>vol-4d826724</volumeId>
-      <instanceId>i-6058a509</instanceId>
-      <device>/dev/sdh</device>
-      <status>attaching</status>
-      <attachTime>2008-05-07T11:51:50.000Z</attachTime>
-    </AttachVolumeResponse>
+```xml
+<AttachVolumeResponse xmlns="http://ec2.amazonaws.com/doc/2012-06-01/">
+    <requestId>59dbff89-35bd-4eac-99ed-be587EXAMPLE</requestId>
+    <volumeId>vol-4d826724</volumeId>
+    <instanceId>i-6058a509</instanceId>
+    <device>/dev/sdh</device>
+    <status>attaching</status>
+    <attachTime>2008-05-07T11:51:50.000Z</attachTime>
+</AttachVolumeResponse>
+```
 
 From this we can attest Amazon maintains a Request [DTO](http://en.wikipedia.org/wiki/Data_Transfer_Object) named `AttachVolume` and a Response DTO named `AttachVolumeResponse`. This is the same design ServiceStack encourages and with some minor customisations the Request can be easily made to be more REST-ful with:
 
@@ -53,11 +57,13 @@ Although Amazon holds the SOA edge, Google, like Amazon also benefits from messa
 
 A simple DSL is used to define their Protocol Buffer message DTOs:
 
-    message Person {
-      required int32 id = 1;
-      required string name = 2;
-      optional string email = 3;
-    }
+```js
+message Person {
+    required int32 id = 1;
+    required string name = 2;
+    optional string email = 3;
+}
+```
 
 From this they use their `protoc` command-line utility to generate native types in C++, Java and Python, which like Amazon and ServiceStack, enables them to benefit from using an end-to-end, typed API. 
 
@@ -81,24 +87,30 @@ Unfortunately despite Microsoft having hosted Martin Fowler's respected [Data Tr
 
 Throughout all these generations of frameworks ServiceStack's underlying core [IService<T> interface](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IService.cs) has remained constant - with its simple Execute method:
 
-    public interface IService<T> {
-        object Execute(T request);
-    }
+```csharp
+public interface IService<T> {
+    object Execute(T request);
+}
+```
 
 Which we've simplified even further in the [New API](?id=new-api) to just an empty marker interface:
 
-    public interface IService { }
+```csharp
+public interface IService { }
+```
 
 Which lets you handle any HTTP Verb, as well as a 'Catch All' **Any** fall-back to handle any un-specified HTTP verbs, e.g:
 
-    public class MyService : IService 
-    {
-         public Response Get(Request request){...}
-         public Response Post(Request request){...}
+```csharp
+public class MyService : IService 
+{
+    public Response Get(Request request){...}
+    public Response Post(Request request){...}
 
-         //Fallback for Anything else e.g DELETE, PUT, PATCH, OPTIONS, etc.
-         public Response Any(Request request){...} 
-    }
+    //Fallback for Anything else e.g DELETE, PUT, PATCH, OPTIONS, etc.
+    public Response Any(Request request){...} 
+}
+```
 
 It simply accepts any user-defined Request DTO and returns any Response DTO - that you're given complete freedom to create. If ever more customization/headers is needed you can return the decorated response inside a `HttpResult` or `HttpError` to maintain full control over the HTTP output.
 
@@ -209,19 +221,36 @@ But even without this, ServiceStack services are just as consumable as any other
 
 The earlier typed API example of creating a new TODO in C#:
 
-    var client = new JsonServiceClient(baseUrl);
-    Todo createdTodo = client.Send<Todo>(new Todo { Content = "New Todo", Order = 1 });
+```csharp
+var client = new JsonServiceClient(baseUrl);
+Todo createdTodo = client.Post(new Todo { Content = "New Todo", Order = 1 });
+```
 
-Is like this in Dart (using the [Dart JSON Client](https://github.com/mythz/DartJsonClient)):
+Is like this in [TypeScript](?id=typescript-add-servicestack-reference):
 
-    var client = new JsonClient(baseUrl);
-    client.todos({'content':'New Todo', 'order':1})
-          .then((createdTodo) => ...);
+```typescript
+var client = new JsonServiceClient(baseUrl);
+var request = Todo();
+request.Content = "New Todo";
+request.Order = 1;
+client.post(request)
+    .then((createdTodo) => ...)
+```
+
+and this in Dart (using the [Dart JSON Client](https://github.com/mythz/DartJsonClient)):
+
+```dart
+var client = new JsonClient(baseUrl);
+client.todos({'content':'New Todo', 'order':1})
+        .then((createdTodo) => ...);
+```
 
 Or in jQuery:
 
+```js
     $.post(baseUrl + '/todos', {content:'New Todo', order:1}, 
          function(createdTodo) { ... }, 'json');
+```
 
 And you still have the option to consume all services in other Content-Types. Some languages may prefer to deal with XML - which can easily be accessed by adding the appropriate `Accept` and `Content-Type` headers.
 
