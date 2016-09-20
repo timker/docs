@@ -164,6 +164,7 @@ public class StructureMapContainerAdapter : IContainerAdapter
 ```
 
 In `AppHost` `Configure`:
+
 ```csharp
 //Configure User Defined REST Paths
 container.Adapter = new StructureMapContainerAdapter();
@@ -187,6 +188,7 @@ public class ApplicationAssemblyFilter : AssemblyFilter
         : base(AppDomain.CurrentDomain.BaseDirectory, Assembly.GetExecutingAssembly().GetName().Name + ".*.dll"){}
 }
 ```
+
 ```csharp
 public class WindsorContainerAdapter : IContainerAdapter, IDisposable 
 { 

@@ -1,6 +1,8 @@
 ---
 slug: protobuf-format
+title: ProtoBuf Format
 ---
+
 [Protocol Buffers](http://code.google.com/p/protobuf/) is a high-performance, compact binary wire format invented by Google who use it internally so they can communicate with their internal network services at very high speed.
 
 For .NET [@marcgravell](http://twitter.com/marcgravell) has developed **[protobuf-net](http://code.google.com/p/protobuf-net/)** - a robust implementation of the Protocol Buffers wire format that provides the [fastest serialization](http://www.servicestack.net/benchmarks/#northwind-serializer) option available for .NET.

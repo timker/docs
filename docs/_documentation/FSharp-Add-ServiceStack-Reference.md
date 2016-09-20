@@ -1,6 +1,8 @@
 ---
 slug: fsharp-add-servicestack-reference
+title: F# Add ServiceStack Reference
 ---
+
 ![F# Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/fsharp-header.png)
 
 ServiceStack's **Add ServiceStack Reference** feature allows clients to generate Native Types from directly within VS.NET using [ServiceStackVS VS.NET Extension](?id=Creating-your-first-project) - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that's built into VS.NET.

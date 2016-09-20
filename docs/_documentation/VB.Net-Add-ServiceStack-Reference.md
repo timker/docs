@@ -1,5 +1,6 @@
 ---
 slug: vbnet-add-servicestack-reference
+title: VB.NET Add ServiceStack Reference
 ---
 
 ![VB.NET Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png)

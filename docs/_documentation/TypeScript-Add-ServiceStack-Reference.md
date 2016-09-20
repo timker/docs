@@ -1,5 +1,6 @@
 ---
 slug: typescript-add-servicestack-reference
+title: TypeScript Add ServiceStack Reference
 ---
 
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)

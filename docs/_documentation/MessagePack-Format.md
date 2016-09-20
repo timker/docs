@@ -1,6 +1,8 @@
 ---
 slug: messagepack-format
+title: MsgPack Format
 ---
+
 [Message Pack](http://msgpack.org/) is an efficient binary serialization format. It lets you exchange data among multiple languages like JSON but it's faster and smaller. 
 
 If you ever wished to use JSON for convenience (e.g. storing an image with metadata) but could not for technical reasons (encoding, size, speed...), MessagePack offers a great replacement. Despite the name it ends up being a much [better "Binary JSON" than BSON is](http://stackoverflow.com/questions/6355497/performant-entity-serialization-bson-vs-messagepack-vs-json), as it's much faster, smaller and doesn't require the foreign types like "ObjectId", "UUID" that BSON has.

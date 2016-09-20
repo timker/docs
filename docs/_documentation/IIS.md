@@ -1,6 +1,8 @@
 ---
 slug: iis
+title: IIS Hosting
 ---
+
 ## Register ServiceStack ASP.NET HttpHandler
 
 ServiceStack integrates with your existing ASP.NET Web Application by registering an ASP.NET HttpHandler used to route HTTP requests to ServiceStack. The configuration below supports both IIS/6.0 and Mono as well as IIS7+ new handler mappings under `<system.webServer>`:

@@ -1,5 +1,6 @@
 ---
 slug: csharp-add-servicestack-reference
+title: C# Add ServiceStack Reference
 ---
 
 ![C# Platforms](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png)

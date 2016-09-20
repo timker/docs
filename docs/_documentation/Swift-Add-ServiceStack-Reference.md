@@ -1,6 +1,7 @@
 ---
 slug: swift-add-servicestack-reference
 ---
+
 ![Swift iOS, XCode and OSX Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swift-logo-banner.jpg)
 
 ## Swift 2.0 / Xcode 7

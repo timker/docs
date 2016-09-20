@@ -14,7 +14,7 @@ This list shows the order in which any user-defined custom hooks are executed:
   6. Then any [Global Request Filters][1] get executed
   7. Followed by [Request Filter Attributes][3] with **Priority >= 0**
   8. Action Request Filters
-  9. Then your **Service is executed** with the configured [IServiceRunner<T>](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) and its **OnBeforeExecute**, **OnAfterExecute** and **HandleException** custom hooks are fired
+  9. Then your **Service is executed** with the configured [IServiceRunner](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) and its **OnBeforeExecute**, **OnAfterExecute** and **HandleException** custom hooks are fired
   10. Action Response Filters
   11. Any [Response Converters](?id=Customize-HTTP-Responses#response-converters) are executed
   11. Followed by [Response Filter Attributes][3] with **Priority < 0** 
@@ -29,7 +29,7 @@ Any time you close the Response in any of your filters, i.e. `httpRes.EndRequest
   1. Any [Global Request Filters](?id=Request-and-response-filters#message-queue-endpoints) get executed
   2. Followed by [Request Filter Attributes][3] with **Priority >= 0**
   3. Action Request Filters
-  4. Then your **Service is executed** with the configured [IServiceRunner<T>](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) and its **OnBeforeExecute**, **OnAfterExecute** and **HandleException** custom hooks are fired
+  4. Then your **Service is executed** with the configured [IServiceRunner](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) and its **OnBeforeExecute**, **OnAfterExecute** and **HandleException** custom hooks are fired
   5. Action Response Filters
   6. Then [Global Response Filters](?id=Request-and-response-filters#message-queue-endpoints) 
   7. Finally at the end of the Request `IAppHost.OnEndRequest` is fired

@@ -23,7 +23,7 @@
     - [JavaScript client](?id=javascript-client)
     - [Silverlight client](?id=silverlight-client)
     - [Dart Client](?id=dart-client)
-    - [MQ Clients](?id=messaging)
+    - [MQ Clients](?id=messaging#mq-client-architecture)
 - Add ServiceStack Reference
     - [Overview](?id=add-servicestack-reference)
     - [C# Add Reference](?id=csharp-add-servicestack-reference)
@@ -60,7 +60,7 @@
     - [Linux-Hosting-Options](?id=linux-hosting-options)
 - Security
     - [Overview](?id=security)
-    - [Authentication/authorization](?id=authentication-and-authorization)
+    - [Authentication & Authorization](?id=authentication-and-authorization)
     - [JWT AuthProvider](?id=jwt-authprovider)
     - [API Key AuthProvider](?id=api-key-authprovider)
     - [Open Id 2.0 Support](?id=openid)

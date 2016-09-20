@@ -1,6 +1,8 @@
 ---
 slug: view-and-template-selection
+title: View & Template Selection
 ---
+
 ServiceStack provides multiple ways to select the Razor View that will be used to render your services response with. First if the `IHttpRequest.Items["View"]` has been set [via any Global, Request, Response or Action Filter](?id=Order-of-Operations) it will use that, otherwise the fallback convention is to use the view with the same name as the **Request DTO** followed finally by one with the **Response DTO** name.
 
 To illustrate this, the below service is overloaded with different ways to select a Razor View, each are assigned a priority number starting from `#1`:

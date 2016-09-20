@@ -1,6 +1,8 @@
 ---
 slug: csv-format
+title: CSV Format
 ---
+
 The [CSV format](http://en.wikipedia.org/wiki/Comma-separated_values) is a first-class supported format which means all your existing web services can automatically take accept and return CSV without any config or code changes. 
 
 ### Importance of CSV
