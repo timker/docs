@@ -5,13 +5,13 @@ slug: debugging
 
 It's possible to debug into the ServiceStack source code when using the ServiceStack NuGet packages. You can enable this after [enabling SymbolSource integration in VisualStudio](http://www.symbolsource.org/Public/Home/VisualStudio):
 
-  1. Go to `Tools -> Options -> Debugger -> General`
-  2. Uncheck **Enable Just My Code**, **Enable .NET Framework source stepping** and **Require source files to exactly match the original version**
-  3. Check **Enable source server support**
-  4. In the `Tools -> Options -> Debugger -> Symbols` dialog, under the **Symbol file (.pdb) locations** section by clicking the New Folder icon and add the following urls (in order):
-    - http://referencesource.microsoft.com/symbols
-    - https://nuget.smbsrc.net
-    - http://msdl.microsoft.com/download/symbols
+ 1. Go to `Tools -> Options -> Debugger -> General`
+ 2. Uncheck **Enable Just My Code**, **Enable .NET Framework source stepping** and **Require source files to exactly match the original version**
+ 3. Check **Enable source server support**
+ 4. In the `Tools -> Options -> Debugger -> Symbols` dialog, under the **Symbol file (.pdb) locations** section by clicking the New Folder icon and add the following urls (in order):
+  - http://referencesource.microsoft.com/symbols
+  - https://nuget.smbsrc.net
+  - http://msdl.microsoft.com/download/symbols
 
 And with that you should now be able to debug into the source code of any NuGet package (who publishes their Symbols) directly from within your application!
 

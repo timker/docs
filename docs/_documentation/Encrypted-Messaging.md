@@ -185,35 +185,35 @@ with HMAC SHA-256, essentially following an [Encrypt-then-MAC strategy](http://c
 
 The key steps in the process are outlined below:
 
-  1. Client creates a new `IEncryptedClient` configured with the Server **Public Key**
-  2. Client uses the `IEncryptedClient` to create a EncryptedMessage Request DTO:
-    1. Generates a new AES 256bit/CBC/PKCS7 Crypt Key **(Kc)**, Auth Key **(Ka)** and **IV**
-    2. Encrypts Crypt Key **(Kc)**, Auth Key **(Ka)** with Servers Public Key padded with OAEP = **(Kc+Ka+P)e**
-    3. Authenticates **(Kc+Ka+P)e** with **IV** using HMAC SHA-256 = **IV+(Kc+Ka+P)e+Tag**
-    4. Serializes Request DTO to JSON packed with current `Timestamp`, `Verb` and `Operation` = **(M)**
-    5. Encrypts **(M)** with Crypt Key **(Kc)** and **IV** = **(M)e**
-    6. Authenticates **(M)e** with Auth Key **(Ka)** and **IV** = **IV+(M)e+Tag**
-    7. Creates `EncryptedMessage` DTO with Servers `KeyId`, **IV+(Kc+Ka+P)e+Tag** and **IV+(M)e+Tag**
-  3. Client uses the `IEncryptedClient` to send the populated `EncryptedMessage` to the remote Server
+1. Client creates a new `IEncryptedClient` configured with the Server **Public Key**
+2. Client uses the `IEncryptedClient` to create a EncryptedMessage Request DTO:
+ 1. Generates a new AES 256bit/CBC/PKCS7 Crypt Key **(Kc)**, Auth Key **(Ka)** and **IV**
+ 2. Encrypts Crypt Key **(Kc)**, Auth Key **(Ka)** with Servers Public Key padded with OAEP = **(Kc+Ka+P)e**
+ 3. Authenticates **(Kc+Ka+P)e** with **IV** using HMAC SHA-256 = **IV+(Kc+Ka+P)e+Tag**
+ 4. Serializes Request DTO to JSON packed with current `Timestamp`, `Verb` and `Operation` = **(M)**
+ 5. Encrypts **(M)** with Crypt Key **(Kc)** and **IV** = **(M)e**
+ 6. Authenticates **(M)e** with Auth Key **(Ka)** and **IV** = **IV+(M)e+Tag**
+ 7. Creates `EncryptedMessage` DTO with Servers `KeyId`, **IV+(Kc+Ka+P)e+Tag** and **IV+(M)e+Tag**
+3. Client uses the `IEncryptedClient` to send the populated `EncryptedMessage` to the remote Server
 
 On the Server, the `EncryptedMessagingFeature` Request Converter processes the `EncryptedMessage` DTO:
 
-  1. Uses Private Key identified by **KeyId** or the current Private Key if **KeyId** wasn't provided
-    1. Request Converter Extracts **IV+(Kc+Ka+P)e+Tag** into **IV** and **(Kc+Ka+P)e+Tag**
-    2. Decrypts **(Kc+Ka+P)e+Tag** with Private Key into **(Kc)** and **(Ka)**
-    3. The **IV** is checked against the nonce Cache, verified it's never been used before, then cached
-    4. The **IV+(Kc+Ka+P)e+Tag** is verified it hasn't been tampered with using Auth Key **(Ka)**
-    5. The **IV+(M)e+Tag** is verified it hasn't been tampered with using Auth Key **(Ka)**
-    6. The **IV+(M)e+Tag** is decrypted using Crypt Key **(Kc)** = **(M)**
-    7. The **timestamp** is verified it's not older than `EncryptedMessagingFeature.MaxRequestAge`
-    8. Any expired nonces are removed. (The **timestamp** and **IV** are used to prevent replay attacks)
-    9. The JSON body is deserialized and resulting **Request DTO** returned from the Request Converter
-  2. The converted **Request DTO** is executed in ServiceStack's Request Pipeline as normal
-  3. The **Response DTO** is picked up by the EncryptedMessagingFeature **Response Converter**:
-    1. Any **Cookies** set during the Request are removed
-    2. The **Response DTO** is serialized with the **AES Key** and returned in an `EncryptedMessageResponse`
-  4. The `IEncryptedClient` decrypts the `EncryptedMessageResponse` with the **AES Key**
-    1. The **Response DTO** is extracted and returned to the caller
+1. Uses Private Key identified by **KeyId** or the current Private Key if **KeyId** wasn't provided
+ 1. Request Converter Extracts **IV+(Kc+Ka+P)e+Tag** into **IV** and **(Kc+Ka+P)e+Tag**
+ 2. Decrypts **(Kc+Ka+P)e+Tag** with Private Key into **(Kc)** and **(Ka)**
+ 3. The **IV** is checked against the nonce Cache, verified it's never been used before, then cached
+ 4. The **IV+(Kc+Ka+P)e+Tag** is verified it hasn't been tampered with using Auth Key **(Ka)**
+ 5. The **IV+(M)e+Tag** is verified it hasn't been tampered with using Auth Key **(Ka)**
+ 6. The **IV+(M)e+Tag** is decrypted using Crypt Key **(Kc)** = **(M)**
+ 7. The **timestamp** is verified it's not older than `EncryptedMessagingFeature.MaxRequestAge`
+ 8. Any expired nonces are removed. (The **timestamp** and **IV** are used to prevent replay attacks)
+ 9. The JSON body is deserialized and resulting **Request DTO** returned from the Request Converter
+2. The converted **Request DTO** is executed in ServiceStack's Request Pipeline as normal
+3. The **Response DTO** is picked up by the EncryptedMessagingFeature **Response Converter**:
+ 1. Any **Cookies** set during the Request are removed
+ 2. The **Response DTO** is serialized with the **AES Key** and returned in an `EncryptedMessageResponse`
+4. The `IEncryptedClient` decrypts the `EncryptedMessageResponse` with the **AES Key**
+ 1. The **Response DTO** is extracted and returned to the caller
 
 A visual of how this all fits together in captured in the high-level diagram below:
 
