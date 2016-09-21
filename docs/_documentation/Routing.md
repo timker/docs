@@ -16,6 +16,7 @@ e.g. the pre-defined url to call a JSON 'Hello' Service is:
 #### [Auto Batched Requests](?id=Auto-Batched-Requests)
 
     /json/reply/Hello[]
+
 ### SOAP Web Service urls
 
     /api?/[soap11|soap12]
@@ -24,8 +25,10 @@ e.g. the pre-defined url to call a JSON 'Hello' Service is:
 
 In its most basic form, a Route is just any string literal attributed on your Request DTO:
 
-    [Route("/hello")]
-    public class Hello { ... }
+```csharp
+[Route("/hello")]
+public class Hello { ... }
+```
 
 which matches: 
 
@@ -36,7 +39,9 @@ which matches:
 
 Routes can also have variable place-holders:
 
-    [Route("/hello/{Name}")]
+```csharp
+[Route("/hello/{Name}")]
+```
 
 matches:
 
@@ -50,7 +55,9 @@ And will populate the public property **Name** on the Request DTO with **foo**.
 
 Using a route with a wild card path like:
 
-    [Route("/hello/{Name*}")]
+```csharp
+[Route("/hello/{Name*}")]
+```
 
 matches any number of variable paths:
 
@@ -108,15 +115,19 @@ Will match on `/contacts/1/john-doe` request and not require your Request DTO to
 
 You can also use a Fluent API to register ServiceStack Routes by adding them in your `AppHost.Configure()`:
 
-    Routes
-      .Add<Hello>("/hello")
-      .Add<Hello>("/hello/{Name}");
+```csharp
+Routes
+    .Add<Hello>("/hello")
+    .Add<Hello>("/hello/{Name}");
+```
 
 and to match only **GET** request for `/Customers?Key=Value` and `/Customers/{Id}`:
 
-    Routes
-        .Add<GetContact>("/Contacts", "GET")
-        .Add<GetContact>("/Contacts/{ContactId}", "GET");
+```csharp
+Routes
+    .Add<GetContact>("/Contacts", "GET")
+    .Add<GetContact>("/Contacts/{ContactId}", "GET");
+```
 
 ## Content Negotiation
 
