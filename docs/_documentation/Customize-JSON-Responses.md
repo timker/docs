@@ -78,8 +78,8 @@ Camel Humps also works with Enum Values so both these two configurations are the
 fields so that any unpopulated value type properties with default values are excluded from the JSON Response. 
 Here's a live example of this comparing the default Response with the customized JSON Response:
 
- - http://github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At
- - http://github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At&jsconfig=edv,dh:iso8601do
+ - [github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At](http://github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At)
+ - [github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At&jsconfig=edv,dh:iso8601do](http://github.servicestack.net/repos.json?fields=Name,Homepage,Language,Updated_At&jsconfig=edv,dh:iso8601do)
 
 ### Custom JSON Settings
 
@@ -113,7 +113,7 @@ For a quick reference the following **bool** customizations are supported:
     <tr><td>AlwaysUseUtc</td><td>auu</td></tr>
     <tr><td>AssumeUtc</td><td>au</td></tr>
     <tr><td>AppendUtcOffset</td><td>auo</td></tr>
-    <tr><th colspan=2>DateHandler (dh)</th></tr>
+    <tr><td colspan=2><b>DateHandler (dh)</b></td></tr>
     <tr><td>TimestampOffset</td><td>to</td></tr>
     <tr><td>DCJSCompatible</td><td>dcjsc</td></tr>
     <tr><td>ISO8601</td><td>iso8601</td></tr>
@@ -122,10 +122,10 @@ For a quick reference the following **bool** customizations are supported:
     <tr><td>RFC1123</td><td>rfc1123</td></tr>
     <tr><td>UnixTime</td><td>ut</td></tr>
     <tr><td>UnixTimeMs</td><td>utm</td></tr>
-    <tr><th colspan=2>TimeSpanHandler (tsh)</th></tr>
+    <tr><td colspan=2><b>TimeSpanHandler (tsh)</b></td></tr>
     <tr><td>DurationFormat</td><td>df</td></tr>
     <tr><td>StandardFormat</td><td>sf</td></tr>
-    <tr><th colspan=2>PropertyConvention (pc)</th></tr>
+    <tr><td colspan=2><b>PropertyConvention (pc)</b></td></tr>
     <tr><td>Strict</td><td>s</td></tr>
     <tr><td>Lenient</td><td>l</td></tr>
 </table>
