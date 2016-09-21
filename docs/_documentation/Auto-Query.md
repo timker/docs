@@ -7,11 +7,11 @@ title: AutoQuery
 
 The AutoQuery support in ServiceStack adds Auto Querying functionality akin to OData's querying support for Web Api, although we've strongly disregarded their approach which we've long considered [promotes web service anti-patterns](http://stackoverflow.com/a/9579090/85785). To explain the design goals behind AutoQuery it's important to identify and avoid the parts of OData we consider make it a poor fit for services. 
 
-### [[Why not OData]] 
+### [Why not OData](?id=why-not-odata)
 
-[[Why not OData]] goes through what aspects make OData a poor Services technology who's Services anti-patterns violates Microsoft's own Services Design guidelines where its implementation, complexity, poor performance, tight-coupling and inhibitive versionability is reminiscent of their earlier rigid, heavy-weight SOAP/SOA frameworks that's still entrenched in a number of legacy systems - [poorly ideologised, over-engineered Services technology](http://www.infoq.com/articles/interview-servicestack) many companies are still trying to recover from.
+[Why not OData](?id=why-not-odata) goes through what aspects make OData a poor Services technology who's Services anti-patterns violates Microsoft's own Services Design guidelines where its implementation, complexity, poor performance, tight-coupling and inhibitive versionability is reminiscent of their earlier rigid, heavy-weight SOAP/SOA frameworks that's still entrenched in a number of legacy systems - [poorly ideologised, over-engineered Services technology](http://www.infoq.com/articles/interview-servicestack) many companies are still trying to recover from.
 
-## Introducing [AutoQuery](?id=AutoQuery-RDBMS)
+## Introducing [AutoQuery](?id=autoquery-rdbms)
 
 The solution to overcome most of OData issues is ultimately quite simple: enhance the ideal API the developer would naturally write and complete their implementation for them! This is essentially the philosophy behind AutoQuery which utilizes conventions to automate creation of intent-based self-descriptive APIs that are able to specify configurable conventions and leverage extensibility options to maximize the utility of AutoQuery services.
 
@@ -23,7 +23,7 @@ An important point worthy of highlighting is that AutoQuery Services are just no
 
 In addition to leveraging ServiceStack's existing functionality, maximizing re-use in this way reduces the cognitive overhead required for developers who can re-use their existing knowledge in implementing, customizing, introspecting and consuming ServiceStack services. 
 
-### [[AutoQuery RDBMS]]
+### [AutoQuery RDBMS](?id=autoquery-rdbms)
 
 Enables the rapid development of high-performance, fully-queryable typed RDBMS data-driven services and [supports most major Relational Databases](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget)
 
@@ -31,9 +31,9 @@ Enables the rapid development of high-performance, fully-queryable typed RDBMS d
 
 AutoQuery Data's Open Provider model supports multiple back-end data sources. The 3 data source providers available include:
 
- - [[AutoQuery Memory]] - for querying static or dynamic in-memory .NET collections, some example uses include showing querying a flat-file **.csv** file and querying a throttled 3rd Party API with it's built-in configurable caching.
- - [[AutoQuery Service]] - a step higher than `MemorySource` where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
- - [[AutoQuery DynamoDB]] - adds rich querying capabilities over an AWS DynamoDB Table, offering a giant leap of productivity than constructing DynamoDB queries manually.
+ - [AutoQuery Memory](?id=autoquery-memory) - for querying static or dynamic in-memory .NET collections, some example uses include showing querying a flat-file **.csv** file and querying a throttled 3rd Party API with it's built-in configurable caching.
+ - [AutoQuery Service](?id=autoquery-service) - a step higher than `MemorySource` where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
+ - [AutoQuery DynamoDB](?id=autoquery-dynamodb) - adds rich querying capabilities over an AWS DynamoDB Table, offering a giant leap of productivity than constructing DynamoDB queries manually.
 
 ## [AutoQuery Viewer](https://github.com/ServiceStack/Admin)
 
@@ -47,10 +47,10 @@ If you're just getting started AutoQuery we also recommend registering the [Auto
 
 ### Live AutoQuery Viewer Examples
 
-- http://github.servicestack.net/ss_admin/
-- http://northwind.servicestack.net/ss_admin/
-- http://stackapis.servicestack.net/ss_admin/
-- http://techstacks.io/ss_admin/
+- [http://github.servicestack.net/ss_admin/](http://github.servicestack.net/ss_admin/)
+- [http://northwind.servicestack.net/ss_admin/](http://northwind.servicestack.net/ss_admin/)
+- [http://stackapis.servicestack.net/ss_admin/](http://stackapis.servicestack.net/ss_admin/)
+- [http://techstacks.io/ss_admin/](http://techstacks.io/ss_admin/)
 
 ## [Northwind](https://github.com/ServiceStackApps/Northwind)
 

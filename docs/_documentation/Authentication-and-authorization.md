@@ -103,10 +103,12 @@ The OAuth providers below require you to register your application with them in 
 
 Once you have the `ConsumerKey` and `ConsumerSecret` you need to configure it with your ServiceStack host, via [Web.config](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.AuthWeb.Tests/Web.config), e.g:
 
-    <add key="oauth.twitter.RedirectUrl"    value="http://yourhostname.com/"/>
-    <add key="oauth.twitter.CallbackUrl"    value="http://yourhostname.com/auth/twitter"/>    
-    <add key="oauth.twitter.ConsumerKey"    value="3H1FHjGbA1N0n0aT5yApA"/>
-    <add key="oauth.twitter.ConsumerSecret" value="MLrZ0ujK6DwyjlRk2YLp6HwSdoBjtuqwXeHDQLv0Q"/>
+```xml
+<add key="oauth.twitter.RedirectUrl"    value="http://yourhostname.com/"/>
+<add key="oauth.twitter.CallbackUrl"    value="http://yourhostname.com/auth/twitter"/>    
+<add key="oauth.twitter.ConsumerKey"    value="3H1FHjGbA1N0n0aT5yApA"/>
+<add key="oauth.twitter.ConsumerSecret" value="MLrZ0ujK6DwyjlRk2YLp6HwSdoBjtuqwXeHDQLv0Q"/>
+```
 
 > Note: Each OAuth Config option fallbacks to the configuration without the provider name. This is useful for reducing repetitive configuration that's shared by all OAuth providers like the `RedirectUrl` or `CallbackUrl`, e.g:
 
@@ -239,6 +241,7 @@ Plugins.Add(new AuthFeature(() => new AuthUserSession(),
 ```
 
 By default the AuthFeature plugin automatically registers the following (overrideable) Service Routes:
+
 ```csharp
 new AuthFeature = {
   ServiceRoutes = new Dictionary<Type, string[]> {
@@ -291,45 +294,57 @@ On the client you can use the [C#/.NET Service Clients](?id=CSharp-client) to ea
 
 To authenticate using your `CustomCredentialsAuthProvider` by POST'ing a `Authenticate` Request, e.g:
 
-    var client = new JsonServiceClient(BaseUrl);
+```csharp
+var client = new JsonServiceClient(BaseUrl);
 
-    var authResponse = client.Post(new Authenticate {
-        provider = CredentialsAuthProvider.Name, //= credentials
-        UserName = "test@gmail.com",
-        Password = "p@55w0rd",
-        RememberMe = true,
-    });
+var authResponse = client.Post(new Authenticate {
+    provider = CredentialsAuthProvider.Name, //= credentials
+    UserName = "test@gmail.com",
+    Password = "p@55w0rd",
+    RememberMe = true,
+});
+```
 
 If authentication was successful the Service Client `client` instance will be populated with authenticated session cookies which then allows calling Authenticated services, e.g:
 
-    var response = client.Get(new GetActiveUserId());
+```csharp
+var response = client.Get(new GetActiveUserId());
+```
 
 If you've also registered the `BasicAuthProvider` it will enable your Services to accept [HTTP Basic Authentication](https://en.wikipedia.org/wiki/Basic_access_authentication) which is built-in the Service Clients that you can populate on the Service Client with:
 
-    client.UserName = "test@gmail.com";
-    client.Password = "p@55w0rd";
+```csharp
+client.UserName = "test@gmail.com";
+client.Password = "p@55w0rd";
+```
 
 Which will also let you access protected Services, e.g:
 
-    var response = client.Get(new GetActiveUserId());
+```csharp
+var response = client.Get(new GetActiveUserId());
+```
 
 Although behind-the-scenes it ends up making 2 requests, 1st request sends a normal request which will get rejected with a `401 Unauthorized` and if the Server indicates it has the `BasicAuthProvider` enabled it will resend the request with the HTTP Basic Auth credentials. 
 
 You could instead save the latency of the additional auth challenge request by specifying the client should always send the Basic Auth with every request:
 
-    client.AlwaysSendBasicAuthHeader = true;
+```csharp
+client.AlwaysSendBasicAuthHeader = true;
+```
 
 ### Authenticating with HTTP
 
 To Authenticate with your `CustomCredentialsAuthProvider` (which inherits from CredentialsAuthProvider) you would POST:
 
-`POST` localhost:60339/auth/credentials?format=json
+**POST** localhost:60339/auth/credentials?format=json
 
-    {
-        "UserName": "admin",
-        "Password": "test",
-        "RememberMe": true
-    }
+```json
+{
+    "UserName": "admin",
+    "Password": "test",
+    "RememberMe": true
+}
+```
 
 When the client now tries to authenticate with the request above and the auth succeeded, the client will retrieve some cookies with a session id which identify the client on each Web Service call.
 
@@ -427,9 +442,9 @@ public class Secured
 
 Now the client needs the permissions...
 
-- "CanAccess" to make a GET request
-- "CanAccess", "CanAdd" to make a PUT/POST request
-- "CanAccess", "AdminRights" and "CanDelete" to make a DELETE request
+- **CanAccess** to make a GET request
+- **CanAccess**, **CanAdd** to make a PUT/POST request
+- **CanAccess**, **AdminRights** and **CanDelete** to make a DELETE request
 
 If instead you want to allow access to users in **ANY** Role or Permission use: 
 
@@ -458,7 +473,8 @@ As with `Authenticate`, you can mark services (instead of DTO) with `RequiredPer
 You can protect services by adding the `[Authenticate]` attribute on either the Action:
 
 ```csharp
-class MyService : Service {
+class MyService : Service 
+{
     [Authenticate] 
     public object Get(Protected request) { ... }
 }
@@ -475,7 +491,8 @@ Or the service implementation
 
 ```csharp
 [Authenticate] 
-class MyService : Service {
+class MyService : Service 
+{
     public object Get(Protected request) { ... }
 }
 ```
@@ -503,6 +520,7 @@ appHost.RequestFilters.Add((httpReq, httpResp, requestDto) =>
     }
 });
 ```
+
 ## Extending UserAuth tables
 
 Different customization and extension points and strategies to extend the UserAuth tables with your own data are explained in this [StackOverflow answer](http://stackoverflow.com/a/11118747/85785).
@@ -732,7 +750,9 @@ OAuth Providers can use `ClientId` and `ClientSecret` aliases instead of `Consum
 ```
 
 <a name="community"></a>
+
 # Community Resources
+
   - [Using IdentityServer 4 with ServiceStack and Angular](http://estynedwards.com/blog/2016/01/30/ServiceStack-IdentityServer-Angular/) by [@estynedwards](https://twitter.com/estynedwards)
   - [Adding Facebook Authentication using ServiceStack](http://buildclassifieds.com/2016/01/14/facebookauth/) by [@markholdt](https://twitter.com/markholdt)
   - [How to return JSV formatted collection types from SQL Server in OrmLite](http://blog.falafel.com/Blogs/adam-anderson/2013/10/28/how-to-return-jsv-formatted-collection-types-from-sql-server-to-servicestack.ormlite) by [AdamAnderson](http://blog.falafel.com/blogs/AdamAnderson)

@@ -271,16 +271,18 @@ catch (Exception ex)
 
 The one disadvantage of using Extension methods is that by default they can be hard or impossible to mock which is why we've added explicit support for [support for Mocking in OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite/blob/master/tests/ServiceStack.OrmLite.Tests/MockAllApiTests.cs) and now the above HTTP Util extension methods, e.g:
 
-    using (new HttpResultsFilter {
-        StringResult = "mocked"
-    })
-    {
-        //All return "mocked"
-        "http://google.com".GetJsonFromUrl();
-        "http://google.com".GetXmlFromUrl();
-        "http://google.com".GetStringFromUrl(accept: "text/csv");
-        "http://google.com".PostJsonToUrl(json: "{\"postdata\":1}");
-    }
+```csharp
+using (new HttpResultsFilter {
+    StringResult = "mocked"
+})
+{
+    //All return "mocked"
+    "http://google.com".GetJsonFromUrl();
+    "http://google.com".GetXmlFromUrl();
+    "http://google.com".GetStringFromUrl(accept: "text/csv");
+    "http://google.com".PostJsonToUrl(json: "{\"postdata\":1}");
+}
+```
 
 See the [HttpUtilsMockTests.cs](https://github.com/ServiceStack/ServiceStack.Text/blob/master/tests/ServiceStack.Text.Tests/HttpUtilsMockTests.cs) for more examples showing how the HTTP Apis can be mocked.
 

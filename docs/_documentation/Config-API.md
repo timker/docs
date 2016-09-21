@@ -30,9 +30,9 @@ Here's a quick example show-casing how to use the popular **AppSettings*:
 
 ```xml
 <appSettings>
-	<add key="LastUpdated" value="01/01/2012 12:00:00" />
-	<add key="AllowedUsers" value="Tom,Mick,Harry" />
-	<add key="RedisConfig" value="{Host:localhost,Port:6379,Database:1,Timeout:10000}" />
+    <add key="LastUpdated" value="01/01/2012 12:00:00" />
+    <add key="AllowedUsers" value="Tom,Mick,Harry" />
+    <add key="RedisConfig" value="{Host:localhost,Port:6379,Database:1,Timeout:10000}" />
 </appSettings>
 ```
 

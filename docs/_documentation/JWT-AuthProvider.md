@@ -104,7 +104,7 @@ Being self-contained lends JWT tokens to more scalable, performant and flexible 
 require any I/O or any state to be accessed from App Servers to validate the JWT Tokens, this is unlike all 
 other Auth Providers which requires at least a DB, Cache or Network hit to authenticate the user.
 
-A good introduction into JWT is available from the JWT website: https://jwt.io/introduction/ whilst [JWT vs Sessions](https://float-middle.com/json-web-tokens-jwt-vs-sessions/) is a good article on advantages of using JWT instead of Sessions.
+A good introduction into JWT is available from the JWT website: [jwt.io/introduction/](https://jwt.io/introduction/) whilst [JWT vs Sessions](https://float-middle.com/json-web-tokens-jwt-vs-sessions/) is a good article on advantages of using JWT instead of Sessions.
 
 ### JWT Format
 

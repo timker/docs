@@ -31,9 +31,11 @@ The API for adding custom Formats and Content Types in ServiceStack is so easy w
 
 Adding support for ProtoBuf is equally simple.  It can be added by calling a single method:
 
-	appHost.ContentTypeFilters.Register(ContentType.ProtoBuf,
-		(reqCtx, res, stream) => ProtoBuf.Serializer.NonGeneric.Serialize(stream, res),
-		ProtoBuf.Serializer.NonGeneric.Deserialize);
+```csharp
+appHost.ContentTypeFilters.Register(ContentType.ProtoBuf,
+    (reqCtx, res, stream) => ProtoBuf.Serializer.NonGeneric.Serialize(stream, res),
+    ProtoBuf.Serializer.NonGeneric.Deserialize);
+```
 
 This makes the ProtoBuf format available in all of ServiceStack:
 

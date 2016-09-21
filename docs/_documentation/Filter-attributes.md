@@ -160,12 +160,11 @@ public class StatisticFilterAttribute : RequestFilterAttribute
 The base class `RequestFilterAttribute` has an empty constructor and a constructor which takes the `ApplyTo` flag. If the empty constructor is called, the method `Execute` will be called on every HTTP verb (`ApplyTo.All`), with the other constructor it will be called only on the configured HTTP verbs (eg `ApplyTo.Get | ApplyTo.Post`).
 
 So you can use the attribute on your request DTO/service like that:
+
 ```csharp
 //Filter will be executed on every request
 [StatisticFilter]
-...
 
 //Filter will be executed only on GET and POST requests
 [StatisticFilter(ApplyTo.Get | ApplyTo.Post)]
-...
 ```

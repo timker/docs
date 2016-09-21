@@ -31,7 +31,9 @@ First start by editing your nginx config
 ``` bash
 sudo vim /etc/nginx/sites-available/default 
 ```
+
 replace the server tag with the following config
+
 ```
 server {
   listen 80; ## listen for ipv4
@@ -43,26 +45,35 @@ server {
   }
 }
 ```
+
 then restart nginx
+
 ```
 sudo /etc/init.d/nginx restart 
 ```
-## fastcgi
+
+## Fast CGI
+
 You need to launch fastcgi from within the directory that has your web.config. 
 You can run fastcgi with the following command
+
 ```
 fastcgi-mono-server4 /applications=/:. /filename=/tmp/SOCK-ServiceStack /socket=unix
 ```
+
 Alternatively you can provide the path /applications=/:/path/to/web_config_directory
 
 This will run fastcgi-mono-server4 as the current user and will change the permissions on the socket to be that of the current user. You will need to setup your permissions so that the www-data group/user has read-write access to /tmp/SOCK-ServiceStack. To get up and running you can do the following
+
 ```
 sudo chgrp www-data /tmp/SOCK-ServiceStack
 sudo chmod g+rw /tmp/SOCK-ServiceStack
 ```
+
 And that's it you should be up and running. You can now visit your site running on [localhost](http://localhost/hello/service%20stack%20running%20in%20mono%20on%20nginx) 
 
 ## References
+
 * [Mono Fast Cgi] (http://www.mono-project.com/FastCGI)
 * [Mono Fast Cgi with Nginx] (http://www.mono-project.com/FastCGI_Nginx)
 * [nginx] (http://wiki.nginx.org/Main)

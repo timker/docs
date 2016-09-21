@@ -9,45 +9,58 @@ Here are some typical common use-cases you're likely to hit in your web service 
 
 Create a new DTO instance, populated with matching properties on viewModel:
 
-    var dto = viewModel.ConvertTo<MyDto>();
+```csharp
+var dto = viewModel.ConvertTo<MyDto>();
+```
 
 Initialize DTO and populate it with matching properties on a view model:
 
-    var dto = new MyDto { A = 1, B = 2 }.PopulateWith(viewModel);
+```csharp
+var dto = new MyDto { A = 1, B = 2 }.PopulateWith(viewModel);
+```
 
 Initialize DTO and populate it with **non-default** matching properties on a view model:
 
-    var dto = new MyDto { A = 1, B = 2 }.PopulateWithNonDefaultValues(viewModel);
+```csharp
+var dto = new MyDto { A = 1, B = 2 }.PopulateWithNonDefaultValues(viewModel);
+```
 
 Initialize DTO and populate it with matching properties that are annotated with the **Attr** Attribute on a view model:
 
-    var dto = new MyDto { A=1 }
-        .PopulateFromPropertiesWithAttribute(viewModel, typeof(CopyAttribute));
+```csharp
+var dto = new MyDto { A=1 }
+    .PopulateFromPropertiesWithAttribute(viewModel, typeof(CopyAttribute));
+```
 
 There is also the inverse for mapping all properties that don't include a specific attribute:
 
-    var safeUpdate = db.SingleById<MyTable>(id)
-        .PopulateFromPropertiesWithoutAttribute(dto, typeof(ReadOnlyAttribute));
+```csharp
+var safeUpdate = db.SingleById<MyTable>(id)
+    .PopulateFromPropertiesWithoutAttribute(dto, typeof(ReadOnlyAttribute));
+```
 
 ### Advanced mapping using custom extension methods
 
 When mapping logic becomes more complicated we like to use extension methods to keep code DRY and maintain the mapping in one place that's easily consumable from within your application, e.g:
 
-    public static class ConvertExtensions
+```csharp
+public static class ConvertExtensions
+{
+    public static MyDto ToDto(this MyViewModel from)
     {
-        public static MyDto ToDto(this MyViewModel from)
-        {
-            var to = from.ConvertTo<MyDto>();
-            to.Items = from.Items.ConvertAll(x => x.ToDto());
-            to.CalculatedProperty = Calculate(from.Seed);
-            return to;
-        }
+        var to = from.ConvertTo<MyDto>();
+        to.Items = from.Items.ConvertAll(x => x.ToDto());
+        to.CalculatedProperty = Calculate(from.Seed);
+        return to;
     }
+}
+```
 
 Which is now easily consumable with just:
 
-    var dto = viewModel.ToDto();
-
+```csharp
+var dto = viewModel.ToDto();
+```
 
   [1]: http://martinfowler.com/eaaCatalog/dataTransferObject.html
   [2]: http://msdn.microsoft.com/en-us/library/ff649585.aspx

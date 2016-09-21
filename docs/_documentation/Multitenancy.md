@@ -134,7 +134,7 @@ public class ReportingServices : Service
 
 ### [Auto Query Named Connection](?id=Auto-Query#named-connection)
 
-[[Auto Query]] can also easily be configured to query any number of different databases registered in your AppHost. 
+[Auto Query](?id=autoquery) can also easily be configured to query any number of different databases registered in your AppHost. 
 
 In the example below we configure our main RDBMS to use SQL Server and register a **Named Connection** 
 to point to a **Reporting** PostgreSQL RDBMS:

@@ -1097,10 +1097,10 @@ AutoQuery Viewer provides an instant UI for constructing and browsing your
 
 ### Live AutoQuery Viewer Examples
 
-- http://github.servicestack.net/ss_admin/
-- http://northwind.servicestack.net/ss_admin/
-- http://stackapis.servicestack.net/ss_admin/
-- http://techstacks.io/ss_admin/
+- [http://github.servicestack.net/ss_admin/](http://github.servicestack.net/ss_admin/)
+- [http://northwind.servicestack.net/ss_admin/](http://northwind.servicestack.net/ss_admin/)
+- [http://stackapis.servicestack.net/ss_admin/](http://stackapis.servicestack.net/ss_admin/)
+- [http://techstacks.io/ss_admin/](http://techstacks.io/ss_admin/)
 
 ## [Northwind](https://github.com/ServiceStackApps/Northwind)
 

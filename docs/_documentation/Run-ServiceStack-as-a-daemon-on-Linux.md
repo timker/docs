@@ -23,21 +23,15 @@ using Mono.Unix;
 using Mono.Unix.Native;
 
 using Funq;
-using ServiceStack.ServiceHost;
-using ServiceStack.WebHost.Endpoints;
-
+using ServiceStack;
 
 namespace ServiceStackExample
 {
-	public class AppHost : AppHostHttpListenerBase
+	public class AppHost : AppSelfHostBase
 	{
-		public AppHost() : base("Example", Assembly.GetExecutingAssembly())
-		{
-		}
-		
-		public override void Configure(Container container)
-		{
-		}
+		public AppHost() : base("Example", typeof(AppHost).Assembly) {}
+
+		public override void Configure(Container container) {}
 	}
 	
 	class Program
@@ -48,17 +42,17 @@ namespace ServiceStackExample
 			var appHost = new AppHost();
 			appHost.Init();
 			appHost.Start("http://127.0.0.1:8080/");
-	
-			UnixSignal [] signals = new UnixSignal[] { 
+
+			UnixSignal[] signals = new UnixSignal[] { 
 				new UnixSignal(Signum.SIGINT), 
 				new UnixSignal(Signum.SIGTERM), 
 			};
-	
+
 			// Wait for a unix signal
 			for (bool exit = false; !exit; )
 			{
 				int id = UnixSignal.WaitAny(signals);
-				
+
 				if (id >= 0 && id < signals.Length)
 				{
 					if (signals[id].IsSet) exit = true;
@@ -70,7 +64,6 @@ namespace ServiceStackExample
 ```
 
 Be aware that this makes use of posix functionality and will therefore not work under Windows. You will need to add the Mono.Posix library to your project references.
-
 
 ## Daemonising the application
 

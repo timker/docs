@@ -7,7 +7,7 @@ ServiceStack only allows a **single App Host** for each App Domain. As you might
 
 Whilst you can only have 1 AppHost, you can have multiple services spread across multiple assemblies. In that case you have to provide a list of assemblies containing the services to the AppHostBase constructor, e.g:
 
-```C#
+```csharp
 public class AppHost : AppHostBase
 {
     //Tell ServiceStack the name of your app and which assemblies to scan for services
@@ -22,7 +22,7 @@ public class AppHost : AppHostBase
 
 You can also provide your own strategy for discovering and resolving the service types that ServiceStack should auto-wire by overriding `CreateServiceManager`, e.g:
 
-```C#
+```csharp
 public class AppHost : AppHostBase
 {
     public AppHost(): base("Hello ServiceStack!", typeof(ServicesFromDll1).Assembly) {}
@@ -45,7 +45,7 @@ One way of modularizing services is to encapsulate them inside [Plugins](?id=Plu
 
 To illustrate this point, we'll show what a Basic [Auth Feature](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AuthFeature.cs) example might look like:
 
-```C#
+```csharp
 public class BasicAuthFeature : IPlugin 
 {
     public string HtmlRedirect { get; set; }   //User-defined configuration
@@ -65,6 +65,6 @@ public class BasicAuthFeature : IPlugin
 
 With everything encapsulated inside a plugin, your users can easily enable them in your AppHost with:
 
-```C#
+```csharp
 Plugins.Add(new BasicAuthFeature { HtmlRedirect = "~/login" });
 ```

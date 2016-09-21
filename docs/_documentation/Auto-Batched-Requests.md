@@ -79,23 +79,23 @@ Another scenario where you may consider using a **Custom Batched Implementation*
 ```csharp
 public class MyServices : Service
 {
-	public object Any(Request request)
-	{
-	    var response = DoWork(request);
-	    Db.Insert(request);
-	    return response;
-	}
-	
-	public object Any(Request[] requests)
-	{
-	    using (var trans = Db.OpenTransaction())
-	    {
-	        var responses = requests.Map(x => Any(x));	
+    public object Any(Request request)
+    {
+        var response = DoWork(request);
+        Db.Insert(request);
+        return response;
+    }
 
-	        trans.Commit();
-	        return responses;
-	    }
-	}
+    public object Any(Request[] requests)
+    {
+        using (var trans = Db.OpenTransaction())
+        {
+            var responses = requests.Map(x => Any(x));	
+
+            trans.Commit();
+            return responses;
+        }
+    }
 }
 ```
 
