@@ -1,9 +1,9 @@
 ---
-slug: release-notes-summary
+slug: 2016-release-notes
 title: Release Notes Summary
 ---
 
-# [v4.5.0 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.5.0.md)
+# [v4.5.0 Release Notes](?id=v4-5-0)
 
 We've upgraded all ServiceStack packages to **.NET 4.5**, if you were already using ServiceStack in 
 .NET 4.5 projects this will be a seamless upgrade like any other release but if your ServiceStack projects 
@@ -23,7 +23,7 @@ dependencies including, `Npgsql`, `RabbitMQ.Client` and `ServiceStack.Razor` now
 ## [.NET Core support for ServiceStack.Redis!](https://github.com/ServiceStack/ServiceStack.Redis/blob/netcore/docs/pages/netcore.md)
 
 In following the
-[.NET Core support of our Text and Client libraries](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.62.md#net-core-support-for-servicestackclient) 
+[.NET Core support of our Text and Client libraries](?id=v4-0-62#net-core-support-for-servicestackclient)
 in our last release we've extended our support for .NET Core in this release to now also include 
 [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
 where we now have .NET Core builds for our [Top 3 popular NuGet packages](https://www.nuget.org/profiles/servicestack).
@@ -209,10 +209,10 @@ ServiceStack now automatically rewrites outgoing links to use `https://` for Req
 by an SSL-terminating Proxy and containing the `X-Forwarded-Proto = https` HTTP Header. 
 You can override `AppHost.UseHttps()` to change this behavior.
 
-# [v4.0.62 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md)
+# [v4.0.62 Release Notes](?id=v4-0-60)
 
 We've got another big release with features added across the board, we'll list the main highlights here but 
-please see the [v4.0.62 release notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.62.md) 
+please see the [v4.0.62 release notes](?id=v4-0-62)
 for the full details.
 
 ## [Gistlyn](http://gistlyn.com)
@@ -421,19 +421,19 @@ new AppHost()
  - Can disable the second Total query in AutoQuery with `IncludeTotal = false`
  - New Request/Response filters for Service Gateways requests that are also validated against any Validators
 
-This covers most of the features, please see the [full release notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.62.md) for more details on any of the ones you're interested in.
+This covers most of the features, please see the [full release notes](?id=v4-0-62) for more details on any of the ones you're interested in.
 
-# [v4.0.60 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md)
+# [v4.0.60 Release Notes](?id=v4-0-60)
 
 v4.0.60 is another jam-packed release starting with exciting new API Key and JWT Auth Providers enabling fast, stateless and centralized Auth Services, a modernized API surface for OrmLite, new GEO capabilities in Redis, Logging for Slack, performance and memory improvements across all ServiceStack and libraries including useful utilities you can reuse to improve performance in your own Apps! 
 
-I'll try highlight the main points but I welcome you to checkout the [full v4.0.60 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#v4060-release-notes) when you can.
+I'll try highlight the main points but I welcome you to checkout the [full v4.0.60 Release Notes](?id=v4-0-60#v4060-release-notes) when you can.
 
 ## Authentication
 
 Auth Providers that authenticate with each request (i.e. implement `IAuthWithRequest`) no longer persist Users Sessions to the cache, they're just attached to the `IRequest` and only last for the duration of the Request. This should be a transparent change but can be reverted by setting `PersistSession=true`.
 
-### [API Key Auth Provider](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#api-key-auth-provider)
+### [API Key Auth Provider](?id=v4-0-60#api-key-auth-provider)
 
 The new `ApiKeyAuthProvider` provides an alternative method for allowing external 3rd Parties access to 
 your protected Services without needing to specify a password. API Keys is the preferred approach for 
@@ -518,7 +518,7 @@ public override IDbConnection GetDbConnection(IRequest req = null)
 }
 ```
 
-## [JWT Auth Provider](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#jwt-auth-provider)
+## [JWT Auth Provider](?id=v4-0-60#jwt-auth-provider)
 
 Even more exciting than the new API Key Provider is the new integrated Auth solution for the popular
 [JSON Web Tokens](https://jwt.io/) (JWT) industry standard which is easily enabled by registering
@@ -670,9 +670,9 @@ Which just like `ConvertSessionToToken` adds returns a populated session in the 
 both [techstacks.io](http://techstacks.io) and [servicestack.net](https://servicestack.net) can maintain 
 uninterrupted Sessions across multiple redeployments without a persistent Sessions cache.
 
-## [Modernized OrmLite API Surface](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#cleaner-modernized-api-surface)
+## [Modernized OrmLite API Surface](?id=v4-0-60#cleaner-modernized-api-surface)
 
-As [mentioned in the last release](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/release-notes.md#deprecating-legacy-ormlite-apis) we've moved OrmLite's deprecated APIs into the `ServiceStack.OrmLite.Legacy` namespace leaving a clean, modern API surface in OrmLite's default namespace.
+As [mentioned in the last release](?id=2016-release-notes#deprecating-legacy-ormlite-apis) we've moved OrmLite's deprecated APIs into the `ServiceStack.OrmLite.Legacy` namespace leaving a clean, modern API surface in OrmLite's default namespace.
 
 This primarily affects the original OrmLite APIs ending with `*Fmt` which were used to provide a familiar API for C# developers based on C#'s `string.Format()`, e.g:
 
@@ -828,7 +828,7 @@ block.Area.Print(); //= 50
 block.DateFormat.Print(); //= 2016-06-08
 ```
 
-## [New Redis GEO Operations](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#new-redis-geo-operations)
+## [New Redis GEO Operations](?id=v4-0-60#new-redis-geo-operations)
 
 The latest [release of Redis 3.2.0](http://antirez.com/news/104) brings it exciting new [GEO capabilities](http://redis.io/commands/geoadd) which will let you store Lat/Long coordinates in Redis and query locations within a specified radius. 
 
@@ -838,7 +838,7 @@ To demonstrate this functionality we've created a new [Redis GEO Live Demo](http
 
 > Live Demo: http://redisgeo.servicestack.net
 
-## [Slack Logger](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#slack-logger)
+## [Slack Logger](?id=v4-0-60#slack-logger)
 
 The new Slack Logger can be used to send Logging to a custom Slack Channel which is a nice interactive way 
 for your development team on Slack to see and discuss logging messages as they come in.
@@ -950,14 +950,14 @@ Plugins can use the new `RegisterServicesInAssembly()` API to register multiple 
 appHost.RegisterServicesInAssembly(GetType().Assembly);
 ```
 
-This summary touches on the the main highlights, more features and further details are available in the [full v4.0.60 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.60.md#v4060-release-notes).
+This summary touches on the the main highlights, more features and further details are available in the [full v4.0.60 Release Notes](?id=v4-0-60#v4060-release-notes).
 
-# [v4.0.56 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.56.md)
+# [v4.0.56 Release Notes](?id=v4-0-56)
 
 This is another release jam-packed with some killer features, the release notes are unfortunately quite longer than usual as the new features required more detail to describe what each does and understand how they work. 
 
 We'll list the highlights below to provide a quick overview, but when you can please checkout the full
-[v4.0.56 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.56.md) for the finer details of each feature.
+[v4.0.56 Release Notes](?id=v4-0-56) for the finer details of each feature.
 
 ## [ServiceStack VS Templates Update](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/servicestackvs/v1.0.22.md)
 
@@ -1209,11 +1209,11 @@ more info:
   [2]: https://github.com/Squirrel/Squirrel.Windows
 
 
-# [v4.0.54 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.54.md)
+# [v4.0.54 Release Notes](?id=v4-0-54)
 
 v4.0.54 is another jam-packed release with a lot of features across the board, we'll list the highlights 
 here, for more details about each feature you can checkout the full
-[v4.0.54 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.54.md).
+[v4.0.54 Release Notes](?id=v4-0-54).
 
 **WARNING .NET 4.0 builds will cease after August 1, 2016**
 
@@ -1360,7 +1360,7 @@ in the new `CreateStripeAccount` API.
 And that's a wrap for this release, apologies for the length of the TL;DR. For even more details on each feature please see the release notes: https://servicestack.net/release-notes
 
 
-# [v4.0.52 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/v4.0.52.md)
+# [v4.0.52 Release Notes](?id=v4-0-52)
 
 We've hope everyone's had a great X-mas holidays and are super-charged for a productive 2016!
 
