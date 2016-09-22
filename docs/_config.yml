@@ -15,7 +15,6 @@ collections:
   releases:
     title: Release Notes
     output: true
-    permalink: /:slug.html
 gems:
   - github-pages
 
@@ -35,6 +34,11 @@ defaults:
       collection: documentation
     values:
       priority: 999
+  -
+    scope:
+      collection: releases
+    values:
+      layout: default
 
 # -----
 # Build
