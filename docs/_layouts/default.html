@@ -74,6 +74,7 @@
     // [my link to internal page](?id=slug)
     var docSlugMapping = {};
     {% for doc in site.documentation %}docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';{% endfor %}
+    {% for doc in site.releases %}docSlugMapping['{{doc.slug}}'] = '{{doc.url}}';{% endfor %}
 
     $("a[href^='?id=']").attr('href', function () {
         var slugId = this.search.substr(4);

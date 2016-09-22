@@ -5,7 +5,7 @@
     - [What is a message-based WebService?](?id=What-is-a-message-based-web-service)
     - [Advantages of message-based WebServices](?id=advantages-of-message-based-web-services)
     - [Why remote services should use DTOs?](http://stackoverflow.com/a/15369736/85785)
-    - [Release Notes](https://servicestack.net/release-notes)
+    - [Release Notes](?id=v4-5-0)
     - [Live Demos](https://github.com/ServiceStackApps/LiveDemos)
 - Getting Started
     - [Create your first WebService](?id=create-your-first-webservice)
