@@ -18,7 +18,7 @@ Although in addition to this the [ServiceStack.Client](http://nuget.org/packages
 
 ### Add ServiceStack Reference
 
-You can also use [ServiceStackVS](?id=Creating-your-first-project#step-1-download-and-install-servicestackvs)'s **Add ServiceStack Reference** feature for adding generated Native Types to client VS.NET C#, F# and VB.NET projects. This gives developers a consistent way of creating and updating your DTOs regardless of your language of choice.
+You can also use [ServiceStackVS](?id=create-your-first-webservice#step-1-download-and-install-servicestackvs)'s **Add ServiceStack Reference** feature for adding generated Native Types to client VS.NET C#, F# and VB.NET projects. This gives developers a consistent way of creating and updating your DTOs regardless of your language of choice.
 
 ### Supported Languages
 

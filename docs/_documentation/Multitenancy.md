@@ -132,7 +132,7 @@ public class ReportingServices : Service
 }
 ```
 
-### [Auto Query Named Connection](?id=Auto-Query#named-connection)
+### [Auto Query Named Connection](?id=AutoQuery#named-connection)
 
 [Auto Query](?id=autoquery) can also easily be configured to query any number of different databases registered in your AppHost. 
 

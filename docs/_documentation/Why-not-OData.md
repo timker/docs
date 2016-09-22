@@ -65,6 +65,6 @@ The needs in this case is [simplifying](http://www.infoq.com/presentations/Simpl
 
 Rather than tacking on new libraries or inventing different ways/concepts/specs/dsl's for doing new things, features in ServiceStack are applied thoughtfully so they naturally integrate with its [existing architecture](?id=Architecture-overview) maximizing re-use and leveraging existing functionality wherever possible, strengthening the existing mental model and ensuring new abstractions or concepts only get added for that of which is truly new.
 
-## [Introducing AutoQuery](?id=Auto-Query#introducing-autoquery)
+## [Introducing AutoQuery](?id=AutoQuery#introducing-autoquery)
 
 The solution to overcome most of OData issues is ultimately quite simple: enhance the ideal API the developer would naturally write and complete their implementation for them! This is essentially the philosophy behind AutoQuery which utilizes conventions to automate creation of intent-based self-descriptive APIs that are able to specify configurable conventions and leverage extensibility options to maximize the utility of AutoQuery services.

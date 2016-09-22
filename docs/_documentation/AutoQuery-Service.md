@@ -124,7 +124,7 @@ hosts :)
 ### Custom AutoQuery Data Implementation
 
 Just like you can 
-[Create a Custom implementation](?id=Auto-Query#custom-autoquery-implementations)
+[Create a Custom implementation](?id=AutoQuery#custom-autoquery-implementations)
 in AutoQuery, you can do the same in AutoQuery Data by just defining an implementation for your AutoQuery 
 Data Request DTO. But instead of `IAutoQueryDb` you'd reference the `IAutoQueryData` dependency to construct 
 and execute your custom AutoQuery Data query.

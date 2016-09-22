@@ -1089,7 +1089,7 @@ nativeTypes.InitializeCollectionsForType = NativeTypesFeature.DontInitializeAuto
 ## AutoQuery Viewer
 
 AutoQuery Viewer provides an instant UI for constructing and browsing your 
-[AutoQuery](?id=Auto-Query) Services: 
+[AutoQuery](?id=AutoQuery) Services:
 
 [![](https://raw.githubusercontent.com/ServiceStack/Admin/master/img/query-default-values.png)](http://github.servicestack.net/ss_admin/autoquery)
 
@@ -1110,7 +1110,7 @@ AutoQuery Viewer provides an instant UI for constructing and browsing your
 
 #### Features
 
- - [AutoQuery](?id=Auto-Query)
+ - [AutoQuery](?id=AutoQuery)
    - [Northwind AutoQuery DTOs](https://github.com/ServiceStackApps/Northwind/blob/master/src/Northwind/Northwind.ServiceModel/AutoQuery.cs)
    - [OrmLite Sqlite](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
 
@@ -1122,13 +1122,13 @@ AutoQuery Viewer provides an instant UI for constructing and browsing your
 
 #### Features
 
- - [AutoQuery](?id=Auto-Query)
+ - [AutoQuery](?id=AutoQuery)
    - [StackApis AutoQuery DTO](https://github.com/ServiceStackApps/StackApis#stackapis-autoquery-service)
    - [OrmLite Sqlite](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
 
 ## [AutoQuery Viewer](https://github.com/ServiceStackApps/AutoQueryViewer)
 
-AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible [ServiceStack AutoQuery Service](?id=Auto-Query) from an iPad. 
+AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible [ServiceStack AutoQuery Service](?id=AutoQuery) from an iPad.
 
 [![AutoQuery Viewer on AppStore](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/autoquery/autoqueryviewer-appstore.png)](https://itunes.apple.com/us/app/autoquery-viewer/id968625288?ls=1&mt=8)
 
@@ -1140,6 +1140,6 @@ AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing
 
 ## [TechStacks Cocoa OSX Desktop App](https://github.com/ServiceStackApps/TechStacksDesktopApp)
 
-TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality [AutoQuery Services](?id=Auto-Query) provides for free and how easy they are to call with [ServiceStack's new support for Swift and XCode](?id=Swift-Add-ServiceStack-Reference).
+TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality [AutoQuery Services](?id=AutoQuery) provides for free and how easy they are to call with [ServiceStack's new support for Swift and XCode](?id=Swift-Add-ServiceStack-Reference).
 
 [![TechStack Desktop Search Fields](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-desktop-field.png)](https://github.com/ServiceStackApps/TechStacksDesktopApp)

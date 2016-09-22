@@ -93,7 +93,7 @@ public interface IService<T> {
 }
 ```
 
-Which we've simplified even further in the [New API](?id=new-api) to just an empty marker interface:
+Which we've simplified even further in the [New API](?id=api-design) to just an empty marker interface:
 
 ```csharp
 public interface IService { }

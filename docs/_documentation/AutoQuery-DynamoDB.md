@@ -59,7 +59,7 @@ To Get Started Install [ServiceStack's AWS Support package](https://github.com/S
 
 To illustrate how to use AutoQuery with DynamoDB we'll walk through a simple example of querying Rockstars Albums. 
 For this example we'll specify
-[explicit conventions](?id=Auto-Query#explicit-conventions)
+[explicit conventions](?id=AutoQuery#explicit-conventions)
 so we can use ServiceStack's 
 [typed .NET Service Clients](?id=CSharp-client) 
 to show which fields we're going to query and also lets us call the Service with a convenient typed API:
@@ -278,7 +278,7 @@ var response = client.Get(new QueryRockstarAlbumsGenreIndex //QUERY
 
 A noticeable difference from querying a Global Index instead of the Table directly is that results are
 returned in a different `RockstarAlbumGenreIndex` POCO. Luckily we can use AutoQuery's 
-[Custom Results Feature](?id=Auto-Query#returning-custom-results)
+[Custom Results Feature](?id=AutoQuery#returning-custom-results)
 to map the properties back into the original table `RockstarAlbum` with:
 
 ```csharp

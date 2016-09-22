@@ -15,7 +15,7 @@ We've chosen to adopt Server Sent Events for Server Notifications as it's a beau
 ### Server Event Clients
 
   - [JavaScript Client](?id=JavaScript-Server-Events-Client)
-  - [C# Client](?id=C%23-Server-Events-Client)
+  - [C# Client](?id=CSharp-Server-Events-Client)
 
 ### Server Event Providers
 
@@ -201,7 +201,7 @@ The following Server and Client callbacks are fired when a client first makes a 
  5. `ServerEventsFeature.OnSubscribe()` - Fired after the subscription is registered. This callback can be used to send any custom messages to the client
  6. **(Client)** - If `ServerEventsFeature.NotifyChannelOfSubscriptions = true` every client in the same channel receives a `cmd.onJoin` message to notify them that a new subscription has joined the channel as well as a `cmd.onLeave` message when subscription leaves the channel
 
-> The `cmd.onConnect`, `cmd.onJoin` and `cmd.onLeave` messages can be handled with the [Global Event Handlers](?id=JavaScript-Server-Events-Client#global-event-handlers) on the JavaScript Client and the [Message Event Handlers](?id=C%23-Server-Events-Client#message-event-handlers) or the [Global Receiver](?id=C%23-Server-Events-Client#the-global-receiver) .NET ServerEventClient.
+> The `cmd.onConnect`, `cmd.onJoin` and `cmd.onLeave` messages can be handled with the [Global Event Handlers](?id=JavaScript-Server-Events-Client#global-event-handlers) on the JavaScript Client and the [Message Event Handlers](?id=CSharp-Server-Events-Client#message-event-handlers) or the [Global Receiver](?id=CSharp-Server-Events-Client#the-global-receiver) .NET ServerEventClient.
 
 ### Heartbeats
 
@@ -471,7 +471,7 @@ demo into a [TypeScript](http://www.typescriptlang.org/), [React](http://faceboo
 ## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
 
 Xamarin.Android Chat utilizes the 
-[.NET PCL Server Events Client](?id=C%23-Server-Events-Client)
+[.NET PCL Server Events Client](?id=CSharp-Server-Events-Client)
 to create an Android Chat App connecting to the existing 
 [chat.servicestack.net](http://chat.servicestack.net/) Server Events back-end where it's able to communicate 
 with existing Ajax clients and other connected Android Chat Apps. 

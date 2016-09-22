@@ -582,7 +582,7 @@ public func loadImageAsync(url:String) -> Promise<UIImage?> {
 
 As `JsonServiceClient.swift` has no external dependencies and only relies on core `Foundation` classes it can be used anywhere Swift can including OSX Cocoa Desktop and Command Line Apps and Frameworks.
 
-Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](?id=Auto-Query) and how much auto-querying functionality they can provide for free.
+Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](?id=AutoQuery) and how much auto-querying functionality they can provide for free.
 
 E.g. The TechStacks Desktop app is essentially powered with these 2 AutoQuery Services:
 
@@ -594,7 +594,7 @@ public class FindTechStacks : QueryBase<TechnologyStack> {}
 public class FindTechnologies : QueryBase<Technology> {}
 ```
 
-Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](?id=Auto-Query#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](?id=Auto-Query#implicit-conventions) automatically infer it from the table being queried.
+Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](?id=AutoQuery#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](?id=AutoQuery#implicit-conventions) automatically infer it from the table being queried.
 
 The TechStacks Desktop UI is then built around these 2 AutoQuery Services allowing querying against each field and utilizing a subset of the implicit conventions supported:
 

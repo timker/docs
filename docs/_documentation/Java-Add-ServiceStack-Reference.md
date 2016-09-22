@@ -199,7 +199,7 @@ GetTechnologyResponse response = client.get(request);
 
 ### AutoQuery Example Usage
 
-You can also send requests composed of both a Typed DTO and untyped String Dictionary by providing a Java Map of additional args. This is typically used when querying [implicit conventions in AutoQuery services](?id=Auto-Query#implicit-conventions), e.g:
+You can also send requests composed of both a Typed DTO and untyped String Dictionary by providing a Java Map of additional args. This is typically used when querying [implicit conventions in AutoQuery services](?id=AutoQuery#implicit-conventions), e.g:
 
 ```java
 QueryResponse<Technology> response = client.get(new FindTechnologies(),

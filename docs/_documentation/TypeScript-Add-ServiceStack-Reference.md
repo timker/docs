@@ -5,7 +5,7 @@ title: TypeScript Add ServiceStack Reference
 
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)
 
-ServiceStack's **Add ServiceStack Reference** feature allows clients to generate Native Types from directly within VS.NET using [ServiceStackVS VS.NET Extension](?id=Creating-your-first-project) - providing a simple way to give clients typed access to your ServiceStack Services.
+ServiceStack's **Add ServiceStack Reference** feature allows clients to generate Native Types from directly within VS.NET using [ServiceStackVS VS.NET Extension](?id=create-your-first-webservice) - providing a simple way to give clients typed access to your ServiceStack Services.
 
 ### First class development experience
 
@@ -92,7 +92,7 @@ at the new `/types/typescript` route so you can get both concrete types and inte
 ## [[Add ServiceStack Reference]]
 
 The easiest way to Add a ServiceStack reference to your project is to **right-click** on a folder to bring up 
-[ServiceStackVS's](?id=Creating-your-first-project) 
+[ServiceStackVS's](?id=create-your-first-webservice)
 VS.NET context-menu item, then click on `Add -> TypeScript Reference...`. This opens a dialog where you can 
 add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source 
 file that's added to your project.
@@ -396,7 +396,7 @@ Request that looks like:
     /hello?title=Dr&name=World
 
 There's also a new `$.ss.createUrl()` API in 
-[ss-utils.js](?id=ss-utils.js-JavaScript-Client-Library) 
+[ss-utils.js](?id=ss-utils-js)
 which also handles .NET Route definitions where it will populate any variables in the `/path/{info}` 
 instead of adding them to the `?QueryString`, e.g:
 
@@ -422,7 +422,7 @@ Which results in a HTTP GET request with the expected Url:
 ### ServerEventsClient
 
 In addition to `JsonServiceClient` most of the JavaScript utils in 
-[ss-utils.js](?id=ss-utils.js-JavaScript-Client-Library)
+[ss-utils.js](?id=ss-utils-js)
 are also in the `servicestack-client` npm package including the `ServerEventsClient` for 
 processing real-time [Server Events](?id=Server-Events).
 

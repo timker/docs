@@ -67,7 +67,7 @@ The saved query will be listed with the name provided and displayed to the right
 [![](http://i.imgur.com/hySw1T9.png)](https://github.com/ServiceStack/Admin)
 
 This makes it easy for everyone to maintain and easily switch between multiple personalized views 
-of any [AutoQuery Service](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query).
+of any [AutoQuery Service](?id=AutoQuery).
 
 ## Create Live Executable Docs with Gistlyn
 
@@ -99,7 +99,7 @@ cause down the line if they remove it.
 For ServiceStack and other lightweight Web Frameworks this added weight is completely unnecessary
 and can be safely removed. 
 E.g. [most ServiceStack Apps just needs a few ServiceStack .dlls](https://github.com/ServiceStackApps/Chat#super-lean-front-and-back) 
-and a [single Web.config mapping](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice#register-servicestack-handler)
+and a [single Web.config mapping](?id=Create-your-first-webservice#register-servicestack-handler)
 to tell ASP.NET to route all calls to ServiceStack. Any other ASP.NET config you would add in 
 ServiceStack projects is just to get ASP.NET to disable any conflicting default behavior.
 
@@ -138,7 +138,7 @@ And that's it! `ASP.NET Empty` is a single project empty ASP.NET Web Application
 
 ### Minimal but still Useful
 
-You can then easily [Convert this empty template into a functional ServiceStack Web App](https://github.com/ServiceStack/ServiceStack/wiki/Create-your-first-webservice) by: 
+You can then easily [Convert this empty template into a functional ServiceStack Web App](?id=Create-your-first-webservice) by:
 
 1) Installing [ServiceStack and any other dependency](https://github.com/ServiceStackApps/Todos/blob/master/src/Todos/packages.config) you want to use, e.g:
 
@@ -165,7 +165,7 @@ which can power all [todomvc.com](http://todomvc.com) Single Page Apps.
 ## Generating API Keys for Existing Users
 
 Whilst not a feature in ServiceStack, this script is useful if you want to enable ServiceStack's 
-[API Key AuthProvider](https://github.com/ServiceStack/ServiceStack/wiki/API-Key-AuthProvider) 
+[API Key AuthProvider](?id=API-Key-AuthProvider)
 but you have existing users you also want to generate API Keys for.
 
 You can add the script below (which only needs to be run once) to your `AppHost.Configure()` which will 
@@ -260,13 +260,13 @@ Gistlyn's Github Repo provides a good example of a modern medium-sized ServiceSt
 
  - [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps) - 
  tooling for packaging Gistlyn's ASP.NET Web App into a Winforms Desktop and Console App
- - [Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events) - providing real-time 
+ - [Server Events](?id=Server-Events) - providing real-time
  Script Status updates and Console logging
- - [TypeScript](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference) - enabling end-to-end Typed API requests
- - [Github OAuth](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization#auth-providers) -
+ - [TypeScript](?id=TypeScript-Add-ServiceStack-Reference) - enabling end-to-end Typed API requests
+ - [Github OAuth](?id=Authentication-and-authorization#auth-providers) -
  authentication with Github
- - [JWT Auth Provider](https://github.com/ServiceStack/ServiceStack/wiki/JWT-AuthProvider) - enabling both JWT and JWE ecrypted stateless Sessions
- - [HTTP Utils](https://github.com/ServiceStack/ServiceStack/wiki/Http-Utils) - consuming Github's REST API 
+ - [JWT Auth Provider](?id=JWT-AuthProvider) - enabling both JWT and JWE ecrypted stateless Sessions
+ - [HTTP Utils](?id=Http-Utils) - consuming Github's REST API
  and creating an authenticated HTTP Proxy in [GitHubServices.cs](https://github.com/ServiceStack/Gistlyn/blob/master/src/Gistlyn.ServiceInterface/GitHubServices.cs)
 
 ### [Run Gistlyn on your Desktop](http://gistlyn.com/downloads)
@@ -474,7 +474,7 @@ var client = new JsonHttpClient(baseUrl) {
 };
 ```
 
-And [HTTP Utils](https://github.com/ServiceStack/ServiceStack/wiki/Http-Utils):
+And [HTTP Utils](?id=Http-Utils):
 
 ```csharp
 var response = baseUrl.CombineWith("/secured").GetStringFromUrl(
@@ -497,7 +497,7 @@ Plugins.Add(new AuthFeature(...,
     });
 ```
 
-If preferred properties can also be set in [AppSettings](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings):
+If preferred properties can also be set in [AppSettings](?id=AppSettings):
 
 ```xml
 <add key="apikey.KeyTypes" value="secret,publishable" />
@@ -506,7 +506,7 @@ If preferred properties can also be set in [AppSettings](https://github.com/Serv
 
 ### Multitenancy by API Keys 
 
-Thanks to the ServiceStack's trivial support for [Multitenancy](https://github.com/ServiceStack/ServiceStack/wiki/Multitenancy) you can easily change which Database your Services and AutoQuery Services use based on Key Environment by overriding `GetDbConnection()` in your AppHost, e.g:
+Thanks to the ServiceStack's trivial support for [Multitenancy](?id=Multitenancy) you can easily change which Database your Services and AutoQuery Services use based on Key Environment by overriding `GetDbConnection()` in your AppHost, e.g:
 
 ```csharp
 public override IDbConnection GetDbConnection(IRequest req = null)
@@ -632,7 +632,7 @@ public override void Configure(Container container)
 }
 ```
 
-Which no longer needs access to a [IUserAuthRepository](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization#userauth-persistence---the-iuserauthrepository) or [Sessions](https://github.com/ServiceStack/ServiceStack/wiki/Sessions) since they're populated entirely from JWT Tokens. Whilst you can use the default **HS256** HashAlgorithm, RSA is ideal for this use-case as you can limit access to the **PrivateKey** to only the central Auth Service issuing the tokens and then only distribute the **PublicKey** to each Service which needs to validate them.
+Which no longer needs access to a [IUserAuthRepository](?id=Authentication-and-authorization#userauth-persistence---the-iuserauthrepository) or [Sessions](?id=Sessions) since they're populated entirely from JWT Tokens. Whilst you can use the default **HS256** HashAlgorithm, RSA is ideal for this use-case as you can limit access to the **PrivateKey** to only the central Auth Service issuing the tokens and then only distribute the **PublicKey** to each Service which needs to validate them.
 
 ### Ajax Clients
 
@@ -926,7 +926,7 @@ We've added the Object pooling classes that Roslyn's code-base uses in `ServiceS
 
 ### Add ServiceStack Reference Wildcards
 
-The `IncludeType` option in all [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) languages now allow specifying a `.*` wildcard suffix on Request DTO's as a shorthand to return all dependent DTOs for that Service:
+The `IncludeType` option in all [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) languages now allow specifying a `.*` wildcard suffix on Request DTO's as a shorthand to return all dependent DTOs for that Service:
 
     IncludeTypes: RequestDto.*
 
@@ -934,7 +934,7 @@ Special thanks to [@donaldgray](https://github.com/donaldgray) for contributing 
 
 ### New ServerEventsClient APIs
 
-Use new Typed [GetChannelSubscribers APIs](https://github.com/ServiceStack/ServiceStack/commit/1476e232502f690ba1832600c221ad76c15cfda7) added to [C# ServerEventsClient](https://github.com/ServiceStack/ServiceStack/wiki/C%23-Server-Events-Client) to fetch Channel Subscribers:
+Use new Typed [GetChannelSubscribers APIs](https://github.com/ServiceStack/ServiceStack/commit/1476e232502f690ba1832600c221ad76c15cfda7) added to [C# ServerEventsClient](?id=csharp-server-events-client) to fetch Channel Subscribers:
 
 ```csharp
 var clientA = new ServerEventsClient("A");
@@ -965,13 +965,13 @@ React Desktop Apps received a major update with much faster Startup times on Win
 
 We're now all-in with React and TypeScript with both our VS.NET SPA React Templates modernized with TypeScript + JSPM. If you're new to both, please checkout the comprehensive [TypeScript + Redux walk through][1] to get up and running quickly. 
 
-## [New AutoQuery Data](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Data)
+## [New AutoQuery Data](?id=AutoQuery-Data)
 
 AutoQuery Data is an alternative implementation of AutoQuery for RDBMS but supports an Open Provider model which can be implemented to query multiple data source backends. The 3 data source providers available include:
 
- - **[MemorySource](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Memory)** - for querying static or dynamic in-memory .NET collections, some of the included examples show querying a flat-file `.csv` file and a 3rd Party API that can also the throttled with configurable caching.
- - **[ServiceSource](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-Service)** - a step higher than MemorySource where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
- - **[DynamoDbSource](https://github.com/ServiceStack/ServiceStack/wiki/AutoQuery-DynamoDb)** - adds rich querying capabilities over an AWS DynamoDB Table making it much more productive than if you had to construct the query manually.
+ - **[MemorySource](?id=AutoQuery-Memory)** - for querying static or dynamic in-memory .NET collections, some of the included examples show querying a flat-file `.csv` file and a 3rd Party API that can also the throttled with configurable caching.
+ - **[ServiceSource](?id=AutoQuery-Service)** - a step higher than MemorySource where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
+ - **[DynamoDbSource](?id=AutoQuery-DynamoDb)** - adds rich querying capabilities over an AWS DynamoDB Table making it much more productive than if you had to construct the query manually.
  
 AutoQuery DynamoDB queries are also self-optimizing where it will transparently construct the most optimal query possible by looking at any Hash Id's, Range Keys and Local Indexes populated in the Request to construct the most optimal DynamoDB **QueryRequest** or **Scan** Operation behind-the-scenes.
 
@@ -991,17 +991,17 @@ public class QueryRockstarAlbums : QueryData<RockstarAlbum>
 
 We've declaratively created a fully-queryable DynamoDB AutoQuery Service that transparently executes the most ideal DynamoDB queries for each request, has it's optimal representation efficiently cached on both Server and clients, whose Typed DTO can be reused as-is on the client to call Services with an end-to-end Typed API using any .NET Service Client, that's also available to external developers in a clean typed API, natively in their preferred language of choice, accessible with just a right-click menu integrated inside VS.NET, Xcode, Android Studio, IntelliJ and Eclipse - serving both PCL Xamarin.iOS/Android as well as native iOS and Android developers by just Adding a ServiceStack Reference to the base URL of a remote ServiceStack Instance - all without needing to write any implementation!
 
-## [HTTP Caching](https://github.com/ServiceStack/ServiceStack/wiki/HTTP-Caching)
+## [HTTP Caching](?id=HTTP-Caching)
 
 HTTP Caching is another big feature we expect to prove extremely valuable which much improves story around HTTP Caching that transparently improves the behavior of existing ToOptimized Cached Responses, provides a typed API to to opt-in to HTTP Client features, introduces a simpler declarative API for enabling both Server and Client Caching of Services and also includes Cache-aware clients that are able to improve the performance and robustness of all existing .NET Service Clients - functionality that's especially valuable to bandwidth-constrained Xamarin.iOS / Xamarin.Android clients offering improved performance and greater resilience.
 
-### [CacheResponse Attribute](https://github.com/ServiceStack/ServiceStack/wiki/CacheResponse-Attribute)
+### [CacheResponse Attribute](?id=CacheResponse-Attribute)
 
 The new `[CacheResponse]` Filter Attribute provides the easiest way to enable both **HTTP Client** and 
 **Server Caching** of your Services with a single Attribute declared on your Service class, method implementation
 or Request DTO.
 
-### [Cache-aware Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/Cache-Aware-Clients)
+### [Cache-aware Service Clients](?id=Cache-Aware-Clients)
 
 You can now create **cache-aware** versions of all .NET Service Clients that respects any caching directives
 returned by your Server using the `.WithCache()` extension methods, e.g:
@@ -1016,9 +1016,9 @@ Cache-aware Service Clients can dramatically improve performance by eliminating 
 
 @jezzsantos also wrote a comprehensive overview about HTTP Caching in general and goes through the process of how he developed an alternative caching solution within ServiceStack in his epic [Caching Anyone post](http://www.mindkin.co.nz/blog/2016/1/5/caching-anyone).
 
-## [Service Gateway](https://github.com/ServiceStack/ServiceStack/wiki/Service-Gateway)
+## [Service Gateway](?id=Service-Gateway)
 
-The new `IServiceGateway` is another valuable capability that despite being trivial to implement on top of ServiceStack's existing message-based architecture, opens up exciting new possibilities for development of loosely-coupled [Modularized Service Architectures](https://github.com/ServiceStack/ServiceStack/wiki/Modularizing-services).
+The new `IServiceGateway` is another valuable capability that despite being trivial to implement on top of ServiceStack's existing message-based architecture, opens up exciting new possibilities for development of loosely-coupled [Modularized Service Architectures](?id=Modularizing-services).
 
 The Service Gateway is available from `base.Gateway` in both sync:
 
@@ -1053,7 +1053,7 @@ We're extremely fortunate to have @Mac and @rsafier both jump in with Service Di
  - https://github.com/MacLeanElectrical/servicestack-discovery-consul
  - https://github.com/rsafier/ServiceStack.Discovery.Redis
 
-## [Super CSV Support](https://github.com/ServiceStack/ServiceStack/wiki/CSV-Format#csv-deserialization-support)
+## [Super CSV Support](?id=CSV-Format#csv-deserialization-support)
 
 We've now implemented CSV deserialization support so now all your Services can accept CSV payloads in addition to serializing to .csv. As a tabular data format it's especially useful when your Service accepts Lists of POCO's such as in Auto Batched Requests where it's now the most compact text data format to send them with using either the new `CsvServiceClient` or `.PostCsvToUrl()` HTTP Utils extension method.
 
@@ -1076,7 +1076,7 @@ To store request and error logs into daily logs to the following overridable loc
 
 Error logs are also written out into a separate log file as it can be useful to view them in isolation.
 
-## [Virtual FileSystem](https://github.com/ServiceStack/ServiceStack/wiki/Virtual-file-system)
+## [Virtual FileSystem](?id=Virtual-file-system)
 
 To efficiently support Appending to existing files as needed by the CsvRequestLogger we've added new 
 `AppendFile` API's and implementations for Memory and FileSystem Virtual File Providers:
@@ -1245,7 +1245,7 @@ It also ships with a number of productive features out-of-the-box:
  
 A quick showcase of some of these features are available on YouTube: https://youtu.be/YejYkCvKsuQ 
 
-## [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query)
+## [AutoQuery](?id=AutoQuery)
 
 A number of new Enhancements were also added to AutoQuery Services:
 
@@ -1254,7 +1254,7 @@ A number of new Enhancements were also added to AutoQuery Services:
  - **Named Connection** - As part of our new Multitenancy features AQ Services can be easily configured to run on multiple db's 
  - **T4 Templates** - OrmLite's T4 templates now have options for generating AutoQuery Services and named connections
 
-## [Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events)
+## [Server Events](?id=Server-Events)
 
 We've added a couple of demos showing how easy it is to create rich, interactive mobile and web apps with Server Events:
 
@@ -1284,7 +1284,7 @@ The new TypeScript + React VS.NET Tempalte captures what we believe is the best 
 
 To help developers familiarize themselves with these technologies we've also published an in-depth step-by-step guide for beginners that starts off building the simplest HelloWorld TypeScript React App from scratch then slowly growing with each example explaining how TypeScript, React and Redux can be used to easily create the more complex networked Time Travelling Shape Creator, available at: https://github.com/ServiceStackApps/typescript-redux
 
-## [ss-utils](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library)
+## [ss-utils](?id=ss-utils-js)
 
 To make it easier to use ss-utils in JavaScript projects, we're maintaining copies of ss-utils in npm, JSPM and Definitely Typed registries. We've also added a few new common utils:
 
@@ -1295,7 +1295,7 @@ To make it easier to use ss-utils in JavaScript projects, we're maintaining copi
  - $.ss.normalize
  - $.ss.postJSON
  
-## [Customize JSON Responses on-the-fly](https://github.com/ServiceStack/ServiceStack/wiki/Customize-JSON-Responses)
+## [Customize JSON Responses on-the-fly](?id=Customize-JSON-Responses)
 
 The JSON/JSV responses for all your services can now be customized on-the-fly by your Service consumers so they're able to access your JSON responses in their preferred configuration using the `?jsconfig` modifier, e.g:
 
@@ -1307,13 +1307,13 @@ It also supports the much shorter Camel Humps notation:
 
 Most JsConfig config options are supported.
 
-## [Improved support for Multitenancy](https://github.com/ServiceStack/ServiceStack/wiki/Multitenancy)
+## [Improved support for Multitenancy](?id=Multitenancy)
 
 There are a number of new features and flexibile options available to make Multitenancy easier to support where you can easily change which DB is used at runtime based on an incoming request with a request filter.
 
 We've added a number of examples in the release notes to show how this works.
 
-## [ServiceClient URL Resolvers](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#serviceclient-url-resolvers)
+## [ServiceClient URL Resolvers](?id=CSharp-client#serviceclient-url-resolvers)
 
 You can use the new `TypedUrlResolver` and `UrlResolver` delegates available on every .NET Service Client 
 to change which url each request is made with.
@@ -1322,7 +1322,7 @@ to change which url each request is made with.
 
 This feature makes it easy to enable high-level discovery and health/failover features as seen in the new **ServiceStack.Discovery.Consul** Community project which maintains an active list of available load-balanced ServiceStack Services as well as auto-registering the Services each instance supports taking care of managing the different endpoints for each Service where all Typed requests can be made with a single Service Client and Consul takes care of routing to the appropriate active endpoint.  
 
-## [Multiple File Uploads](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#multiple-file-uploads)
+## [Multiple File Uploads](?id=CSharp-client#multiple-file-uploads)
 
 The new PostFilesWithRequest API's on every ServiceClient for sending mutliple file uploads with a single Request.
 
@@ -1353,7 +1353,7 @@ in the new `CreateStripeAccount` API.
  - Old Session removed and invalided when generating new session ids for a new AuthRequest
  - New ResourcesResponseFilter, ApiDeclarationFilter and OperationFilter added to SwaggerFeature to modify response
  - `Name` property added to `IHttpFiles` in Response.Files collection
- - `HostType`, `RootDirectoryPath`, `RequestAttributes`, `Ipv4Addresses` and `Ipv6Addresses` added to [?debug=requestinfo](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#request-info)
+ - `HostType`, `RootDirectoryPath`, `RequestAttributes`, `Ipv4Addresses` and `Ipv6Addresses` added to [?debug=requestinfo](?id=Debugging#request-info)
  - `StaticFileHandler` now has `IVirtualFile` and `IVirtualDirectory` constructor overloads
  - New `StaticContentHandler` for returning custom text or binary responses in `RawHttpHandlers`
 
@@ -1388,17 +1388,17 @@ it also has great tooling support in **Android Studio**, **IntelliJ** and **Ecli
 with existing Java code where projects can **mix-and-match Java and Kotlin** code together within the same application - 
 making Kotlin a very attractive and easy choice for Android Development.
 
-## [Kotlin Native Types!](https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference)
+## [Kotlin Native Types!](?id=Kotlin-Add-ServiceStack-Reference)
 
 As we expect more Android and Java projects to be written in Kotlin in future we've added first-class 
-[Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) 
+[Add ServiceStack Reference](?id=Add-ServiceStack-Reference)
 support for Kotlin with IDE integration in 
 [Android Studio](http://developer.android.com/tools/studio/index.html) and 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/) where App Devlopers can create and update an end-to-end typed 
 API with just a Menu Item click - enabling a highly-productive workflow for consuming ServiceStack Services!
 
 No new IDE plugins were needed to enable Kotlin support which was added to the existing 
-[ServiceStack IDEA plugin](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference#servicestack-idea-android-studio-plugin) 
+[ServiceStack IDEA plugin](?id=Java-Add-ServiceStack-Reference#servicestack-idea-android-studio-plugin)
 that can Install or Updated to enable Kotlin ServiceStack Reference support in Android Studio or IntelliJ IDEA.
 
 ### Installing Kotlin
@@ -1528,7 +1528,7 @@ val response = client.get("http://techstacks.io/overview", OverviewResponse::cla
 
 You can also send requests composed of both a Typed DTO and untyped String Map by providing a Hash Map of 
 additional args. This is typically used when querying 
-[implicit conventions in AutoQuery services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions), e.g:
+[implicit conventions in AutoQuery services](?id=AutoQuery#implicit-conventions), e.g:
 
 ```kotlin
 val response = client.get(FindTechnologies(), hashMapOf(Pair("DescriptionContains","framework")))
@@ -1670,7 +1670,7 @@ client.ExceptionFilter = ExceptionFilter { res:HttpURLConnection?, ex ->
 }
 ```
 
-See the [Kotlin Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Kotlin-Add-ServiceStack-Reference) 
+See the [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
 wiki for more docs on consuming ServiceStack Services from Kotlin.
 
 ## Example [TechStacks Android App](https://github.com/ServiceStackApps/TechStacksKotlinApp)
@@ -1858,7 +1858,7 @@ response.Sources.TotalCount
 ### Customize urls used with `IUrlFilter`
 
 Request DTO's can customize urls used in Service Clients or any libraries using ServiceStack's typed 
-[Reverse Routing](https://github.com/ServiceStack/ServiceStack/wiki/Routing#reverse-routing) by having 
+[Reverse Routing](?id=Routing#reverse-routing) by having
 Request DTO's implement 
 [IUrlFilter](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IUrlFilter.cs).
 
@@ -1911,7 +1911,7 @@ Which has the effect of populating the `TotalCount` property in the typed `Strip
 
 Previously type conversion errors would throw a generic `RequestBindingException` to indicate the Request was
 malformed. They are now being converted into a structured error so the same error handling logic used to handle
-[field validation errors](https://github.com/ServiceStack/ServiceStack/wiki/Validation) can also handle request
+[field validation errors](?id=Validation) can also handle request
 binding exceptions, e.g:
 
 ```csharp
@@ -1932,7 +1932,7 @@ catch (WebServiceException ex)
  
 Special thanks to [@georgehemmings](https://github.com/georgehemmings) for his contributions to this feature. 
  
-### Scalable [Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events)
+### Scalable [Server Events](?id=Server-Events)
 
 [@Nness](https://github.com/Nness) upgraded our existing Server Events implementation based on manual array 
 re-sizing and custom locks to use `ConcurrentDictionary` to 
@@ -1955,7 +1955,7 @@ Plugins.Add(new ServerEventsFeature
 });
 ```
 
-## [Metadata pages](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page)
+## [Metadata pages](?id=Metadata-page)
 
 To avoid repetitive noise in each Metadata Operation Page the common `ResposneStatus` DTO's were omitted, if
 you prefer they can now be enabled with:
@@ -1964,7 +1964,7 @@ you prefer they can now be enabled with:
 this.GetPlugin<MetadataFeature>().ShowResponseStatusInMetadataPages = true;
 ```
 
-## [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query)
+## [AutoQuery](?id=AutoQuery)
 
 ### Querying NULL
 

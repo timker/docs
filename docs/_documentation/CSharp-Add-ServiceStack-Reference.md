@@ -11,7 +11,7 @@ Our goal with Native Types is to provide an alternative for sharing DTO dlls, th
 
 ## [[Add ServiceStack Reference]]
 
-The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=Creating-your-first-project) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
+The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=create-your-first-webservice) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
 
 [![Add ServiceStack Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)
 
@@ -19,7 +19,7 @@ After clicking OK, the servers DTOs and [ServiceStack.Client](https://www.nuget.
 
 [![Calling ServiceStack Service](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png)
 
-With the C# code generated on the Server, the role of [ServiceStackVS's](?id=Creating-your-first-project) **Add ServiceStack Reference** is then just to integrate the remote C# DTOs into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
+With the C# code generated on the Server, the role of [ServiceStackVS's](?id=create-your-first-webservice) **Add ServiceStack Reference** is then just to integrate the remote C# DTOs into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
 
 ![Add CSharp ServiceStack Reference Demo](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-csharp.gif)
 

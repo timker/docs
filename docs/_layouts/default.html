@@ -11,6 +11,7 @@
     <link rel="stylesheet" href="/css/github-markdown.css">
     <link rel="stylesheet" href="/css/simple-sidebar.css">
     <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/polyfill.js"></script>
 </head>
 <body>
 <div id="wrapper">
@@ -94,11 +95,13 @@
     var pathinfo = location.pathname + location.hash;
     if (pathinfo != "/")
     {
-        $("a[href='" + pathinfo + "']")
-            .addClass('active')
-            .parents().filter("div>ul>li")[0].scrollIntoView({
+        var scrollItem = $("#sidebar-wrapper").find("a[href='" + pathinfo + "']")
+                .addClass('active')
+                .parents().filter("div>ul>li")[0];
+        if(scrollItem)
+            scrollItem.scrollIntoView({
                 behavior: "smooth",
-                block: "start" 
+                block: "start"
             });
     }
 

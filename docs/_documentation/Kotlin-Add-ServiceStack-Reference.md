@@ -279,7 +279,7 @@ val response = client.get("http://techstacks.io/overview", OverviewResponse::cla
 
 You can also send requests composed of both a Typed DTO and untyped String Map by providing a Hash Map of 
 additional args. This is typically used when querying 
-[implicit conventions in AutoQuery services](?id=Auto-Query#implicit-conventions), e.g:
+[implicit conventions in AutoQuery services](?id=AutoQuery#implicit-conventions), e.g:
 
 ```kotlin
 val response = client.get(FindTechnologies(), hashMapOf(Pair("DescriptionContains","framework")))

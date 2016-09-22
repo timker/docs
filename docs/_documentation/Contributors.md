@@ -4,7 +4,7 @@ slug: contributors
 
 ## Big thanks to our 300+ .NET Open Source Contributors!
 
-These last few weeks have been the most eventful in ServiceStack's history where we've delivered [considerable enhancements](?id=Release-Notes) to the framework that includes our [compelling new HTML Story](http://razor.servicestack.net) followed shortly after by our [new API Design](?id=New-Api) which promotes an even more flexible and enjoyable server and client apis that we we're happy to see was [well received by the Hacker Community](http://news.ycombinator.com/item?id=4564416). 
+These last few weeks have been the most eventful in ServiceStack's history where we've delivered [considerable enhancements](?id=Release-Notes) to the framework that includes our [compelling new HTML Story](http://razor.servicestack.net) followed shortly after by our [new API Design](?id=api-design) which promotes an even more flexible and enjoyable server and client apis that we we're happy to see was [well received by the Hacker Community](http://news.ycombinator.com/item?id=4564416).
 
 ### Our most important milestone yet!
 
@@ -73,7 +73,7 @@ The feedback we've received has led us to implement the most popular use-cases, 
   - [HTML (MVC Razor, Markdown Razor, Markdown, HtmlReport)](http://razor.servicestack.net/)
   - JSON (+ JSONP)
   - XML
-  - [CSV](?id=ServiceStack-CSV-Format)
+  - [CSV](?id=csv-format)
   - [JSV](http://www.servicestack.net/mythz_blog/?p=176)
   - [SOAP 1.1/1.2](?id=SOAP-support)
   - [ProtoBuf](?id=Protobuf-format)

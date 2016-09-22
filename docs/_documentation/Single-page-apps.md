@@ -25,7 +25,7 @@ The ReactJS App VS.NET Template enables an optimal iterative dev experience for 
 
 ## [AngularJS App Template](https://github.com/ServiceStack/ServiceStackVS/blob/master/docs/angular-spa.md)
 
-AngularJS App is a new template in [ServiceStackVS](?id=Creating-your-first-project) that provides a modern opinionated web technology stack for developing rich Single Page Apps with [AngularJS](https://angularjs.org) and ServiceStack.
+AngularJS App is a new template in [ServiceStackVS](?id=create-your-first-webservice) that provides a modern opinionated web technology stack for developing rich Single Page Apps with [AngularJS](https://angularjs.org) and ServiceStack.
 
 ## [Integrated HTML, CSS and JavaScript Minifiers](?id=HTML-CSS-and-JavaScript-Minification)
 

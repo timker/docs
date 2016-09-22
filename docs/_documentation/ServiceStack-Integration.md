@@ -184,7 +184,7 @@ Posting HTML Forms directly to ServiceStack Services isn't that much more effort
 
 ![MVC Register with HTML](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/mvc-register.png)
 
-We can then use ServiceStack's built-in [ss-utils.js JavaScript Libraray](?id=ss-utils.js-JavaScript-Client-Library) to take care of Ajaxifying, auto-binding and submitting the form via Ajax. It also has built-in support for [Bootstrap Forms Field Validation conventions](?id=ss-utils.js-JavaScript-Client-Library#bootstrap-forms) to automatically bind errors to the appropriate fields. The only custom code required is to bind the form is then:
+We can then use ServiceStack's built-in [ss-utils.js JavaScript Libraray](?id=ss-utils-js) to take care of Ajaxifying, auto-binding and submitting the form via Ajax. It also has built-in support for [Bootstrap Forms Field Validation conventions](?id=ss-utils-js#bootstrap-forms) to automatically bind errors to the appropriate fields. The only custom code required is to bind the form is then:
 
 ```javascript
 $("#form-register").bindForm({

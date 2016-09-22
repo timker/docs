@@ -5,20 +5,20 @@ title: VB.NET Add ServiceStack Reference
 
 ![VB.NET Header](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/vb-header.png)
 
-ServiceStack's **Add ServiceStack Reference** feature allows clients to generate Native Types from directly within VS.NET using [ServiceStackVS VS.NET Extension](?id=Creating-your-first-project) - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that's built into VS.NET.
+ServiceStack's **Add ServiceStack Reference** feature allows clients to generate Native Types from directly within VS.NET using [ServiceStackVS VS.NET Extension](?id=create-your-first-webservice) - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that's built into VS.NET.
 
 The article outlines ServiceStack's support generating VB.Net DTO's - providing a flexible alternative than sharing your compiled DTO .NET assembly with clients. Now VB.Net clients can easily add a reference to a remote ServiceStack instance and update typed DTO's directly from within VS.NET - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback. 
 
 ## [[Add ServiceStack Reference]]
 
-The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=Creating-your-first-project) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
+The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=create-your-first-webservice) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
 
 [![Add ServiceStack Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)
 
 After clicking OK, the servers DTO's and [ServiceStack.Client](https://www.nuget.org/packages/ServiceStack.Client) NuGet package are added to the project, providing an instant typed API:
 ![VB.Net Console client](https://github.com/ServiceStack/Assets/raw/master/img/apps/StackApis/call-service-vb.png)
 
-With the VB.Net code generated on the Server, the role of [ServiceStackVS's](?id=Creating-your-first-project) **Add ServiceStack Reference** is there just to integrate the remote VB.Net DTO's into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
+With the VB.Net code generated on the Server, the role of [ServiceStackVS's](?id=create-your-first-webservice) **Add ServiceStack Reference** is there just to integrate the remote VB.Net DTO's into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
 
 ![Add VB.Net ServiceStack Reference Demo](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-vbnet.gif)
 

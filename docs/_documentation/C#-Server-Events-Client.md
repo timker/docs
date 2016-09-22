@@ -389,7 +389,7 @@ client.OnCommand = msg => ...; //= ServerEventJoin, ServerEventLeave or ServerEv
 ## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
 
 Xamarin.Android Chat utilizes the 
-[.NET PCL Server Events Client](?id=C%23-Server-Events-Client)
+[.NET PCL Server Events Client](?id=CSharp-Server-Events-Client)
 to create an Android Chat App connecting to the existing 
 [chat.servicestack.net](http://chat.servicestack.net/) Server Events back-end where it's able to communicate 
 with existing Ajax clients and other connected Android Chat Apps. 

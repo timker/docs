@@ -492,7 +492,7 @@ An adapter for Microsoft's Enterprise Library5 Logging application block has joi
   - [ServiceStack.Logging.EnterpriseLibrary5](https://nuget.org/packages/ServiceStack.Logging.EnterpriseLibrary5/) on NuGet
   - [ServiceStack.Plugins.MsgPack](https://nuget.org/packages/ServiceStack.Plugins.MsgPack/) on NuGet
 
-### [New API](?id=New-API) Changes
+### [New API](?id=api-design) Changes
 
   - Moved in-built the Auth, AssignRoles and UnAssignRoles Services to use the new API
   - Deprecated the old API ServiceBase<T> and RestServiceBase<T> classes
@@ -758,7 +758,7 @@ This was an exciting release where we've added an alternative [brand new API des
   - Easier to add custom hooks that's more decoupled and testable
   - Works with ServiceStack's existing features, e.g. Content Negotiation, Metadata pages, Razor views, Auto HTML report, etc.
 
-See the wiki for [full details on the new API](?id=New-API). As it's much nicer and more flexible than the previous one, it's now stands as our recommended option for designing new services with. We've already started work on porting the existing examples across, some of which will give you a good feel of its development experience in action:
+See the wiki for [full details on the new API](?id=api-design). As it's much nicer and more flexible than the previous one, it's now stands as our recommended option for designing new services with. We've already started work on porting the existing examples across, some of which will give you a good feel of its development experience in action:
 
   - [The Razor Rockstars Service](http://razor.servicestack.net/rockstars)
   - [The Home Page TODOs example](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/NewApiTodos.cs)
@@ -1730,7 +1730,7 @@ This release was focused to opening up ServiceStack to better support adding mor
 
 ## Main features added in this release:
 
-* Added support for the [CSV format](?id=ServiceStack-CSV-Format)
+* Added support for the [CSV format](?id=csv-format)
 * Enhanced the IContentTypeFilter API to add support for different serialization formats
 * Added Request and Response filters so custom code can inspect and modify the incoming [IHttpRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceHost/IHttpRequest.cs) or [IHttpResponse](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceHost/IHttpResponse.cs). 
 * Added `Request.Items` so you can share arbitrary data between your filters and web services.
@@ -1738,7 +1738,7 @@ This release was focused to opening up ServiceStack to better support adding mor
 * Removed the preceding UTF8 BOM character to ServiceStack's JSON and JSV Serializers. 
 * All features above are available on both ASP.NET and HttpListener hosts
 
-### [CSV Format](?id=ServiceStack-CSV-Format)
+### [CSV Format](?id=csv-format)
 
 Using the same tech that makes [ServiceStack's JSV and JSON serializers so fast](http://www.servicestack.net/benchmarks/NorthwindDatabaseRowsSerialization.100000-times.2010-08-17.html) (i.e. no run-time reflection, static delegate caching, etc), should make it the fastest POCO CSV Serializer available for .NET.
 
@@ -1760,7 +1760,7 @@ The 'CSV' format is the first format added using the new extensions API, which o
 
 With only the code above, the 'CSV' format is now a first-class supported format which means all your existing web services can take advantage of the new format without any config or code changes. Just drop the latest ServiceStack.dlls (v1.77+) and you're good to go! 
 
-Note: there are some limitations on the CSV format and implementation which you can read about on the [ServiceStack CSV Format page](?id=ServiceStack-CSV-Format).
+Note: there are some limitations on the CSV format and implementation which you can read about on the [ServiceStack CSV Format page](?id=csv-format).
 
 ### Request and Response Filters:
 

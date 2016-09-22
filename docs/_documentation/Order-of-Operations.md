@@ -46,7 +46,7 @@ The implementation of [RestHandler](https://github.com/ServiceStack/ServiceStack
 
 ![ServiceStack Request Pipeline](http://mono.servicestack.net/files/servicestack-overview-02.png)
 
-  [1]: https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters
-  [2]: https://github.com/ServiceStack/ServiceStack/wiki/Architecture-overview
-  [3]: https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes
-  [4]: https://github.com/ServiceStack/ServiceStack/wiki/Serialization-deserialization
+  [1]: ?id=Request-and-response-filters
+  [2]: ?id=Architecture-overview
+  [3]: ?id=Filter-attributes
+  [4]: ?id=Serialization-deserialization

@@ -65,6 +65,6 @@ var dto = viewModel.ToDto();
   [1]: http://martinfowler.com/eaaCatalog/dataTransferObject.html
   [2]: http://msdn.microsoft.com/en-us/library/ff649585.aspx
   [3]: http://www.palmmedia.de/Blog/2011/8/30/ioc-container-benchmark-performance-comparison
-  [4]: https://github.com/ServiceStack/ServiceStack/wiki/Clients-overview
+  [4]: ?id=Clients-overview
   [5]: http://ayende.com/blog/4769/code-review-guidelines-avoid-inheritance-for-properties
   [6]: https://github.com/AutoMapper/AutoMapper

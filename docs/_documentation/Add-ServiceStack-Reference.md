@@ -1,7 +1,7 @@
 ---
 slug: add-servicestack-reference 
 ---
- ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](?id=Creating-your-first-project#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET. 
+ ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](?id=create-your-first-webservice#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET.
 
 Add ServiceStack Reference now supports 
 [Swift](?id=Swift-Add-ServiceStack-Reference), 
@@ -10,7 +10,7 @@ Add ServiceStack Reference now supports
 [C#](?id=CSharp-Add-ServiceStack-Reference), 
 [TypeScript](?id=TypeScript-Add-ServiceStack-Reference), 
 [F#](?id=FSharp-Add-ServiceStack-Reference) and 
-[VB.NET](?id=VB.Net-Add-ServiceStack-Reference) 
+[VB.NET](?id=vbnet-Add-ServiceStack-Reference)
 including integration with most leading IDE's to provide a flexible alternative than sharing your DTO assembly with clients. Clients can now easily add a reference to a remote ServiceStack url and update DTOs directly from within VS.NET, Xamarin Studio, Xcode, Android Studio, IntelliJ and Eclipse. We plan on expanding on this foundation into adding seamless, typed, end-to-end integration with other languages - Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
 
 Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a single remote url directly within their favorite IDE - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.
@@ -25,7 +25,7 @@ ServiceStackVS offers the generation and updating of these clients through the s
 * [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
 * [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
 * [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-* [VB.NET Add ServiceStack Reference](?id=VB.Net-Add-ServiceStack-Reference)
+* [VB.NET Add ServiceStack Reference](?id=vbnet-Add-ServiceStack-Reference)
 
 ## Example Usage
 
@@ -45,7 +45,7 @@ Options for the generated DTOs can be changed by updating the commented section 
 * [Kotlin Options](?id=Kotlin-Add-ServiceStack-Reference#kotlin-configuration)
 * [TypeScript Options](?id=TypeScript-Add-ServiceStack-Reference#change-default-server-configuration)
 * [F# Options](?id=FSharp-Add-ServiceStack-Reference#change-default-server-configuration)
-* [VB.Net Options](?id=VB.Net-Add-ServiceStack-Reference)
+* [VB.Net Options](?id=vbnet-Add-ServiceStack-Reference)
 
 ### ssutil.exe - Command line ServiceStack Reference tool
 
@@ -121,7 +121,7 @@ This is in stark contrast with the JSON spec which [fits on a single page](http:
 
 ## ServiceStack's Native Types Feature
 
-As with any ServiceStack feature one of our primary goals is to [minimize unnecessary complexity](?id=Auto-Query#why-not-complexity) by opting for approaches that yield maximum value and minimal complexity, favoring re-use and simple easy to reason about solutions over opaque heavy black-box tools.
+As with any ServiceStack feature one of our primary goals is to [minimize unnecessary complexity](?id=AutoQuery#why-not-complexity) by opting for approaches that yield maximum value and minimal complexity, favoring re-use and simple easy to reason about solutions over opaque heavy black-box tools.
 
 We can already see from the WCF scenario how ServiceStack already benefits from its message-based design, where as it's able to reuse any [Generic Service Client](?id=Clients-overview), only application-specific DTO's ever need to be generated, resulting in a much cleaner, simpler and friction-less solution.
 

@@ -13,7 +13,7 @@ This is primarily a bug fix release to
 [resolve issues from the last release](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2015/release-notes.md#v4048-issues)
 that we wanted to get out before the holidays. This release also contains a number of performance improvements 
 added in OrmLite to speed up your Data Access and 
-[AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) results. 
+[AutoQuery](?id=AutoQuery) results.
 
 Other changes in this release include:
 
@@ -35,7 +35,7 @@ This comes in useful when migrating existing sessions and populating properties 
 #### Registered Type Filters on IAppHost
 
 To make it easier for plugins to register 
-[Typed Filters](https://github.com/ServiceStack/ServiceStack/wiki/Request-and-response-filters#typed-request-filters)
+[Typed Filters](?id=Request-and-response-filters#typed-request-filters)
 , their Registration APIs are now available on IAppHost as well, e.g:
 
 ```csharp
@@ -232,11 +232,11 @@ references the latest modular AWSSDK **v3.1x** dependencies **.NET 4.5+** projec
 This **ServiceStack.Aws** NuGet package includes implementations for the following ServiceStack providers:
 
   - **[PocoDynamo](#pocodynamo)** - Exciting new declarative, code-first POCO client for DynamoDB with LINQ support
-  - **[SqsMqServer](#sqsmqserver)** - A new [MQ Server](https://github.com/ServiceStack/ServiceStack/wiki/Messaging) for invoking ServiceStack Services via Amazon SQS MQ Service
-  - **[S3VirtualPathProvider](#S3virtualpathprovider)** - A read/write [Virtual FileSystem](https://github.com/ServiceStack/ServiceStack/wiki/Virtual-file-system) around Amazon's S3 Simple Storage Service
-  - **[DynamoDbAuthRepository](#dynamodbauthrepository)** - A new [UserAuth repository](https://github.com/ServiceStack/ServiceStack/wiki/Authentication-and-authorization) storing UserAuth info in DynamoDB
-  - **[DynamoDbAppSettings](#dynamodbappsettings)** - An [AppSettings provider](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings) storing App configuration in DynamoDB
-  - **[DynamoDbCacheClient](#dynamodbcacheclient)** - A new [Caching Provider](https://github.com/ServiceStack/ServiceStack/wiki/Caching) for DynamoDB
+  - **[SqsMqServer](#sqsmqserver)** - A new [MQ Server](?id=Messaging) for invoking ServiceStack Services via Amazon SQS MQ Service
+  - **[S3VirtualPathProvider](#S3virtualpathprovider)** - A read/write [Virtual FileSystem](?id=Virtual-file-system) around Amazon's S3 Simple Storage Service
+  - **[DynamoDbAuthRepository](#dynamodbauthrepository)** - A new [UserAuth repository](?id=Authentication-and-authorization) storing UserAuth info in DynamoDB
+  - **[DynamoDbAppSettings](#dynamodbappsettings)** - An [AppSettings provider](?id=AppSettings) storing App configuration in DynamoDB
+  - **[DynamoDbCacheClient](#dynamodbcacheclient)** - A new [Caching Provider](?id=Caching) for DynamoDB
 
 > We'd like to give a big thanks to [Chad Boyd](https://github.com/boydc7) from Spruce Media for contributing the SqsMqServer implementation.
 
@@ -453,9 +453,9 @@ being executed from both HTTP and MQ Server by just
 </form>
 ```
 
-> The urls are populated from a typed Request DTO using the [Reverse Routing Extension methods](https://github.com/ServiceStack/ServiceStack/wiki/Routing#reverse-routing)
+> The urls are populated from a typed Request DTO using the [Reverse Routing Extension methods](?id=Routing#reverse-routing)
 
-Checking the **Email via MQ** checkbox fires the JavaScript handler below that's registered as [declarative event in ss-utils.js](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library#declarative-events):
+Checking the **Email via MQ** checkbox fires the JavaScript handler below that's registered as [declarative event in ss-utils.js](?id=ss-utils-js#declarative-events):
 
 ```js
 $(document).bindHandlers({
@@ -467,7 +467,7 @@ $(document).bindHandlers({
 });
 ```
 
-The code to configure and start an SQS MQ Server is similar to [other MQ Servers](https://github.com/ServiceStack/ServiceStack/wiki/Messaging): 
+The code to configure and start an SQS MQ Server is similar to [other MQ Servers](?id=Messaging):
 
 ```csharp
 container.Register<IMessageService>(c => new SqsMqServer(
@@ -481,7 +481,7 @@ mqServer.Start();
 ```
 
 When an MQ Server is registered, ServiceStack automatically publishes Requests accepted on the "One Way" 
-[pre-defined route](https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes)
+[pre-defined route](?id=Routing#pre-defined-routes)
 to the registered MQ broker. The message is later picked up and executed by a Message Handler on a background Thread.
 
 ## [AWS Auth](http://awsapps.servicestack.net/awsauth/)
@@ -527,7 +527,7 @@ return new AuthFeature(() => new AuthUserSession(),
 ### DynamoDbAppSettings
 
 The AuthFeature looks for the OAuth settings for each AuthProvider in the registered
-[AppSettings](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings), which for deployed **Release** builds 
+[AppSettings](?id=AppSettings), which for deployed **Release** builds
 gets them from multiple sources. Since `DynamoDbAppSettings` is registered first in a `MultiAppSettings` collection
 it checks entries in the DynamoDB `ConfigSetting` Table first before falling back to local 
 [Web.config appSettings](https://github.com/ServiceStackApps/AwsApps/blob/4817f5c6ad69defd74d528403bfdb03e5958b0b3/src/AwsApps/Web.config#L15): 
@@ -543,7 +543,7 @@ it checks entries in the DynamoDB `ConfigSetting` Table first before falling bac
 Storing production config in DynamoDB reduces the effort for maintaining production settings decoupled from source code. 
 The App Settings were populated in DynamoDB using
 [this simple script](https://github.com/ServiceStackApps/AwsApps/blob/9d4d3c3dfbf127ce0890d0984c264e8b440abd3f/src/AwsApps/AdminTasks.cs#L58)
-which imports its settings from a local [appsettings.txt file](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings#textfilesettings):
+which imports its settings from a local [appsettings.txt file](?id=AppSettings#textfilesettings):
 
 ```csharp
 var fileSettings = new TextFileSettings("~/../../deploy/appsettings.txt".MapHostAbsolutePath());
@@ -840,7 +840,7 @@ technology works.
 
 By the end of this book, you will understand the concepts, framework, issues, and resolutions related to ServiceStack.
 
-## [TypeScript](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
+## [TypeScript](?id=TypeScript-Add-ServiceStack-Reference)
 
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/typescript-banner.png)
 
@@ -855,7 +855,7 @@ new `/types/typescript` route so you can get both concrete types and interface d
 
 Any urls strings contained in default HTML5 Report Pages are automatically converted to a hyperlinks. 
 We can see this in the new `/types` route which returns links to all different 
-[Add ServiceStack Reference supported languages](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference#supported-languages):
+[Add ServiceStack Reference supported languages](?id=Add-ServiceStack-Reference#supported-languages):
 
 ```csharp
 public object Any(TypeLinks request)
@@ -890,10 +890,10 @@ you freely create multiple ServiceStack solutions without having to register the
 
 > Note: you'll need to restart IIS or VS.NET to have them pickup the new Environment Variable.
 
-## [Virtual File System](https://github.com/ServiceStack/ServiceStack/wiki/Virtual-file-system)
+## [Virtual File System](?id=Virtual-file-system)
 
 ServiceStack's 
-[Virtual File System](https://github.com/ServiceStack/ServiceStack/wiki/Virtual-file-system)
+[Virtual File System](?id=Virtual-file-system)
 provides a clean abstraction over file-systems enabling the flexibility to elegantly support a wide range of cascading 
 file sources. We've extended this functionality even further in this release with a new read/write API that's 
 now implemented in supported providers:
@@ -1025,7 +1025,7 @@ ResponseStatus {
 }
 ```
 
-## [AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query)
+## [AutoQuery](?id=AutoQuery)
 
 We've added a new `%!` and `%NotEqualTo` implicit query convention which is now available on all Auto queries:
 
@@ -1188,7 +1188,7 @@ var users = JsonObject.Parse(json)
 - Swagger Summary for all servies under a particular route can be specified in `SwaggerFeature.RouteSummary` Dictionary
 - New requested `FacebookAuthProvider.Fields` can be customized with `oauth.facebook.Fields`
 - Added Swift support for `TreatTypesAsStrings` for returning specific .NET Types as Strings
-- New `IAppSettings.GetAll()` added on all [AppSetting](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings) sources fetches all App config in a single call
+- New `IAppSettings.GetAll()` added on all [AppSetting](?id=AppSettings) sources fetches all App config in a single call
 - [ServiceStackVS](https://github.com/ServiceStack/ServiceStackVS) updated with ATS exception for React Desktop OSX Apps
 - External NuGet packages updated to their latest stable version
 
@@ -1203,13 +1203,13 @@ var users = JsonObject.Parse(json)
 
 The TypeScript Add ServiceStack Reference feature was missing the BaseUrl in header comments preventing updates. It's now been resolved 
 [from this commit](https://github.com/ServiceStack/ServiceStack/commit/10728d1e746b0bf2f84e081eb6319d88ae974677) that's now
-available in our [pre-release v4.0.49 MyGet packages](https://github.com/ServiceStack/ServiceStack/wiki/MyGet).
+available in our [pre-release v4.0.49 MyGet packages](?id=MyGet).
 
 ### ServiceStack.Mvc incorrectly references ServiceStack.Signed
 
 The **ServiceStack.Mvc** project had a invalid dependency on **ServiceStack.Signed** which has been resolved 
 [from this commit](https://github.com/ServiceStack/ServiceStack/commit/2f0946e8cb755103082de24949e35fc70f9f72ae) that's now
-available in our [pre-release v4.0.49 MyGet packages](https://github.com/ServiceStack/ServiceStack/wiki/MyGet).
+available in our [pre-release v4.0.49 MyGet packages](?id=MyGet).
 
 You can workaround this by manually removing the **ServiceStack.Signed** packages and adding the **ServiceStack** packages instead.
 
@@ -1218,7 +1218,7 @@ You can workaround this by manually removing the **ServiceStack.Signed** package
 The change of removing `/` prefixes from Virtual Paths meant folders ignored in `Config.ScanSkipPaths` were no
 longer being ignored. It's important node.js-based Single Page App templates ignore `node_modules/` since trying
 to scan it throws an error on StartUp when it reaches paths greater than Windows **260 char limit**. This is
-fixed in the [pre-release v4.0.49 MyGet packages](https://github.com/ServiceStack/ServiceStack/wiki/MyGet).
+fixed in the [pre-release v4.0.49 MyGet packages](?id=MyGet).
 
 You can also work around this issue in v4.0.48 by removing the prefix from `Config.ScanSkipPaths` folders 
 in `AppHost.Configure()` manually with:
@@ -1270,9 +1270,9 @@ users to have an existing install of Mono.
 
 The default template includes **ServiceStack.Server** NuGet packages which includes all of ServiceStack as well as 
 Redis, OrmLite and other high-level functionality depending on OrmLite and Redis including 
-[AutoQuery](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query), 
-[Redis Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Redis-Server-Events), 
-[Redis MQ](https://github.com/ServiceStack/ServiceStack/wiki/Messaging-and-Redis), 
+[AutoQuery](?id=AutoQuery),
+[Redis Server Events](?id=Redis-Server-Events),
+[Redis MQ](?id=Messaging-and-Redis),
 etc. Despite its features, ServiceStack is super lean where the working Empty Template Console App project which includes 
 jQuery, Bootstrap, React and its CSS, JS and Font resources compiles down into a single .NET .exe that only weighs
 **1.5 MB** zipped or **4.7 MB** uncompressed. 
@@ -1412,7 +1412,7 @@ to create highly-interactive Desktop Applications for every major Operating Syst
 ![WinForms application with loading splash screen](https://github.com/ServiceStack/Assets/raw/master/img/livedemos/react-desktop-apps/redis-chat-app.gif)
 
 React Chat shows the features and interactivity possible when you have all of ServiceStack available in a Desktop App. React Chat uses 
-[Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events) for its real-time notifications allowing ServiceStack 
+[Server Events](?id=Server-Events) for its real-time notifications allowing ServiceStack
 Services to notify the client of events instantly. In React Chat each command is sent by Ajax to a normal ServiceStack Service which
 effectively just relays it back to the client via a Server Event. 
 
@@ -1576,7 +1576,7 @@ JSON data which can be clicked to toggle on/off individually:
 Redis React is packed with a number of other features, checkout the 
 [project home page](https://github.com/ServiceStackApps/RedisReact) for an Overview and try it out today!
 
-## [Swift 2.0 Support!](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
+## [Swift 2.0 Support!](?id=Swift-Add-ServiceStack-Reference)
 
 We're also happy to announce support for the new and much improved 
 [Swift 2.0](https://developer.apple.com/swift/) that's now shipping in 
@@ -1830,9 +1830,9 @@ client.sendAsync(HelloByPut())                //PUT
 ServiceStack's Error Response Status DTO's are now included in the **JsonServiceClient.swift** source instead of being repeated 
 within each ServiceStack Reference added to your project, mitigating any duplicate DTO conflicts.
 
-## [Java ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
+## [Java ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
 
-[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/android-studio-splash.png)](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/android-studio-splash.png)](?id=Java-Add-ServiceStack-Reference)
 
 The Java Android Studio and Eclipse Plugins have also been improved in this release, the new versions which can be downloaded below:
 
@@ -1893,7 +1893,7 @@ public @interface Api { ... }
 ```
 
 
-## [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference)
+## [Add ServiceStack Reference](?id=Add-ServiceStack-Reference)
 
 ### Export Types
 
@@ -1945,12 +1945,12 @@ await client.SendAsync(new HelloByPut { Name = "World" }); //PUT
 
 This was feature was previously only implemented in 
 [StripeGateway](https://github.com/ServiceStack/Stripe), but is now available in all 
-[.NET Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) as well as the latest 
-[Java JsonServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference) and
-[Swift JsonServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference). 
+[.NET Service Clients](?id=CSharp-client) as well as the latest
+[Java JsonServiceClient](?id=Java-Add-ServiceStack-Reference) and
+[Swift JsonServiceClient](?id=Swift-Add-ServiceStack-Reference).
 
 Whilst a simple feature, it enables treating your remote services as a message-based API 
-[yielding its many inherent advantages](https://github.com/ServiceStack/ServiceStack/wiki/Advantages-of-message-based-web-services#advantages-of-message-based-designs) 
+[yielding its many inherent advantages](?id=Advantages-of-message-based-web-services#advantages-of-message-based-designs)
 where your Application API's need only pass Request DTO models around to be able to invoke remote Services, decoupling the 
 Service Request from its implementation which can be now easily managed by a high-level adapter that takes care of proxying the 
 Request to the underlying Service Client. The adapter could also add high-level functionality of it's own including auto retrying of 
@@ -1962,7 +1962,7 @@ Perhaps a clearer indication of the simplicity and generic functionality possibl
 to add [Async support to **all** Stripe Gateway API's](https://github.com/ServiceStack/Stripe/issues/20) in **<1 hour** from initial
 feature request to [implementation](https://github.com/ServiceStack/Stripe/commit/aa4023ef4d0cbe74187b72af567038f688fd9920) 
 and published to our 
-[MyGet pre-release NuGet packages](https://github.com/ServiceStack/ServiceStack/wiki/MyGet) where it's available for immediate use:
+[MyGet pre-release NuGet packages](?id=MyGet) where it's available for immediate use:
 
 ```csharp
 var charge = await gateway.PostAsync(new ChargeStripeCustomer {
@@ -2015,7 +2015,7 @@ minimal code, effort, friction and complexity as a result.
 ## Debuggable Razor Views
 
 Razor Views are now debuggable for 
-[Debug builds](https://github.com/ServiceStack/ServiceStack/wiki/Debugging#debugmode) by default, it can also be explicitly specified on:
+[Debug builds](?id=Debugging#debugmode) by default, it can also be explicitly specified on:
 
 ```csharp
 Plugins.Add(new RazorFormat {
@@ -2028,12 +2028,12 @@ Plugins.Add(new RazorFormat {
 the Razor Views if needed. 
 
 
-## [ss-utils.js](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library)
+## [ss-utils.js](?id=ss-utils-js)
 
 ### $.fn.ajaxSubmit
 
 ajaxSubmit has been decoupled from ServiceStack's 
-[auto bindForm ajax and validation helper](https://github.com/ServiceStack/ServiceStack/wiki/ss-utils.js-JavaScript-Client-Library#binding-html-forms)
+[auto bindForm ajax and validation helper](?id=ss-utils-js#binding-html-forms)
 so it can be used independently to submit a form on demand. This is used in the 
 [connections.jsx](https://github.com/ServiceStackApps/RedisReact/blob/15dfc5cfea49d0502ec8c090b5b180d29051ea3a/src/RedisReact/RedisReact/js/components/connections.jsx#L31)
 React Component of [Redis React's Connections Page](https://github.com/ServiceStackApps/RedisReact#connections)
@@ -2216,11 +2216,11 @@ All new APIs added in this release:
  - EvalCommand - Execute Lua Script that returns a generic `RedisData` byte[] result
  - EvalShaCommand - Execute Lua Script by SHA1 which returns a generic `RedisData` byte[] result
  
-## [Caching](https://github.com/ServiceStack/ServiceStack/wiki/Caching)
+## [Caching](?id=Caching)
 
 The [ICacheClientExtended](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClientExtended.cs)
 API is used to to provide additional non-core functionality to our most popular 
-[Caching providers](https://github.com/ServiceStack/ServiceStack/wiki/Caching):
+[Caching providers](?id=Caching):
 
  - Redis
  - OrmLite RDBMS
@@ -2989,7 +2989,7 @@ if (db.CreateTableIfNotExists<Poco>()) {
  - OrmLite Debug Logging includes DB Param names and values  
  - Char fields now use CHAR(1)
   
-## [Encrypted Messaging](https://github.com/ServiceStack/ServiceStack/wiki/Encrypted-Messaging)
+## [Encrypted Messaging](?id=Encrypted-Messaging)
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/encrypted-messaging.png)
 
@@ -3065,7 +3065,7 @@ i.e. if the current Private Key was somehow compromised, an attacker with access
 network packets will be able to read each message sent that was encrypted with the compromised private key 
 up until the Server introduces a new Private Key which clients switches over to.
 
-## [Swagger UI](https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API)
+## [Swagger UI](?id=Swagger-API)
 
 The Swagger Metadata backend has been upgraded to support the 
 [Swagger 1.2 Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/1.2.md)
@@ -3087,7 +3087,7 @@ Plugins.Add(new AuthFeature(...,
 
 Alternatively users can login outside of Swagger, to access protected Services in Swagger UI.
   
-## Auth Info displayed in [Metadata Pages](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page)
+## Auth Info displayed in [Metadata Pages](?id=Metadata-page)
 
 Metadata pages now label protected Services. On the metadata index page it displays a yellow key next to
 each Service requiring Authentication:
@@ -3100,7 +3100,7 @@ This information is also shown the metadata detail pages which will list which p
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/metadata-auth.png)
 
-## [Java Native Types](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
+## [Java Native Types](?id=Java-Add-ServiceStack-Reference)
 
 ### [Java Functional Utils](https://github.com/mythz/java-linq-examples)
 
@@ -3131,13 +3131,13 @@ TreatTypesAsStrings: Guid
 
 Which will emit `String` data types for `Guid` properties that are deserialized back into .NET Guid's as strings.
 
-## [Swift Native Types](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
+## [Swift Native Types](?id=Swift-Add-ServiceStack-Reference)
 
 All Swift reserved keywords are now escaped, allowing them to be used in DTO's.
 
-## [Service Clients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client)
+## [Service Clients](?id=CSharp-client)
 
-All .NET Service Clients (inc [JsonHttpClient](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client#jsonhttpclient)) 
+All .NET Service Clients (inc [JsonHttpClient](?id=CSharp-client#jsonhttpclient))
 can now be used to send raw `string`, `byte[]` or `Stream` Request bodies in their custom Sync or Async API's, e.g:
  
 ```csharp
@@ -3212,12 +3212,12 @@ OAuth Providers can now use `ClientId` and `ClientSecret` aliases instead of `Co
 </appSettings>
 ```
 
-## [Error Handling](https://github.com/ServiceStack/ServiceStack/wiki/Error-Handling)
+## [Error Handling](?id=Error-Handling)
 
 ### Custom Response Error Codes
 
 In addition to customizing the HTTP Response Body of C# Exceptions with 
-[IResponseStatusConvertible](https://github.com/ServiceStack/ServiceStack/wiki/Error-Handling#implementing-iresponsestatusconvertible), 
+[IResponseStatusConvertible](?id=Error-Handling#implementing-iresponsestatusconvertible),
 you can also customize the HTTP Status Code by implementing `IHasStatusCode`:
 
 ```csharp
@@ -3231,7 +3231,7 @@ public class Custom401Exception : Exception, IHasStatusCode
 ```
 
 Which is a more cohesive alternative that registering the equivalent 
-[StatusCode Mapping](https://github.com/ServiceStack/ServiceStack/wiki/Error-Handling#custom-mapping-of-c-exceptions-to-http-error-status):
+[StatusCode Mapping](?id=Error-Handling#custom-mapping-of-c-exceptions-to-http-error-status):
 
 ```csharp
 SetConfig(new HostConfig { 
@@ -3250,7 +3250,7 @@ be able to send additional context with errors.
 This Meta dictionary will be automatically populated for any `CustomState` on FluentValidation `ValidationFailure` 
 that's populated with a `Dictionary<string, string>`.
 
-## [Server Events](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events)
+## [Server Events](?id=Server-Events)
 
 The new `ServerEventsFeature.HouseKeepingInterval` option controls the minimum interval for how often SSE 
 connections should be routinely scanned and expired subscriptions removed. The default is every 5 seconds.
@@ -3258,7 +3258,7 @@ connections should be routinely scanned and expired subscriptions removed. The d
 > As there's no background Thread managing SSE connections, the cleanup happens in periodic SSE heartbeat handlers
 
 Update: An [issue with this feature](https://github.com/ServiceStack/Issues/issues/345) has been resolved 
-in the [v4.0.45 pre-release NuGet packages on MyGet](https://github.com/ServiceStack/ServiceStack/wiki/MyGet).
+in the [v4.0.45 pre-release NuGet packages on MyGet](?id=MyGet).
 
 ## ServiceStack.Text
 
@@ -3310,7 +3310,7 @@ where in most cases it can simply be renamed to `JsonHttpClient`, e.g:
 IServiceClient client = new JsonHttpClient("http://techstacks.io");
 ```
 
-Which can then be [used as normal](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client):
+Which can then be [used as normal](?id=CSharp-client):
 
 ```csharp
 var response = await client.GetAsync(new GetTechnology { Slug = "servicestack" });
@@ -3354,7 +3354,7 @@ Also, all API's are **Async** under-the-hood where any Sync API's that doesn't r
 
 ## Encrypted Messaging!
 
-One of the benefits of adopting a message-based design is being able to easily layer functionality and generically add value to all Services, we've seen this recently with [Auto Batched Requests](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Batched-Requests) which automatically enables each Service to be batched and executed in a single HTTP Request. Similarly the new Encrypted Messaging feature 
+One of the benefits of adopting a message-based design is being able to easily layer functionality and generically add value to all Services, we've seen this recently with [Auto Batched Requests](?id=Auto-Batched-Requests) which automatically enables each Service to be batched and executed in a single HTTP Request. Similarly the new Encrypted Messaging feature
 enables a secure channel for all Services (inc Auto Batched Requests :) offering protection to clients who can now easily send and receive encrypted messages over unsecured HTTP!
 
 ### Encrypted Messaging Overview
@@ -3556,7 +3556,7 @@ A visual of how this all fits together in captured in the high-level diagram bel
  - Components in **Green** show Encrypted content:
     - The AES Key and IV in **Dark Green** is encrypted by the client using the Server's Public Key
     - The EncryptedRequest in **Light Green** is encrypted with a new AES Key generated by the client on each Request
- - Components in **Dark Grey** depict existing ServiceStack functionality where Requests are executed as normal through the [Service Client](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) and [Request Pipeline](https://github.com/ServiceStack/ServiceStack/wiki/Order-of-Operations)
+ - Components in **Dark Grey** depict existing ServiceStack functionality where Requests are executed as normal through the [Service Client](?id=CSharp-client) and [Request Pipeline](?id=Order-of-Operations)
 
 All Request and Response DTO's get encrypted and embedded in the `EncryptedMessage` and `EncryptedMessageResponse` DTO's below:
 
@@ -3591,7 +3591,7 @@ The diagram also expands the `EncryptedBody` Content containing the **EncryptedR
 
 The Encrypted Messaging Feature takes advantage of new Converters that let you change the Request DTO and Response DTO's that get used in ServiceStack's Request Pipeline where:
 
-Request Converters are executed directly after any [Custom Request Binders](https://github.com/ServiceStack/ServiceStack/wiki/Serialization-deserialization#create-a-custom-request-dto-binder):
+Request Converters are executed directly after any [Custom Request Binders](?id=Serialization-deserialization#create-a-custom-request-dto-binder):
 
 ```csharp
 appHost.RequestConverters.Add((req, requestDto) => {
@@ -3609,11 +3609,11 @@ appHost.ResponseConverters.Add((req, response) =>
 
 In addition to the converters above, Plugins can now register new callbacks in `IAppHost.OnEndRequestCallbacks` which gets fired at the end of a request.
 
-## [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference)
+## [Add ServiceStack Reference](?id=Add-ServiceStack-Reference)
 
 ### Eclipse Integration!
 
-We've further expanded our support for Java with our new **ServiceStackEclipse** plugin providing cross-platform [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) integration with Eclipse on Windows, OSX and Linux!
+We've further expanded our support for Java with our new **ServiceStackEclipse** plugin providing cross-platform [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) integration with Eclipse on Windows, OSX and Linux!
 
 #### Install from Eclipse Marketplace
 
@@ -4173,7 +4173,7 @@ new CredentialsAuthProvider {
 
 When enabled this lets **In Process** Service Requests to login as a specified user without needing to provide their password. 
 
-For example this could be used to create an [Intranet Restricted](https://github.com/ServiceStack/ServiceStack/wiki/Restricting-Services) **Admin-Only** Service that lets you login as another user so you can debug their account without knowing their password with:
+For example this could be used to create an [Intranet Restricted](?id=Restricting-Services) **Admin-Only** Service that lets you login as another user so you can debug their account without knowing their password with:
 
 ```csharp
 [RequiredRole("Admin")]
@@ -4383,23 +4383,23 @@ In our goal to provide a highly productive and versatile Web Services Framework 
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/android-studio-splash.png)
 
-The new native Java types support for Android significantly enhances [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) support for mobile platforms to provide a productive dev workflow for mobile developers on the primary .NET, iOS and Java IDE's:
+The new native Java types support for Android significantly enhances [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) support for mobile platforms to provide a productive dev workflow for mobile developers on the primary .NET, iOS and Java IDE's:
 
 <img src="https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/add-ss-reference-ides.png" align="right" />
 
 #### [VS.NET integration with ServiceStackVS](https://visualstudiogallery.msdn.microsoft.com/5bd40817-0986-444d-a77d-482e43a48da7)
 
-Providing [C#](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference), [F#](https://github.com/ServiceStack/ServiceStack/wiki/FSharp-Add-ServiceStack-Reference), [VB.NET](https://github.com/ServiceStack/ServiceStack/wiki/VB.Net-Add-ServiceStack-Reference) and [TypeScript](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference) Native Types support in Visual Studio for the [most popular platforms](https://github.com/ServiceStackApps/HelloMobile) including iOS and Android using [Xamarin.iOS](https://github.com/ServiceStackApps/HelloMobile#xamarinios-client) and [Xamarin.Android](https://github.com/ServiceStackApps/HelloMobile#xamarinandroid-client) on Windows.
+Providing [C#](?id=CSharp-Add-ServiceStack-Reference), [F#](?id=FSharp-Add-ServiceStack-Reference), [VB.NET](?id=vbnet-Add-ServiceStack-Reference) and [TypeScript](?id=TypeScript-Add-ServiceStack-Reference) Native Types support in Visual Studio for the [most popular platforms](https://github.com/ServiceStackApps/HelloMobile) including iOS and Android using [Xamarin.iOS](https://github.com/ServiceStackApps/HelloMobile#xamarinios-client) and [Xamarin.Android](https://github.com/ServiceStackApps/HelloMobile#xamarinandroid-client) on Windows.
 
-#### [Xamarin Studio integration with ServiceStackXS](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference#xamarin-studio)
+#### [Xamarin Studio integration with ServiceStackXS](?id=CSharp-Add-ServiceStack-Reference#xamarin-studio)
 
-Providing [C# Native Types](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference) support for developing iOS and Android mobile Apps using [Xamarin.iOS](https://github.com/ServiceStackApps/HelloMobile#xamarinios-client) and [Xamarin.Android](https://github.com/ServiceStackApps/HelloMobile#xamarinandroid-client) with [Xamarin Studio](http://xamarin.com/studio) on OSX. The **ServiceStackXS** plugin also provides a rich web service development experience developing Client applications with [Mono Develop on Linux](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference#xamarin-studio-for-linux)
+Providing [C# Native Types](?id=CSharp-Add-ServiceStack-Reference) support for developing iOS and Android mobile Apps using [Xamarin.iOS](https://github.com/ServiceStackApps/HelloMobile#xamarinios-client) and [Xamarin.Android](https://github.com/ServiceStackApps/HelloMobile#xamarinandroid-client) with [Xamarin Studio](http://xamarin.com/studio) on OSX. The **ServiceStackXS** plugin also provides a rich web service development experience developing Client applications with [Mono Develop on Linux](?id=CSharp-Add-ServiceStack-Reference#xamarin-studio-for-linux)
 
-#### [Xcode integration with ServiceStackXC Plugin](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference)
+#### [Xcode integration with ServiceStackXC Plugin](?id=Swift-Add-ServiceStack-Reference)
 
-Providing [Swift Native Types](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference) support for developing native iOS and OSX Applications with Xcode on OSX.
+Providing [Swift Native Types](?id=Swift-Add-ServiceStack-Reference) support for developing native iOS and OSX Applications with Xcode on OSX.
 
-#### [Android Studio integration with ServiceStackIDEA](https://github.com/ServiceStack/ServiceStack/wiki/Java-Add-ServiceStack-Reference)
+#### [Android Studio integration with ServiceStackIDEA](?id=Java-Add-ServiceStack-Reference)
 
 Providing Java Native Types support for developing pure cross-platform Java Clients or mobile Apps on the Android platform using Android Studio on both Windows and OSX.
 
@@ -4425,7 +4425,7 @@ After downloading the plugin above, install it in Android Studio by:
 
 ### Java Add ServiceStack Reference
 
-If you've previously used [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) in any of the supported IDE's before, you'll be instantly familiar with Add ServiceStack Reference in Android Studio. The only additional field is **Package**, required in order to comply with Java's class definition rules. 
+If you've previously used [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) in any of the supported IDE's before, you'll be instantly familiar with Add ServiceStack Reference in Android Studio. The only additional field is **Package**, required in order to comply with Java's class definition rules.
 
 To add a ServiceStack Reference, right-click (or press `Ctrl+Alt+Shift+R`) on the **Package folder** in your Java sources where you want to add the POJO DTO's. This will bring up the **New >** Items Context Menu where you can click on the **ServiceStack Reference...** Menu Item to open the **Add ServiceStack Reference** Dialog: 
 
@@ -4472,7 +4472,7 @@ For example the package name can be changed by uncommenting the **Package:** opt
 ### Java JsonServiceClient API
 The goal of Native Types is to provide a productive end-to-end typed API to fascilitate consuming remote services with minimal effort, friction and cognitive overhead. One way we achieve this is by promoting a consistent, forwards and backwards-compatible message-based API that's works conceptually similar on every platform where each language consumes remote services by sending  **Typed DTO's** using a reusable **Generic Service Client** and a consistent client library API.
 
-To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the [.NET Service Clients API](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) as closely as allowed within Java's language and idiomatic-style constraints. 
+To maximize knowledge sharing between different platforms, the Java ServiceClient API is modelled after the [.NET Service Clients API](?id=CSharp-client) as closely as allowed within Java's language and idiomatic-style constraints.
 
 Thanks to C#/.NET being heavily inspired by Java, the resulting Java `JsonServiceClient` ends up bearing a close resemblance with .NET's Service Clients. The primary differences being due to language limitations like Java's generic type erasure and lack of language features like property initializers making Java slightly more verbose to work with, however as **Add ServiceStack Reference** is able to take advantage of code-gen we're able to mitigate most of these limitations to retain a familiar developer UX.
 
@@ -4555,7 +4555,7 @@ GetTechnologyResponse response = client.get(request);
 
 ### AutoQuery Example Usage
 
-You can also send requests composed of both a Typed DTO and untyped String Dictionary by providing a Java Map of additional args. This is typically used when querying [implicit conventions in AutoQuery services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions), e.g:
+You can also send requests composed of both a Typed DTO and untyped String Dictionary by providing a Java Map of additional args. This is typically used when querying [implicit conventions in AutoQuery services](?id=AutoQuery#implicit-conventions), e.g:
 
 ```java
 QueryResponse<Technology> response = client.get(new FindTechnologies(),
@@ -4777,7 +4777,7 @@ The Android TechStacks App can be [downloaded for free from the Google Play Stor
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-android-app.jpg)](https://play.google.com/store/apps/details?id=servicestack.net.techstacks)
 
 ### Data Binding
-As there's no formal data-binding solution in Android we've adopted a lightweight iOS-inspired [Key-Value-Observable-like data-binding solution](https://github.com/ServiceStack/ServiceStack/wiki/Swift-Add-ServiceStack-Reference#observing-data-changes) in Android TechStacks in order to maximize knowledge-sharing and ease porting between native Swift iOS and Java Android Apps. 
+As there's no formal data-binding solution in Android we've adopted a lightweight iOS-inspired [Key-Value-Observable-like data-binding solution](?id=Swift-Add-ServiceStack-Reference#observing-data-changes) in Android TechStacks in order to maximize knowledge-sharing and ease porting between native Swift iOS and Java Android Apps.
 
 Similar to the Swift TechStacks iOS App, all web service requests are encapsulated in a single [App.java](https://github.com/ServiceStack/ServiceStack.Java/blob/master/src/AndroidClient/techstacks/src/main/java/servicestack/net/techstacks/App.java) class and utilizes Async Service Client API's in order to maintain a non-blocking and responsive UI. 
 
@@ -5249,7 +5249,7 @@ Add new **OrmLite.MySql.Signed** NuGet package containing signed MySql versions 
 ## ServiceStack Changes
 This release also saw a number of minor changes and enhancements added throughout the ServiceStack Framework libraries which are listed below, grouped under their related sections:
 
-### [ServerEvents](https://github.com/ServiceStack/ServiceStack/wiki/Server-Events)
+### [ServerEvents](?id=Server-Events)
 - ServerEvents Heartbeat is now disabled when underlying `$.ss.eventSource` EventSource is closed 
 - `ServerEventFeature.OnCreated` callback can now be used to short-circuit ServerEvent connections with `httpReq.EndResponse()`
 - Dropped connections are automatically restarted in C#/.NET `ServerEventsClient`
@@ -5294,26 +5294,26 @@ LogManager.LogFactory = new GenericLogFactory(message => {
 - Service `IDisposable` dependencies are now immediately released after execution
 - Added support for case-insensitive Content-Type's 
 
-### [Auto Batched Requests](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Batched-Requests)
+### [Auto Batched Requests](?id=Auto-Batched-Requests)
 - Added support for Async API's in Auto-Batched Requests
 - A new `X-AutoBatch-Completed` HTTP Response Header is added to all Auto-Batched HTTP Responses containing number of individual requests completed
 
-### [Metadata](https://github.com/ServiceStack/ServiceStack/wiki/Metadata-page)
+### [Metadata](?id=Metadata-page)
 - Added `[Restrict(VisibilityTo = RequestAttributes.None)]` to Postman and Swagger Request DTO's to hide their routes from appearing on metadata pages
 - `PreRequestFilters` are now executed in Metadata Page Handlers 
 
-### [Mini Profiler](https://github.com/ServiceStack/ServiceStack/wiki/Built-in-profiling)
+### [Mini Profiler](?id=Built-in-profiling)
 - Added support of **Async OrmLite requests** in MiniProfiler
 - The Values of Parameterized queries are now shown in MiniProfiler
 
-### [AppSettings](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings)
-- Added new `AppSettingsBase.Get<T>(name)` API to all [AppSettings providers](https://github.com/ServiceStack/ServiceStack/wiki/AppSettings)
+### [AppSettings](?id=AppSettings)
+- Added new `AppSettingsBase.Get<T>(name)` API to all [AppSettings providers](?id=AppSettings)
 
-### [Routing](https://github.com/ServiceStack/ServiceStack/wiki/Routing)
+### [Routing](?id=Routing)
 - Weighting of Routes can now be customized with the new `RestPath.CalculateMatchScore` delegate
 
-### [Swagger API](https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API)
-- Updated to the latest [Swagger API](https://github.com/ServiceStack/ServiceStack/wiki/Swagger-API)
+### [Swagger API](?id=Swagger-API)
+- Updated to the latest [Swagger API](?id=Swagger-API)
 
 ## ServiceStack.Redis
 New Redis Client API's added by [@andyberryman](https://github.com/andyberryman):
@@ -5357,7 +5357,7 @@ The Stripe Gateway also received updates thanks to [@jpasichnyk](https://github.
 
 ## Native Support for Swift!
 
-We're happy to announce an exciting new addition to [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) with support for Apple's new [Swift Programming Language](https://developer.apple.com/swift/) - providing the most productive way for consuming web services on the worlds most desirable platform!
+We're happy to announce an exciting new addition to [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) with support for Apple's new [Swift Programming Language](https://developer.apple.com/swift/) - providing the most productive way for consuming web services on the worlds most desirable platform!
 
 ![Swift iOS, XCode and OSX Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swift-logo-banner.jpg)
 
@@ -5385,7 +5385,7 @@ Use the **Add ServiceStack Reference** Menu option to bring up the Add Reference
 
 Clicking **Add Reference** adds 2 files to your XCode project:
 
- - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client)
+ - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](?id=CSharp-client)
  - `{FileName}.dtos.swift` - Your Services DTO Types converted in Swift
 
 You can also customize how the Swift types are generated by uncommenting the desired option with the behavior you want, e.g. to enable [Key-Value Observing (KVO)](https://developer.apple.com/library/ios/documentation/Cocoa/Conceptual/KeyValueObserving/KeyValueObserving.html) in the generated DTO models, uncomment `BaseClass: NSObject` and then click the **Update ServiceStack Reference** Main Menu item to fetch the latest DTO's with all Types inheriting from `NSObject` as seen below:
@@ -5398,11 +5398,11 @@ You can also customize how the Swift types are generated by uncommenting the des
 
 Like most ServiceStack's features our goal with **Add ServiceStack Reference** is to deliver the most value as simply as possible. One way we try to achieve this is by reducing the cognitive load required to use our libraries by promoting a simple but powerful conceptual model that works consistently across differring implementations, environments, langauges as well as UI integration with the various VS.NET, Xamarin Studio and now XCode IDE's - in a recent React conference this was nicely captured with the phrase [Learn once, Write Anywhere](http://agateau.com/2015/learn-once-write-anywhere/).
 
-Whilst each language is subtly different, all implementations work conceptually similar with all using Clean, Typed DTO's sent using a generic Service Gateway to facilitate its end-to-end typed communications. The client gateways also support DTO's from any source whether shared in source or binary form or generated with [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference).
+Whilst each language is subtly different, all implementations work conceptually similar with all using Clean, Typed DTO's sent using a generic Service Gateway to facilitate its end-to-end typed communications. The client gateways also support DTO's from any source whether shared in source or binary form or generated with [Add ServiceStack Reference](?id=Add-ServiceStack-Reference).
 
 ### [JsonServiceClient.swift](https://github.com/ServiceStack/ServiceStack.Swift/blob/master/dist/JsonServiceClient.swift)
 
-With this in mind we were able to provide the same ideal, high-level API we've enjoyed in [.NET's ServiceClients](https://github.com/ServiceStack/ServiceStack/wiki/C%23-client) into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
+With this in mind we were able to provide the same ideal, high-level API we've enjoyed in [.NET's ServiceClients](?id=CSharp-client) into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
 
 ```swift
 public protocol ServiceClient
@@ -5531,7 +5531,7 @@ As Swift doesn't support Attributes any exported .NET Attributes are emitted in 
 public class GetTechnology : IReturn { ... }
 ```
 
-This also means that the Custom Routes aren't used when making Service Requests and instead just uses ServiceStack's built-in [pre-defined routes](https://github.com/ServiceStack/ServiceStack/wiki/Routing#pre-defined-routes). 
+This also means that the Custom Routes aren't used when making Service Requests and instead just uses ServiceStack's built-in [pre-defined routes](?id=Routing#pre-defined-routes).
 
 But when preferred `JsonServiceClient` can also be used to call Services using Custom Routes, e.g:
 
@@ -5703,7 +5703,7 @@ public func loadImageAsync(url:String) -> Promise<UIImage?> {
 
 As `JsonServiceClient.swift` has no external dependencies and only relies on core `Foundation` classes it can be used anywhere Swift can including OSX Cocoa Desktop and Command Line Apps and Frameworks.
 
-Most of the API's used in TechStacks iOS App are standard typed Web Services calls. We've also developed a TechStacks OSX Desktop to showcase how easy it is to call ServiceStack's dynamic [AutoQuery Services](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query) and how much auto-querying functionality they can provide for free.
+Most of the API's used in TechStacks iOS App are standard typed Web Services calls. We've also developed a TechStacks OSX Desktop to showcase how easy it is to call ServiceStack's dynamic [AutoQuery Services](?id=AutoQuery) and how much auto-querying functionality they can provide for free.
 
 E.g. The TechStacks Desktop app is essentially powered with these 2 AutoQuery Services:
 
@@ -5715,7 +5715,7 @@ public class FindTechStacks : QueryBase<TechnologyStack> {}
 public class FindTechnologies : QueryBase<Technology> {}
 ```
 
-Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](https://github.com/ServiceStack/ServiceStack/wiki/Auto-Query#implicit-conventions) automatically infer it from the table being queried.
+Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](?id=AutoQuery#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](?id=AutoQuery#implicit-conventions) automatically infer it from the table being queried.
 
 The TechStacks Desktop UI is then built around these 2 AutoQuery Services allowing querying against each field and utilizing a subset of the implicit conventions supported:
 
@@ -6124,7 +6124,7 @@ Use the `UseAdvancedCompression=true` option if you also want to minify inline j
 
 ### Minify static `.js`, `.css` and `.html` files
 
-With nothing other than the new minifiers, we can leverage the flexibility in ServiceStack's [Virtual File System](https://github.com/ServiceStack/ServiceStack/wiki/Virtual-file-system) to provide an elegant solution for minifying static `.html`, `.css` and `.js` resources by simply pre-loading a new InMemory Virtual FileSystem with minified versions of existing files and giving the Memory FS a higher precedence so any matching requests serve up the minified version first. We only need to pre-load the minified versions once on StartUp by overriding `GetVirtualPathProviders()` in the AppHost:
+With nothing other than the new minifiers, we can leverage the flexibility in ServiceStack's [Virtual File System](?id=Virtual-file-system) to provide an elegant solution for minifying static `.html`, `.css` and `.js` resources by simply pre-loading a new InMemory Virtual FileSystem with minified versions of existing files and giving the Memory FS a higher precedence so any matching requests serve up the minified version first. We only need to pre-load the minified versions once on StartUp by overriding `GetVirtualPathProviders()` in the AppHost:
 
 ```csharp
 public override List<IVirtualPathProvider> GetVirtualPathProviders()
@@ -6251,8 +6251,8 @@ new AuthProvider {
 
 ## Messaging
 
- - Added new docs showing how to populate Session Ids to [make authenticated MQ requests](https://github.com/ServiceStack/ServiceStack/wiki/Messaging#authenticated-requests-via-mq).
- - Request/Reply MQ Requests for Services with no response will send the Request DTO back to `ReplyTo` Queue instead of the [default .outq topic](https://github.com/ServiceStack/ServiceStack/wiki/Rabbit-MQ#messages-with-no-responses-are-sent-to-outq-topic).
+ - Added new docs showing how to populate Session Ids to [make authenticated MQ requests](?id=Messaging#authenticated-requests-via-mq).
+ - Request/Reply MQ Requests for Services with no response will send the Request DTO back to `ReplyTo` Queue instead of the [default .outq topic](?id=Rabbit-MQ#messages-with-no-responses-are-sent-to-outq-topic).
 
 ## Misc
 
@@ -6283,7 +6283,7 @@ RawHttpHandlers.Add(_ => new CustomActionHandler((req, res) => {
 
 ## Updated Versioning Strategy
 
-To make it easier for developers using interim [pre-release packages on MyGet](https://github.com/ServiceStack/ServiceStack/wiki/MyGet) upgrade to the official NuGet packages once they're released, we've started using odd version numbers (e.g **v4.0.37**) for pre-release MyGet builds and even numbers (e.g. **v4.0.38**) for official released packages on NuGet.
+To make it easier for developers using interim [pre-release packages on MyGet](?id=MyGet) upgrade to the official NuGet packages once they're released, we've started using odd version numbers (e.g **v4.0.37**) for pre-release MyGet builds and even numbers (e.g. **v4.0.38**) for official released packages on NuGet.
 
 ## Breaking changes
 
@@ -6308,7 +6308,7 @@ Existing iOS proejcts should follow Xamarin's [Updating Existing iOS Apps](http:
 
 ## Add ServiceStack Reference meets Xamarin Studio!
 
-Our enhancements to [Add ServiceStack Reference](https://github.com/ServiceStack/ServiceStack/wiki/Add-ServiceStack-Reference) continue, this time extended to support [Xamarin Studio!](http://xamarin.com/studio)
+Our enhancements to [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) continue, this time extended to support [Xamarin Studio!](http://xamarin.com/studio)
 
 With the new [ServiceStackXS Add-In](http://addins.monodevelop.com/Project/Index/154) your Service Consumers can now generate typed DTO's of your remote ServiceStack Services directly from within Xamarin Studio, which together with the **ServiceStack.Client** NuGet package provides an effortless way to enable an end-to-end Typed API from within Xamarin C# projects.
 
@@ -6320,7 +6320,7 @@ Installation is straightforward if you've installed Xamarin Add-ins before, just
 
 ### Adding a ServiceStack Reference
 
-Once installed, adding a ServiceStack Reference is very similar to [ServiceStackVS in VS.NET](https://github.com/ServiceStack/ServiceStack/wiki/CSharp-Add-ServiceStack-Reference#add-servicestack-reference) where you can just click on `Add -> Add ServiceStack Reference...` on the project's context menu to bring up the familiar Add Reference dialog. After adding the `BaseUrl` of the remote ServiceStack instance, click OK to add the generated DTO's to your project using the name specified:
+Once installed, adding a ServiceStack Reference is very similar to [ServiceStackVS in VS.NET](?id=CSharp-Add-ServiceStack-Reference#add-servicestack-reference) where you can just click on `Add -> Add ServiceStack Reference...` on the project's context menu to bring up the familiar Add Reference dialog. After adding the `BaseUrl` of the remote ServiceStack instance, click OK to add the generated DTO's to your project using the name specified:
 
 ![](https://github.com/ServiceStack/Assets/blob/master/img/servicestackvs/servicestack%20reference/ssxs-mac-add-reference.gif)
 
@@ -6357,7 +6357,7 @@ Plugins.Add(new SitemapFeature
 });
 ```
 
-The above example uses [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) to generate a collection of `SitemapUrl` entries containing Absolute Urls for all [techstacks.io Technology Pages](http://techstacks.io/tech). This is another good showcase for the [Reverse Routing available on Request DTO's](https://github.com/ServiceStack/ServiceStack/wiki/Routing#reverse-routing) which provides a Typed API for generating Urls without any additional effort.
+The above example uses [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) to generate a collection of `SitemapUrl` entries containing Absolute Urls for all [techstacks.io Technology Pages](http://techstacks.io/tech). This is another good showcase for the [Reverse Routing available on Request DTO's](?id=Routing#reverse-routing) which provides a Typed API for generating Urls without any additional effort.
 
 Once populated your sitemap will be available at `/sitemap.xml` which looks like:
 
