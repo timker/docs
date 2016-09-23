@@ -3,7 +3,7 @@ slug: 2016-release-notes
 title: Release Notes Summary
 ---
 
-# Full Release Notes
+## Release Notes Index
 
  - [v4.5.0](?id=v4-5-0)
  - [v4.0.62](?id=v4-0-62)
@@ -14,6 +14,8 @@ title: Release Notes Summary
  - [2015 Release Notes](?id=2015-release-notes)
  - [2014 Release Notes](?id=2014-release-notes)
  - [Older v3 Release Notes](?id=Release-Notes-v3)
+
+---
 
 # [v4.5.0 Release Notes](?id=v4-5-0)
 
