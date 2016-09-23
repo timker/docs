@@ -2,7 +2,8 @@
 title: 2014 Release Notes
 slug: 2014-release-notes
 ---
-## Go to [2015 Release Notes](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2015/release-notes.md)
+
+## Go to [2015 Release Notes](?id=2015-release-notes)
 
 ---
 

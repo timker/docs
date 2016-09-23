@@ -3,7 +3,7 @@ title: 2015 Release Notes
 slug: 2015-release-notes
 ---
 
-## Go to [2016 Release Notes](?id=2016-release-notes)
+## Go to [v4.0.52 Release Notes](?id=v4-0-52)
 
 ---
 
