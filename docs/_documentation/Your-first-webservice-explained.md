@@ -116,6 +116,3 @@ matches:
 
 
 More details about Routing is available on the [Routing page](?id=routing).
-
-Next wikipage: [The IoC container](?id=the-ioc-container)
- 

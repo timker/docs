@@ -17,7 +17,7 @@
 - Reference
     - [Order of Operations](?id=order-of-operations)
     - [Metadata page](?id=metadata-page)
-    - [The IoC container](?id=the-ioc-container)
+    - [The IoC container](?id=ioc)
     - [Configuration & AppSettings](?id=appsettings)
     - [Routing](?id=routing)
     - [REST, SOAP & default endpoints](?id=endpoints)

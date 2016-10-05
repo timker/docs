@@ -2096,7 +2096,7 @@ container.RegisterAutoWiredTypes(client.ReceiverTypes);
 client.Resolver = container;
 ```
 
-We can assign `Funq.Container` directly as it already implements the [IResolver](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResolver.cs) interface, whilst you can re-use the existing IOC **Container Adapters** to [enable support for other IOCs](?id=The-IoC-container#use-another-ioc-container).
+We can assign `Funq.Container` directly as it already implements the [IResolver](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResolver.cs) interface, whilst you can re-use the existing IOC **Container Adapters** to [enable support for other IOCs](?id=ioc#use-another-ioc-container).
 
 ### The Global Receiver
 

@@ -1,5 +1,5 @@
 ---
-slug: the-ioc-container
+slug: ioc
 title: The IOC Container 
 ---
 

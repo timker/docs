@@ -50,7 +50,7 @@ title: ServiceStack Resources
 
 - Reference
     - [Order of Operations](?id=order-of-operations)
-    - [The IoC container](?id=the-ioc-container)
+    - [The IoC container](?id=ioc)
     - [Configuration & AppSettings](?id=appsettings)
     - [Metadata page](?id=Metadata-page)
     - [REST, SOAP & default endpoints](?id=endpoints)

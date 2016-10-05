@@ -816,9 +816,9 @@ We've switched over to use [@jrosskopf](https://github.com/jrosskopf) new virtua
 
 ### Request Scope in Funq
 
-We've extended the built-in [Funq IOC to support Request Scope](?id=The-IoC-container).
+We've extended the built-in [Funq IOC to support Request Scope](?id=ioc).
 
-Container Adapters for Alternate IOC's can now implement `IRelease` or just continue to override `AppHost.Release()` to handle released resources. More details on the [IOC Wiki page](?id=The-IoC-container)
+Container Adapters for Alternate IOC's can now implement `IRelease` or just continue to override `AppHost.Release()` to handle released resources. More details on the [IOC Wiki page](?id=ioc)
 
 ### Dynamic JSON
 
