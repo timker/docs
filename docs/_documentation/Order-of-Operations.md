@@ -1,6 +1,7 @@
 ---
 slug: order-of-operations
 ---
+
 ## HTTP Custom hooks
 
 This list shows the order in which any user-defined custom hooks are executed:
