@@ -1,7 +1,6 @@
 ---
 slug: release-notes-v3
 ---
-.
 
 ## v3.9.62 Release Notes
 
