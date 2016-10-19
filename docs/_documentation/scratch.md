@@ -5,7 +5,7 @@ title: Scratch
 
 ### Test Include 
 
-{% include netcore-livedemos.html %}
+{% include netcore-livedemos2.html %}
 
 
 ### Test Table
