@@ -13,28 +13,7 @@
         </a>
     </td>
     <td>
-        <table>
-            <caption>.NET Core</caption>
-            <tr>
-              <td>Live Demo:</td>
-              <td><a href="http://redisgeo.netcore.io"/>redisgeo.netcore.io</a></td>
-            </tr>
-            <tr>
-              <td>Github:</td>
-              <td><a href="https://github.com/NetCoreApps/redis-geo">github.com/NetCoreApps/redis-geo</a></td>
-            </tr>
-        </table>
-        <table>
-            <caption>ASP.NET 4.5</caption>
-            <tr>
-              <td>Live Demo:</td>
-              <td><a href="http://redisgeo.servicestack.net"/>redisgeo.servicestack.net</a></td>
-            </tr>
-            <tr>
-              <td>Github:</td>
-              <td><a href="https://github.com/ServiceStackApps/redis-geo">github.com/ServiceStackApps/redis-geo</a></td>
-            </tr>
-        </table>  
+
     </td>
 </tr>
 </table>
