@@ -2,9 +2,12 @@
 
 <table>
 <tr>
-  <td colspan=2>
+  <td>
     <b>Redis GEO</b> - simple example showing how to make use of Redis 3.2.0 new GEO features
   </td>
+    <td>
+
+    </td>
 </tr>
 <tr>
     <td>
