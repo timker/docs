@@ -371,28 +371,15 @@ Please look at [SocialBootstrapApi](https://github.com/ServiceStack/SocialBootst
 
 ## The `Authenticate` attribute
 
-But how does ServiceStack know, which service needs authentication?
-This happens with the [AuthenticateAttribute](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/AuthenticateAttribute.cs).
-
-You simply have to mark your request dto with this attribute:
+The `[Authenticate]` [Request Filter Attribute](https://github.com/ServiceStack/ServiceStack/wiki/Filter-attributes) tells ServiceStack which Services needs authentication by adding it to your Service implementations, e.g:
 
 ```csharp
-//Authentication for all HTTP methods (GET, POST...) required
 [Authenticate]
-public class Secured
-{
-    public bool Test { get; set; }
-}
-```
-
-Now this service can only be accessed if the client is authenticated:
-
-```csharp
 public class SecuredService : Service
 {
     public object Get(Secured request)
     {
-        IOAuthSession session = this.GetSession();
+        IAuthSession session = this.GetSession();
         return new SecuredResponse() { Test = "You're" + session.FirstName };
     }
 
@@ -418,8 +405,6 @@ If you want, that authentication is only required for GET and PUT requests for e
 ```csharp
 [Authenticate(ApplyTo.Get | ApplyTo.Put)] 
 ```
-
-Of course `Authenticate` can also be placed on top of a service instead on top of a DTO, because it's a normal [filter attribute](?id=Filter-attributes).
 
 ## `RequiredRole` and `RequiredPermission` attributes
 
