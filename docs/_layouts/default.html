@@ -116,6 +116,7 @@
         .append('<i class="fa fa-external-link" style="margin-left:-15px"></i>');
 
     $("#menu-toggle").click(function(){
+        $("#sidebar-wrapper").scrollTop(0);
         $(this).toggleClass("fa-angle-down");
         $("#wrapper").toggleClass("menu-collapsed");
     });
