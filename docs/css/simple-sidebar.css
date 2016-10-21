@@ -224,7 +224,7 @@ and (max-device-width:1024px) {
         color: #999;
         padding: 0 0 0 10px;
         position: fixed;
-        left: 290px;
+        left: 285px;
         top: 0;
     }
     .menu-collapsed #menu-toggle {
