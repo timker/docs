@@ -73,6 +73,8 @@
 {% endif %}
 <script src="/js/fix-double-bracket-links.js"></script>
 <script>
+    var screenWidth = $(window).width();
+
     // Use slug ids to fix links.
     // This is so relative links can be done by:
     // [my link to internal page](?id=slug)
@@ -96,7 +98,7 @@
 
     // Add .active class to active link + scroll into view
     var pathinfo = location.pathname + location.hash;
-    if (pathinfo != "/")
+    if (screenWidth > 768 && pathinfo != "/")
     {
         var scrollItem = $("#sidebar-wrapper").find("a[href='" + pathinfo + "']")
                 .addClass('active')
@@ -118,11 +120,9 @@
         $("#wrapper").toggleClass("menu-collapsed");
     });
 
-    var screenWidth = $(window).width();
     if (screenWidth <= 1024) {
         $("#page-content-wrapper").css({ maxWidth:screenWidth });
-        if (screenWidth <= 1024) {
-            window.scrollTo(0,0);
+        if (screenWidth <= 768) {
             $("#menu-toggle").click();            
         }
     }
