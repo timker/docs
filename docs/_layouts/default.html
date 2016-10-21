@@ -18,7 +18,10 @@
 
     <!-- Sidebar -->
     <div id="sidebar-wrapper" class="sidebar-nav">
-        <h2><a href="/">ServiceStack Docs</a></h2>
+        <i id="menu-toggle" class="fa fa-angle-up" aria-hidden="true" style="display:none"></i>
+        <h2>
+            <a href="/">ServiceStack Docs</a>
+        </h2>
         {% capture my-include %}{% include Side-Bar.md %}{% endcapture %}
         {{ my-include | markdownify }}
     </div>
@@ -108,6 +111,11 @@
     // Add external link icon next to external menu links
     $(".sidebar-nav a[href^=http]")
         .append('<i class="fa fa-external-link" style="margin-left:-15px"></i>');
+
+    $("#menu-toggle").click(function(){
+        $(this).toggleClass("fa-angle-down");
+        $("#wrapper").toggleClass("menu-collapsed");
+    });
 
 </script>
 </body>

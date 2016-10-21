@@ -200,8 +200,26 @@ and (max-device-width : 1024px)  {
     #wrapper {
         padding-left: 0;
     }
-    div#page-content-wrapper {
+    #page-content-wrapper {
         width: auto;
+    }
+    #menu-toggle {
+        display: block;
+        font-size: 30px;
+        color: #999;
+        padding: 0 0 0 10px;
+    }
+    .menu-collapsed #menu-toggle {
+        float: right;
+        padding: 10px 0 0 10px;
+    }
+    .menu-collapsed #sidebar-wrapper {
+        width: 40px;
+        height: 36px;
+        overflow: hidden;
+    }
+    .menu-collapsed #sidebar-wrapper h2 {
+        display: none;
     }
 }
 
