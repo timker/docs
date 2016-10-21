@@ -196,7 +196,7 @@ img {
     }
 }
 
-/* smaller than iPad landscape */
+/* <= iPad landscape */
 @media only screen 
 and (max-device-width:1024px) {
     #wrapper, #wrapper.toggled {
@@ -229,21 +229,14 @@ and (max-device-width:1024px) {
         padding: 0 0 0 10px;
         float: none;
     }
-    .menu-collapsed #sidebar-wrapper, 
-    .menu-collapsed #wrapper.toggled #sidebar-wrapper {
-        width: 40px;
+    .menu-collapsed #sidebar-wrapper {
+        width: 40px !important;
         height: 36px;
         overflow: hidden;
     }
     .menu-collapsed #sidebar-wrapper h2 {
         display: none;
     }
-}
-
- /* iPad portrait */
-@media only screen 
-and (max-device-width:768px) { 
-    max-width: 768px;
 }
 
 ::-webkit-scrollbar { width:7px; height:5px }

@@ -117,6 +117,14 @@
         $("#wrapper").toggleClass("menu-collapsed");
     });
 
+    var screenWidth = $(window).width();
+    if (screenWidth <= 1024) {
+        $("#page-content-wrapper").css({ maxWidth:screenWidth });
+        if (screenWidth <= 1024) {
+            $("#menu-toggle").click();
+        }
+    }
+
 </script>
 </body>
 </html>
