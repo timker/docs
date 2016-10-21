@@ -101,11 +101,12 @@
         var scrollItem = $("#sidebar-wrapper").find("a[href='" + pathinfo + "']")
                 .addClass('active')
                 .parents().filter("div>ul>li")[0];
-        if(scrollItem)
+        if (scrollItem) {
             scrollItem.scrollIntoView({
                 behavior: "smooth",
                 block: "start"
             });
+        }
     }
 
     // Add external link icon next to external menu links
@@ -121,7 +122,8 @@
     if (screenWidth <= 1024) {
         $("#page-content-wrapper").css({ maxWidth:screenWidth });
         if (screenWidth <= 1024) {
-            $("#menu-toggle").click();
+            window.scrollTo(0,0);
+            $("#menu-toggle").click();            
         }
     }
 
