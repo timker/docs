@@ -199,7 +199,7 @@ img {
 /* smaller than iPad landscape */
 @media only screen 
 and (max-device-width:1024px) {
-    #wrapper {
+    #wrapper, #wrapper.toggled {
         padding-left: 0;
     }
     #page-content-wrapper {
@@ -214,6 +214,7 @@ and (max-device-width:1024px) {
     }
     .menu-collapsed #menu-toggle {
         padding: 0 0 0 10px;
+        float: none;
     }
     .menu-collapsed #sidebar-wrapper {
         width: 40px;
