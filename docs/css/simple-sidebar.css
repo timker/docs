@@ -222,12 +222,14 @@ and (max-device-width:1024px) {
         display: block;
         font-size: 30px;
         color: #999;
-        float: right;
-        padding: 10px 0 0 10px;
+        padding: 0 0 0 10px;
+        position: fixed;
+        left: 290px;
+        top: 0;
     }
     .menu-collapsed #menu-toggle {
         padding: 0 0 0 10px;
-        float: none;
+        position: initial;
     }
     .menu-collapsed #sidebar-wrapper {
         width: 40px !important;
