@@ -193,5 +193,33 @@ img {
     }
 }
 
-::-webkit-scrollbar { width:5px; height:5px }
+ /* iPad landscape + portrait */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px)  {
+    #wrapper {
+        padding-left: 0;
+    }
+    div#page-content-wrapper {
+        width: auto;
+    }
+}
+
+ /* iPad portrait */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : portrait) { 
+}
+
+ /* iPad landscape */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) 
+and (orientation : landscape) {
+}
+
+
+::-webkit-scrollbar { width:7px; height:5px }
 ::-webkit-scrollbar-thumb { background-color:#ccc; }
+
