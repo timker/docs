@@ -229,7 +229,8 @@ and (max-device-width:1024px) {
         padding: 0 0 0 10px;
         float: none;
     }
-    .menu-collapsed #sidebar-wrapper {
+    .menu-collapsed #sidebar-wrapper, 
+    .menu-collapsed #wrapper.toggled #sidebar-wrapper {
         width: 40px;
         height: 36px;
         overflow: hidden;
@@ -241,18 +242,9 @@ and (max-device-width:1024px) {
 
  /* iPad portrait */
 @media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : portrait) { 
+and (max-device-width:768px) { 
+    max-width: 768px;
 }
-
- /* iPad landscape */
-@media only screen 
-and (min-device-width : 768px) 
-and (max-device-width : 1024px) 
-and (orientation : landscape) {
-}
-
 
 ::-webkit-scrollbar { width:7px; height:5px }
 ::-webkit-scrollbar-thumb { background-color:#ccc; }
