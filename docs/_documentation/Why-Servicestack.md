@@ -13,7 +13,7 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
 - Smart - Infers intelligence from strongly typed DTOs
 - .NET and Mono
 - Highly testable - services are completely decoupled from HTTP
-- Mature - over 5+ years of development 
+- Mature - over 8+ years of development 
 - Commercially supported and [Continually Improved](https://servicestack.net/release-notes)
 
 ***
