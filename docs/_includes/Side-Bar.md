@@ -71,6 +71,9 @@
     - [Rabbit MQ](?id=rabbit-mq)
     - [Redis MQ](?id=messaging-and-redis)
     - [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
+- .NET Core
+    - [.NET Core Clients](?id=netcore-clients)
+    - [.NET Core Redis](?id=netcore-redis)
 - Mono
     - [Overview](?id=mono)
     - [Run ServiceStack as a daemon on Linux](?id=servicestack-as-daemon-on-linux)
@@ -179,9 +182,6 @@
     - [NHibernate](?id=nhibernate) 
 - Performance
     - [Real world performance](?id=real-world-performance) 
-- .NET Core
-    - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md)
-    - [.NET Core Redis](https://github.com/ServiceStack/ServiceStack.Redis/blob/master/docs/pages/netcore.md)
 - Other Products
     - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
     - [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
