@@ -177,6 +177,7 @@
 - Install 3rd Party Products
     - [Redis on Windows](https://github.com/ServiceStack/redis-windows)
     - [RabbitMQ on Windows](https://github.com/ServiceStack/rabbitmq-windows)
+    - [Redis SSL on Azure](?id=ssl-redis-azure)
 - Use Cases
     - [Azure](?id=azure)
     - [NHibernate](?id=nhibernate) 

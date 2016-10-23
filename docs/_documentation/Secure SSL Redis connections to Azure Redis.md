@@ -1,6 +1,8 @@
 ---
-slug: secure-ssl-redis-connections-to-azure-redis
+slug: ssl-redis-azure
+title: Secure SSL Redis connections to Azure Redis
 ---
+
 With the release of **v4.0.33+**, the [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis) client has added support for SSL making it suitable for accessing remote Redis server instances over a secure SSL connection.
 
 Redis is normally used as a back-end datastore whose access is typically limited to Internal networks or authorized networks protected via firewalls. The new SSL Support in the Redis Client also enables secure access to a redis-server instance over the Internet and public networks as well, a scenario that's been recently popularized by Cloud hosting environments like [Azure Redis Cache](http://azure.microsoft.com/en-us/services/cache/).
