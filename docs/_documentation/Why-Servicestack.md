@@ -11,12 +11,12 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
 - Model-driven, code-first, friction-free development
 - Clean, No XML config, no code-gen, conventional defaults
 - Smart - Infers greater intelligence from strongly typed DTOs
-- .NET 4.5 and .NET Core
+- Supports .NET 4.5 and .NET Core platforms for hosting on Windows, OSX, Linux
 - Multiple Hosts - Run in Web, Console, native Windows/OSX Desktop Apps, Windows Services
 - Host Agnostic - Services are decoupled from HTTP and can be hosted in MQ
 - Highly testable
 - Mature - Stable with over 8+ years of development 
-- Preserve Investment - ServiceStack libraries are clean, modern and [Continuously Improved](http://docs.servicestack.net/release-notes-history.html) (not abandoned or replaced)
+- Preserve Investment - libraries are clean, modern and [Continuously Improved](http://docs.servicestack.net/release-notes-history.html) (not abandoned or replaced)
 - Commercially supported and actively developed
 
 ### [Features Overview](https://servicestack.net/features)

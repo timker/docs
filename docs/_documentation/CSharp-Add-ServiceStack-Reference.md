@@ -301,16 +301,17 @@ With the new [ServiceStackXS Add-In](http://addins.monodevelop.com/Project/Index
 
 Installation is straightforward if you've installed Xamarin Add-ins before, just go to `Xamarin Studio -> Add-In Manager...` from the Menu and then search for `ServiceStack` from the **Gallery**:
 
-![](https://github.com/ServiceStack/Assets/blob/master/img/servicestackvs/servicestack%20reference/ssxs-mac-install.gif)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-mac-install.gif)
 
 #### Install from file
+
 If you are having trouble with the Xamarin Studio gallery version, you can install addins from an `mpack` file from the same menu as shown above. Click `Install from file` and navigate to where you have downloaded the `mpack` file.
 
 ### Adding a ServiceStack Reference
 
 Once installed, adding a ServiceStack Reference is very similar to [ServiceStackVS in VS.NET](?id=CSharp-Add-ServiceStack-Reference#add-servicestack-reference) where you can just click on `Add -> Add ServiceStack Reference...` on the project's context menu to bring up the familiar Add Reference dialog. After adding the `BaseUrl` of the remote ServiceStack instance, click OK to add the generated DTO's to your project using the name specified:
 
-![](https://github.com/ServiceStack/Assets/blob/master/img/servicestackvs/servicestack%20reference/ssxs-mac-add-reference.gif)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-mac-add-reference.gif)
 
 ### Updating the ServiceStack Reference
 
