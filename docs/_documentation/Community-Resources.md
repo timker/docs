@@ -83,7 +83,7 @@ slug: community-resources
   - [Using OpenAccess ORM and ServiceStack](http://blogs.telerik.com/openaccessteam/posts/13-09-13/using-telerik-openaccess-orm-with-servicestack) by [@damyanbogoev](https://twitter.com/damyanbogoev)
   - [Code Generation using ServiceStack.OrmLite and T4 Text templates](http://jokecamp.wordpress.com/2013/09/07/code-generation-using-servicestack-ormlite-and-t4-text-templates/) by [@jokecamp](https://twitter.com/jokecamp)
   - [Building a ServiceStack OAuth2 resource server using DotNetOpenAuth](http://dylanbeattie.blogspot.com/2013/08/building-servicestack-based-oauth2.html) by [@dylanbeattie](https://twitter.com/dylanbeattie)
-  - [ServiceStack extensibility using MEF](http://bhameyie.com/2013/09/03/servicestack-extensibility-using-mef/) by [@bhameyie](https://twitter.com/bhameyie)
+  - [ServiceStack extensibility using MEF](https://bhameyie.wordpress.com/2013/09/03/servicestack-extensibility-using-mef/) by [@bhameyie](https://twitter.com/bhameyie)
   - [Productivity gains with the ServiceStack web framework](http://alexvpop.blogspot.co.uk/2013/08/whyservicestack.html) by [+AlexandruVasilePop](https://plus.google.com/104553804192329546520/posts)
   - [How I Stopped Worrying and Learned to Love the WWW and UNIX Way](http://abdullin.com/journal/2013/8/27/how-i-stopped-worrying-and-learned-to-love-the-www-and-unix.html) by [@abdullin](https://twitter.com/abdullin)
   - [ServiceStack: IoC with Microsoft Unity](http://www.agile-code.com/blog/servicestack-ioc-with-microsoft-unity/) by [@zoranmax](https://twitter.com/zoranmax)
