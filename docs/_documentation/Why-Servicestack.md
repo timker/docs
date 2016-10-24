@@ -9,20 +9,61 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
 - Speed
 - Best Practices
 - Model-driven, code-first, friction-free development
-- No XML config, no code-gen, conventional defaults
-- Smart - Infers intelligence from strongly typed DTOs
-- .NET and Mono
-- Highly testable - services are completely decoupled from HTTP
-- Mature - over 8+ years of development 
-- Commercially supported and [Continually Improved](https://servicestack.net/release-notes)
-
-***
+- Clean, No XML config, no code-gen, conventional defaults
+- Smart - Infers greater intelligence from strongly typed DTOs
+- .NET 4.5 and .NET Core
+- Multiple Hosts - Run in Web, Console, native Windows/OSX Desktop Apps, Windows Services
+- Host Agnostic - Services are decoupled from HTTP and can be hosted in MQ
+- Highly testable
+- Mature - Stable with over 8+ years of development 
+- Preserve Investment - ServiceStack libraries are clean, modern and [Continuously Improved](http://docs.servicestack.net/release-notes-history.html) (not abandoned or replaced)
+- Commercially supported and actively developed
 
 ### [Features Overview](https://servicestack.net/features)
 
-### Define web services following Martin Fowlers Data Transfer Object Pattern with ServiceStack
+ServiceStack is a simple, fast, versatile and highly-productive full-featured [Web](http://razor.servicestack.net) and 
+[Web Services](http://docs.servicestack.net/web-services.html) Framework that's 
+thoughtfully-architected to [reduce artificial complexity](http://docs.servicestack.net/why-not-odata.html#why-not-complexity) and promote 
+[remote services best-practices](http://docs.servicestack.net/advantages-of-message-based-web-services.html) 
+with a [message-based design](http://docs.servicestack.net/what-is-a-message-based-web-service.html) 
+that allows for maximum re-use that can leverage an integrated 
+[Service Gateway](http://docs.servicestack.net/service-gateway.html) 
+for the creation of loosely-coupled 
+[Modularized Service](http://docs.servicestack.net/modularizing-services.html) Architectures.
+ServiceStack Services are consumable via an array of built-in fast data formats (inc. 
+[JSON](https://github.com/ServiceStack/ServiceStack.Text), 
+XML, 
+[CSV](http://docs.servicestack.net/csv-format.html), 
+[JSV](http://docs.servicestack.net/json-jsv-and-xml.html), 
+[ProtoBuf](http://docs.servicestack.net/protobuf-format.html), 
+[Wire](http://docs.servicestack.net/wire-format.html) and 
+[MsgPack](http://docs.servicestack.net/messagepack-format.html)) 
+as well as XSD/WSDL for [SOAP endpoints](http://docs.servicestack.net/soap-support.html) and 
+[Rabbit MQ](http://docs.servicestack.net/rabbit-mq.html), 
+[Redis MQ](http://docs.servicestack.net/messaging-and-redis.html) and
+[Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver) MQ hosts. 
 
-***
+Its design and simplicity focus offers an unparalleled suite of productivity features that can be declaratively enabled 
+without code, from creating fully queryable Web API's with just a single Typed Request DTO with
+[Auto Query](http://docs.servicestack.net/autoquery.html) supporting 
+[every major RDBMS](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget) 
+to the built-in support for
+[Auto Batched Requests](http://docs.servicestack.net/auto-batched-requests.html) 
+or effortlessly enabling rich [HTTP Caching](http://docs.servicestack.net/http-caching.html) and
+[Encrypted Messaging](http://docs.servicestack.net/encrypted-messaging.html) 
+for all your existing services via [Plugins](http://docs.servicestack.net/plugins.html).
+
+Your same Services also serve as the Controller in ServiceStack's [Smart Razor Views](http://razor.servicestack.net/)
+reducing the effort to serve both 
+[Web and Single Page Apps](https://github.com/ServiceStackApps/LiveDemos) as well as 
+[Rich Desktop and Mobile Clients](https://github.com/ServiceStackApps/HelloMobile) that are able to deliver instant interactive 
+experiences using ServiceStack's real-time [Server Events](http://docs.servicestack.net/server-events.html).
+
+ServiceStack Services also maximize productivity for consumers providing an 
+[instant end-to-end typed API without code-gen](http://docs.servicestack.net/csharp-client.html) enabling
+the most productive development experience for developing .NET to .NET Web Services.
+
+### Define web services following Martin Fowlers Data Transfer Object Pattern
 
 Service Stack was heavily influenced by [**Martin Fowlers Data Transfer Object Pattern**](http://martinfowler.com/eaaCatalog/dataTransferObject.html):
 
@@ -32,12 +73,29 @@ Service Stack was heavily influenced by [**Martin Fowlers Data Transfer Object P
 >However, this is often awkward to program - indeed, it's often impossible with languages such as Java 
 >that return only a single value.
 >
->The solution is to create a Data Transfer Object that can hold all the data for the call. It needs to be serializable to go across the connection. 
+>The solution is to create a Data Transfer Object that can hold all the data for the call. It needs 
+to be serializable to go across the connection. 
 >Usually an assembler is used on the server side to transfer data between the DTO and any domain objects.
 
-The Request- and Response DTO's used to define web services in ServiceStack are standard POCO's while the implementation just needs to inherit from a testable and dependency-free `IService<TRequestDto>`. As a bonus for keeping your DTO's in a separate dependency-free .dll, you're able to re-use them in your C#/.NET clients providing a strongly-typed API without any code-gen what-so-ever. Also your DTO's *define everything* Service Stack does not pollute your web services with any additional custom artefacts or markup.
+The Request- and Response DTO's used to define web services in ServiceStack are standard POCO's while 
+the implementation just needs to inherit from a testable and dependency-free `IService` marker interface. 
+As a bonus for keeping your DTO's in a separate dependency-free .dll, you're able to re-use them in 
+your C#/.NET clients providing a strongly-typed API without any code-gen what-so-ever. Also your DTO's 
+*define everything* Service Stack does not pollute your web services with any additional custom 
+artefacts or markup.
 
-Service Stack re-uses the custom artefacts above and with zero-config and without imposing any extra burden on the developer adds discover-ability and provides hosting of your web service on a number of different physical end-points which as of today includes: **XML (+REST), JSON (+REST), JSV (+REST) and SOAP 1.1 / SOAP 1.2.**
+Service Stack re-uses the custom artefacts above and with zero-config and without imposing any extra 
+burden on the developer adds discover-ability and provides hosting of your web service on a number 
+of different physical end-points which as of today includes: 
+ 
+ - JSON
+ - XML
+ - CSV
+ - JSV
+ - MsgPack
+ - ProtoBuf
+ - Wire
+ - SOAP 1.1/1.2
 
 ### WCF the anti-DTO Web Services Framework
 
@@ -45,7 +103,7 @@ Unfortunately this best-practices convention is effectively discouraged by Micro
 
 Unhappy with this perceived anti-pattern in WCF, ServiceStack was born providing a Web Service framework that embraces best-practices for calling remote services, using config-free, convention-based DTO's.
 
-### ServiceStack encourages development of message-style, re-usable and batch-full web services
+### Encourages development of message-style, re-usable and batch-full web services
 
 Entire POCO types are used to define the request- and response DTO's to promote the creation well-defined coarse-grained web services. Message-based interfaces are best-practices when dealing with out-of-process calls as they can batch more work using less network calls and are ultimately more re-usable as the same operation can be called using different calling semantics. This is in stark contrast to WCF's Operation or Service contracts which encourage RPC-style, application-specific web services by using method signatures to define each operation.
 

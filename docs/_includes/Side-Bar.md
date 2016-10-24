@@ -54,6 +54,7 @@
     - [CSV Format](?id=csv-format)
     - [MessagePack Format](?id=messagepack-format)
     - [ProtoBuf Format](?id=protobuf-format)
+    - [Wire Format](?id=wire-format)
     - [HTML5 Report Format](?id=html5reportformat)
 - View Engines
     - [Razor & Markdown Razor](http://razor.servicestack.net/)
