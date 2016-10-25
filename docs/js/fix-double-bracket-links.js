@@ -1,3 +1,4 @@
+//should no longer be needed now that we're referencing server-side /slug permalinks
 (function () {
     "use strict";
     String.prototype.replaceAll = function(search, replacement) {
