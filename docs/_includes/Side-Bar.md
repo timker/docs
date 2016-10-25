@@ -2,7 +2,7 @@
 - Overview
     - [Why ServiceStack?](?id=why-servicestack)
     - [Architecture Overview](?id=architecture-overview)
-    - [What is a message-based WebService?](?id=What-is-a-message-based-web-service)
+    - [What is a message-based WebService?](?id=what-is-a-message-based-web-service)
     - [Advantages of message-based WebServices](?id=advantages-of-message-based-web-services)
     - [Why remote services should use DTOs?](http://stackoverflow.com/a/15369736/85785)
     - [Live Demos](https://github.com/ServiceStackApps/LiveDemos)
