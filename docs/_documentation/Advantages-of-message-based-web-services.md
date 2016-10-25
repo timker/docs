@@ -47,7 +47,7 @@ From this we can attest Amazon maintains a Request [DTO](http://en.wikipedia.org
     POST https://ec2.amazonaws.com/volumes/vol-4d826724/attach 
     FormData: InstanceId=i-6058a509&Device=/dev/sdh&AUTHPARAMS
 
-In-terms of accessibility and interoperability, ServiceStack 1-ups Amazon here since the same Request DTO can be populated with any combination of a [Custom Route, QueryString, FormData or a POST'ed XML, JSON, JSV, SOAP 1.1/1.2 or ProtoBuf Request DTO payload](?id=Architecture-overview). Although this is really inconsequential since both Amazon and ServiceStack also provide **typed service clients** so you're never required to manually construct the request by hand. 
+In-terms of accessibility and interoperability, ServiceStack 1-ups Amazon here since the same Request DTO can be populated with any combination of a [Custom Route, QueryString, FormData or a POST'ed XML, JSON, JSV, SOAP 1.1/1.2 or ProtoBuf Request DTO payload](/architecture-overview). Although this is really inconsequential since both Amazon and ServiceStack also provide **typed service clients** so you're never required to manually construct the request by hand. 
 
 ## Messaging at Google
 
@@ -93,7 +93,7 @@ public interface IService<T> {
 }
 ```
 
-Which we've simplified even further in the [New API](?id=api-design) to just an empty marker interface:
+Which we've simplified even further in the [New API](/api-design) to just an empty marker interface:
 
 ```csharp
 public interface IService { }
@@ -128,8 +128,8 @@ Since it promotes clean, re-usable code, ServiceStack has always encouraged the 
   - In [JSON, JSV and CSV Text Serializers](https://github.com/ServiceStack/ServiceStack.Text)
   - As the data model in [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite), [db4o](http://code.google.com/p/servicestack/source/browse/#svn%2Ftrunk%2FCommon%2FServiceStack.DataAccess%2FServiceStack.DataAccess.Db4oProvider) and [NHibernate](http://code.google.com/p/servicestack/source/browse/#svn%2Ftrunk%2FCommon%2FServiceStack.DataAccess%2FServiceStack.DataAccess.NHibernateProvider%253Fstate%253Dclosed)
   - As the entities stored in [Redis](https://github.com/ServiceStack/ServiceStack.Redis)
-  - As blobs stored in [Caches](?id=caching) and [Sessions](?id=sessions)
-  - Dropped and executed in [MQ's services](?id=messaging-and-redis)
+  - As blobs stored in [Caches](/caching) and [Sessions](/sessions)
+  - Dropped and executed in [MQ's services](/messaging-and-redis)
   - Dehydrating [complex configurations](http://www.servicestack.net/mvc-powerpack/) into
 
 Leveraging different technologies whose functionality is built around POCO's offer un-precedented levels of re-use, reduces friction, promotes consistent, more usable and easier to rationale code-bases.
@@ -164,8 +164,8 @@ So in contrast to method signatures, message-based designs offer many advantages
   - They're easy to version and evolve since you're freely able to add/remove functionality and properties without error
   - They're easy to route, chain and decorate through to different handlers and pipelines
   - They're easy to serialize and proxy through to remote services 
-  - They're easy to record, defer and replay - evident by ServiceStack's [IMessaging API](?id=messaging-and-redis) which can automatically drop one-way services into MQ's and have them executed inside an MQ Host, you get this functionality for free since the MQ host can re-use the same web service implementation. It works the other way too where you can supply a Url in the ReplyTo property to have the MQ response POST'ed to a ServiceStack HTTP Service.
-  - They're easy to log, evident by ServiceStack's trivially simple but useful [IRequestLogger service](?id=request-logger)
+  - They're easy to record, defer and replay - evident by ServiceStack's [IMessaging API](/messaging-and-redis) which can automatically drop one-way services into MQ's and have them executed inside an MQ Host, you get this functionality for free since the MQ host can re-use the same web service implementation. It works the other way too where you can supply a Url in the ReplyTo property to have the MQ response POST'ed to a ServiceStack HTTP Service.
+  - They're easy to log, evident by ServiceStack's trivially simple but useful [IRequestLogger service](/request-logger)
   - They're easy to map and translate to and from domain models using convention and auto mappers
   - Ideal for concurrency as immutable messages are thread-safe and can be easily multi-plexed with their handlers over multiple threads.
 
@@ -191,7 +191,7 @@ This is fairly inaccurate considering ServiceStack's mission is close to the exa
 
 Not only do all ServiceStack services accept a Request DTO populated with any combination of Custom Routes, QueryString and HTML FormData. You can also POST the serialized Request DTO in any of the in-built formats: i.e. XML, JSON, JSV, SOAP 1.1/1.2, ProtoBuf (when enabled) or your own [custom format](http://northwind.servicestack.net/vcard-format.htm). All services immediately support JSONP and its trivial to [enable CORS on all services](http://stackoverflow.com/questions/8211930/servicestack-rest-api-and-cors). Should you wish, you're also able to have all HTTP Verbs execute the same service. 
 
-Support is included for registering raw custom IHttpHandler's, [Request / Response Filters](?id=request-and-response-filters) and HttpResult/HttpError results - giving you a multitude of options to maintain full control over the entire HTTP Output - should you need to meet any extraneous external requirements. 
+Support is included for registering raw custom IHttpHandler's, [Request / Response Filters](?/request-and-response-filters) and HttpResult/HttpError results - giving you a multitude of options to maintain full control over the entire HTTP Output - should you need to meet any extraneous external requirements. 
 
 ### Text serializers are fast, resilient and idiomatic
 
@@ -203,7 +203,7 @@ They're both [very resilient and can withstand extreme versioning without error]
 
 ### Your services can be consumed by more than just HTTP
 
-Your services implementation can even be re-used inside any [IMessageService hosts](?id=messaging-and-redis), which at this time includes support for Redis, InMemory and RCON hosts (with more to follow) and work has already begun to enable a fast tcp/IPC async pipeline between ServiceStack and node.js + Dart server processes. All these features actually make ServiceStack one of the most versatile and flexible web service frameworks in existance - enabling your services accessible in a myriad of different use-cases.
+Your services implementation can even be re-used inside any [IMessageService hosts](/messaging-and-redis), which at this time includes support for Redis, InMemory and RCON hosts (with more to follow) and work has already begun to enable a fast tcp/IPC async pipeline between ServiceStack and node.js + Dart server processes. All these features actually make ServiceStack one of the most versatile and flexible web service frameworks in existance - enabling your services accessible in a myriad of different use-cases.
 
 ### Most examples don't actually have .NET clients
 
@@ -226,7 +226,7 @@ var client = new JsonServiceClient(baseUrl);
 Todo createdTodo = client.Post(new Todo { Content = "New Todo", Order = 1 });
 ```
 
-Is like this in [TypeScript](?id=typescript-add-servicestack-reference):
+Is like this in [TypeScript](/typescript-add-servicestack-reference):
 
 ```typescript
 var client = new JsonServiceClient(baseUrl);

@@ -16,56 +16,56 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
 - Host Agnostic - Services are decoupled from HTTP and can be hosted in MQ
 - Highly testable
 - Mature - Stable with over 8+ years of development 
-- Preserve Investment - libraries are clean, modern and [Continuously Improved](http://docs.servicestack.net/release-notes-history.html) (not abandoned or replaced)
+- Preserve Investment - libraries are clean, modern and [Continuously Improved](/release-notes-history) (not abandoned or replaced)
 - Commercially supported and actively developed
 
 ### [Features Overview](https://servicestack.net/features)
 
 ServiceStack is a simple, fast, versatile and highly-productive full-featured [Web](http://razor.servicestack.net) and 
-[Web Services](http://docs.servicestack.net/web-services.html) Framework that's 
-thoughtfully-architected to [reduce artificial complexity](http://docs.servicestack.net/why-not-odata.html#why-not-complexity) and promote 
-[remote services best-practices](http://docs.servicestack.net/advantages-of-message-based-web-services.html) 
-with a [message-based design](http://docs.servicestack.net/what-is-a-message-based-web-service.html) 
+[Web Services](/web-services) Framework that's 
+thoughtfully-architected to [reduce artificial complexity](/why-not-odata#why-not-complexity) and promote 
+[remote services best-practices](/advantages-of-message-based-web-services) 
+with a [message-based design](/what-is-a-message-based-web-service) 
 that allows for maximum re-use that can leverage an integrated 
-[Service Gateway](http://docs.servicestack.net/service-gateway.html) 
+[Service Gateway](/service-gateway) 
 for the creation of loosely-coupled 
-[Modularized Service](http://docs.servicestack.net/modularizing-services.html) Architectures.
+[Modularized Service](/modularizing-services) Architectures.
 ServiceStack Services are consumable via an array of built-in fast data formats (inc. 
 [JSON](https://github.com/ServiceStack/ServiceStack.Text), 
 XML, 
-[CSV](http://docs.servicestack.net/csv-format.html), 
-[JSV](http://docs.servicestack.net/json-jsv-and-xml.html), 
-[ProtoBuf](http://docs.servicestack.net/protobuf-format.html), 
-[Wire](http://docs.servicestack.net/wire-format.html) and 
-[MsgPack](http://docs.servicestack.net/messagepack-format.html)) 
-as well as XSD/WSDL for [SOAP endpoints](http://docs.servicestack.net/soap-support.html) and 
-[Rabbit MQ](http://docs.servicestack.net/rabbit-mq.html), 
-[Redis MQ](http://docs.servicestack.net/messaging-and-redis.html) and
+[CSV](/csv-format), 
+[JSV](/jsv-format), 
+[ProtoBuf](/protobuf-format), 
+[Wire](/wire-format) and 
+[MsgPack](/messagepack-format)) 
+as well as XSD/WSDL for [SOAP endpoints](/soap-support) and 
+[Rabbit MQ](/rabbit-mq), 
+[Redis MQ](/messaging-and-redis) and
 [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver) MQ hosts. 
 
 Its design and simplicity focus offers an unparalleled suite of productivity features that can be declaratively enabled 
 without code, from creating fully queryable Web API's with just a single Typed Request DTO with
-[Auto Query](http://docs.servicestack.net/autoquery.html) supporting 
+[Auto Query](/autoquery) supporting 
 [every major RDBMS](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget) 
 to the built-in support for
-[Auto Batched Requests](http://docs.servicestack.net/auto-batched-requests.html) 
-or effortlessly enabling rich [HTTP Caching](http://docs.servicestack.net/http-caching.html) and
-[Encrypted Messaging](http://docs.servicestack.net/encrypted-messaging.html) 
-for all your existing services via [Plugins](http://docs.servicestack.net/plugins.html).
+[Auto Batched Requests](/auto-batched-requests) 
+or effortlessly enabling rich [HTTP Caching](/http-caching) and
+[Encrypted Messaging](/encrypted-messaging) 
+for all your existing services via [Plugins](/plugins).
 
 Your same Services also serve as the Controller in ServiceStack's [Smart Razor Views](http://razor.servicestack.net/)
 reducing the effort to serve both 
 [Web and Single Page Apps](https://github.com/ServiceStackApps/LiveDemos) as well as 
 [Rich Desktop and Mobile Clients](https://github.com/ServiceStackApps/HelloMobile) that are able to deliver instant interactive 
-experiences using ServiceStack's real-time [Server Events](http://docs.servicestack.net/server-events.html).
+experiences using ServiceStack's real-time [Server Events](/server-events).
 
 ServiceStack Services also maximize productivity for consumers providing an 
-[instant end-to-end typed API without code-gen](http://docs.servicestack.net/csharp-client.html) enabling
+[instant end-to-end typed API without code-gen](/csharp-client) enabling
 the most productive development experience for developing .NET to .NET Web Services.
 
 ### Define web services following Martin Fowlers Data Transfer Object Pattern
 
-Service Stack was heavily influenced by [**Martin Fowlers Data Transfer Object Pattern**](http://martinfowler.com/eaaCatalog/dataTransferObject.html):
+Service Stack was heavily influenced by [**Martin Fowlers Data Transfer Object Pattern**](http://martinfowler.com/eaaCatalog/dataTransferObject):
 
 >When you're working with a remote interface, such as Remote Facade (388), each call to it is expensive. 
 >As a result you need to reduce the number of calls, and that means that you need to transfer more data 
@@ -150,9 +150,9 @@ Comparatively there is almost no win for a remote RPC API, except to maybe [hide
   - [Great example showing how you can re-use ServiceStack services in Websites and REST APIs](http://northwind.mattjcowan.com/customers) by [@mattjcowan](https://twitter.com/mattjcowan)
   - [RESTful Data Services in .NET](https://coldie.net/?tag=servicestack)
   - [Making mPACT API Better](https://web.archive.org/web/20130401041733/http://blog.mblast.com/mbwordpress/mpact-api/making-mpact-api-better/) by [@mBLAST](https://twitter.com/mBLAST)
-  - ["Service Stack" framework](http://dragansr.blogspot.com/2012/12/service-stack-framework.html) by [@dragansr](https://twitter.com/dragansr)
+  - ["Service Stack" framework](http://dragansr.blogspot.com/2012/12/service-stack-framework) by [@dragansr](https://twitter.com/dragansr)
   - [servicestack.net – Skip WCF and use this](http://fafx.wordpress.com/category/tools/servicestack-net/) by [thefafxproject](http://fafx.wordpress.com/)
-  - [Libraries and components used by DiceFeud](http://dicefeud.blogspot.se/2012/08/libraries-and-components.html) by [John Hård](http://www.blogger.com/profile/17364481663076074340)
+  - [Libraries and components used by DiceFeud](http://dicefeud.blogspot.se/2012/08/libraries-and-components) by [John Hård](http://www.blogger.com/profile/17364481663076074340)
   - [ServiceStack: a good alternative to WCF (French)](http://sgbd.arbinada.com/node/77)
   - [ReST Web Services in .NET Framework](http://www.aminemami.com/blog/2011/09/rest-web-services-in-net-framework/) by [@amin_emami](https://twitter.com/amin_emami)
   - [ServiceStack Awesomeness](http://emmanuelnelson.com/blogs/service-stack-awesomeness) by [@emmanuelnelson](http://emmanuelnelson.com/about-me)

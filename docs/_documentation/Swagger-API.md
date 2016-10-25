@@ -24,11 +24,11 @@ public override void Configure(Container container)
 }
 ```
 
-Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](?id=Metadata-page).
+Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
 
 #### Configuring ServiceStack with MVC
 
-If you're [Hosting ServiceStack with MVC](?id=Mvc-integration) then you'll need to tell MVC to ignore the path where ServiceStack is hosted, e.g:
+If you're [Hosting ServiceStack with MVC](/mvc-integration) then you'll need to tell MVC to ignore the path where ServiceStack is hosted, e.g:
 
 ```csharp
 routes.IgnoreRoute("api/{*pathInfo}"); 
@@ -100,7 +100,7 @@ The docs on the Virtual File System shows how to override embedded resources:
 
 ### Overriding Swaggers Embedded Resources
 
-ServiceStack's [Virtual File System](?id=virtual-file-system) supports multiple file source locations where you can override Swagger's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/swagger-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui) or [/swagger-ui-bootstrap](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui-bootstrap) files you want to customize and placing them in your Website Directory at:
+ServiceStack's [Virtual File System](/virtual-file-system) supports multiple file source locations where you can override Swagger's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/swagger-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui) or [/swagger-ui-bootstrap](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui-bootstrap) files you want to customize and placing them in your Website Directory at:
 
 ```
 /swagger-ui

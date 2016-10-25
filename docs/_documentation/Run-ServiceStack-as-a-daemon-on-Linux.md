@@ -14,7 +14,7 @@ Fortunately this is quite simple.
 
 ## Service example
 
-The earlier example of [self hosting](?id=Self-hosting) provides a good starting point, but needs to be modified slightly if running as a daemon. 
+The earlier example of [self hosting](/self-hosting) provides a good starting point, but needs to be modified slightly if running as a daemon. 
 
 ```csharp
 using System;

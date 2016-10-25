@@ -23,7 +23,7 @@ sudo apt-get install nginx
 
 ## Service example
 
-The earlier example of [Create your first webservice](?id=Create-your-first-webservice) provides us with everything we need for this demo. If you're feeling very lazy you can [grab one of the examples.](https://github.com/ServiceStack/ServiceStack.Examples/tree/master/src/ServiceStack.Hello)
+The earlier example of [Create your first webservice](/create-your-first-webservice) provides us with everything we need for this demo. If you're feeling very lazy you can [grab one of the examples.](https://github.com/ServiceStack/ServiceStack.Examples/tree/master/src/ServiceStack.Hello)
 
 ## nginx configuration
 First start by editing your nginx config

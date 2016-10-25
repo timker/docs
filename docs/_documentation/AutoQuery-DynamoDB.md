@@ -59,9 +59,9 @@ To Get Started Install [ServiceStack's AWS Support package](https://github.com/S
 
 To illustrate how to use AutoQuery with DynamoDB we'll walk through a simple example of querying Rockstars Albums. 
 For this example we'll specify
-[explicit conventions](?id=AutoQuery#explicit-conventions)
+[explicit conventions](/autoquery#explicit-conventions)
 so we can use ServiceStack's 
-[typed .NET Service Clients](?id=CSharp-client) 
+[typed .NET Service Clients](/csharp-client) 
 to show which fields we're going to query and also lets us call the Service with a convenient typed API:
 
 ```csharp
@@ -278,7 +278,7 @@ var response = client.Get(new QueryRockstarAlbumsGenreIndex //QUERY
 
 A noticeable difference from querying a Global Index instead of the Table directly is that results are
 returned in a different `RockstarAlbumGenreIndex` POCO. Luckily we can use AutoQuery's 
-[Custom Results Feature](?id=AutoQuery#returning-custom-results)
+[Custom Results Feature](/autoquery#returning-custom-results)
 to map the properties back into the original table `RockstarAlbum` with:
 
 ```csharp
@@ -325,11 +325,11 @@ So with just the above single Request DTO we've declaratively created a fully-qu
 Service that transparently executes the most ideal DynamoDB queries for each request, has it's optimal 
 representation efficiently cached on both Server and clients, whose Typed DTO can be reused as-is on the 
 client to call Services with an end-to-end Typed API using any
-[.NET Service Client](?id=CSharp-client), 
+[.NET Service Client](/csharp-client), 
 that's also available to external developers in a clean typed API, natively in their preferred language of 
 choice, accessible with just a right-click menu integrated inside VS.NET, Xcode, Android Studio, IntelliJ 
 and Eclipse - serving both PCL Xamarin.iOS/Android as well as native iOS and Android developers by just  
-[Adding a ServiceStack Reference](?id=Add-ServiceStack-Reference)
+[Adding a ServiceStack Reference](/add-servicestack-reference)
 to the base URL of a remote ServiceStack Instance - all without needing to write any implementation!
 
 ### More Info

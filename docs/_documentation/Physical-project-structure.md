@@ -26,7 +26,7 @@ The order of the projects also show its dependencies, e.g. the top-level `EventM
     EventReview.cs            //EventReview type
 ```
 
-With the `EventMan.ServiceModel` DTO's kept in their own separate implementation and dependency-free dll, you're freely able to share this dll in any .NET client project as-is - which you can use with any of the generic [C# Service Clients](?id=CSharp-client) to provide an end-to-end typed API without any code-gen.
+With the `EventMan.ServiceModel` DTO's kept in their own separate implementation and dependency-free dll, you're freely able to share this dll in any .NET client project as-is - which you can use with any of the generic [C# Service Clients](/csharp-client) to provide an end-to-end typed API without any code-gen.
 
 ### Example of Recommended Project Structure
 

@@ -2,7 +2,7 @@
 slug: architecture-overview
 ---
 
-Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET [IHttpHandler's](http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx). Existing abstractions and [xmlconfig-encumbered legacy ASP.NET providers](http://mono.servicestack.net/mvc-powerpack/) have been abandoned, in favour of fresh, simple and clean [Caching](?id=Caching), [Session](?id=Sessions) and [Authentication](?id=Authentication-and-authorization) providers all based on clean POCOs, supporting multiple back-ends and all working seamlessly with each other. Our best-practices architecture is purposely kept simple, introduces no new concepts or artificial constructs and can all be eloquently captured in the diagram below:
+Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET [IHttpHandler's](http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx). Existing abstractions and [xmlconfig-encumbered legacy ASP.NET providers](http://mono.servicestack.net/mvc-powerpack/) have been abandoned, in favour of fresh, simple and clean [Caching](/caching), [Session](/sessions) and [Authentication](/authentication-and-authorization) providers all based on clean POCOs, supporting multiple back-ends and all working seamlessly with each other. Our best-practices architecture is purposely kept simple, introduces no new concepts or artificial constructs and can all be eloquently captured in the diagram below:
 
 ### Server Architecture
 
@@ -10,13 +10,13 @@ Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET [I
 
 ### Client Architecture
 
-ServiceStack's [Message-based design](?id=Advantages-of-message-based-web-services) allows us to easily support [typed, generic and re-usable Service Clients](?id=Clients-overview) for all our popular formats:
+ServiceStack's [Message-based design](/advantages-of-message-based-web-services) allows us to easily support [typed, generic and re-usable Service Clients](/clients-overview) for all our popular formats:
 
 ![ServiceStack HTTP Client Architecture](http://mono.servicestack.net/files/servicestack-httpclients.png) 
 
 Having all clients share the same interface allow them to be hot-swappable at run-time without code changes and keep them highly testable where the same unit test can also [serve as an XML, JSON, JSV, SOAP Integration Test](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.IntegrationTests/Tests/WebServicesTests.cs).
 
-By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable and can be hosted in non-http contexts as well. E.g. The client architecture when one of the [built-in MQ Host is enabled](?id=Messaging-and-redis):
+By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable and can be hosted in non-http contexts as well. E.g. The client architecture when one of the [built-in MQ Host is enabled](/messaging-and-redis):
 
 ![ServiceStack MQ Client Architecture](http://mono.servicestack.net/files/servicestack-mqclients.png) 
 

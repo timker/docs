@@ -136,4 +136,4 @@ Further than that, the IHttpResult allows even finer-grain control of the HTTP o
 
 ### Further customizing the HTTP Response
 
-See the [Customize HTTP Responses](?id=customize-http-responses) page for more ways of customizing the HTTP Response.
+See the [Customize HTTP Responses](/customize-http-responses) page for more ways of customizing the HTTP Response.

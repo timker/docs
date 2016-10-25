@@ -8,7 +8,7 @@ ServiceStack provides multiple ways to customize your services HTTP response. Ea
   1. Decorating it inside a `HttpResult` object
   2. Throwing a `HttpError` 
   3. Returning a `HttpError`
-  4. Using a Request or Response [Filter Attribute](?id=Filter-attributes) like the built-in `[AddHeader]` (or your own) or using a [Global Request or Response Filter](?id=Request-and-response-filters).
+  4. Using a Request or Response [Filter Attribute](/filter-attributes) like the built-in `[AddHeader]` (or your own) or using a [Global Request or Response Filter](?/request-and-response-filters).
   5. Modifying output by accessing your services `base.Response` [IHttpResponse API](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IHttpResponse.cs)
 
 Here are some code examples below using these different approaches:
@@ -59,9 +59,9 @@ If you only have access to the `IRequest` you can access the `IResponse` via the
 req.Response.EndRequest();
 ```
 
-### Using a [Request or Response Filter Attribute](?id=Filter-attributes)
+### Using a [Request or Response Filter Attribute](/filter-attributes)
 
-Example 4). uses the in-built [AddHeaderAttribute](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AddHeaderAttribute.cs) to modify the HTTP Response using a [Request Filter attribute](?id=Filter-attributes). You can also modify all HTTP Service Responses by using a [Global Request or Response Filter](?id=Request-and-response-filters): 
+Example 4). uses the in-built [AddHeaderAttribute](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/AddHeaderAttribute.cs) to modify the HTTP Response using a [Request Filter attribute](/filter-attributes). You can also modify all HTTP Service Responses by using a [Global Request or Response Filter](?/request-and-response-filters): 
 
 ```csharp
 public class AddHeaderAttribute : RequestFilterAttribute
@@ -117,11 +117,11 @@ using (JsConfig.With(includeNullValues:true))
 
 ## Request and Response Converters
 
-The [Encrypted Messaging Feature](?id=Encrypted-Messaging) takes advantage of Request and Response Converters that let you change the Request DTO and Response DTO's that get used in ServiceStack's Request Pipeline where:
+The [Encrypted Messaging Feature](/encrypted-messaging) takes advantage of Request and Response Converters that let you change the Request DTO and Response DTO's that get used in ServiceStack's Request Pipeline where:
 
 ### Request Converters
 
-Request Converters are executed directly after any [Custom Request Binders](?id=Serialization-deserialization#create-a-custom-request-dto-binder):
+Request Converters are executed directly after any [Custom Request Binders](/serialization-deserialization#create-a-custom-request-dto-binder):
 
 ```csharp
 appHost.RequestConverters.Add((req, requestDto) => {
@@ -141,7 +141,7 @@ appHost.ResponseConverters.Add((req, response) =>
 
 ### Using a Custom ServiceRunner
 
-The ability to extend ServiceStack's service execution pipeline with Custom Hooks is an advanced customization feature that for most times is not needed as the preferred way to add composable functionality to your services is to use [Request / Response Filter attributes](?id=Filter-attributes) or apply them globally with [Global Request/Response Filters](?id=Request-and-response-filters).
+The ability to extend ServiceStack's service execution pipeline with Custom Hooks is an advanced customization feature that for most times is not needed as the preferred way to add composable functionality to your services is to use [Request / Response Filter attributes](/filter-attributes) or apply them globally with [Global Request/Response Filters](?/request-and-response-filters).
 
 To be able to add custom hooks without needing to subclass any service, we've introduced a [IServiceRunner](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) that decouples the execution of your service from the implementation of it.
 

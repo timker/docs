@@ -3,9 +3,9 @@ slug: 2016-release-notes
 title: Release Notes Summary
 ---
 
-> [Release Notes History](?id=release-notes-history)
+> [Release Notes History](/release-notes-history)
 
-# [v4.5.2 Release Notes](?id=v4-5-2)
+# [v4.5.2 Release Notes](/releases/v4.5.2)
 
 ## ServiceStack on .NET Core!
 
@@ -98,7 +98,7 @@ about your experience with upgrading your existing code-bases to use .NET Core -
 your experience in the [Customer Forums](https://forums.servicestack.net/) or on the 
 [Google+ Group](https://plus.google.com/u/0/).
 
-# [v4.5.0 Release Notes](?id=v4-5-0)
+# [v4.5.0 Release Notes](/releases/v4.5.0)
 
 We've upgraded all ServiceStack packages to **.NET 4.5**, if you were already using ServiceStack in 
 .NET 4.5 projects this will be a seamless upgrade like any other release but if your ServiceStack 
@@ -119,7 +119,7 @@ dependencies including, `Npgsql`, `RabbitMQ.Client` and `ServiceStack.Razor` now
 ## [.NET Core support for ServiceStack.Redis!](https://github.com/ServiceStack/ServiceStack.Redis/blob/netcore/docs/pages/netcore.md)
 
 In following the
-[.NET Core support of our Text and Client libraries](?id=v4-0-62#net-core-support-for-servicestackclient)
+[.NET Core support of our Text and Client libraries](/releases/v4.0.62#net-core-support-for-servicestackclient)
 in our last release we've extended our support for .NET Core in this release to now also include 
 [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis)
 where we now have .NET Core builds for our [Top 3 popular NuGet packages](https://www.nuget.org/profiles/servicestack).
@@ -163,7 +163,7 @@ The saved query will be listed with the name provided and displayed to the right
 [![](http://i.imgur.com/hySw1T9.png)](https://github.com/ServiceStack/Admin)
 
 This makes it easy for everyone to maintain and easily switch between multiple personalized views 
-of any [AutoQuery Service](?id=AutoQuery).
+of any [AutoQuery Service](/autoquery).
 
 ## Create Live Executable Docs with Gistlyn
 
@@ -195,7 +195,7 @@ cause down the line if they remove it.
 For ServiceStack and other lightweight Web Frameworks this added weight is completely unnecessary
 and can be safely removed. 
 E.g. [most ServiceStack Apps just needs a few ServiceStack .dlls](https://github.com/ServiceStackApps/Chat#super-lean-front-and-back) 
-and a [single Web.config mapping](?id=Create-your-first-webservice#register-servicestack-handler)
+and a [single Web.config mapping](/create-your-first-webservice#register-servicestack-handler)
 to tell ASP.NET to route all calls to ServiceStack. Any other ASP.NET config you would add in 
 ServiceStack projects is just to get ASP.NET to disable any conflicting default behavior.
 
@@ -234,7 +234,7 @@ And that's it! `ASP.NET Empty` is a single project empty ASP.NET Web Application
 
 ### Minimal but still Useful
 
-You can then easily [Convert this empty template into a functional ServiceStack Web App](?id=Create-your-first-webservice) by:
+You can then easily [Convert this empty template into a functional ServiceStack Web App](/create-your-first-webservice) by:
 
 1) Installing [ServiceStack and any other dependency](https://github.com/ServiceStackApps/Todos/blob/master/src/Todos/packages.config) you want to use, e.g:
 
@@ -261,7 +261,7 @@ which can power all [todomvc.com](http://todomvc.com) Single Page Apps.
 ## Generating API Keys for Existing Users
 
 Whilst not a feature in ServiceStack, this script is useful if you want to enable ServiceStack's 
-[API Key AuthProvider](?id=API-Key-AuthProvider)
+[API Key AuthProvider](/api-key-authprovider)
 but you have existing users you also want to generate API Keys for.
 
 You can add the script below (which only needs to be run once) to your `AppHost.Configure()` which will 
@@ -305,10 +305,10 @@ ServiceStack now automatically rewrites outgoing links to use `https://` for Req
 by an SSL-terminating Proxy and containing the `X-Forwarded-Proto = https` HTTP Header. 
 You can override `AppHost.UseHttps()` to change this behavior.
 
-# [v4.0.62 Release Notes](?id=v4-0-60)
+# [v4.0.62 Release Notes](/releases/v4.0.60)
 
 We've got another big release with features added across the board, we'll list the main highlights here but 
-please see the [v4.0.62 release notes](?id=v4-0-62)
+please see the [v4.0.62 release notes](/releases/v4.0.62)
 for the full details.
 
 ## [Gistlyn](http://gistlyn.com)
@@ -356,13 +356,13 @@ Gistlyn's Github Repo provides a good example of a modern medium-sized ServiceSt
 
  - [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps) - 
  tooling for packaging Gistlyn's ASP.NET Web App into a Winforms Desktop and Console App
- - [Server Events](?id=Server-Events) - providing real-time
+ - [Server Events](/server-events) - providing real-time
  Script Status updates and Console logging
- - [TypeScript](?id=TypeScript-Add-ServiceStack-Reference) - enabling end-to-end Typed API requests
- - [Github OAuth](?id=Authentication-and-authorization#auth-providers) -
+ - [TypeScript](/typescript-add-servicestack-reference) - enabling end-to-end Typed API requests
+ - [Github OAuth](/authentication-and-authorization#auth-providers) -
  authentication with Github
- - [JWT Auth Provider](?id=JWT-AuthProvider) - enabling both JWT and JWE ecrypted stateless Sessions
- - [HTTP Utils](?id=Http-Utils) - consuming Github's REST API
+ - [JWT Auth Provider](/jwt-authprovider) - enabling both JWT and JWE ecrypted stateless Sessions
+ - [HTTP Utils](/http-utils) - consuming Github's REST API
  and creating an authenticated HTTP Proxy in [GitHubServices.cs](https://github.com/ServiceStack/Gistlyn/blob/master/src/Gistlyn.ServiceInterface/GitHubServices.cs)
 
 ### [Run Gistlyn on your Desktop](http://gistlyn.com/downloads)
@@ -517,19 +517,19 @@ new AppHost()
  - Can disable the second Total query in AutoQuery with `IncludeTotal = false`
  - New Request/Response filters for Service Gateways requests that are also validated against any Validators
 
-This covers most of the features, please see the [full release notes](?id=v4-0-62) for more details on any of the ones you're interested in.
+This covers most of the features, please see the [full release notes](/releases/v4.0.62) for more details on any of the ones you're interested in.
 
-# [v4.0.60 Release Notes](?id=v4-0-60)
+# [v4.0.60 Release Notes](/releases/v4.0.60)
 
 v4.0.60 is another jam-packed release starting with exciting new API Key and JWT Auth Providers enabling fast, stateless and centralized Auth Services, a modernized API surface for OrmLite, new GEO capabilities in Redis, Logging for Slack, performance and memory improvements across all ServiceStack and libraries including useful utilities you can reuse to improve performance in your own Apps! 
 
-I'll try highlight the main points but I welcome you to checkout the [full v4.0.60 Release Notes](?id=v4-0-60#v4060-release-notes) when you can.
+I'll try highlight the main points but I welcome you to checkout the [full v4.0.60 Release Notes](/releases/v4.0.60#v4060-release-notes) when you can.
 
 ## Authentication
 
 Auth Providers that authenticate with each request (i.e. implement `IAuthWithRequest`) no longer persist Users Sessions to the cache, they're just attached to the `IRequest` and only last for the duration of the Request. This should be a transparent change but can be reverted by setting `PersistSession=true`.
 
-### [API Key Auth Provider](?id=v4-0-60#api-key-auth-provider)
+### [API Key Auth Provider](/releases/v4.0.60#api-key-auth-provider)
 
 The new `ApiKeyAuthProvider` provides an alternative method for allowing external 3rd Parties access to 
 your protected Services without needing to specify a password. API Keys is the preferred approach for 
@@ -570,7 +570,7 @@ var client = new JsonHttpClient(baseUrl) {
 };
 ```
 
-And [HTTP Utils](?id=Http-Utils):
+And [HTTP Utils](/http-utils):
 
 ```csharp
 var response = baseUrl.CombineWith("/secured").GetStringFromUrl(
@@ -593,7 +593,7 @@ Plugins.Add(new AuthFeature(...,
     });
 ```
 
-If preferred properties can also be set in [AppSettings](?id=AppSettings):
+If preferred properties can also be set in [AppSettings](/appsettings):
 
 ```xml
 <add key="apikey.KeyTypes" value="secret,publishable" />
@@ -602,7 +602,7 @@ If preferred properties can also be set in [AppSettings](?id=AppSettings):
 
 ### Multitenancy by API Keys 
 
-Thanks to the ServiceStack's trivial support for [Multitenancy](?id=Multitenancy) you can easily change which Database your Services and AutoQuery Services use based on Key Environment by overriding `GetDbConnection()` in your AppHost, e.g:
+Thanks to the ServiceStack's trivial support for [Multitenancy](/multitenancy) you can easily change which Database your Services and AutoQuery Services use based on Key Environment by overriding `GetDbConnection()` in your AppHost, e.g:
 
 ```csharp
 public override IDbConnection GetDbConnection(IRequest req = null)
@@ -614,7 +614,7 @@ public override IDbConnection GetDbConnection(IRequest req = null)
 }
 ```
 
-## [JWT Auth Provider](?id=v4-0-60#jwt-auth-provider)
+## [JWT Auth Provider](/releases/v4.0.60#jwt-auth-provider)
 
 Even more exciting than the new API Key Provider is the new integrated Auth solution for the popular
 [JSON Web Tokens](https://jwt.io/) (JWT) industry standard which is easily enabled by registering
@@ -728,7 +728,7 @@ public override void Configure(Container container)
 }
 ```
 
-Which no longer needs access to a [IUserAuthRepository](?id=Authentication-and-authorization#userauth-persistence---the-iuserauthrepository) or [Sessions](?id=Sessions) since they're populated entirely from JWT Tokens. Whilst you can use the default **HS256** HashAlgorithm, RSA is ideal for this use-case as you can limit access to the **PrivateKey** to only the central Auth Service issuing the tokens and then only distribute the **PublicKey** to each Service which needs to validate them.
+Which no longer needs access to a [IUserAuthRepository](/authentication-and-authorization#userauth-persistence---the-iuserauthrepository) or [Sessions](/sessions) since they're populated entirely from JWT Tokens. Whilst you can use the default **HS256** HashAlgorithm, RSA is ideal for this use-case as you can limit access to the **PrivateKey** to only the central Auth Service issuing the tokens and then only distribute the **PublicKey** to each Service which needs to validate them.
 
 ### Ajax Clients
 
@@ -766,9 +766,9 @@ Which just like `ConvertSessionToToken` adds returns a populated session in the 
 both [techstacks.io](http://techstacks.io) and [servicestack.net](https://servicestack.net) can maintain 
 uninterrupted Sessions across multiple redeployments without a persistent Sessions cache.
 
-## [Modernized OrmLite API Surface](?id=v4-0-60#cleaner-modernized-api-surface)
+## [Modernized OrmLite API Surface](/releases/v4.0.60#cleaner-modernized-api-surface)
 
-As [mentioned in the last release](?id=2016-release-notes#deprecating-legacy-ormlite-apis) we've moved OrmLite's deprecated APIs into the `ServiceStack.OrmLite.Legacy` namespace leaving a clean, modern API surface in OrmLite's default namespace.
+As [mentioned in the last release](/releases/v4.0.56#deprecating-legacy-ormlite-apis) we've moved OrmLite's deprecated APIs into the `ServiceStack.OrmLite.Legacy` namespace leaving a clean, modern API surface in OrmLite's default namespace.
 
 This primarily affects the original OrmLite APIs ending with `*Fmt` which were used to provide a familiar API for C# developers based on C#'s `string.Format()`, e.g:
 
@@ -924,7 +924,7 @@ block.Area.Print(); //= 50
 block.DateFormat.Print(); //= 2016-06-08
 ```
 
-## [New Redis GEO Operations](?id=v4-0-60#new-redis-geo-operations)
+## [New Redis GEO Operations](/releases/v4.0.60#new-redis-geo-operations)
 
 The latest [release of Redis 3.2.0](http://antirez.com/news/104) brings it exciting new [GEO capabilities](http://redis.io/commands/geoadd) which will let you store Lat/Long coordinates in Redis and query locations within a specified radius. 
 
@@ -934,7 +934,7 @@ To demonstrate this functionality we've created a new [Redis GEO Live Demo](http
 
 > Live Demo: http://redisgeo.servicestack.net
 
-## [Slack Logger](?id=v4-0-60#slack-logger)
+## [Slack Logger](/releases/v4.0.60#slack-logger)
 
 The new Slack Logger can be used to send Logging to a custom Slack Channel which is a nice interactive way 
 for your development team on Slack to see and discuss logging messages as they come in.
@@ -1022,7 +1022,7 @@ We've added the Object pooling classes that Roslyn's code-base uses in `ServiceS
 
 ### Add ServiceStack Reference Wildcards
 
-The `IncludeType` option in all [Add ServiceStack Reference](?id=Add-ServiceStack-Reference) languages now allow specifying a `.*` wildcard suffix on Request DTO's as a shorthand to return all dependent DTOs for that Service:
+The `IncludeType` option in all [Add ServiceStack Reference](/add-servicestack-reference) languages now allow specifying a `.*` wildcard suffix on Request DTO's as a shorthand to return all dependent DTOs for that Service:
 
     IncludeTypes: RequestDto.*
 
@@ -1030,7 +1030,7 @@ Special thanks to [@donaldgray](https://github.com/donaldgray) for contributing 
 
 ### New ServerEventsClient APIs
 
-Use new Typed [GetChannelSubscribers APIs](https://github.com/ServiceStack/ServiceStack/commit/1476e232502f690ba1832600c221ad76c15cfda7) added to [C# ServerEventsClient](?id=csharp-server-events-client) to fetch Channel Subscribers:
+Use new Typed [GetChannelSubscribers APIs](https://github.com/ServiceStack/ServiceStack/commit/1476e232502f690ba1832600c221ad76c15cfda7) added to [C# ServerEventsClient](/csharp-server-events-client) to fetch Channel Subscribers:
 
 ```csharp
 var clientA = new ServerEventsClient("A");
@@ -1046,14 +1046,14 @@ Plugins can use the new `RegisterServicesInAssembly()` API to register multiple 
 appHost.RegisterServicesInAssembly(GetType().Assembly);
 ```
 
-This summary touches on the the main highlights, more features and further details are available in the [full v4.0.60 Release Notes](?id=v4-0-60#v4060-release-notes).
+This summary touches on the the main highlights, more features and further details are available in the [full v4.0.60 Release Notes](/releases/v4.0.60#v4060-release-notes).
 
-# [v4.0.56 Release Notes](?id=v4-0-56)
+# [v4.0.56 Release Notes](/releases/v4.0.56)
 
 This is another release jam-packed with some killer features, the release notes are unfortunately quite longer than usual as the new features required more detail to describe what each does and understand how they work. 
 
 We'll list the highlights below to provide a quick overview, but when you can please checkout the full
-[v4.0.56 Release Notes](?id=v4-0-56) for the finer details of each feature.
+[v4.0.56 Release Notes](/releases/v4.0.56) for the finer details of each feature.
 
 ## [ServiceStack VS Templates Update](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2016/servicestackvs/v1.0.22.md)
 
@@ -1061,13 +1061,13 @@ React Desktop Apps received a major update with much faster Startup times on Win
 
 We're now all-in with React and TypeScript with both our VS.NET SPA React Templates modernized with TypeScript + JSPM. If you're new to both, please checkout the comprehensive [TypeScript + Redux walk through][1] to get up and running quickly. 
 
-## [New AutoQuery Data](?id=AutoQuery-Data)
+## [New AutoQuery Data](/autoquery-data)
 
 AutoQuery Data is an alternative implementation of AutoQuery for RDBMS but supports an Open Provider model which can be implemented to query multiple data source backends. The 3 data source providers available include:
 
- - **[MemorySource](?id=AutoQuery-Memory)** - for querying static or dynamic in-memory .NET collections, some of the included examples show querying a flat-file `.csv` file and a 3rd Party API that can also the throttled with configurable caching.
- - **[ServiceSource](?id=AutoQuery-Service)** - a step higher than MemorySource where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
- - **[DynamoDbSource](?id=AutoQuery-DynamoDb)** - adds rich querying capabilities over an AWS DynamoDB Table making it much more productive than if you had to construct the query manually.
+ - **[MemorySource](/autoquery-memory)** - for querying static or dynamic in-memory .NET collections, some of the included examples show querying a flat-file `.csv` file and a 3rd Party API that can also the throttled with configurable caching.
+ - **[ServiceSource](/autoquery-Service)** - a step higher than MemorySource where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
+ - **[DynamoDbSource](/autoquery-dynamodb)** - adds rich querying capabilities over an AWS DynamoDB Table making it much more productive than if you had to construct the query manually.
  
 AutoQuery DynamoDB queries are also self-optimizing where it will transparently construct the most optimal query possible by looking at any Hash Id's, Range Keys and Local Indexes populated in the Request to construct the most optimal DynamoDB **QueryRequest** or **Scan** Operation behind-the-scenes.
 
@@ -1087,17 +1087,17 @@ public class QueryRockstarAlbums : QueryData<RockstarAlbum>
 
 We've declaratively created a fully-queryable DynamoDB AutoQuery Service that transparently executes the most ideal DynamoDB queries for each request, has it's optimal representation efficiently cached on both Server and clients, whose Typed DTO can be reused as-is on the client to call Services with an end-to-end Typed API using any .NET Service Client, that's also available to external developers in a clean typed API, natively in their preferred language of choice, accessible with just a right-click menu integrated inside VS.NET, Xcode, Android Studio, IntelliJ and Eclipse - serving both PCL Xamarin.iOS/Android as well as native iOS and Android developers by just Adding a ServiceStack Reference to the base URL of a remote ServiceStack Instance - all without needing to write any implementation!
 
-## [HTTP Caching](?id=HTTP-Caching)
+## [HTTP Caching](/http-caching)
 
 HTTP Caching is another big feature we expect to prove extremely valuable which much improves story around HTTP Caching that transparently improves the behavior of existing ToOptimized Cached Responses, provides a typed API to to opt-in to HTTP Client features, introduces a simpler declarative API for enabling both Server and Client Caching of Services and also includes Cache-aware clients that are able to improve the performance and robustness of all existing .NET Service Clients - functionality that's especially valuable to bandwidth-constrained Xamarin.iOS / Xamarin.Android clients offering improved performance and greater resilience.
 
-### [CacheResponse Attribute](?id=CacheResponse-Attribute)
+### [CacheResponse Attribute](/cacheresponse-attribute)
 
 The new `[CacheResponse]` Filter Attribute provides the easiest way to enable both **HTTP Client** and 
 **Server Caching** of your Services with a single Attribute declared on your Service class, method implementation
 or Request DTO.
 
-### [Cache-aware Service Clients](?id=Cache-Aware-Clients)
+### [Cache-aware Service Clients](/cache-aware-clients)
 
 You can now create **cache-aware** versions of all .NET Service Clients that respects any caching directives
 returned by your Server using the `.WithCache()` extension methods, e.g:
@@ -1112,9 +1112,9 @@ Cache-aware Service Clients can dramatically improve performance by eliminating 
 
 @jezzsantos also wrote a comprehensive overview about HTTP Caching in general and goes through the process of how he developed an alternative caching solution within ServiceStack in his epic [Caching Anyone post](http://www.mindkin.co.nz/blog/2016/1/5/caching-anyone).
 
-## [Service Gateway](?id=Service-Gateway)
+## [Service Gateway](/service-gateway)
 
-The new `IServiceGateway` is another valuable capability that despite being trivial to implement on top of ServiceStack's existing message-based architecture, opens up exciting new possibilities for development of loosely-coupled [Modularized Service Architectures](?id=Modularizing-services).
+The new `IServiceGateway` is another valuable capability that despite being trivial to implement on top of ServiceStack's existing message-based architecture, opens up exciting new possibilities for development of loosely-coupled [Modularized Service Architectures](/modularizing-services).
 
 The Service Gateway is available from `base.Gateway` in both sync:
 
@@ -1149,7 +1149,7 @@ We're extremely fortunate to have @Mac and @rsafier both jump in with Service Di
  - https://github.com/MacLeanElectrical/servicestack-discovery-consul
  - https://github.com/rsafier/ServiceStack.Discovery.Redis
 
-## [Super CSV Support](?id=CSV-Format#csv-deserialization-support)
+## [Super CSV Support](/csv-format#csv-deserialization-support)
 
 We've now implemented CSV deserialization support so now all your Services can accept CSV payloads in addition to serializing to .csv. As a tabular data format it's especially useful when your Service accepts Lists of POCO's such as in Auto Batched Requests where it's now the most compact text data format to send them with using either the new `CsvServiceClient` or `.PostCsvToUrl()` HTTP Utils extension method.
 
@@ -1172,7 +1172,7 @@ To store request and error logs into daily logs to the following overridable loc
 
 Error logs are also written out into a separate log file as it can be useful to view them in isolation.
 
-## [Virtual FileSystem](?id=Virtual-file-system)
+## [Virtual FileSystem](/virtual-file-system)
 
 To efficiently support Appending to existing files as needed by the CsvRequestLogger we've added new 
 `AppendFile` API's and implementations for Memory and FileSystem Virtual File Providers:
@@ -1305,11 +1305,11 @@ more info:
   [2]: https://github.com/Squirrel/Squirrel.Windows
 
 
-# [v4.0.54 Release Notes](?id=v4-0-54)
+# [v4.0.54 Release Notes](/releases/v4.0.54)
 
 v4.0.54 is another jam-packed release with a lot of features across the board, we'll list the highlights 
 here, for more details about each feature you can checkout the full
-[v4.0.54 Release Notes](?id=v4-0-54).
+[v4.0.54 Release Notes](/releases/v4.0.54).
 
 **WARNING .NET 4.0 builds will cease after August 1, 2016**
 
@@ -1341,7 +1341,7 @@ It also ships with a number of productive features out-of-the-box:
  
 A quick showcase of some of these features are available on YouTube: https://youtu.be/YejYkCvKsuQ 
 
-## [AutoQuery](?id=AutoQuery)
+## [AutoQuery](/autoquery)
 
 A number of new Enhancements were also added to AutoQuery Services:
 
@@ -1350,7 +1350,7 @@ A number of new Enhancements were also added to AutoQuery Services:
  - **Named Connection** - As part of our new Multitenancy features AQ Services can be easily configured to run on multiple db's 
  - **T4 Templates** - OrmLite's T4 templates now have options for generating AutoQuery Services and named connections
 
-## [Server Events](?id=Server-Events)
+## [Server Events](/server-events)
 
 We've added a couple of demos showing how easy it is to create rich, interactive mobile and web apps with Server Events:
 
@@ -1380,7 +1380,7 @@ The new TypeScript + React VS.NET Tempalte captures what we believe is the best 
 
 To help developers familiarize themselves with these technologies we've also published an in-depth step-by-step guide for beginners that starts off building the simplest HelloWorld TypeScript React App from scratch then slowly growing with each example explaining how TypeScript, React and Redux can be used to easily create the more complex networked Time Travelling Shape Creator, available at: https://github.com/ServiceStackApps/typescript-redux
 
-## [ss-utils](?id=ss-utils-js)
+## [ss-utils](/ss-utils-js)
 
 To make it easier to use ss-utils in JavaScript projects, we're maintaining copies of ss-utils in npm, JSPM and Definitely Typed registries. We've also added a few new common utils:
 
@@ -1391,7 +1391,7 @@ To make it easier to use ss-utils in JavaScript projects, we're maintaining copi
  - $.ss.normalize
  - $.ss.postJSON
  
-## [Customize JSON Responses on-the-fly](?id=Customize-JSON-Responses)
+## [Customize JSON Responses on-the-fly](/customize-json-responses)
 
 The JSON/JSV responses for all your services can now be customized on-the-fly by your Service consumers so they're able to access your JSON responses in their preferred configuration using the `?jsconfig` modifier, e.g:
 
@@ -1403,13 +1403,13 @@ It also supports the much shorter Camel Humps notation:
 
 Most JsConfig config options are supported.
 
-## [Improved support for Multitenancy](?id=Multitenancy)
+## [Improved support for Multitenancy](/multitenancy)
 
 There are a number of new features and flexibile options available to make Multitenancy easier to support where you can easily change which DB is used at runtime based on an incoming request with a request filter.
 
 We've added a number of examples in the release notes to show how this works.
 
-## [ServiceClient URL Resolvers](?id=CSharp-client#serviceclient-url-resolvers)
+## [ServiceClient URL Resolvers](/csharp-client#serviceclient-url-resolvers)
 
 You can use the new `TypedUrlResolver` and `UrlResolver` delegates available on every .NET Service Client 
 to change which url each request is made with.
@@ -1418,7 +1418,7 @@ to change which url each request is made with.
 
 This feature makes it easy to enable high-level discovery and health/failover features as seen in the new **ServiceStack.Discovery.Consul** Community project which maintains an active list of available load-balanced ServiceStack Services as well as auto-registering the Services each instance supports taking care of managing the different endpoints for each Service where all Typed requests can be made with a single Service Client and Consul takes care of routing to the appropriate active endpoint.  
 
-## [Multiple File Uploads](?id=CSharp-client#multiple-file-uploads)
+## [Multiple File Uploads](/csharp-client#multiple-file-uploads)
 
 The new PostFilesWithRequest API's on every ServiceClient for sending mutliple file uploads with a single Request.
 
@@ -1449,14 +1449,14 @@ in the new `CreateStripeAccount` API.
  - Old Session removed and invalided when generating new session ids for a new AuthRequest
  - New ResourcesResponseFilter, ApiDeclarationFilter and OperationFilter added to SwaggerFeature to modify response
  - `Name` property added to `IHttpFiles` in Response.Files collection
- - `HostType`, `RootDirectoryPath`, `RequestAttributes`, `Ipv4Addresses` and `Ipv6Addresses` added to [?debug=requestinfo](?id=Debugging#request-info)
+ - `HostType`, `RootDirectoryPath`, `RequestAttributes`, `Ipv4Addresses` and `Ipv6Addresses` added to [?debug=requestinfo](/debugging#request-info)
  - `StaticFileHandler` now has `IVirtualFile` and `IVirtualDirectory` constructor overloads
  - New `StaticContentHandler` for returning custom text or binary responses in `RawHttpHandlers`
 
 And that's a wrap for this release, apologies for the length of the TL;DR. For even more details on each feature please see the release notes: https://servicestack.net/release-notes
 
 
-# [v4.0.52 Release Notes](?id=v4-0-52)
+# [v4.0.52 Release Notes](/releases/v4.0.52)
 
 We've hope everyone's had a great X-mas holidays and are super-charged for a productive 2016!
 
@@ -1484,17 +1484,17 @@ it also has great tooling support in **Android Studio**, **IntelliJ** and **Ecli
 with existing Java code where projects can **mix-and-match Java and Kotlin** code together within the same application - 
 making Kotlin a very attractive and easy choice for Android Development.
 
-## [Kotlin Native Types!](?id=Kotlin-Add-ServiceStack-Reference)
+## [Kotlin Native Types!](/kotlin-add-servicestack-reference)
 
 As we expect more Android and Java projects to be written in Kotlin in future we've added first-class 
-[Add ServiceStack Reference](?id=Add-ServiceStack-Reference)
+[Add ServiceStack Reference](/add-servicestack-reference)
 support for Kotlin with IDE integration in 
 [Android Studio](http://developer.android.com/tools/studio/index.html) and 
 [IntelliJ IDEA](https://www.jetbrains.com/idea/) where App Devlopers can create and update an end-to-end typed 
 API with just a Menu Item click - enabling a highly-productive workflow for consuming ServiceStack Services!
 
 No new IDE plugins were needed to enable Kotlin support which was added to the existing 
-[ServiceStack IDEA plugin](?id=Java-Add-ServiceStack-Reference#servicestack-idea-android-studio-plugin)
+[ServiceStack IDEA plugin](/java-add-servicestack-reference#servicestack-idea-android-studio-plugin)
 that can Install or Updated to enable Kotlin ServiceStack Reference support in Android Studio or IntelliJ IDEA.
 
 ### Installing Kotlin
@@ -1624,7 +1624,7 @@ val response = client.get("http://techstacks.io/overview", OverviewResponse::cla
 
 You can also send requests composed of both a Typed DTO and untyped String Map by providing a Hash Map of 
 additional args. This is typically used when querying 
-[implicit conventions in AutoQuery services](?id=AutoQuery#implicit-conventions), e.g:
+[implicit conventions in AutoQuery services](/autoquery#implicit-conventions), e.g:
 
 ```kotlin
 val response = client.get(FindTechnologies(), hashMapOf(Pair("DescriptionContains","framework")))
@@ -1766,7 +1766,7 @@ client.ExceptionFilter = ExceptionFilter { res:HttpURLConnection?, ex ->
 }
 ```
 
-See the [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
+See the [Kotlin Add ServiceStack Reference](/kotlin-add-servicestack-reference)
 wiki for more docs on consuming ServiceStack Services from Kotlin.
 
 ## Example [TechStacks Android App](https://github.com/ServiceStackApps/TechStacksKotlinApp)
@@ -1954,7 +1954,7 @@ response.Sources.TotalCount
 ### Customize urls used with `IUrlFilter`
 
 Request DTO's can customize urls used in Service Clients or any libraries using ServiceStack's typed 
-[Reverse Routing](?id=Routing#reverse-routing) by having
+[Reverse Routing](/routing#reverse-routing) by having
 Request DTO's implement 
 [IUrlFilter](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IUrlFilter.cs).
 
@@ -2007,7 +2007,7 @@ Which has the effect of populating the `TotalCount` property in the typed `Strip
 
 Previously type conversion errors would throw a generic `RequestBindingException` to indicate the Request was
 malformed. They are now being converted into a structured error so the same error handling logic used to handle
-[field validation errors](?id=Validation) can also handle request
+[field validation errors](/validation) can also handle request
 binding exceptions, e.g:
 
 ```csharp
@@ -2028,7 +2028,7 @@ catch (WebServiceException ex)
  
 Special thanks to [@georgehemmings](https://github.com/georgehemmings) for his contributions to this feature. 
  
-### Scalable [Server Events](?id=Server-Events)
+### Scalable [Server Events](/server-events)
 
 [@Nness](https://github.com/Nness) upgraded our existing Server Events implementation based on manual array 
 re-sizing and custom locks to use `ConcurrentDictionary` to 
@@ -2051,7 +2051,7 @@ Plugins.Add(new ServerEventsFeature
 });
 ```
 
-## [Metadata pages](?id=Metadata-page)
+## [Metadata pages](/metadata-page)
 
 To avoid repetitive noise in each Metadata Operation Page the common `ResposneStatus` DTO's were omitted, if
 you prefer they can now be enabled with:
@@ -2060,7 +2060,7 @@ you prefer they can now be enabled with:
 this.GetPlugin<MetadataFeature>().ShowResponseStatusInMetadataPages = true;
 ```
 
-## [AutoQuery](?id=AutoQuery)
+## [AutoQuery](/autoquery)
 
 ### Querying NULL
 

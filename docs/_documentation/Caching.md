@@ -138,7 +138,7 @@ If now the client calls the webservice to request the order, he'll get the lates
 ### Local MemoryCacheClient
 
 As it sometimes beneficial to have access to a local in-memory Cache in addition to your registered `ICacheClient` 
-[Caching Provider](?id=Caching)
+[Caching Provider](/caching)
 we also pre-register a `MemoryCacheClient` that all your Services now have access to from the `LocalCache` 
 property, i.e:
 
@@ -163,7 +163,7 @@ which will also refer to the same instance registered for `LocalCache`.
 
 The [ICacheClientExtended](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClientExtended.cs)
 API is used to to provide additional non-core functionality to our most popular 
-[Caching providers](?id=Caching):
+[Caching providers](/caching):
 
  - Redis
  - OrmLite RDBMS

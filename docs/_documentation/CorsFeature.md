@@ -104,8 +104,8 @@ cb({
 })
 ```
 
-  [1]: ?id=Plugins
-  [2]: ?id=Filter-attributes
+  [1]: /plugins
+  [2]: /filter-attributes
   [3]: http://www.servicestack.net
   [4]: http://www.servicestack.net/ServiceStack.Hello/
   [5]: http://www.servicestack.net/ServiceStack.Hello/

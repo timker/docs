@@ -28,7 +28,7 @@ IServiceClient client = new CachedHttpClient(new JsonHttpClient(baseUrl));
 As seen above both are decorators over existing .NET Service Clients where they'll append the appropriate HTTP Request Headers and inspect the HTTP Responses of **GET** Requests that contain HTTP Caching directives. All other HTTP Methods are just delegated through to the underlying Service Client.
 
 The Service Clients maintain cached responses in an internal dictionary which can also be injected and shared if your app uses multiple Service Clients. For example they could use the fast binary 
-[MsgPack client](?id=MessagePack-Format) 
+[MsgPack client](/messagepack-format) 
 for performance-sensitive queries or Services returning binary data and use a JSON client for everything else:
 
 ```csharp

@@ -7,7 +7,7 @@ Add an In-Memory `IRequestLogger` and service with the default route at `/reques
 
 ### CSV Request Logger
 
-One of the areas where ServiceStack's [CSV Support](?id=CSV-Format) shines is being able to store daily Request Logs in a plain-text structured format, that way they could be immediately inspectable with a text editor or for even better inspection, opened in a spreadsheet and benefit from its filterable, movable, resizable and sortable columns.
+One of the areas where ServiceStack's [CSV Support](/csv-format) shines is being able to store daily Request Logs in a plain-text structured format, that way they could be immediately inspectable with a text editor or for even better inspection, opened in a spreadsheet and benefit from its filterable, movable, resizable and sortable columns.
 
 To enable CSV Request Logging you just need to register the `RequestLogsFeature` and configure it to use the
 [CsvRequestLogger](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/CsvRequestLogger.cs):
@@ -35,9 +35,9 @@ Where Request Logs are flushed every **1 second** using a background Timer to a 
 the logical date format structure above. As it would be useful to be able to inspect any errors in isolation, 
 errors are also written to a separate `YYYY-MM-DD-errors.csv` format, in addition to the main Request logs.
 
-### [Custom CSV AutoQuery Data implementation](?id=AutoQuery-Service#custom-autoquery-data-implementation)
+### [Custom CSV AutoQuery Data implementation](/autoquery-Service#custom-autoquery-data-implementation)
 
-The AutoQuery Service example shows you can quickly create an AutoQuery Data Service that lets you inspect your CSV Request and Error Logs with AutoQuery, which in addition to the rich querying benefits also gives you access to an instant UI in [AutoQuery Viewer](https://github.com/ServiceStack/Admin) to be able to [View your Request Logs](?id=AutoQuery-Service#view-request-logs-in-autoquery-viewer).
+The AutoQuery Service example shows you can quickly create an AutoQuery Data Service that lets you inspect your CSV Request and Error Logs with AutoQuery, which in addition to the rich querying benefits also gives you access to an instant UI in [AutoQuery Viewer](https://github.com/ServiceStack/Admin) to be able to [View your Request Logs](/autoquery-Service#view-request-logs-in-autoquery-viewer).
 
 ## Redis Request Logger
 
@@ -62,7 +62,7 @@ Plugins.Add(new RequestLogsFeature {
 
 ### Configuration
 
-Like other ServiceStack [Plugins](?id=plugins) the `RequestLogsFeature` has a number of configuration options that can be specified at registration to customize Request Logging:
+Like other ServiceStack [Plugins](/plugins) the `RequestLogsFeature` has a number of configuration options that can be specified at registration to customize Request Logging:
 
 <table>
 <thead>

@@ -3,7 +3,7 @@ slug: swift
 title: Swift Resources
 ---
 
- - [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
+ - [Swift Add ServiceStack Reference](/swift-add-servicestack-reference)
  - [Release Notes for Swift Support](https://github.com/ServiceStack/ServiceStack/blob/master/docs/2015/release-notes.md#native-support-for-swift)
 
 ## Live Demos

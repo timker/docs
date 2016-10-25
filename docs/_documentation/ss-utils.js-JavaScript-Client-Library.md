@@ -3,7 +3,7 @@ slug: ss-utils-js
 title: ss-utils.js JavaScript Client Library
 ---
 
-An Embedded Resource inside **ServiceStack.dll** is ServiceStack's JavaScript utility library that provides a number of convenience utilities in developing javascript web apps. It enables nicer integration with ServiceStack's Server features including [Validation](?id=validation), [Error Handling](?id=error-handling) and [Server Events](https://github.com/ServiceStackApps/Chat#server-sent-events) which can be included in any page with:
+An Embedded Resource inside **ServiceStack.dll** is ServiceStack's JavaScript utility library that provides a number of convenience utilities in developing javascript web apps. It enables nicer integration with ServiceStack's Server features including [Validation](/validation), [Error Handling](/error-handling) and [Server Events](https://github.com/ServiceStackApps/Chat#server-sent-events) which can be included in any page with:
 
 ```html
 <script type="text/javascript" src="/js/ss-utils.js"></script>
@@ -42,7 +42,7 @@ ss-utils.js validation and error handling support works with Bootstrap's standar
 </form>
 ```
 
-The first thing to notice is the **action** url is created with a typed API populated using the [Reverse Routing](?id=Routing#reverse-routing) `ToPostUrl()` extension method that looks at `CreateContact` Request DTO to return the best matching route based on the Route definitions and the fields populated in the Request DTO instance, in this case the empty Request DTO matches `[Route("/contacts", "POST")]` so returns `/contacts`.
+The first thing to notice is the **action** url is created with a typed API populated using the [Reverse Routing](/routing#reverse-routing) `ToPostUrl()` extension method that looks at `CreateContact` Request DTO to return the best matching route based on the Route definitions and the fields populated in the Request DTO instance, in this case the empty Request DTO matches `[Route("/contacts", "POST")]` so returns `/contacts`.
 
 Other significant parts in this HTML Form is that the **INPUT** field names match up with the Request DTO it posts to and that it includes Bootstraps **class="help-block"** placeholders adjacent to each INPUT element which is what **ss-utils.js** uses to bind the field validation errors.
 

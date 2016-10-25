@@ -79,7 +79,7 @@ You can instead just provide *global properties* that are used as a fallback in 
 
 The `{0}` is always substituted with the Provider name (e.g. 'twitter').
 
-More details about the OAuth2 providers can be found in [OAuth2 Section](?id=Authentication-and-authorization#oauth2-providers) of the Authentication wiki page. 
+More details about the OAuth2 providers can be found in [OAuth2 Section](/authentication-and-authorization#oauth2-providers) of the Authentication wiki page. 
 
 [@hhandoko](https://github.com/hhandoko) has also added the YammerAuthProvider baked into ServiceStack.
 
@@ -153,7 +153,7 @@ Whilst OrmLite is foremost a code-first POCO ORM, when you have to work with an 
 
 ## Redis and MQ Server
 
-[RedisMqServer](?id=Messaging-and-Redis) has a `PublishResponseWhitelist` to control if all (default) or only a whitelist of service responses should be published into Response INQ's as well as a `PriorityQueuesWhitelist` to control which messages require a Priority Queue enabled for them. 
+[RedisMqServer](/messaging-and-redis) has a `PublishResponseWhitelist` to control if all (default) or only a whitelist of service responses should be published into Response INQ's as well as a `PriorityQueuesWhitelist` to control which messages require a Priority Queue enabled for them. 
 
 ### RedisClient Failover
 
@@ -178,7 +178,7 @@ There's also been a number of quality community posts that have been added in th
   - [Setting up a ServiceStack Service on nginx and deploy to Azure](http://www.philliphaydon.com/2013/07/setting-up-a-servicestack-service/) by [@philliphaydon](https://twitter.com/philliphaydon)
   - [Last-Fi (F#, Raspberry Pi, Last.Fm, FunScript and ServiceStack)](http://pinksquirrellabs.com/post/2013/07/04/Last-Fi.aspx) by [@pezi_pink](https://twitter.com/pezi_pink)
 
-More quality community content to be found in the [Community Resources](?id=Community-Resources) wiki.
+More quality community content to be found in the [Community Resources](/community-resources) wiki.
 
 ## Download ServiceStack
 
@@ -307,7 +307,7 @@ Added ErrorResponseFilter on the ValidationFeature that can be used to [override
 
 ## Swagger API
 
-ServiceStack's [Swagger API documentation](?id=Swagger-API) support has undergone a lot more development with new features and polish thanks largely to the efforts of [@improvedk](https://github.com/improvedk), [@mmertsock](https://github.com/mmertsock) and [@joshearl](https://github.com/joshearl):
+ServiceStack's [Swagger API documentation](/swagger-api) support has undergone a lot more development with new features and polish thanks largely to the efforts of [@improvedk](https://github.com/improvedk), [@mmertsock](https://github.com/mmertsock) and [@joshearl](https://github.com/joshearl):
 
 The SwaggerFeature plugin has a couple more config options which changes what the generated metadata look like:
 
@@ -439,14 +439,14 @@ public class InternalHttpAndExternalHttps { }
 In Debug Mode the metdata pages shows all services including restricted ones, whilst when not in Debug mode the restricted services are hidden from the publically viewable list, which lets you hide the existence of internal services from the external metadata pages.
 
 
-## [Other Security](?id=Security)
+## [Other Security](/security)
 
   - Invalid Roles and Permissions access now returns the non-recoverable **403 Forbidden** instead of the earlier **401 Unauthorized**
   - Added **OnRegistered** and **OnLogout** custom event hooks on AuthUserSession
   - Updated all built-in Auth and Registration DTOs with numerical field indexes so all built-in services now work with ProtoBuf
 
 
-## [Plugins](?id=Plugins)
+## [Plugins](/plugins)
 
 ### Swagger support
 
@@ -474,24 +474,24 @@ You can further document your services in the Swagger UI with the new `[Api]` an
 
 ### Caching Providers 
 
-We've added 2 new "Cloud-Ready" [Caching Providers](?id=Caching) for Amazon's AWS Dynamo DB and Windows Azure Caching services:
+We've added 2 new "Cloud-Ready" [Caching Providers](/caching) for Amazon's AWS Dynamo DB and Windows Azure Caching services:
 
   - [ServiceStack.Caching.AwsDynamoDb](https://nuget.org/packages/ServiceStack.Caching.AwsDynamoDb/) on NuGet
   - [ServiceStack.Caching.Azure](https://nuget.org/packages/ServiceStack.Caching.Azure/) on NuGet
 
 ### Authentication
 
-We've added RavenDB to our list of supported [Auth Provider backends](?id=Authentication-and-authorization) and extended our [OpenId support](?id=OpenId) to include DotNetAuth's support for Google, Yahoo and alternate Custom OpenId providers:
+We've added RavenDB to our list of supported [Auth Provider backends](/authentication-and-authorization) and extended our [OpenId support](/openId) to include DotNetAuth's support for Google, Yahoo and alternate Custom OpenId providers:
 
   - [ServiceStack.Authentication.RavenDb](https://nuget.org/packages/ServiceStack.Authentication.RavenDb/) on NuGet
   - [Google, Yahoo, MyOpenId and Custom OpenId](https://nuget.org/packages/ServiceStack.Authentication.OpenId/) on NuGet
 
-An adapter for Microsoft's Enterprise Library5 Logging application block has joined our growing list of [Logging Providers](https://github.com/ServiceStack/ServiceStack.Logging) whilst support for the [Message Pack Format](?id=MessagePack-Format) joins Protocol Buffers as our fastest binary formats: 
+An adapter for Microsoft's Enterprise Library5 Logging application block has joined our growing list of [Logging Providers](https://github.com/ServiceStack/ServiceStack.Logging) whilst support for the [Message Pack Format](/messagepack-format) joins Protocol Buffers as our fastest binary formats: 
 
   - [ServiceStack.Logging.EnterpriseLibrary5](https://nuget.org/packages/ServiceStack.Logging.EnterpriseLibrary5/) on NuGet
   - [ServiceStack.Plugins.MsgPack](https://nuget.org/packages/ServiceStack.Plugins.MsgPack/) on NuGet
 
-### [New API](?id=api-design) Changes
+### [New API](/api-design) Changes
 
   - Moved in-built the Auth, AssignRoles and UnAssignRoles Services to use the new API
   - Deprecated the old API ServiceBase<T> and RestServiceBase<T> classes
@@ -545,9 +545,9 @@ public class Customers {
 var customers = client.Get(new Customers { Ids = new[] { 1, 2, 3 } }); 
 ```
 
-### New [SetStatus and AddHeader](?id=Customize-HTTP-Responses) [Request Filters](?id=Filter-attributes)
+### New [SetStatus and AddHeader](/customize-http-responses) [Request Filters](/filter-attributes)
 
-We've added some more ways to [Custom the HTTP Response](?id=Customize-HTTP-Responses) with new `[AddHeader]` and `[SetStatus]` Request [Filter attribues](?id=Filter-attributes).
+We've added some more ways to [Custom the HTTP Response](/customize-http-responses) with new `[AddHeader]` and `[SetStatus]` Request [Filter attribues](/filter-attributes).
 
 E.g. If we wanted to defer execution of a CustomerOrder request by publishing the Request DTO to the configured MQ Broker, we can use SetStatus to notify the HTTP Client that their CustomerOrder has been accepted but not processed yet:
 
@@ -580,7 +580,7 @@ public string Get(ContactInfo request) {
 }
 ```
 
-### [SOAP Support](?id=SOAP-support)
+### [SOAP Support](/soap-support)
 
 Added `IRequiresSoapMessage` which works similar to `IRequiresRequestStream` interface to tell ServiceStack to skip de-serialization of the request and instead pass the raw WCF Message to the Service instead for manual processing, e.g:
 
@@ -594,7 +594,7 @@ public object Post(RawWcfMessage request) {
 }
 ```
 
-### [Metadata pages](?id=Metadata-page)
+### [Metadata pages](/metadata-page)
 
 The metadata pages have undergone a significant re-factor to support new Security features, format/verb detection, annotation attributes and unified metadata configuration object model:
 
@@ -623,7 +623,7 @@ The metadata pages have undergone a significant re-factor to support new Securit
 
   - Support for overriding soapAction namespace in WSDL with `Config.WsdlSoapActionNamespace`
 
-### [Error Configuration and Customizations](?id=Error-Handling)
+### [Error Configuration and Customizations](/error-handling)
 
 Use `Config.MapExceptionToStatusCode` to change what error codes are returned for different exceptions, e.g:
 
@@ -661,7 +661,7 @@ SetConfig(new EndpointHostConfig {
   - Only return detailed 404 info pages on DebugBuilds
   - Enable `__requestinfo` path info flag showing full dump of request details in DebugBuilds
 
-### [Route Helpers](?id=Routing)
+### [Route Helpers](/routing)
 
 Added New API support to the convention-based auto-route `Route.AddFromAssembly()` utility which scans supplied Assemblies 
 registering the inferred REST paths and HTTP verbs for all Old and New API services it finds.
@@ -743,7 +743,7 @@ url.Print(); //= http://host.com/path?key=override&foo=bar
 
 ## ServiceStack's new API design
 
-This was an exciting release where we've added an alternative [brand new API design](?id=Release-Notes) that made significant improvements to structure and surface of ServiceStack's Client and Server Side APIs that:
+This was an exciting release where we've added an alternative [API design](/api-design) that made significant improvements to structure and surface of ServiceStack's Client and Server Side APIs that:
 
   - Promotes a more succinct, typed, end-to-end client API
   - Works with all the existing JSON, XML and JSV Service Clients
@@ -757,7 +757,7 @@ This was an exciting release where we've added an alternative [brand new API des
   - Easier to add custom hooks that's more decoupled and testable
   - Works with ServiceStack's existing features, e.g. Content Negotiation, Metadata pages, Razor views, Auto HTML report, etc.
 
-See the wiki for [full details on the new API](?id=api-design). As it's much nicer and more flexible than the previous one, it's now stands as our recommended option for designing new services with. We've already started work on porting the existing examples across, some of which will give you a good feel of its development experience in action:
+See the wiki for [full details on the new API](/api-design). As it's much nicer and more flexible than the previous one, it's now stands as our recommended option for designing new services with. We've already started work on porting the existing examples across, some of which will give you a good feel of its development experience in action:
 
   - [The Razor Rockstars Service](http://razor.servicestack.net/rockstars)
   - [The Home Page TODOs example](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/NewApiTodos.cs)
@@ -815,9 +815,9 @@ We've switched over to use [@jrosskopf](https://github.com/jrosskopf) new virtua
 
 ### Request Scope in Funq
 
-We've extended the built-in [Funq IOC to support Request Scope](?id=ioc).
+We've extended the built-in [Funq IOC to support Request Scope](/ioc).
 
-Container Adapters for Alternate IOC's can now implement `IRelease` or just continue to override `AppHost.Release()` to handle released resources. More details on the [IOC Wiki page](?id=ioc)
+Container Adapters for Alternate IOC's can now implement `IRelease` or just continue to override `AppHost.Release()` to handle released resources. More details on the [IOC Wiki page](/ioc)
 
 ### Dynamic JSON
 
@@ -863,7 +863,7 @@ Pre request filters are called before deserialization (i. e. before ServiceStack
   - Improved base service classes to allow for easy access to typed sessions with `base.SessionAs<TUserSession>`
   - Fix IPv6 loopback parsing issue
   - Added new `AppHostHttpListenerLongRunningBase` base class with benchmarks
-  - Enable [InMemoryRollingRequestLogger](?id=Request-logger) to also handle non-HTTP requests
+  - Enable [InMemoryRollingRequestLogger](/request-logger) to also handle non-HTTP requests
   - Lots more tests and bug fixes
 
 ## Significant updates to JSON, Redis and OrmLite
@@ -871,7 +871,7 @@ Pre request filters are called before deserialization (i. e. before ServiceStack
 Significant contributions have also been made on ServiceStack's sub projects: 
 
   - [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text)
-  - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis) and the built-in [Redis MQ Server](?id=Messaging-and-redis)
+  - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis) and the built-in [Redis MQ Server](/messaging-and-redis)
   - [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
 
 but they each deserve their own Release notes, which we hope to draft up soon.
@@ -959,7 +959,7 @@ These attributes can also be used on MVC Controllers as part of the [ServiceStac
 
 These permissions can be managed with the AssignRoles/UnAssignRoles services registered as part of the AuthFeature plugin. Only users with the **Admin** role can access these services.
 
-More info about autentication can be found in the [wiki documentation](?id=Authentication-and-authorization).
+More info about autentication can be found in the [wiki documentation](/authentication-and-authorization).
 
 ## Validators
 
@@ -982,7 +982,7 @@ When you enable the `ValidationFeature()` plugin you can create a **validator fo
     
 This fluent syntax is provided to you by an integrated version of [JeremySkinner](https://github.com/JeremySkinner)'s excellent [FluentValidation](https://github.com/JeremySkinner/FluentValidation) library.
             
-More info about validation can be found in the [wiki documentation](?id=Validation).
+More info about validation can be found in the [wiki documentation](/validation).
 
 ### Filter attributes
 
@@ -1007,7 +1007,7 @@ Request/Response filters (modelled after MVC Action filters) are a great way to 
 
 That's it! No registration is needed as they're auto-discovered so you can start adding them on services you want to log.
 
-More info about request and response filter attributes can be found in the [wiki documentation](?id=Filter-attributes).
+More info about request and response filter attributes can be found in the [wiki documentation](/filter-attributes).
 
 ## New Plugin API
 
@@ -1025,15 +1025,15 @@ ServiceStack's [CSV Format]():
 
     Plugins.Add(new CsvFormat());
 
-ServiceStack's auto generated [HTML5 JSON Report Format](?id=HTML5ReportFormat):
+ServiceStack's auto generated [HTML5 JSON Report Format](/html5reportformat):
 
     Plugins.Add(new HtmlFormat());  
 
-[Razor Markdown Format](?id=Markdown-Razor):
+[Razor Markdown Format](/markdown-razor):
 
     Plugins.Add(new MarkdownFormat());  
 
-More info about Razor Markdown: [Intro](?id=Markdown-Razor), [Features](http://www.servicestack.net/docs/markdown/markdown-features), [Docs Website](http://www.servicestack.net/docs/markdown/about)
+More info about Razor Markdown: [Intro](/markdown-razor), [Features](http://www.servicestack.net/docs/markdown/markdown-features), [Docs Website](http://www.servicestack.net/docs/markdown/about)
 
 ### Removing or accessing built-in plug-ins
 
@@ -1063,7 +1063,7 @@ The Registration feature enables the Registration Service and allows users to re
 
     Plugins.Add(new RegistrationFeature());
 
-Adding the [ProtoBuf Format](?id=Protobuf-format) NuGet package automatically adds the ProtoBufFormat plug-in:
+Adding the [ProtoBuf Format](/protobuf-format) NuGet package automatically adds the ProtoBufFormat plug-in:
 
     Plugins.Add(new ProtoBufFormat());
 
@@ -1085,7 +1085,7 @@ The [RequestLogsService](https://github.com/ServiceStack/ServiceStack/blob/maste
 
 ServiceStack's typed, message-first design is ideal for coarse-grained out-of-proc communication. Although HTTP is our primary endpoint, through our clean `IMessageService` interface we also provide a number of alternate hosts that are able to **re-use your existing services** made available on different hosts.
 
-  - [Redis MQ](?id=Messaging-and-redis)
+  - [Redis MQ](/messaging-and-redis)
   - [InMemory MQ](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Messaging.Tests/TransientServiceMessagingTests.cs)
   - [Rcon](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Common/Messaging/Rcon)
 
@@ -1170,7 +1170,7 @@ OrmLite and Dapper are very similar in design in that they're simply useful exte
 
 ## Mvc Mini Profiler now baked in
 
-We've made ServiceStack's [HTML5 JSON Report Format](?id=HTML5ReportFormat) even better by now including the excellent [Mvc Mini Profiler](http://code.google.com/p/mvc-mini-profiler/) - by [@jarrod_dixon](https://twitter.com/jarrod_dixon) and [@samsaffron](https://twitter.com/samsaffron).
+We've made ServiceStack's [HTML5 JSON Report Format](/html5reportformat) even better by now including the excellent [Mvc Mini Profiler](http://code.google.com/p/mvc-mini-profiler/) - by [@jarrod_dixon](https://twitter.com/jarrod_dixon) and [@samsaffron](https://twitter.com/samsaffron).
 It's the same profiler used to profile and help speed up sites like [Stack Overflow](http://www.stackoverflow.com) and more recently the much faster [NuGet v2.0](http://nuget.org) website.
 
 As the MVC Mini Profiler is optimized for a .NET 4.0 MVC app, we've made some changes in order to integrate it into ServiceStack:
@@ -1440,7 +1440,7 @@ Follow [@demisbellot](http://twitter.com/demisbellot) and [@ServiceStack](http:/
 
 As we have received a number of requests to provide NuGet packages for ServiceStack and its components, we're now happy to say we're now NuGet compliant! Where a configured and working ServiceStack web framework is just 1 NuGet command away :)
 
-[![Install-Pacakage ServiceStack](http://servicestack.net/img/nuget-servicestack.png)](?id=NuGet)
+[![Install-Pacakage ServiceStack](http://servicestack.net/img/nuget-servicestack.png)](/nuget)
 
 This will add the ServiceStack dlls to your standard VS.NET ASP.NET Web Application, Register ServiceStack handler in your Web.Config, configure your AppHost and create both a **[Hello](http://servicestack.net/ServiceStack.Hello/)** and a fully-operational **[TODO REST service](http://servicestack.net/Backbone.Todos/)**.
 
@@ -1448,7 +1448,7 @@ Together with just 2 static content files ([default.htm](https://github.com/Serv
 
 The NuGet package of ServiceStack is essentially the **RootPath** Starter Template. The other starting templates, e.g. Windows Service, Console Hosts, hosting ServiceStack at custom /api paths are still available in the [ServiceStack.Examples downloads](https://github.com/ServiceStack/ServiceStack.Examples/downloads).
 
-Check **[ServiceStack's NuGet page](?id=NuGet)** for the full description of the available ServiceStack packages on NuGet.org
+Check **[ServiceStack's NuGet page](/nuget)** for the full description of the available ServiceStack packages on NuGet.org
 
 ## ServiceStack Overview and Create REST services slides released!
 
@@ -1514,7 +1514,7 @@ That's right, your Starting template for your **Enterprise Windows Service now c
 
 ## ServiceStack was built to serve Ajax applications
 
-At this point it's a good time to re-iterate that ServiceStack was designed from the start to be a first-class Ajax server that provides best support for HTML5 Ajax/SPA apps, purely because we believe it to be the future application delivery platform that provides the broadest reach and best user experience possible. We've made special efforts to provide the [fastest JSON web services possible for .NET](http://www.servicestack.net/mythz_blog/?p=344), with a [first-class redis client](https://github.com/ServiceStack/ServiceStack.Redis) and a [strong caching story](?id=Caching) important in developing high-performance web services and a responsive end user experience.
+At this point it's a good time to re-iterate that ServiceStack was designed from the start to be a first-class Ajax server that provides best support for HTML5 Ajax/SPA apps, purely because we believe it to be the future application delivery platform that provides the broadest reach and best user experience possible. We've made special efforts to provide the [fastest JSON web services possible for .NET](http://www.servicestack.net/mythz_blog/?p=344), with a [first-class redis client](https://github.com/ServiceStack/ServiceStack.Redis) and a [strong caching story](/caching) important in developing high-performance web services and a responsive end user experience.
 
 *****
 
@@ -1610,12 +1610,12 @@ To help visualize the dependencies between the various components, here is a tre
 
 ## Service Stack 1.82 Release Notes
 
-### [New HTML5 Report Format Added](?id=HTML5ReportFormat)
+### [New HTML5 Report Format Added](/html5reportformat)
 
 The biggest feature added in this release is likely the new HTML5 report format that generates a human-readable HTML view of your web services response when viewing it in a web browser.
-Good news is, like the [CSV Format](?id=csv-format) it works with your existing webservices as-is, with no configuration or code-changes required.
+Good news is, like the [CSV Format](/csv-format) it works with your existing webservices as-is, with no configuration or code-changes required.
   
-[![HTML5 Report Format](http://servicestack.net/img/HTML5Format.png)](?id=HTML5ReportFormat)
+[![HTML5 Report Format](http://servicestack.net/img/HTML5Format.png)](/html5reportformat)
 
 Here are some results of web services created before the newer HTML5 and CSV formats existed:
 
@@ -1628,17 +1628,17 @@ Use the **?format=[json|xml|html|csv|jsv]** to toggle and view the same webservi
 ### New ServiceStack.Northwind Example project added
 
 In order to be able to better demonstrate features with a 'real-world' DataSet, a new ServiceStack.Northwind project has been added which inspects the Northwind dataset from an SQLite database.
-A live demo is hosted at [http://northwind.servicestack.net](?id=http://northwind.servicestack.net). Here are some links below to better demonstrate the new HTML format with a real-world dataset:
+A live demo is hosted at [http://northwind.servicestack.net](http://northwind.servicestack.net). Here are some links below to better demonstrate the new HTML format with a real-world dataset:
 
 #### Nortwind Database REST web services
 
-  * [All Customers](http://servicestack.net/ServiceStack.Northwind/customers) 
-  * [Customer Detail](http://servicestack.net/ServiceStack.Northwind/customers/ALFKI)
-  * [Customer Orders](http://servicestack.net/ServiceStack.Northwind/customers/ALFKI/orders)
+  * [All Customers](http://northwind.servicestack.net/customers) 
+  * [Customer Detail](http://northwind.servicestack.net/customers/ALFKI)
+  * [Customer Orders](http://northwind.servicestack.net/customers/ALFKI/orders)
 
 ### Improved Caching
 
-ServiceStack has always had its own (i.e. ASP.NET implementation-free) [good support for caching](?id=Caching), though like most un-documented features it is rarely used. The caching has been improved in this version to now support caching of user-defined formats as well. Here is example usage from the new Northwind project:
+ServiceStack has always had its own (i.e. ASP.NET implementation-free) [good support for caching](/caching), though like most un-documented features it is rarely used. The caching has been improved in this version to now support caching of user-defined formats as well. Here is example usage from the new Northwind project:
 
     public class CachedCustomersService : RestServiceBase<CachedCustomers>
     {
@@ -1659,9 +1659,9 @@ The above code caches the most optimal output based on browser capabilities, i.e
 To see the difference caching provides, here are cached equivalents of the above REST web service calls:
 
 #### Nortwind Database **Cached** REST web services
-  * [All Customers](http://servicestack.net/ServiceStack.Northwind/cached/customers) 
-  * [Customer Detail](http://servicestack.net/ServiceStack.Northwind/cached/customers/ALFKI)
-  * [Customer Orders](http://servicestack.net/ServiceStack.Northwind/cached/customers/ALFKI/orders)
+  * [All Customers](http://northwind.servicestack.net/cached/customers) 
+  * [Customer Detail](http://northwind.servicestack.net/cached/customers/ALFKI)
+  * [Customer Orders](http://northwind.servicestack.net/cached/customers/ALFKI/orders)
 
 
 ### API Changes
@@ -1718,7 +1718,7 @@ This release was focused to opening up ServiceStack to better support adding mor
 
 ## Main features added in this release:
 
-* Added support for the [CSV format](?id=csv-format)
+* Added support for the [CSV format](/csv-format)
 * Enhanced the IContentTypeFilter API to add support for different serialization formats
 * Added Request and Response filters so custom code can inspect and modify the incoming [IHttpRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceHost/IHttpRequest.cs) or [IHttpResponse](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceHost/IHttpResponse.cs). 
 * Added `Request.Items` so you can share arbitrary data between your filters and web services.
@@ -1726,7 +1726,7 @@ This release was focused to opening up ServiceStack to better support adding mor
 * Removed the preceding UTF8 BOM character to ServiceStack's JSON and JSV Serializers. 
 * All features above are available on both ASP.NET and HttpListener hosts
 
-### [CSV Format](?id=csv-format)
+### [CSV Format](/csv-format)
 
 Using the same tech that makes [ServiceStack's JSV and JSON serializers so fast](http://www.servicestack.net/benchmarks/NorthwindDatabaseRowsSerialization.100000-times.2010-08-17.html) (i.e. no run-time reflection, static delegate caching, etc), should make it the fastest POCO CSV Serializer available for .NET.
 
@@ -1748,7 +1748,7 @@ The 'CSV' format is the first format added using the new extensions API, which o
 
 With only the code above, the 'CSV' format is now a first-class supported format which means all your existing web services can take advantage of the new format without any config or code changes. Just drop the latest ServiceStack.dlls (v1.77+) and you're good to go! 
 
-Note: there are some limitations on the CSV format and implementation which you can read about on the [ServiceStack CSV Format page](?id=csv-format).
+Note: there are some limitations on the CSV format and implementation which you can read about on the [ServiceStack CSV Format page](/csv-format).
 
 ### Request and Response Filters:
 

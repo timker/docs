@@ -5,7 +5,7 @@ title: Configuration & AppSettings
 
 Instead of building verbose nested XML configSection classes our preference is to instead store structured configuration in Web.config's `<appSetting/>` which can still express rich config graphs but in a much more human-friendly and manageable way.
 
-ServiceStack's pluggable `IAppSettings` API is a cleaner alternative for storing your Application structured configuration, providing a high-level API to read your Web.config's `<appSetting/>` values into a `List`, `Dictionary` or your own clean Custom POCO Types using the human friendly [JSV format](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format). 
+ServiceStack's pluggable `IAppSettings` API is a cleaner alternative for storing your Application structured configuration, providing a high-level API to read your Web.config's `<appSetting/>` values into a `List`, `Dictionary` or your own clean Custom POCO Types using the human friendly [JSV format](/jsv-format). 
 
 ```csharp
 public interface IAppSettings

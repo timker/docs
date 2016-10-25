@@ -8,8 +8,8 @@ ServiceStack provides a [high-level Messaging API](https://github.com/ServiceSta
 
 There are currently 4 supported MQ Server options:
 
-  - [Rabbit MQ Server](?id=Rabbit-MQ)
-  - [Redis MQ Server](?id=Messaging-and-Redis)
+  - [Rabbit MQ Server](/rabbit-mq)
+  - [Redis MQ Server](/messaging-and-redis)
   - [Amazon SQS MQ Server](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
   - [InMemory MQ Service](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Messaging/InMemoryTransientMessageService.cs)
 
@@ -65,7 +65,7 @@ Effectively MQ Services are treated as "internal Services" bypassing HTTP Web Se
 
 ![ServiceStack Logical Architecture View](http://mono.servicestack.net/files/servicestack-logical-view-02.png) 
 
-MQ Services also have their own distinct `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` for registering custom logic that only applies to MQ Requests. Plugins like [Validation Feature](?id=Validation#validation-feature) can execute custom behavior for both HTTP and MQ Services by registering it in [both HTTP GlobalRequestFilters and MQ GlobalMessageRequestFilters](https://github.com/ServiceStack/ServiceStack/blob/fc191835d97e5b6d89d3cd7a4742793af44eb8c3/src/ServiceStack/Validation/ValidationFeature.cs#L25-L29), e.g:
+MQ Services also have their own distinct `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` for registering custom logic that only applies to MQ Requests. Plugins like [Validation Feature](/validation#validation-feature) can execute custom behavior for both HTTP and MQ Services by registering it in [both HTTP GlobalRequestFilters and MQ GlobalMessageRequestFilters](https://github.com/ServiceStack/ServiceStack/blob/fc191835d97e5b6d89d3cd7a4742793af44eb8c3/src/ServiceStack/Validation/ValidationFeature.cs#L25-L29), e.g:
 
 ```csharp
 appHost.GlobalRequestFilters.Add(ValidationFilters.RequestFilter);
@@ -204,7 +204,7 @@ processing them as normal.
 
 ### OneWay HTTP Requests are published to MQ then executed
 
-Using the `SendOneWay()` Service Client APIs will publish DTO's to the `/oneway` [Pre-defined Route](?id=Routing#pre-defined-routes):
+Using the `SendOneWay()` Service Client APIs will publish DTO's to the `/oneway` [Pre-defined Route](/routing#pre-defined-routes):
 
 ```csharp
 var client = new JsonServiceClient(BaseUrl);
@@ -224,7 +224,7 @@ client.SendOneWay(new RequestDto { ... });
 
 ## Authenticated Requests via MQ
 
-As MQ Requests aren't executed within the Context of a HTTP Request they don't have access to any HTTP Info like HTTP Cookies, Headers, FormData, etc. This also means the Users Session isn't typically available as it's based on the [ss-id Session Ids in Cookies](?id=Sessions).
+As MQ Requests aren't executed within the Context of a HTTP Request they don't have access to any HTTP Info like HTTP Cookies, Headers, FormData, etc. This also means the Users Session isn't typically available as it's based on the [ss-id Session Ids in Cookies](/sessions).
 
 As ServiceStack also lets you specify a Users Session ids using HTTP Headers (with `X-` prefix), we can instead specify Session Ids using Request Headers. To do this we can create a custom Request Context that the MQ Service is executed within and set the SessionId in the Headers:
 
@@ -254,7 +254,7 @@ We can then Execute the MQ Service with this custom Request Context with:
 return this.ExecuteMessage(m, req);
 ```
 
-> See the [Session docs](?id=sessions) for more info about Sessions in ServiceStack
+> See the [Session docs](/sessions) for more info about Sessions in ServiceStack
 
 We'll walk-through a minimal example using this approach to make authenticated Requests and access the Users Session in a Service that's accessible via both HTTP and MQ transports.
 
@@ -339,7 +339,7 @@ With the ServiceStack Host and Service implemented, we can start listening to bo
 new AppHost().Start("http://localhost:1337/");
 ```
 
-Then on the Client we can authenticate using UserName/Password credentials using the HTTP [Service Client](?id=CSharp-client), e.g:
+Then on the Client we can authenticate using UserName/Password credentials using the HTTP [Service Client](/csharp-client), e.g:
 
 ```csharp
 var client = new JsonServiceClient("http://localhost:1337/");

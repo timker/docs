@@ -3,7 +3,7 @@ slug: sessions
 title: Sessions
 ---
 
-The `AuthFeature` (plugin) already enables the SessionFeature, but if you want to make use of sessions and don't want to enable the built-in [Authentication](?id=Authentication-and-authorization), you will need to register it manually in your AppHost with:
+The `AuthFeature` (plugin) already enables the SessionFeature, but if you want to make use of sessions and don't want to enable the built-in [Authentication](/authentication-and-authorization), you will need to register it manually in your AppHost with:
 
 ```csharp
 public override void Configure(Container container)
@@ -14,7 +14,7 @@ public override void Configure(Container container)
 
 ### Cookie Session Ids
 
-When the `SessionFeature` is enabled, a [Global RequestFilter](?id=Request-and-response-filters) is added to ServiceStack to ensure that all requests have a Temporary `ss-id` and a Permanent `ss-pid` session cookies set. These Session Cookies contain a unique Random Base64-encoded Id. The `ss-opt` cookie stores the users preference on whether they want their current session to be temporary (`ss-opt=temp`) or permanent (`ss-opt=perm`) - i.e. to **RememberMe** or not - The Default is Temporary. 
+When the `SessionFeature` is enabled, a [Global RequestFilter](?/request-and-response-filters) is added to ServiceStack to ensure that all requests have a Temporary `ss-id` and a Permanent `ss-pid` session cookies set. These Session Cookies contain a unique Random Base64-encoded Id. The `ss-opt` cookie stores the users preference on whether they want their current session to be temporary (`ss-opt=temp`) or permanent (`ss-opt=perm`) - i.e. to **RememberMe** or not - The Default is Temporary. 
 
 ### Permanent and Temporary Session Ids
 
@@ -22,9 +22,9 @@ The Permanent session cookie `ss-pid` is always created even if `ss-opt` is Temp
 
 If you're interested in the implementation, all the source code for ServiceStack's Sessions are kept in the [ISession](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ISession.cs), [SessionFeature](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/SessionFeature.cs), [SessionFactory](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/SessionFactory.cs), [SessionExtensions](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/SessionExtensions.cs) and [ServiceExtensions](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/ServiceExtensions.cs) classes.
 
-## Can be used with any [ICacheClient](?id=Caching)
+## Can be used with any [ICacheClient](/caching)
 
-ServiceStack's implementation of Sessions are clean, in that they work with all of [ServiceStack's Caching Providers](?id=Caching) and are simply pointers to POCOs in your Cache. An example of getting ServiceStack to use an in-memory cache:
+ServiceStack's implementation of Sessions are clean, in that they work with all of [ServiceStack's Caching Providers](/caching) and are simply pointers to POCOs in your Cache. An example of getting ServiceStack to use an in-memory cache:
 
     container.Register<ICacheClient>(new MemoryCacheClient());
 

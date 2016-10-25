@@ -7,7 +7,7 @@
     - [Why remote services should use DTOs?](http://stackoverflow.com/a/15369736/85785)
     - [Live Demos](https://github.com/ServiceStackApps/LiveDemos)
 - Releases
-    - [Latest Release Notes](/v4-5-2)
+    - [Latest Release Notes](/releases/v4.5.2)
     - [2016 Summary](/releases/)
     - [Release Notes History](/release-notes-history)
 - Getting Started
@@ -50,7 +50,8 @@
     - [VB.NET Add Reference](/vbnet-add-servicestack-reference)
 - Formats
     - [Overview](/formats)
-    - [JSON, JSV & XML](/json-jsv-and-xml)
+    - [JSON Format](https://github.com/ServiceStack/ServiceStack.Text/)
+    - [JSV Format](/jsv-format)
     - [CSV Format](/csv-format)
     - [MessagePack Format](/messagepack-format)
     - [ProtoBuf Format](/protobuf-format)

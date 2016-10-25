@@ -3,15 +3,15 @@ slug: auto-batched-requests
 title: Auto Batched Requests
 ---
 
-One of the best ways to improve performance, efficiency and reduce latency is to minimize the number of network requests required, which is one of the reasons we've always encouraged [Coarse-grained API designs](?id=Why-Servicestack#servicestack-encourages-development-of-message-style-re-usable-and-batch-full-web-services) - which also lend themselves to better encapsulation and re-use. 
+One of the best ways to improve performance, efficiency and reduce latency is to minimize the number of network requests required, which is one of the reasons we've always encouraged [Coarse-grained API designs](/why-servicestack#servicestack-encourages-development-of-message-style-re-usable-and-batch-full-web-services) - which also lend themselves to better encapsulation and re-use. 
 
 A common use-case that can be improved are clients making multiple requests to the same API, but due to the lack of a better alternative batched API or control over the server implementation, will default to making multiple N+1 web service requests. 
 
 ### All Services support Batching
 
-Thanks to it's [message-based design](?id=Advantages-of-message-based-web-services), ServiceStack is able to enable high-level generic functionality like Request Batching which is now implicitly available for all Services, without any additional effort - where multiple requests of the same type can be sent together in a single HTTP Request.
+Thanks to it's [message-based design](/advantages-of-message-based-web-services), ServiceStack is able to enable high-level generic functionality like Request Batching which is now implicitly available for all Services, without any additional effort - where multiple requests of the same type can be sent together in a single HTTP Request.
 
-This is enabled in all [.NET Service Clients](?id=CSharp-client) via the new `SendAll()` and `SendAllOneWay()` API's, e.g:
+This is enabled in all [.NET Service Clients](/csharp-client) via the new `SendAll()` and `SendAllOneWay()` API's, e.g:
 
 ```csharp
 var client = new JsonServiceClient(BaseUrl);
@@ -43,7 +43,7 @@ public class MyServices : Service
 
 ### Request Execution Flow
 
-From the Service's point of view nothing changes. Request DTO's still get executed one at a time, through all existing filters just as if they we're sent on their own. They're just delivered together within a single HTTP Request, in this case POST'ed as JSON to the `/json/reply/Request[]` [pre-defined route](?id=Routing#pre-defined-routes):
+From the Service's point of view nothing changes. Request DTO's still get executed one at a time, through all existing filters just as if they we're sent on their own. They're just delivered together within a single HTTP Request, in this case POST'ed as JSON to the `/json/reply/Request[]` [pre-defined route](/routing#pre-defined-routes):
 
 ![Auto Batched Requests](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/auto-batched-requests.png)
 

@@ -3,14 +3,14 @@ slug: multitenancy
 title: Multitenancy
 ---
 
-ServiceStack provides a number of ways of changing the database connection used at runtime based on an incoming Request. You can use a [Request Filter](?id=Request-and-response-filters#global-request-filters), use the `[ConnectionInfo]` [Request Filter Attribute](?id=Filter-attributes#request-filter-attributes), use the `[NamedConnection]` attribute on [Auto Query](?id=autoquery) Services, access named connections in Custom Service implementations or override `GetDbConnection(IRequest)` in your AppHost.
+ServiceStack provides a number of ways of changing the database connection used at runtime based on an incoming Request. You can use a [Request Filter](?/request-and-response-filters#global-request-filters), use the `[ConnectionInfo]` [Request Filter Attribute](/filter-attributes#request-filter-attributes), use the `[NamedConnection]` attribute on [Auto Query](/autoquery) Services, access named connections in Custom Service implementations or override `GetDbConnection(IRequest)` in your AppHost.
 
 ### Change Database Connection at Runtime
 
 The default implementation of `IAppHost.GetDbConnection(IRequest)` includes an easy way to change the DB Connection that can be done by populating the 
 [ConnectionInfo](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/ConnectionInfo.cs) 
 POCO in any
-[Request Filter in the Request Pipeline](?id=Order-of-Operations):
+[Request Filter in the Request Pipeline](?/order-of-operations):
 
 ```csharp
 req.Items[Keywords.DbInfo] = new ConnectionInfo {
@@ -84,8 +84,8 @@ GlobalRequestFilters.Add((req, res, dto) => {
 
 Since our `IChangeDb` interface shares the same property names as `ConnectionInfo`, the above code can be 
 further condensed using a 
-[Typed Request Filter](?id=Request-and-response-filters#typed-request-filters)
-and ServiceStack's built-in [AutoMapping](?id=Auto-mapping)
+[Typed Request Filter](?/request-and-response-filters#typed-request-filters)
+and ServiceStack's built-in [AutoMapping](/auto-mapping)
 down to just:
 
 ```csharp
@@ -132,9 +132,9 @@ public class ReportingServices : Service
 }
 ```
 
-### [Auto Query Named Connection](?id=AutoQuery#named-connection)
+### [Auto Query Named Connection](/autoquery#named-connection)
 
-[Auto Query](?id=autoquery) can also easily be configured to query any number of different databases registered in your AppHost. 
+[Auto Query](/autoquery) can also easily be configured to query any number of different databases registered in your AppHost. 
 
 In the example below we configure our main RDBMS to use SQL Server and register a **Named Connection** 
 to point to a **Reporting** PostgreSQL RDBMS:

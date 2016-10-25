@@ -3,7 +3,7 @@ slug: csharp-server-events-client
 title: C# Server Events Client
 ---
 
-Like ServiceStack's other [C# Service Clients](?id=CSharp-client), the new `ServerEventsClient` is a [portable library](https://github.com/ServiceStackApps/HelloMobile) contained in the `ServiceStack.Client` NuGet package:
+Like ServiceStack's other [C# Service Clients](/csharp-client), the new `ServerEventsClient` is a [portable library](https://github.com/ServiceStackApps/HelloMobile) contained in the `ServiceStack.Client` NuGet package:
 
 ```
 PM> Install-Package ServiceStack.Client
@@ -262,7 +262,7 @@ container.RegisterAutoWiredTypes(client.ReceiverTypes);
 client.Resolver = container;
 ```
 
-We can assign `Funq.Container` directly as it already implements the [IResolver](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResolver.cs) interface, whilst you can re-use the existing IOC **Container Adapters** to [enable support for other IOCs](?id=ioc#use-another-ioc-container). 
+We can assign `Funq.Container` directly as it already implements the [IResolver](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResolver.cs) interface, whilst you can re-use the existing IOC **Container Adapters** to [enable support for other IOCs](/ioc#use-another-ioc-container). 
 
 ### The Global Receiver
 
@@ -389,7 +389,7 @@ client.OnCommand = msg => ...; //= ServerEventJoin, ServerEventLeave or ServerEv
 ## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
 
 Xamarin.Android Chat utilizes the 
-[.NET PCL Server Events Client](?id=CSharp-Server-Events-Client)
+[.NET PCL Server Events Client](/csharp-server-events-client)
 to create an Android Chat App connecting to the existing 
 [chat.servicestack.net](http://chat.servicestack.net/) Server Events back-end where it's able to communicate 
 with existing Ajax clients and other connected Android Chat Apps. 

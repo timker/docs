@@ -3,7 +3,7 @@ slug: rabbit-mq
 title: Rabbit MQ
 ---
 
-A nice advantage of ServiceStack's message-based design is its ability to host its Services on a variety of different endpoints. This design makes it possible to host Services via [MQ Servers](?id=Messaging), enable [SOAP support](?id=SOAP-support) in addition to ServiceStack's strong HTTP Web Services story. One MQ Server we support is the extremely popular and robust Open Source AMQP messaging broker: [Rabbit MQ](http://www.rabbitmq.com).
+A nice advantage of ServiceStack's message-based design is its ability to host its Services on a variety of different endpoints. This design makes it possible to host Services via [MQ Servers](/messaging), enable [SOAP support](/soap-support) in addition to ServiceStack's strong HTTP Web Services story. One MQ Server we support is the extremely popular and robust Open Source AMQP messaging broker: [Rabbit MQ](http://www.rabbitmq.com).
 
 ## Getting Started
 
@@ -276,7 +276,7 @@ public class HelloService : Service
 }
 ```
 
-In addition to executing your service implementation, all Services processed via a MQ Server goes through ServiceStack's standard [MQ Request Pipeline](?id=Order-of-Operations#wiki-mq-non-http-custom-hooks).
+In addition to executing your service implementation, all Services processed via a MQ Server goes through ServiceStack's standard [MQ Request Pipeline](?/order-of-operations#wiki-mq-non-http-custom-hooks).
 
 With everything in place, initialize ServiceStack's AppHost to start the Rabbit MQ Server to listen for any messages published to the Request DTO's **.inq**:
 
@@ -319,7 +319,7 @@ using (var mqClient = appHost.Resolve<IMessageService>().CreateMessageQueueClien
 }
 ```
 
-In this way, ServiceStack's AppHost is being used as a pure "logic server", hosting auto-wired services within [its MQ Request Pipeline](?id=Order-of-Operations#wiki-mq-non-http-custom-hooks), whilst taking advantage of ServiceStack's flexibility and extensibility options and its plugin ecosystem.
+In this way, ServiceStack's AppHost is being used as a pure "logic server", hosting auto-wired services within [its MQ Request Pipeline](?/order-of-operations#wiki-mq-non-http-custom-hooks), whilst taking advantage of ServiceStack's flexibility and extensibility options and its plugin ecosystem.
 
 Run-able examples of these code-samples are available in the [RabbitMqServerIntroTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Server.Tests/Messaging/MqServerIntroTests.cs#L13).
 
@@ -332,7 +332,7 @@ The [Rabbit MQ Server](https://github.com/ServiceStack/ServiceStack/blob/master/
   - `bool` **UsePolling** - Whether to use polling for consuming messages instead of a long-term subscription
   - `int` **RetryCount** - How many times a message should be retried before sending to the DLQ. Valid range for Rabbit MQ: 0-1.
 
-In addition to sharing a similar architecture to [Redis MQ](?id=Messaging-and-Redis), it also shares a number of common features:
+In addition to sharing a similar architecture to [Redis MQ](/messaging-and-redis), it also shares a number of common features:
 
   - `int?` **KeepAliveRetryAfterMs** - Wait before Starting the MQ Server after a restart
   - `IMessageFactory` **MessageFactory** - The MQ Message Factory used by this MQ Server

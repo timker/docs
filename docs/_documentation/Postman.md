@@ -2,7 +2,7 @@
 slug: postman
 ---
 
-The [Postman Rest Client](http://www.getpostman.com/) is a very popular and easy to use HTTP Request composer that makes it easy to call web services, similar to [Fiddler's Composer](https://www.blackbaud.com/files/support/guides/infinitydevguide/Subsystems/inwebapi-developer-help/Content/InfinityWebAPI/coUsingFiddlerCreateHTTPRequest.htm). It also provides as an alternative for autogenerating API documentation to [ServiceStack's Swagger support](?id=Swagger-API) that makes it easier to call existing services but does require users to install the [Postman Rest Client](http://www.getpostman.com/).
+The [Postman Rest Client](http://www.getpostman.com/) is a very popular and easy to use HTTP Request composer that makes it easy to call web services, similar to [Fiddler's Composer](https://www.blackbaud.com/files/support/guides/infinitydevguide/Subsystems/inwebapi-developer-help/Content/InfinityWebAPI/coUsingFiddlerCreateHTTPRequest.htm). It also provides as an alternative for autogenerating API documentation to [ServiceStack's Swagger support](/swagger-api) that makes it easier to call existing services but does require users to install the [Postman Rest Client](http://www.getpostman.com/).
 
 Support for Postman is built into ServiceStack and can be enabled by registering the Plugins below:
 
@@ -29,7 +29,7 @@ This will open up the import dialog, where you can paste the metadata url and cl
 
 ### Available Routes 
 
-Once imported it will populate a list of available operations that can be selected and easily called from within the Postman UI. Just like the [Swagger Support](?id=Swagger-API) the list of operations returned respects the [Restriction Attributes](?id=Restricting-Services) and only shows the operations each user is allowed to see. The operations returned also favour custom user-defined routes, when none exists it will fallback to use the [pre-defined routes](?id=Routing#pre-defined-routes).
+Once imported it will populate a list of available operations that can be selected and easily called from within the Postman UI. Just like the [Swagger Support](/swagger-api) the list of operations returned respects the [Restriction Attributes](/restricting-services) and only shows the operations each user is allowed to see. The operations returned also favour custom user-defined routes, when none exists it will fallback to use the [pre-defined routes](/routing#pre-defined-routes).
 
 ### Label Customization
 
@@ -104,7 +104,7 @@ Plugins.Add(new PostmanFeature {
 
 ## Other PostmanFeature options
 
-Like other [ServiceStack plugins](?id=Plugins) the available options for each Feature can be configured on the Plugin itself at registration:
+Like other [ServiceStack plugins](/plugins) the available options for each Feature can be configured on the Plugin itself at registration:
 
 #### Registering at a custom path
 

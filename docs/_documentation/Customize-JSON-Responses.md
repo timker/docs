@@ -34,7 +34,7 @@ return new HttpResult(responseDto) {
 
 ## Customize JSON Responses from Client
 
-The JSON and JSV Responses for all Services (inc. [Auto Query](?id=autoquery) Services) can also be further customized with the 
+The JSON and JSV Responses for all Services (inc. [Auto Query](/autoquery) Services) can also be further customized with the 
 new `?jsconfig` QueryString param which lets your Service consumers customize the returned JSON Response to 
 their preference. This works similar to having wrapped your Service response in a `HttpResult` with a Custom 
 `ResultScope` in the Service implementation to enable non-default customization of a Services response, e.g:

@@ -3,7 +3,7 @@ slug: cacheresponse-attribute
 title: CacheResponse Attribute
 ---
 
-The `[CacheResponse]` is a normal [Request Filter Attribute](?id=Filter-attributes)
+The `[CacheResponse]` is a normal [Request Filter Attribute](/filter-attributes)
 which can be added at the top-level of your Service class in which case it will cache the response of 
 **All** Service implementations for **60 seconds**, e.g:
 
@@ -29,7 +29,7 @@ public object Any(GetCustomer request)
 
 ### Caching AutoQuery Services
 
-Request Filter attributes can also be applied on Request DTO's, as we seen with [AutoQuery DynamoDB's QueryRockstarAlbums](?id=AutoQuery-DynamoDB#caching-autoquery-services) Request DTO:
+Request Filter attributes can also be applied on Request DTO's, as we seen with [AutoQuery DynamoDB's QueryRockstarAlbums](/autoquery-dynamodb#caching-autoquery-services) Request DTO:
 
 ```csharp
 [CacheResponse(Duration = 60)]
@@ -60,7 +60,7 @@ public class MyCachedAutoQueryServices : Service
 }
 ```
 
-### Server Cached and [HTTP Caching](?id=http-caching) enabled responses
+### Server Cached and [HTTP Caching](/http-caching) enabled responses
 
 When only specifying a `Duration=60` ServiceStack only **caches the Server Response** so it behaves similar
 to using the existing `ToOptimizedResult()` API, e.g:
@@ -74,7 +74,7 @@ public object Any(GetCustomer request)
 }
 ```
 
-To also enable [HTTP Caching](?id=http-caching) features you'll need to opt-in by specifying an additional HTTP Caching directive. 
+To also enable [HTTP Caching](/http-caching) features you'll need to opt-in by specifying an additional HTTP Caching directive. 
 E.g. including a `MaxAge` instructs ServiceStack to apply **HTTP Caching** logic and return the appropriate headers:
 
 ```csharp
@@ -126,7 +126,7 @@ enhance it with custom logic.
 is just a wrapper around initializing a populated 
 [CacheInfo](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/CacheInfo.cs) POCO
 that it drops into the `IRequest.Items` dictionary where it's visible to your Service and any remaining Filters 
-in ServiceStack's [Request Pipeline](?id=Order-of-Operations). 
+in ServiceStack's [Request Pipeline](?/order-of-operations). 
 Essentially it's just doing this:
 
 ```csharp
@@ -140,7 +140,7 @@ handle all Service responses the `[CacheResponse]` attribute uses the `IRequest.
 most requests, if QueryString params were sent in a different case or in a different order it would generate 
 a different url and multiple caches for essentially the same request. We can remedy this behavior by changing 
 the base CacheKey used which is just a matter retrieving the populated the `CacheInfo` and change the 
-`KeyBase` to use the predictable [Reverse Routing](?id=Routing#reverse-routing)
+`KeyBase` to use the predictable [Reverse Routing](/routing#reverse-routing)
 `ToGetUrl()` API instead, e.g:
 
 ```csharp

@@ -1,10 +1,10 @@
 ---
 slug: security
 ---
-  1. [Authentication/authorization](?id=Authentication-and-authorization)
-     - [Open Id 2.0 Support](?id=OpenId)
-  2. [Sessions](?id=sessions)
-  3. [Restricting Services](?id=restricting-services)
+  1. [Authentication/authorization](/authentication-and-authorization)
+     - [Open Id 2.0 Support](/openId)
+  2. [Sessions](/sessions)
+  3. [Restricting Services](/restricting-services)
 
 
 <a name="community"></a>

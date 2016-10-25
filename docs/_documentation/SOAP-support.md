@@ -168,7 +168,7 @@ public class HiddenFromSoap { .. }
 
 ### Raw Access to WCF SOAP Message
 
-`IRequiresSoapMessage` works similar to [IRequiresRequestStream](?id=Serialization-deserialization) interface to tell ServiceStack to skip de-serialization of the request and instead pass the raw WCF Message to the Service instead for manual processing, e.g:
+`IRequiresSoapMessage` works similar to [IRequiresRequestStream](/serialization-deserialization) interface to tell ServiceStack to skip de-serialization of the request and instead pass the raw WCF Message to the Service instead for manual processing, e.g:
 
 ```csharp
 public class RawWcfMessage : IRequiresSoapMessage {
@@ -204,4 +204,4 @@ If you want to ensure a *pretty proxy* is generated you should only have 1 first
 
 ### Using XSD.exe
 
-One way around it is to share your services DTO's and use any of the typed [Generic Service Clients](?id=Clients-overview) that are in-built into ServiceStack. Alternatively you can use the `XSD.exe` command-line utility to generate your types on the client and use those in the typed Service Clients.
+One way around it is to share your services DTO's and use any of the typed [Generic Service Clients](/clients-overview) that are in-built into ServiceStack. Alternatively you can use the `XSD.exe` command-line utility to generate your types on the client and use those in the typed Service Clients.

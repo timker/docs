@@ -90,7 +90,7 @@ HelloResponse response = client.Get(new Hello { Name = "World!" });
 
 We highly recommend annotating your Request DTO's with the above `IReturn<T>` marker as it enables a generic typed API without clients having to know and specify the Response at each call-site, which would be invalidated and need to be manually updated if the Service Response Type changes.
 
-More details on the Service Clients is available on the [C#/.NET Service Clients page](?id=csharp-client).
+More details on the Service Clients is available on the [C#/.NET Service Clients page](/csharp-client).
 
 ### Routing Tips
 
@@ -115,4 +115,4 @@ matches:
     /hello/my/name/is/ServiceStack 
 
 
-More details about Routing is available on the [Routing page](?id=routing).
+More details about Routing is available on the [Routing page](/routing).

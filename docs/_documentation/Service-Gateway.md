@@ -5,7 +5,7 @@ title: Service Gateway
 
 The Service Gateway is implemented on top of ServiceStack's existing message-based architecture to open up 
 exciting new possibilities for development of loosely-coupled
-[Modularized Service Architectures](?id=Modularizing-services).
+[Modularized Service Architectures](/modularizing-services).
 
 The new [IServiceGateway](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/IServiceGateway.cs)
 interfaces represent the minimal surface area required to support ServiceStack's different calling conventions 
@@ -53,7 +53,7 @@ optional `IServiceGatewayAsync`, but will use native async implementations for t
 
 Naked Request DTO's without annotations are sent as a **POST** but alternative Verbs are also supported 
 by annotating Request DTO's with 
-[HTTP Verb Interface Markers](?id=CSharp-client#http-verb-interface-markers)
+[HTTP Verb Interface Markers](/csharp-client#http-verb-interface-markers)
 where Request DTO's containing `IGet`, `IPut`, etc. are sent using the typed Verb API, e.g:
 
 ```csharp
@@ -135,7 +135,7 @@ The ServiceGateway is the same interface whether you're calling an Internal Serv
 remote Service from a client. It exposes an ideal message-based API that's
 [optimal for remote Service Integrations](http://www.infoq.com/articles/interview-servicestack) 
 that also supports 
-[Auto Batched Requests](?id=Auto-Batched-Requests) 
+[Auto Batched Requests](/auto-batched-requests) 
 for combining multiple Service Calls into a single Request, minimizing latency when possible.
 
 ### Substitutable Service Gateways
@@ -189,9 +189,9 @@ public override void Configure(Container container)
 }
 ```
 
-## [Service Discovery](?id=service-discovery)
+## [Service Discovery](/service-discovery)
 
-This demonstrates the underpinnings by which we can plug into and intercept all intra-Service calls and apply our own high-level custom logic which sets the foundation for other value-added functionality like [Service Discovery](?id=service-discovery) which can transparently route service calls to the most appropriate available remote endpoint at run-time, automatically without additional configuration or code-maintenance overhead.
+This demonstrates the underpinnings by which we can plug into and intercept all intra-Service calls and apply our own high-level custom logic which sets the foundation for other value-added functionality like [Service Discovery](/service-discovery) which can transparently route service calls to the most appropriate available remote endpoint at run-time, automatically without additional configuration or code-maintenance overhead.
 
 ## Designing for Microservices
 
@@ -206,7 +206,7 @@ of an entire system being reduced into smaller, more manageable logical scopes w
 
 The ServiceGateway and its Services Discovery ecosystem together with ServiceStack's recommended use of 
 impl-free reusable POCO DTO's and its ability to 
-[modularize Service implementations across multiple projects](?id=Modularizing-services)
+[modularize Service implementations across multiple projects](/modularizing-services)
 naturally promote a microservices-ready architecture where Service interactions are loosely-coupled behind 
 well-defined, reusable, coarse-grained messages. Designing systems in this way later allows the isolated
 Service Implementation .dll to be extracted from the main System and wrapped into its own AppHost. Together 

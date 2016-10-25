@@ -3,33 +3,33 @@ slug: clients-overview
 ---
 As ServiceStack is just a pure HTTP web service it can be accessed with any HTTP-capable client. 
 
-Although in addition to this the [ServiceStack.Client](http://nuget.org/packages/ServiceStack.Client) library and NuGet package also include multiple service clients on [Xamarin iOS, Android, Windows Store, Silverlight 5, WPF, etc](https://github.com/ServiceStackApps/HelloMobile) which are optimized for consuming ServiceStack Services including built-in [Error handling](?id=Error-Handling), [Predefined Routes](?id=Routing), [Auto Batched Requests](?id=Auto-Batched-Requests), etc. 
+Although in addition to this the [ServiceStack.Client](http://nuget.org/packages/ServiceStack.Client) library and NuGet package also include multiple service clients on [Xamarin iOS, Android, Windows Store, Silverlight 5, WPF, etc](https://github.com/ServiceStackApps/HelloMobile) which are optimized for consuming ServiceStack Services including built-in [Error handling](/error-handling), [Predefined Routes](/routing), [Auto Batched Requests](/auto-batched-requests), etc. 
 
 ### ServiceStack Clients
 
-  * [C# Client](?id=csharp-client)
-  * [TypeScript Client](?id=typescript-add-servicestack-reference)
-  * [Java/Kotlin Client](?id=java-add-servicestack-reference)
-  * [Swift Client](?id=swift-add-servicestack-reference)
-  * [Silverlight Client](?id=silverlight-client)
-  * [JavaScript Client](?id=javascript-client)
-  * [Dart Client](?id=dart-client)
-  * [MQ Clients](?id=Messaging-and-redis)
+  * [C# Client](/csharp-client)
+  * [TypeScript Client](/typescript-add-servicestack-reference)
+  * [Java/Kotlin Client](/java-add-servicestack-reference)
+  * [Swift Client](/swift-add-servicestack-reference)
+  * [Silverlight Client](/silverlight-client)
+  * [JavaScript Client](/javascript-client)
+  * [Dart Client](/dart-client)
+  * [MQ Clients](/messaging-and-redis)
 
 ### Add ServiceStack Reference
 
-You can also use [ServiceStackVS](?id=create-your-first-webservice#step-1-download-and-install-servicestackvs)'s **Add ServiceStack Reference** feature for adding generated Native Types to client VS.NET C#, F# and VB.NET projects. This gives developers a consistent way of creating and updating your DTOs regardless of your language of choice.
+You can also use [ServiceStackVS](/create-your-first-webservice#step-1-download-and-install-servicestackvs)'s **Add ServiceStack Reference** feature for adding generated Native Types to client VS.NET C#, F# and VB.NET projects. This gives developers a consistent way of creating and updating your DTOs regardless of your language of choice.
 
 ### Supported Languages
 
 
-* [C# Add ServiceStack Reference](?id=csharp-add-servicestack-reference)
-* [TypeScript Add ServiceStack Reference](?id=typescript-add-servicestack-reference)
-* [Swift Add ServiceStack Reference](?id=swift-add-servicestack-reference)
-* [Java Add ServiceStack Reference](?id=java-add-servicestack-reference)
-* [Kotlin Add ServiceStack Reference](?id=kotlin-add-servicestack-reference)
-* [F# Add ServiceStack Reference](?id=fsharp-add-servicestack-reference)
-* [VB.NET Add ServiceStack Reference](?id=vbnet-add-servicestack-reference)
+* [C# Add ServiceStack Reference](/csharp-add-servicestack-reference)
+* [TypeScript Add ServiceStack Reference](/typescript-add-servicestack-reference)
+* [Swift Add ServiceStack Reference](/swift-add-servicestack-reference)
+* [Java Add ServiceStack Reference](/java-add-servicestack-reference)
+* [Kotlin Add ServiceStack Reference](/kotlin-add-servicestack-reference)
+* [F# Add ServiceStack Reference](/fsharp-add-servicestack-reference)
+* [VB.NET Add ServiceStack Reference](/vbnet-add-servicestack-reference)
 
 ***
 

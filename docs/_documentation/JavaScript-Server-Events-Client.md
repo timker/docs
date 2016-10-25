@@ -275,7 +275,7 @@ Whilst Named Receivers are used to handle messages sent to a specific namespaced
 ### UpdateSubscriber APIs
 
 You can use any of the APIs below in the
-[ss-utils JavaScript library](?id=ss-utils-js)
+[ss-utils JavaScript library](/ss-utils-js)
 to update an active Subscriptions Channels:
 
 ```javascript

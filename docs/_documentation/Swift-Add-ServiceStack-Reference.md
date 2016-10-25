@@ -18,7 +18,7 @@ The ServiceStack XCode Plugin can be installed by dragging it to the XCode Plugi
 
 Once installed, developers can easily add a reference to a remote ServiceStack instance and update its typed DTO's using the new Menu options in XCode's Main Menu:
 
-### [Add ServiceStack Reference](?id=add-servicestack-reference)
+### [Add ServiceStack Reference](/add-servicestack-reference)
 
 ![XCode Add Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/xcode-add-reference.png)
 
@@ -28,7 +28,7 @@ Use the **Add ServiceStack Reference** Menu option to bring up the Add Reference
 
 After clicking **Add Reference**, 2 files will be added to your XCode project yielding an instant typed API:
 
- - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](?id=CSharp-client)
+ - `JsonServiceClient.swift` - A Swift JSON ServiceClient with API's based on that of [the .NET JsonServiceClient](/csharp-client)
  - `{FileName}.dtos.swift` - Your Services DTO Types converted in Swift
 
 ### Update ServiceStack Reference
@@ -202,7 +202,7 @@ import Foundation;
 
 ## [JsonServiceClient.swift](https://github.com/ServiceStack/ServiceStack.Swift/blob/master/dist/JsonServiceClient.swift)
 
-The same ideal, high-level API available in [.NET's ServiceClients](?id=CSharp-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
+The same ideal, high-level API available in [.NET's ServiceClients](/csharp-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
 
 ```swift
 public protocol ServiceClient
@@ -408,7 +408,7 @@ As Swift doesn't support Attributes any exported .NET Attributes are emitted in 
 public class GetTechnology : IReturn { ... }
 ```
 
-This also means that the Custom Routes aren't used when making Service Requests and instead just uses ServiceStack's built-in [pre-defined routes](?id=Routing#pre-defined-routes). 
+This also means that the Custom Routes aren't used when making Service Requests and instead just uses ServiceStack's built-in [pre-defined routes](/routing#pre-defined-routes). 
 
 But when preferred `JsonServiceClient` can also be used to call Services using Custom Routes, e.g:
 
@@ -582,7 +582,7 @@ public func loadImageAsync(url:String) -> Promise<UIImage?> {
 
 As `JsonServiceClient.swift` has no external dependencies and only relies on core `Foundation` classes it can be used anywhere Swift can including OSX Cocoa Desktop and Command Line Apps and Frameworks.
 
-Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](?id=AutoQuery) and how much auto-querying functionality they can provide for free.
+Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](/autoquery) and how much auto-querying functionality they can provide for free.
 
 E.g. The TechStacks Desktop app is essentially powered with these 2 AutoQuery Services:
 
@@ -594,7 +594,7 @@ public class FindTechStacks : QueryBase<TechnologyStack> {}
 public class FindTechnologies : QueryBase<Technology> {}
 ```
 
-Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](?id=AutoQuery#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](?id=AutoQuery#implicit-conventions) automatically infer it from the table being queried.
+Basically just a Request DTO telling AutoQuery what Table we want to Query and that we want to [change the default Search behavior](/autoquery#changing-querying-behavior) to have **OR** semantics. We don't need to specify which properties we can query as the [implicit conventions](/autoquery#implicit-conventions) automatically infer it from the table being queried.
 
 The TechStacks Desktop UI is then built around these 2 AutoQuery Services allowing querying against each field and utilizing a subset of the implicit conventions supported:
 

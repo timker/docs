@@ -5,19 +5,19 @@ ServiceStack supports 6 response formats out of the box:
 
 - [JSON](https://github.com/ServiceStack/ServiceStack.Text)
 - XML
-- [SOAP 1.1/1.2](?id=SOAP-support)
+- [SOAP 1.1/1.2](/soap-support)
 - [JSV](https://github.com/ServiceStack/ServiceStack.Text#servicestacktypeserializer-and-the-jsv-format) _(hybrid CSV-style escaping + JSON format that is optimized for both size and speed)_
-- [CSV](?id=csv-format)
-- [HTML5 Report](?id=HTML5ReportFormat) _(provides a readable and semantic HTML layout letting you visualize all the data returned by your web service)_
-- [HTML with Markdown Razor](?id=Markdown-Razor) _(Razor combined with markdown)_
+- [CSV](/csv-format)
+- [HTML5 Report](/html5reportformat) _(provides a readable and semantic HTML layout letting you visualize all the data returned by your web service)_
+- [HTML with Markdown Razor](/markdown-razor) _(Razor combined with markdown)_
 
 ### Additional Formats
 
-Additional Formats are available as [external Plugins](?id=Plugins):
+Additional Formats are available as [external Plugins](/plugins):
 
 - [HTML with MVC Razor](http://razor.servicestack.net/)
-- [Message Pack](?id=MessagePack-Format)
-- [Protocol Buffers](?id=Protobuf-format)
+- [Message Pack](/messagepack-format)
+- [Protocol Buffers](/protobuf-format)
 
 ## Rest endpoint
 
@@ -59,5 +59,5 @@ Examples:
 
 The SOAP endpoint only supports XML of course.
 
-> Tip: If you have forgotten the details about the specific endpoints, you can re-read [this article](?id=Endpoints)
+> Tip: If you have forgotten the details about the specific endpoints, you can re-read [this article](/endpoints)
 

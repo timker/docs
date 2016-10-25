@@ -7,13 +7,13 @@ AutoQuery RDBMS enables the rapid development of high-performance, fully-queryab
 
 ### AutoQuery Services are ServiceStack Services
 
-An important point to highlight is that AutoQuery Services are just normal ServiceStack Services, utilizing the same [Request Pipeline](?id=Order-of-Operations), which can be mapped to any [user-defined route](?id=Routing), is available in all [registered formats](?id=Formats) and can be [consumed from existing typed Service Clients](?id=Clients-overview). 
+An important point to highlight is that AutoQuery Services are just normal ServiceStack Services, utilizing the same [Request Pipeline](?/order-of-operations), which can be mapped to any [user-defined route](/routing), is available in all [registered formats](/formats) and can be [consumed from existing typed Service Clients](/clients-overview). 
 
 In addition to leveraging ServiceStack's existing functionality, maximizing re-use in this way reduces the cognitive overhead required for developers who can re-use their existing knowledge in implementing, customizing, introspecting and consuming ServiceStack services. 
 
 ### Getting Started
 
-Like ServiceStack's [other composable features](?id=Plugins), the AutoQuery Feature is enabled by registering a Plugin, e.g:
+Like ServiceStack's [other composable features](/plugins), the AutoQuery Feature is enabled by registering a Plugin, e.g:
 
 ```csharp
 Plugins.Add(new AutoQueryFeature { MaxLimit = 100 });
@@ -34,7 +34,7 @@ The above config registers an In Memory Sqlite database although as the AutoQuer
 
 The `MaxLimit` option ensures each query returns a maximum limit of **100** rows. 
 
-Now that everything's configured we can create our first service. To implement the ideal API for [OData's movie ratings query](?id=Why-not-OData) we just need to define the Request DTO for our service, i.e:
+Now that everything's configured we can create our first service. To implement the ideal API for [OData's movie ratings query](/why-not-odata) we just need to define the Request DTO for our service, i.e:
 
 ```csharp
 [Route("/movies")]
@@ -62,7 +62,7 @@ Whilst that gives us the ideal API we want, the minimum code required is to just
 public class FindMovies : QueryDb<Movie> {}
 ```
 
-Which just like other Request DTO's in ServiceStack falls back to using ServiceStack's [pre-defined routes](?id=Routing#pre-defined-routes)
+Which just like other Request DTO's in ServiceStack falls back to using ServiceStack's [pre-defined routes](/routing#pre-defined-routes)
 
 ### IQuery
 
@@ -588,7 +588,7 @@ A hidden gem in AutoQuery's approach that's not immediately obvious is how every
 
 ### Advantages of well-defined Service Contracts
 
-The advantages of formalizing the conventions you end up using is that they can be consumed with ServiceStack's [Typed Service Clients](?id=CSharp-client):
+The advantages of formalizing the conventions you end up using is that they can be consumed with ServiceStack's [Typed Service Clients](/csharp-client):
 
 ```csharp
 var response = client.Get(new QueryRockstars { AgeOlderThan = 42 });
@@ -596,9 +596,9 @@ var response = client.Get(new QueryRockstars { AgeOlderThan = 42 });
 
 As well as making your API self-describing and gives you access to all of ServiceStack's metadata services including:
 
- - [Metadata pages](?id=Metadata-page)
- - [Swagger UI](?id=Swagger-API)
- - [Postman Support](?id=Postman)
+ - [Metadata pages](/metadata-page)
+ - [Swagger UI](/swagger-api)
+ - [Postman Support](/postman)
 
 Which is why we recommend formalizing your conventions you want to allow before deploying your API to production. 
 
@@ -650,7 +650,7 @@ The Fields still need to be defined on the Response DTO as this feature doesn't 
 DTO Schema, only which fields are populated. This does change the underlying RDBMS SELECT that's executed, 
 also benefiting from reduced bandwidth between your RDBMS and App Server.
 
-A useful [JSON customization](?id=Customize-JSON-Responses) 
+A useful [JSON customization](/customize-json-responses) 
 that you can add when specifying custom fields is `ExcludeDefaultValues`, e.g:
 
     /query?Fields=Id,Name,Description,JoinTableId&jsconfig=ExcludeDefaultValues
@@ -739,7 +739,7 @@ When specifying multiple order by's you can sort specific fields in reverse orde
 
 ## Service Clients Support
 
-One of the major benefits of using Typed DTO's to define your Service Contract is that it allows usage of ServiceStack's [.NET Service Clients](?id=CSharp-client) which enables an end-to-end API without code-gen for [most .NET and PCL client platforms](https://github.com/ServiceStack/Hello). 
+One of the major benefits of using Typed DTO's to define your Service Contract is that it allows usage of ServiceStack's [.NET Service Clients](/csharp-client) which enables an end-to-end API without code-gen for [most .NET and PCL client platforms](https://github.com/ServiceStack/Hello). 
 
 With the richer semantics available in queries, we've been able to enhance the Service Clients new `GetLazy()` API that allows lazy streaming of responses to provide transparent paging of large result-sets, e.g:
 
@@ -761,11 +761,11 @@ var top250 = client.GetLazy(new QueryMovies {
 
 ## Mime Types and Content-Negotiation
 
-Another benefit we get from AutoQuery Services being regular ServiceStack services is taking advantage of [ServiceStack's built-in formats](?id=Formats). 
+Another benefit we get from AutoQuery Services being regular ServiceStack services is taking advantage of [ServiceStack's built-in formats](/formats). 
 
-The [CSV Format](?id=csv-format) especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.
+The [CSV Format](/csv-format) especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.
 
-ServiceStack provides a number of ways to [request your preferred content-type](?id=Routing#content-negotiation), the easiest of which is to just use the `.{format}` extension at the end of the `/pathinfo` e.g:
+ServiceStack provides a number of ways to [request your preferred content-type](/routing#content-negotiation), the easiest of which is to just use the `.{format}` extension at the end of the `/pathinfo` e.g:
 
     /rockstars.csv
     /movies.csv?ratings=G,PG-13
@@ -1062,9 +1062,9 @@ Which will now get AutoQuery to execute your implementations instead.
 ## Exclude AutoQuery Collections from being initialized
 
 The default configuration for all languages supported in
-[Add ServiceStack Reference](?id=Add-ServiceStack-Reference) 
+[Add ServiceStack Reference](/add-servicestack-reference) 
 is to 
-[InitializeCollections](?id=CSharp-Add-ServiceStack-Reference#initializecollections)
+[InitializeCollections](/csharp-add-servicestack-reference#initializecollections)
 which allows for a nicer client API in which clients can assume Request DTO's have their collections 
 initialized allowing them to use the shorthand collection initializer syntax, e.g:
 
@@ -1089,7 +1089,7 @@ nativeTypes.InitializeCollectionsForType = NativeTypesFeature.DontInitializeAuto
 ## AutoQuery Viewer
 
 AutoQuery Viewer provides an instant UI for constructing and browsing your 
-[AutoQuery](?id=AutoQuery) Services:
+[AutoQuery](/autoquery) Services:
 
 [![](https://raw.githubusercontent.com/ServiceStack/Admin/master/img/query-default-values.png)](http://github.servicestack.net/ss_admin/autoquery)
 
@@ -1110,7 +1110,7 @@ AutoQuery Viewer provides an instant UI for constructing and browsing your
 
 #### Features
 
- - [AutoQuery](?id=AutoQuery)
+ - [AutoQuery](/autoquery)
    - [Northwind AutoQuery DTOs](https://github.com/ServiceStackApps/Northwind/blob/master/src/Northwind/Northwind.ServiceModel/AutoQuery.cs)
    - [OrmLite Sqlite](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
 
@@ -1122,13 +1122,13 @@ AutoQuery Viewer provides an instant UI for constructing and browsing your
 
 #### Features
 
- - [AutoQuery](?id=AutoQuery)
+ - [AutoQuery](/autoquery)
    - [StackApis AutoQuery DTO](https://github.com/ServiceStackApps/StackApis#stackapis-autoquery-service)
    - [OrmLite Sqlite](https://github.com/ServiceStack/ServiceStack.OrmLite#download)
 
 ## [AutoQuery Viewer](https://github.com/ServiceStackApps/AutoQueryViewer)
 
-AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible [ServiceStack AutoQuery Service](?id=AutoQuery) from an iPad.
+AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing, inspecting and querying any publicly accessible [ServiceStack AutoQuery Service](/autoquery) from an iPad.
 
 [![AutoQuery Viewer on AppStore](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/autoquery/autoqueryviewer-appstore.png)](https://itunes.apple.com/us/app/autoquery-viewer/id968625288?ls=1&mt=8)
 
@@ -1140,6 +1140,6 @@ AutoQuery Viewer is a native iPad App that provides an automatic UI for browsing
 
 ## [TechStacks Cocoa OSX Desktop App](https://github.com/ServiceStackApps/TechStacksDesktopApp)
 
-TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality [AutoQuery Services](?id=AutoQuery) provides for free and how easy they are to call with [ServiceStack's new support for Swift and XCode](?id=Swift-Add-ServiceStack-Reference).
+TechStacks OSX Desktop App is built around 2 AutoQuery Services showing how much querying functionality [AutoQuery Services](/autoquery) provides for free and how easy they are to call with [ServiceStack's new support for Swift and XCode](/swift-add-servicestack-reference).
 
 [![TechStack Desktop Search Fields](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-desktop-field.png)](https://github.com/ServiceStackApps/TechStacksDesktopApp)

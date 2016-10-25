@@ -15,7 +15,7 @@ Whilst the installation of SSL certificates, IIS bindings and other tasks here a
 
 ## Getting started
 
-This example is going to be an extension on the pattern used in the [Deploy multiple sites to a single AWS instance deployment guide](?id=deploy-multiple-sites-to-aws), but with an additional TeamCity step and a few extra process steps for Octopus Deploy to deploy an application with additional components and configuration.
+This example is going to be an extension on the pattern used in the [Deploy multiple sites to a single AWS instance deployment guide](/deploy-multiple-sites-to-aws), but with an additional TeamCity step and a few extra process steps for Octopus Deploy to deploy an application with additional components and configuration.
 
 1. **Settings** file read by ServiceStack application
 2. ServiceStack **license file**
@@ -23,7 +23,7 @@ This example is going to be an extension on the pattern used in the [Deploy mult
 
 As an overview, the TeamCity steps for building and deploying a **simple application** goes something like:
 
-### [TeamCity Steps](?id=deploy-multiple-sites-to-aws#teamcity-installation-and-setup)
+### [TeamCity Steps](/deploy-multiple-sites-to-aws#teamcity-installation-and-setup)
 
 #### Build application
 
@@ -85,9 +85,9 @@ If everything is building correctly, you should get two **nupkg** files as artif
 
 If you are using TeamCity’s built in NuGet server, these packages are published are available to use from Octopus Deploy.
 
-## [Octopus Deploy process steps](?id=deploy-multiple-sites-to-aws#octopus-deploy-installation-and-initial-setup)
+## [Octopus Deploy process steps](/deploy-multiple-sites-to-aws#octopus-deploy-installation-and-initial-setup)
 
-For a [simple application](?id=deploy-multiple-sites-to-aws#setting-up-octopus-deploy-projects) with no application settings or SSL certificate to install we only have 2 steps for Octopus Deploy.
+For a [simple application](/deploy-multiple-sites-to-aws#setting-up-octopus-deploy-projects) with no application settings or SSL certificate to install we only have 2 steps for Octopus Deploy.
 
 ![](https://github.com/ServiceStack/Assets/raw/master/img/wikis/octopus-deploy-ssl/od-simple-example.png)
 
@@ -105,7 +105,7 @@ Publish settings is a "**Deploy Package**" process step looking at the TeamCity 
 
 ![Publish settings configuration](https://github.com/ServiceStack/Assets/raw/master/img/wikis/octopus-deploy-ssl/od-publish-settings.png)
 
->If you can’t see the [NuGet feed from TeamCity](?id=deploy-multiple-sites-to-aws#octopus-deploy-installation-and-initial-setup), you need to [set up a new NuGet feed](http://docs.octopusdeploy.com/display/OD/Package+repositories) under Library in Octopus Deploy.
+>If you can’t see the [NuGet feed from TeamCity](/deploy-multiple-sites-to-aws#octopus-deploy-installation-and-initial-setup), you need to [set up a new NuGet feed](http://docs.octopusdeploy.com/display/OD/Package+repositories) under Library in Octopus Deploy.
 
 ## Install SSL If Required
 
@@ -209,7 +209,7 @@ Octopus Deploy has some really useful features when it comes to handling applica
 
 ![Octopus Deploy Variables](https://github.com/ServiceStack/Assets/raw/master/img/wikis/octopus-deploy-ssl/od-variables.png)
 
-Although not used in this example, Octopus Deploy variables can replace web.config `appSettings` values and then can feed to [ServiceStack’s AppSettings and its more useful data-structures](?id=AppSettings#example-usage).
+Although not used in this example, Octopus Deploy variables can replace web.config `appSettings` values and then can feed to [ServiceStack’s AppSettings and its more useful data-structures](/appsettings#example-usage).
 
 To enable this functionality, remember to enable it in your application's deploy step.
 

@@ -6,10 +6,10 @@ title: JavaScript Client
 Of course, you're able to call your ServiceStack webservice from your 
 ajax and JavaScript clients, too. 
 
-### [Using TypeScript](?id=typescript-add-servicestack-reference)
+### [Using TypeScript](/typescript-add-servicestack-reference)
 
 The best tooling available for Ajax clients is to use ServiceStack's 
-[integrated TypeScript support](?id=typescript-add-servicestack-reference) where
+[integrated TypeScript support](/typescript-add-servicestack-reference) where
 you can use the TypeScript `JsonServiceClient` with 
 TypeScript Add ServiceStack Reference DTO's to get the same productive end-to-end
 Typed APIs available in ServiceStack's Typed .NET Clients, e.g:
@@ -26,7 +26,7 @@ client.get(request)
 
 ### Using JavaScript JsonServiceClient
 
-We also provide our own JsonServiceClients which mimics the [.NET Clients](?id=Clients-overview) in functionality that we make use of in our [Redis Admin UI](http://www.servicestack.net/RedisAdminUI/AjaxClient/):
+We also provide our own JsonServiceClients which mimics the [.NET Clients](/clients-overview) in functionality that we make use of in our [Redis Admin UI](http://www.servicestack.net/RedisAdminUI/AjaxClient/):
 
   - [JsonServiceClient.js](https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JsonServiceClient.js) - Pure JavaScript client
   - [JsonServiceClient.closure.js](https://github.com/ServiceStack/ServiceStack/tree/master/lib/js/JsonServiceClient.closure.js) - a [Google Closure](https://developers.google.com/closure/) enabled version of the client allowing compilation and bundling within a Closure project

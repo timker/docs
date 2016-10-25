@@ -13,21 +13,25 @@ If you have [NuGet](http://nuget.org) installed, the easiest way to get started 
 
 ServiceStack with Razor Support: Create an empty ASP.NET Web or Console Application and (.NET 4.0+)
 ![Install-Package ServiceStack.Razor](http://mono.servicestack.net/img/nuget-servicestack.razor.png)
-`Install-Package ServiceStack.Razor`
+
+    PM> Install-Package ServiceStack.Razor
 
 If you want just the binaries added to your web application, you just need to install
 ![Install-Package ServiceStack](http://mono.servicestack.net/img/nuget-servicestack.png)
-`Install-Package ServiceStack`
+
+    PM> Install-Package ServiceStack
 
 #### Pre-configured Starter template with AppHost + Basic REST service examples
 
 If you want to host ServiceStack Side-by-Side with MVC: Hosted at `/api` - Create an empty MVC Web Application and
 ![Install-Package ServiceStack.Host.Mvc](http://mono.servicestack.net/img/nuget-servicestack.host.mvc.png)
-`Install-Package ServiceStack.Host.Mvc`
+
+    PM> Install-Package ServiceStack.Host.Mvc
 
 Otherwise if you just want ServiceStack hosted at `/` - Create an empty ASP.NET Web Application and
 ![Install-Package ServiceStack.Host.Aspnet](http://mono.servicestack.net/img/nuget-servicestack.host.aspnet.png)
-`Install-Package ServiceStack.Host.Aspnet`
+
+    PM> Install-Package ServiceStack.Host.Aspnet
 
 This automates the following manual steps: 
 
@@ -35,7 +39,7 @@ This automates the following manual steps:
 * Register the ServiceStack handler in your Web.Config
 * Configure your AppHost 
 * Create a **[Hello](http://mono.servicestack.net/ServiceStack.Hello/)** web service
-* Create a **[TODO](http://mono.servicestack.net/Backbone.Todos/)** REST-ful web service
+* Create a **[TODO](http://todos.servicestack.net/)** REST-ful web service
 
 The above NuGet packages include a simple Hello World service and a REST service back-end for a simple TODO application. 
 
@@ -47,8 +51,8 @@ Downloadable separately from ServiceStack itself is its string powers. Inside [S
 
 * [JsonSerializer](http://mono.servicestack.net/mythz_blog/?p=344)
 * [TypeSerializer (JSV-Format)](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format)
-* CsvSerializer
-* [T.Dump extension method](http://mono.servicestack.net/mythz_blog/?p=202)
+* [CsvSerializer](/csv-format)
+* [T.Dump extension method](/dump-utils)
 * StringExtensions - Xml/Json/Csv/Url encoding, BaseConvert, Rot13, Hex escape, etc.
 * Stream, Reflection, List, DateTime, etc extensions and utils
 

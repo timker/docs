@@ -73,7 +73,7 @@ CSV also works just as you would expect with user-defined REST-ful urls, i.e. yo
 This is how the above web service output looks when opened up in [google docs](https://spreadsheets.google.com/pub?key=0AjnFdBrbn8_fdDBwX0Rha04wSTNWZDZlQXctcmp2bVE&hl=en_GB&output=html)
 
 
-Alternative in following with the HTTP specification you can also specify content-type `"text/csv"` in the *Accept* header of your HttpClient as done in [HTTP Utils](?id=Http-Utils) extension methods:
+Alternative in following with the HTTP specification you can also specify content-type `"text/csv"` in the *Accept* header of your HttpClient as done in [HTTP Utils](/http-utils) extension methods:
 
 ```csharp
 var csv = "http://nortwind.servicestack.net/customers".GetCsvFromUrl();
@@ -81,7 +81,7 @@ var csv = "http://nortwind.servicestack.net/customers".GetCsvFromUrl();
 
 ## CSV Deserialization Support
 
-The introduction of the new [AutoQuery Data](?id=autoquery-data) feature and it's `MemorySource` has made full CSV support
+The introduction of the new [AutoQuery Data](/autoquery-data) feature and it's `MemorySource` has made full CSV support
 a lot more appealing which caused CSV Deserialization support where it's implementation is now complete. This now unlocks the ability to create fully-queryable Services over flat-file .csv's (or Excel spreadsheets exported to .csv) by just deserializing CSV into a List of POCO's and registering it with AutoQuery Data:
 
 ```csharp
@@ -99,7 +99,7 @@ public class QueryPocos : QueryData<Poco> {}
 ### Super CSV Format
 
 A noteworthy feature that sets ServiceStack's CSV support apart is that it's built on the compact and very fast
-[JSV Format](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format) which not only can 
+[JSV format](/jsv-format) which not only can 
 deserialize a tabular flat file of scalar values at high-speed, it also supports deeply nested object graphs
 which are encoded in JSV and escaped in a CSV field as normal. An example of this can be seen in a HTTP 
 sample log fragment below where the HTTP Request Headers are a serialized from a `Dictionary<string,string>`:
@@ -161,7 +161,7 @@ public class Pocos : IReturn<Pocos>
 
 In addition to the above flexible options for defining CSV-friendly Services, there's also a few different 
 options for sending CSV Requests to the above Services. You can use the new CSV `PostCsvToUrl()` extension 
-methods added to [HTTP Utils](?id=Http-Utils):
+methods added to [HTTP Utils](/http-utils):
 
 ```csharp
 string csvText = File.ReadAllText("pocos.csv");
@@ -191,7 +191,7 @@ Pocos response = client.Post(new Pocos(dtos));
 
 The `CsvServiceClient` by virtue of being configured to use a well-defined Tabular data format is perfect 
 for sending 
-[Auto-Batched Requests](?id=Auto-Batched-Requests) 
+[Auto-Batched Requests](/auto-batched-requests) 
 which by definition send a batch of POCO's making the CSV format the most compact text format to send them with:
 
 ```csharp
@@ -221,4 +221,4 @@ The second major limitation is that it doesn't yet include a CSV Deserializer (c
 
 # Features
 
-Unlike most CSV serializers that can only serialize rows of primitive values, the CsvSerializer uses the [JSV Format](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format) under the hood so even [complex types](https://spreadsheets.google.com/pub?key=0AjnFdBrbn8_fdG83eWdGM1lnVW9PMlplcmVDYWtXeVE&hl=en_GB&output=html) will be serialized in fields in a easy to read format - no matter how deep its hierarchy.
+Unlike most CSV serializers that can only serialize rows of primitive values, the CsvSerializer uses the [JSV format](/jsv-format) under the hood so even [complex types](https://spreadsheets.google.com/pub?key=0AjnFdBrbn8_fdG83eWdGM1lnVW9PMlplcmVDYWtXeVE&hl=en_GB&output=html) will be serialized in fields in a easy to read format - no matter how deep its hierarchy.

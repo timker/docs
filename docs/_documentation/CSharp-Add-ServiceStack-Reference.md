@@ -5,13 +5,13 @@ title: C# Add ServiceStack Reference
 
 ![C# Platforms](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png)
 
-The primary and most popular [Add ServiceStack Reference](?id=add-servicestack-reference) language supported is C#, providing a flexible alternative than sharing your DTO assembly with clients, now clients can easily add a reference to a remote ServiceStack instance and update DTO's directly from within VS.NET. This also lays the groundwork and signals our approach on adding support for typed API's in other languages in future. Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
+The primary and most popular [Add ServiceStack Reference](/add-servicestack-reference) language supported is C#, providing a flexible alternative than sharing your DTO assembly with clients, now clients can easily add a reference to a remote ServiceStack instance and update DTO's directly from within VS.NET. This also lays the groundwork and signals our approach on adding support for typed API's in other languages in future. Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
 
 Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a remote url - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.
 
-## [Add ServiceStack Reference](?id=add-servicestack-reference)
+## [Add ServiceStack Reference](/add-servicestack-reference)
 
-The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=create-your-first-webservice) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
+The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](/create-your-first-webservice) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
 
 [![Add ServiceStack Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/add-service-ref-flow.png)
 
@@ -19,7 +19,7 @@ After clicking OK, the servers DTOs and [ServiceStack.Client](https://www.nuget.
 
 [![Calling ServiceStack Service](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png)](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/apps/StackApis/call-service.png)
 
-With the C# code generated on the Server, the role of [ServiceStackVS's](?id=create-your-first-webservice) **Add ServiceStack Reference** is then just to integrate the remote C# DTOs into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
+With the C# code generated on the Server, the role of [ServiceStackVS's](/create-your-first-webservice) **Add ServiceStack Reference** is then just to integrate the remote C# DTOs into the clients VS.NET project. This is just getting the generated DTOs from the server with default options set by the server and adding them locally to your project within Visual Studio.
 
 ![Add CSharp ServiceStack Reference Demo](https://github.com/ServiceStack/Assets/raw/master/img/servicestackvs/servicestack%20reference/addref-csharp.gif)
 
@@ -309,7 +309,7 @@ If you are having trouble with the Xamarin Studio gallery version, you can insta
 
 ### Adding a ServiceStack Reference
 
-Once installed, adding a ServiceStack Reference is very similar to [ServiceStackVS in VS.NET](?id=CSharp-Add-ServiceStack-Reference#add-servicestack-reference) where you can just click on `Add -> Add ServiceStack Reference...` on the project's context menu to bring up the familiar Add Reference dialog. After adding the `BaseUrl` of the remote ServiceStack instance, click OK to add the generated DTO's to your project using the name specified:
+Once installed, adding a ServiceStack Reference is very similar to [ServiceStackVS in VS.NET](/csharp-add-servicestack-reference#add-servicestack-reference) where you can just click on `Add -> Add ServiceStack Reference...` on the project's context menu to bring up the familiar Add Reference dialog. After adding the `BaseUrl` of the remote ServiceStack instance, click OK to add the generated DTO's to your project using the name specified:
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/servicestackvs/servicestack%20reference/ssxs-mac-add-reference.gif)
 

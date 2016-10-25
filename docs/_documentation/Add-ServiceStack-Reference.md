@@ -3,16 +3,16 @@ slug: add-servicestack-reference
 title: Add ServiceStack Reference
 ---
 
-ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](?id=create-your-first-webservice#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET.
+ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](/create-your-first-webservice#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET.
 
 Add ServiceStack Reference now supports 
-[Swift](?id=Swift-Add-ServiceStack-Reference), 
-[Java](?id=Java-Add-ServiceStack-Reference), 
-[Kotlin](?id=Kotlin-Add-ServiceStack-Reference), 
-[C#](?id=CSharp-Add-ServiceStack-Reference), 
-[TypeScript](?id=TypeScript-Add-ServiceStack-Reference), 
-[F#](?id=FSharp-Add-ServiceStack-Reference) and 
-[VB.NET](?id=vbnet-Add-ServiceStack-Reference)
+[Swift](/swift-add-servicestack-reference), 
+[Java](/java-add-servicestack-reference), 
+[Kotlin](/kotlin-add-servicestack-reference), 
+[C#](/csharp-add-servicestack-reference), 
+[TypeScript](/typescript-add-servicestack-reference), 
+[F#](/fsharp-add-servicestack-reference) and 
+[VB.NET](/vbnet-add-servicestack-reference)
 including integration with most leading IDE's to provide a flexible alternative than sharing your DTO assembly with clients. Clients can now easily add a reference to a remote ServiceStack url and update DTOs directly from within VS.NET, Xamarin Studio, Xcode, Android Studio, IntelliJ and Eclipse. We plan on expanding on this foundation into adding seamless, typed, end-to-end integration with other languages - Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
 
 Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a single remote url directly within their favorite IDE - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.
@@ -21,13 +21,13 @@ ServiceStackVS offers the generation and updating of these clients through the s
 
 ### Supported Languages
 
-* [C# Add ServiceStack Reference](?id=CSharp-Add-ServiceStack-Reference)
-* [TypeScript Add ServiceStack Reference](?id=TypeScript-Add-ServiceStack-Reference)
-* [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
-* [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
-* [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
-* [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-* [VB.NET Add ServiceStack Reference](?id=vbnet-Add-ServiceStack-Reference)
+* [C# Add ServiceStack Reference](/csharp-add-servicestack-reference)
+* [TypeScript Add ServiceStack Reference](/typescript-add-servicestack-reference)
+* [Swift Add ServiceStack Reference](/swift-add-servicestack-reference)
+* [Java Add ServiceStack Reference](/java-add-servicestack-reference)
+* [Kotlin Add ServiceStack Reference](/kotlin-add-servicestack-reference)
+* [F# Add ServiceStack Reference](/fsharp-add-servicestack-reference)
+* [VB.NET Add ServiceStack Reference](/vbnet-add-servicestack-reference)
 
 ## Example Usage
 
@@ -41,13 +41,13 @@ ServiceStackVS offers the generation and updating of these clients through the s
 
 Options for the generated DTOs can be changed by updating the commented section in the header of the file. Each language will have different options based on what is applicable to that language. For details on these options, please see the specific language wiki page.
 
-* [C# Options](?id=CSharp-Add-ServiceStack-Reference#change-default-server-configuration)
-* [Swift Options](?id=Swift-Add-ServiceStack-Reference#swift-configuration)
-* [Java Options](?id=Java-Add-ServiceStack-Reference#java-configuration)
-* [Kotlin Options](?id=Kotlin-Add-ServiceStack-Reference#kotlin-configuration)
-* [TypeScript Options](?id=TypeScript-Add-ServiceStack-Reference#change-default-server-configuration)
-* [F# Options](?id=FSharp-Add-ServiceStack-Reference#change-default-server-configuration)
-* [VB.Net Options](?id=vbnet-Add-ServiceStack-Reference)
+* [C# Options](/csharp-add-servicestack-reference#change-default-server-configuration)
+* [Swift Options](/swift-add-servicestack-reference#swift-configuration)
+* [Java Options](/java-add-servicestack-reference#java-configuration)
+* [Kotlin Options](/kotlin-add-servicestack-reference#kotlin-configuration)
+* [TypeScript Options](/typescript-add-servicestack-reference#change-default-server-configuration)
+* [F# Options](/fsharp-add-servicestack-reference#change-default-server-configuration)
+* [VB.Net Options](/vbnet-add-servicestack-reference)
 
 ### ssutil.exe - Command line ServiceStack Reference tool
 
@@ -96,11 +96,11 @@ Updating a ServiceStack Reference is even easier we just specify the path to the
 ## Advantages over WCF
 
  - **Simple** Server provides DTOs based on metadata and options provided. No heavy client side tools, just a HTTP request!
- - **Versatile** Clean DTOs works in all JSON, XML, JSV, MsgPack and ProtoBuf [generic service clients](?id=CSharp-client#built-in-clients)
+ - **Versatile** Clean DTOs works in all JSON, XML, JSV, MsgPack and ProtoBuf [generic service clients](/csharp-client#built-in-clients)
  - **Reusable** Generated DTOs are not coupled to any endpoint or format. Defaults are both partial and virtual for maximum re-use 
- - **Resilient** Messaging-based services offer a number of [advantages over RPC Services](?id=Advantages-of-message-based-web-services)
+ - **Resilient** Messaging-based services offer a number of [advantages over RPC Services](/advantages-of-message-based-web-services)
  - **Flexible** DTO generation is customizable, Server and Clients can override built-in defaults
- - **Integrated** Rich Service metadata annotated on DTO's, [Internal Services](?id=Restricting-Services) are excluded when accessed externally
+ - **Integrated** Rich Service metadata annotated on DTO's, [Internal Services](/restricting-services) are excluded when accessed externally
 
 
 ## In Contrast with WCF's Add Service Reference
@@ -123,9 +123,9 @@ This is in stark contrast with the JSON spec which [fits on a single page](http:
 
 ## ServiceStack's Native Types Feature
 
-As with any ServiceStack feature one of our primary goals is to [minimize unnecessary complexity](?id=AutoQuery#why-not-complexity) by opting for approaches that yield maximum value and minimal complexity, favoring re-use and simple easy to reason about solutions over opaque heavy black-box tools.
+As with any ServiceStack feature one of our primary goals is to [minimize unnecessary complexity](/autoquery#why-not-complexity) by opting for approaches that yield maximum value and minimal complexity, favoring re-use and simple easy to reason about solutions over opaque heavy black-box tools.
 
-We can already see from the WCF scenario how ServiceStack already benefits from its message-based design, where as it's able to reuse any [Generic Service Client](?id=Clients-overview), only application-specific DTO's ever need to be generated, resulting in a much cleaner, simpler and friction-less solution.
+We can already see from the WCF scenario how ServiceStack already benefits from its message-based design, where as it's able to reuse any [Generic Service Client](/clients-overview), only application-specific DTO's ever need to be generated, resulting in a much cleaner, simpler and friction-less solution.
 
 Code-first is another approach that lends itself to simpler solutions, which saves the effort and inertia from adapting to interim schemas/specs, often with impedance mismatches and reduced/abstract functionality. In ServiceStack your code-first DTOs are the master authority where all other features are projected off. 
 
@@ -182,7 +182,7 @@ nativeTypes.MetadataTypesConfig.IgnoreTypes.Add(typeof(TypeToIgnore));
 ```
 
 If you only want to limit code generation based on where the reference is being added from you can use the 
-[Restrict Attribute](?id=Restricting-Services), 
+[Restrict Attribute](/restricting-services), 
 E.g you can limit types to only appear when the reference is added from localhost:
 
 ```csharp

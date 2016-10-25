@@ -39,7 +39,7 @@ Typically when hosting ServiceStack with MVC you'd want to host it at the `/api`
 </location>
 ```
 
-> See [Run Side-by-Side with another web framework](?id=servicestack-side-by-side-with-another-web-framework) for other web.config examples of hosting ServiceStack, e.g with IIS6/Mono.
+> See [Run Side-by-Side with another web framework](/servicestack-side-by-side-with-another-web-framework) for other web.config examples of hosting ServiceStack, e.g with IIS6/Mono.
 
 ### Add your ServiceStack AppHost
 
@@ -170,7 +170,7 @@ protected void Application_EndRequest(object src, EventArgs e)
 }
 ```
 
-For more info on the MiniProfiler see the [Built in profiling](?id=built-in-profiling) docs.
+For more info on the MiniProfiler see the [Built in profiling](/built-in-profiling) docs.
 
 The Urls for metadata page and included Services:
 
@@ -179,9 +179,9 @@ The Urls for metadata page and included Services:
   * [/api/todos](http://bootstrapapi.servicestack.net/api/todos) - Simple REST Service see: http://todos.servicestack.net
   * [/default.htm](http://todos.servicestack.net/) - Backbone.js TODO application talking to the TODO REST service at /api/todos
 
-## [Accessing ServiceStack from MVC](?id=ServiceStack-Integration)
+## [Accessing ServiceStack from MVC](/servicestack-integration)
 
-Once you have MVC + ServiceStack up and running checkout [ServiceStack Integration](?id=servicestack-integration) docs to explore different ways of accessing ServiceStack from MVC.
+Once you have MVC + ServiceStack up and running checkout [ServiceStack Integration](/servicestack-integration) docs to explore different ways of accessing ServiceStack from MVC.
 
   [1]: https://github.com/ServiceStack/ServiceStack/blob/master/NuGet/ServiceStack.Host.Mvc/content/README.txt
   [2]: https://nuget.org/packages/ServiceStack.Host.Mvc/

@@ -108,7 +108,7 @@ public class Todo
 
 You can try a redis-powered TODO's web app like this in our [todos.servicestack.net](http://todos.servicestack.net) Live Demo. A more comprehensive example can be seen in the [Repository.cs](https://github.com/ServiceStackApps/RedisStackOverflow/blob/master/src/RedisStackOverflow/RedisStackOverflow.ServiceInterface/IRepository.cs) used to power the [RedisStackOverflow Live Demo](http://redisstackoverflow.servicestack.net/).
 
-Another property automatically injected when registering our `RedisManagerPool` is `base.Cache` which provides a substitutable [Caching abstraction](?id=Caching) our Services can use to cache results. E.g. we can make use of ServiceStack's high-level Caching API in [Request.ToOptimizedResultUsingCache](?id=Caching#cache-a-response-of-a-service) to enable maximum performance of your Services:
+Another property automatically injected when registering our `RedisManagerPool` is `base.Cache` which provides a substitutable [Caching abstraction](/caching) our Services can use to cache results. E.g. we can make use of ServiceStack's high-level Caching API in [Request.ToOptimizedResultUsingCache](/caching#cache-a-response-of-a-service) to enable maximum performance of your Services:
 
 ```
 public object Get(CachedCustomers request)

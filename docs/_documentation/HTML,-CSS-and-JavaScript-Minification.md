@@ -51,7 +51,7 @@ Use the `UseAdvancedCompression=true` option if you also want to minify inline j
 
 ### Minify static `.js`, `.css` and `.html` files
 
-With nothing other than the new minifiers, we can leverage the flexibility in ServiceStack's [Virtual File System](?id=Virtual-file-system) to provide an elegant solution for minifying static `.html`, `.css` and `.js` resources by simply pre-loading a new InMemory Virtual FileSystem with minified versions of existing files and giving the Memory FS a higher precedence so any matching requests serve up the minified version first. We only need to pre-load the minified versions once on StartUp by overriding `GetVirtualFileSources()` in the AppHost:
+With nothing other than the new minifiers, we can leverage the flexibility in ServiceStack's [Virtual File System](/virtual-file-system) to provide an elegant solution for minifying static `.html`, `.css` and `.js` resources by simply pre-loading a new InMemory Virtual FileSystem with minified versions of existing files and giving the Memory FS a higher precedence so any matching requests serve up the minified version first. We only need to pre-load the minified versions once on StartUp by overriding `GetVirtualFileSources()` in the AppHost:
 
 ```csharp
 public override List<IVirtualPathProvider> GetVirtualFileSources()

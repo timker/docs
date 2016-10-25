@@ -5,7 +5,7 @@ title: Filter Attributes
 
 ServiceStack also contains interfaces for attributes which can be executed before and after a request like request/response filters. The filter attributes are great for composing re-usable functionality as you can wrap common functionality in a Filter Attribute and selectively annotate which Services they should apply to. 
 
-For example, ServiceStack uses `[Authenticate]` and `[RequiredPermission]` filter attributes to decorate which Services should be protected with authentication or specific permissions (see [Authentication and authorization](?id=Authentication-and-authorization)).
+For example, ServiceStack uses `[Authenticate]` and `[RequiredPermission]` filter attributes to decorate which Services should be protected with authentication or specific permissions (see [Authentication and authorization](/authentication-and-authorization)).
 
 ### Request Filter Attributes
 

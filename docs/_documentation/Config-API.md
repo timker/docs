@@ -7,7 +7,7 @@ Despite being avid protesters in the anti-XML config movement, we're still 100% 
 
 ### ServiceStack's Configuration API
 
-To this end we provide our own pluggable [Configuration API](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResourceManager.cs) to provide high-level utility methods to read your Web.config's `<appSetting/>` values into a `List`, `Dictionary` or your own Custom POCO Type using the human friendly [JSV format](https://github.com/ServiceStack/ServiceStack.Text/wiki/JSV-Format).
+To this end we provide our own pluggable [Configuration API](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResourceManager.cs) to provide high-level utility methods to read your Web.config's `<appSetting/>` values into a `List`, `Dictionary` or your own Custom POCO Type using the human friendly [JSV format](/jsv-format).
 
 ### Benefits over XML Config
 
@@ -16,11 +16,11 @@ Benefits over existing XML Configuration APIs include:
   - The ability to store rich data structures in **appSettings** values
   - Much easier and requires less effort and boilerplate to create 
   - Provides more succinct access to typed data
-  - Since they're just POCOs can be re-used in all of ServiceStack's libraries and built-in [Auto Mapping](?id=auto-mapping)
+  - Since they're just POCOs can be re-used in all of ServiceStack's libraries and built-in [Auto Mapping](/auto-mapping)
 
-and promotes less-coupling since its only an [interface](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResourceManager.cs) so can easily be swapped to have [Plugins](?id=plugins) source their complex configuration from an different source (e.g. from a central DB) without a rewrite. 
+and promotes less-coupling since its only an [interface](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Configuration/IResourceManager.cs) so can easily be swapped to have [Plugins](/plugins) source their complex configuration from an different source (e.g. from a central DB) without a rewrite. 
 
-[OpenId](?id=openid) providers like the [FacebookAuthProvider](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/Auth/FacebookAuthProvider.cs#L23) is an example of Plugins that require multiple configuration settings but remain de-coupled from any one configuration source (e.g. Web.config).
+[OpenId](/openId) providers like the [FacebookAuthProvider](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.ServiceInterface/Auth/FacebookAuthProvider.cs#L23) is an example of Plugins that require multiple configuration settings but remain de-coupled from any one configuration source (e.g. Web.config).
 
 ### Example AppSettings Usage
 

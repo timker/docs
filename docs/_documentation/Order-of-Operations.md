@@ -10,14 +10,14 @@ This list shows the order in which any user-defined custom hooks are executed:
   2. If the Request doesn't match any existing Routes it will search `IAppHost.CatchAllHandlers` for a match
   3. The `IAppHost.PreRequestFilters` gets executed before the Request DTO is deserialized
   4. Default Request DTO Binding or [Custom Request Binding][4] _(if registered)_
-  5. Any [Request Converters](?id=Customize-HTTP-Responses#request-converters) are executed
+  5. Any [Request Converters](/customize-http-responses#request-converters) are executed
   5. [Request Filter Attributes][3] with **Priority < 0** gets executed
   6. Then any [Global Request Filters][1] get executed
   7. Followed by [Request Filter Attributes][3] with **Priority >= 0**
   8. Action Request Filters
   9. Then your **Service is executed** with the configured [IServiceRunner](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) and its **OnBeforeExecute**, **OnAfterExecute** and **HandleException** custom hooks are fired
   10. Action Response Filters
-  11. Any [Response Converters](?id=Customize-HTTP-Responses#response-converters) are executed
+  11. Any [Response Converters](/customize-http-responses#response-converters) are executed
   11. Followed by [Response Filter Attributes][3] with **Priority < 0** 
   12. Then [Global Response Filters][1] 
   13. Followed by [Response Filter Attributes][3] with **Priority >= 0** 
@@ -27,12 +27,12 @@ Any time you close the Response in any of your filters, i.e. `httpRes.EndRequest
 
 ## MQ (non-HTTP) Custom hooks
 
-  1. Any [Global Request Filters](?id=Request-and-response-filters#message-queue-endpoints) get executed
+  1. Any [Global Request Filters](?/request-and-response-filters#message-queue-endpoints) get executed
   2. Followed by [Request Filter Attributes][3] with **Priority >= 0**
   3. Action Request Filters
   4. Then your **Service is executed** with the configured [IServiceRunner](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IServiceRunner.cs) and its **OnBeforeExecute**, **OnAfterExecute** and **HandleException** custom hooks are fired
   5. Action Response Filters
-  6. Then [Global Response Filters](?id=Request-and-response-filters#message-queue-endpoints) 
+  6. Then [Global Response Filters](?/request-and-response-filters#message-queue-endpoints) 
   7. Finally at the end of the Request `IAppHost.OnEndRequest` is fired
 
 ## Implementation architecture diagram
@@ -47,7 +47,7 @@ The implementation of [RestHandler](https://github.com/ServiceStack/ServiceStack
 
 ![ServiceStack Request Pipeline](http://mono.servicestack.net/files/servicestack-overview-02.png)
 
-  [1]: ?id=Request-and-response-filters
-  [2]: ?id=Architecture-overview
-  [3]: ?id=Filter-attributes
-  [4]: ?id=Serialization-deserialization
+  [1]: ?/request-and-response-filters
+  [2]: /architecture-overview
+  [3]: /filter-attributes
+  [4]: /serialization-deserialization

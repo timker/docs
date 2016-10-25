@@ -4,7 +4,7 @@ slug: contributors
 
 ## Big thanks to our 300+ .NET Open Source Contributors!
 
-These last few weeks have been the most eventful in ServiceStack's history where we've delivered [considerable enhancements](?id=Release-Notes) to the framework that includes our [compelling new HTML Story](http://razor.servicestack.net) followed shortly after by our [new API Design](?id=api-design) which promotes an even more flexible and enjoyable server and client apis that we we're happy to see was [well received by the Hacker Community](http://news.ycombinator.com/item?id=4564416).
+These last few weeks have been the most eventful in ServiceStack's history where we've delivered [considerable enhancements](/release-notes-history) to the framework that includes our [compelling new HTML Story](http://razor.servicestack.net) followed shortly after by our [new API Design](/api-design) which promotes an even more flexible and enjoyable server and client apis that we we're happy to see was [well received by the Hacker Community](http://news.ycombinator.com/item?id=4564416).
 
 ### Our most important milestone yet!
 
@@ -58,7 +58,7 @@ Maintaining a healthy contributor base is vital for the project as it provides u
 
 ## Starting from ideal C# and projecting out
 
-A healthy contributor base is especially important for ServiceStack as our [Message-based Design](?id=Advantages-of-message-based-web-services) lets you implement your service with minimal C# that's unaffected by endpoint concerns. At this level where we **start from ideal C# and project out** your service is in it's most re-usable form, and it's up to our active users and contributor base to determine which contexts are the most important to add support for first to host your services logic in.
+A healthy contributor base is especially important for ServiceStack as our [Message-based Design](/advantages-of-message-based-web-services) lets you implement your service with minimal C# that's unaffected by endpoint concerns. At this level where we **start from ideal C# and project out** your service is in it's most re-usable form, and it's up to our active users and contributor base to determine which contexts are the most important to add support for first to host your services logic in.
 
 The feedback we've received has led us to implement the most popular use-cases, increasing the re-usability and accessibility of your services - where it's now possible to host the **same existing implementation on the number of different Host configurations**, endpoints and formats below:
 
@@ -66,22 +66,22 @@ The feedback we've received has led us to implement the most popular use-cases, 
 
   - ASP.NET (.NET / Mono)
   - HttpListener / Console App / Windows Service / Linux Daemon (.NET / Mono)
-  - [MQ Host](?id=Messaging-and-redis)
+  - [MQ Host](/messaging-and-redis)
 
 ### Web Services
 
   - [HTML (MVC Razor, Markdown Razor, Markdown, HtmlReport)](http://razor.servicestack.net/)
   - JSON (+ JSONP)
   - XML
-  - [CSV](?id=csv-format)
-  - [JSV](http://www.servicestack.net/mythz_blog/?p=176)
-  - [SOAP 1.1/1.2](?id=SOAP-support)
-  - [ProtoBuf](?id=Protobuf-format)
-  - [MsgPack](?id=MessagePack-Format)
+  - [CSV](/csv-format)
+  - [JSV](/jsv-format)
+  - [SOAP 1.1/1.2](/soap-support)
+  - [ProtoBuf](/protobuf-format)
+  - [MsgPack](/messagepack-format)
 
 ### Message Queue Services
 
-  - [Redis MQ](?id=Messaging-and-redis)
+  - [Redis MQ](/messaging-and-redis)
   - In Memory MQ
   - RCON
 
@@ -89,8 +89,8 @@ There are more useful endpoints and hosts in the pipeline: expanded MQ options, 
 
 ## Where new contributors can add the most value
 
-We're always looking for new Contributors and there's still a plenty of room to fill: more tutorials, posts and example projects to add to the [Community Resources](?id=Community-Resources) are always welcomed, as well as expanding the [community wiki documentation](?id=) with real-world tips and solutions to common use-cases. 
+We're always looking for new Contributors and there's still a plenty of room to fill: more tutorials, posts and example projects to add to the [Community Resources](/community-resources) are always welcomed, as well as expanding the documentation with real-world tips and solutions to common use-cases. 
 
 ### Possible Development enhancements
 
-Code-wise more Formats/Endpoints, MQ Hosts, [Caching](?id=Caching) and [Authentication Providers](?id=Authentication-and-authorization) will provide instant utility to all our users, expanding the supported environments and configurations where ServiceStack services can be hosted in.
+Code-wise more Formats/Endpoints, MQ Hosts, [Caching](/caching) and [Authentication Providers](/authentication-and-authorization) will provide instant utility to all our users, expanding the supported environments and configurations where ServiceStack services can be hosted in.
