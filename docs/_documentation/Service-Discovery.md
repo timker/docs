@@ -1,8 +1,9 @@
 ---
 slug: service-discovery
+title: Service Discovery
 ---
 
-ServiceStack is fortunate to have a vibrant community which quickly saw the capabilities on offer in [[Service Gateway]] whom have jumped in with a number of high-quality, well-documented and supported value-added OSS solutions:
+ServiceStack is fortunate to have a vibrant community which quickly saw the capabilities on offer in [Service Gateway](?id=service-gateway) whom have jumped in with a number of high-quality, well-documented and supported value-added OSS solutions:
 
 ### [ServiceStack.Discovery.Consul](https://github.com/MacLeanElectrical/servicestack-discovery-consul)
 

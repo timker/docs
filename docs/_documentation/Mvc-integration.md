@@ -170,7 +170,7 @@ protected void Application_EndRequest(object src, EventArgs e)
 }
 ```
 
-For more info on the MiniProfiler see the [[Built in profiling]] wiki.
+For more info on the MiniProfiler see the [Built in profiling](?id=built-in-profiling) docs.
 
 The Urls for metadata page and included Services:
 
@@ -181,7 +181,7 @@ The Urls for metadata page and included Services:
 
 ## [Accessing ServiceStack from MVC](?id=ServiceStack-Integration)
 
-Once you have MVC + ServiceStack up and running checkout [[ServiceStack Integration]] docs to explore different ways of accessing ServiceStack from MVC.
+Once you have MVC + ServiceStack up and running checkout [ServiceStack Integration](?id=servicestack-integration) docs to explore different ways of accessing ServiceStack from MVC.
 
   [1]: https://github.com/ServiceStack/ServiceStack/blob/master/NuGet/ServiceStack.Host.Mvc/content/README.txt
   [2]: https://nuget.org/packages/ServiceStack.Host.Mvc/

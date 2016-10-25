@@ -113,10 +113,10 @@ See the [PartialContentResultTests](https://github.com/ServiceStack/ServiceStack
 In addition to returning plain C# objects, ServiceStack allows you to return any **Stream** or IStreamWriter (which is a bit more flexible on how you write to the response stream):
 
 ```csharp
-    public interface IStreamWriter
-    {
-        void WriteTo(Stream stream);
-    }
+public interface IStreamWriter
+{
+    void WriteTo(Stream stream);
+}
 ```
 
 Both though allow you to write directly to the Response OutputStream without any additional conversion overhead.
@@ -126,14 +126,14 @@ Both though allow you to write directly to the Response OutputStream without any
 If you want to customize the HTTP headers at the sametime you just need to implement [IHasOptions](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IHasOptions.cs) where any Dictionary Entry is written to the Response HttpHeaders.
 
 ```csharp
-    public interface IHasOptions
-    {
-        IDictionary<string, string> Options { get; }
-    }
+public interface IHasOptions
+{
+    IDictionary<string, string> Options { get; }
+}
 ```
 
 Further than that, the IHttpResult allows even finer-grain control of the HTTP output (status code, headers, ...) where you can supply a custom Http Response status code. You can refer to the implementation of the [HttpResult](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/HttpResult.cs) object for a real-world implementation of these above interfaces.
 
 ### Further customizing the HTTP Response
 
-See the [[Customize HTTP Responses]] wiki page for more ways of customizing the HTTP Response.
+See the [Customize HTTP Responses](?id=customize-http-responses) page for more ways of customizing the HTTP Response.

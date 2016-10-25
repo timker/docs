@@ -81,7 +81,7 @@ var csv = "http://nortwind.servicestack.net/customers".GetCsvFromUrl();
 
 ## CSV Deserialization Support
 
-The introduction of the new [[AutoQuery Data]] feature and it's `MemorySource` has made full CSV support
+The introduction of the new [AutoQuery Data](?id=autoquery-data) feature and it's `MemorySource` has made full CSV support
 a lot more appealing which caused CSV Deserialization support where it's implementation is now complete. This now unlocks the ability to create fully-queryable Services over flat-file .csv's (or Excel spreadsheets exported to .csv) by just deserializing CSV into a List of POCO's and registering it with AutoQuery Data:
 
 ```csharp

@@ -9,7 +9,7 @@ ServiceStack's **Add ServiceStack Reference** feature allows clients to generate
 
 The article outlines ServiceStack's support generating F# DTO's - providing a flexible alternative than sharing your compiled DTO .NET assembly with clients. Now F# clients can easily add a reference to a remote ServiceStack instance and update typed DTO's directly from within VS.NET - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback. 
 
-## [[Add ServiceStack Reference]]
+## [Add ServiceStack Reference](?id=add-servicestack-reference)
 
 The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=create-your-first-webservice) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
 

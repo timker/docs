@@ -31,7 +31,7 @@ var deserialize = (Type type, Stream stream) => ...;
 //Pass two delegates for serialization and deserialization
 this.ContentTypes.Register(contentType, serialize, deserialize);	
 ```
-The [[Protobuf-format]] shows an example of registering a new format whilst the [Northwind VCard Format](http://northwind.servicestack.net/vcard-format.htm) shows an example of creating a custom media type in ServiceStack.
+The [Protobuf-format](?id=protobuf-format) shows an example of registering a new format whilst the [Northwind VCard Format](http://northwind.servicestack.net/vcard-format.htm) shows an example of creating a custom media type in ServiceStack.
 
 ***
 

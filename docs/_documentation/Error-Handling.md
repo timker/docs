@@ -1,6 +1,8 @@
 ---
 slug: error-handling
+title: Error Handling
 ---
+
 ## Throwing C# Exceptions
 
 In most cases you won't need to be concerned with ServiceStack's error handling since it provides native support for the normal use-case of throwing C# Exceptions, e.g.:
@@ -258,7 +260,7 @@ public override void Configure(Container container)
 
 ### Register handlers for handling Service Exceptions
 
-ServiceStack and its [[new API]] provides a flexible way to intercept exceptions. If you need a single entry point for all service exceptions, you can add a handler to `AppHost.ServiceExceptionHandler` in `Configure`. To handle exceptions occurring outside of services you can set the global `AppHost.UncaughtExceptionHandlers` handler, e.g.:
+ServiceStack and its [API Design](?id=api-design) provides a flexible way to intercept exceptions. If you need a single entry point for all service exceptions, you can add a handler to `AppHost.ServiceExceptionHandler` in `Configure`. To handle exceptions occurring outside of services you can set the global `AppHost.UncaughtExceptionHandlers` handler, e.g.:
 
 ```csharp
 public override void Configure(Container container)

@@ -1,7 +1,9 @@
 ---
 slug: add-servicestack-reference 
+title: Add ServiceStack Reference
 ---
- ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](?id=create-your-first-webservice#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET.
+
+ServiceStack's **Add ServiceStack Reference** feature allows adding generated Native Types for the most popular typed languages and client platforms directly from within most major IDE's starting with [ServiceStackVS](?id=create-your-first-webservice#step-1-download-and-install-servicestackvs) - providing a simpler, cleaner and more versatile alternative to WCF's **Add Service Reference** feature that's built into VS.NET.
 
 Add ServiceStack Reference now supports 
 [Swift](?id=Swift-Add-ServiceStack-Reference), 

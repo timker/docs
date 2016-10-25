@@ -2,6 +2,7 @@
 slug: validation
 title: Validation and Error Handling
 ---
+
 As validation and error handling is an essential part of developing services, ServiceStack provides a rich array of error handling options that work intuitively out-of-the-box. 
 
 Optimized for developer happiness ServiceStack allows you to idiomatically throw C# exceptions directly in your services and trivially consume them on the client with minimal effort, intuitively and conventionally - allowing the opportunity to inject generic error handling routines to handle errors for all your web services. 

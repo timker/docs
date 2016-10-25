@@ -1,5 +1,6 @@
 ---
 slug: linux-hosting-options
+title: Linux Hosting Options
 ---
 
 We'll list different Linux Hosting Options being used by others to deploy and Host ServiceStack on Linux:

@@ -2,6 +2,7 @@
 slug: customize-http-responses
 title: Customize HTTP Responses
 ---
+
 ServiceStack provides multiple ways to customize your services HTTP response. Each option gives you complete control of the final HTTP Response that's returned by your service: 
 
   1. Decorating it inside a `HttpResult` object

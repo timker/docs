@@ -577,8 +577,5 @@ The major omission that's no longer required in the Port is the using statement 
 The new introduction in this port is the `[DefaultView("Rockstars")]` Request Filter Attribute. This is required because we want the **text/html** format to use the **Rockstars.cshtml** Razor view to render the HTML page. In the old version when we only had 1 Request DTO named **Rockstars** this was able to inferred by the Razor View Engine. This is no longer the case now that we have multiple actions with different Request DTO's. Although if the Razor View was instead called **RockstarsResponse.cshtml** we wouldn't have needed the attribute since in all cases a populated **RockstarsResponse** DTO is returned. As we want this to be an exact port, rather than changing the name of the View we decided to specify the default view to be used in each action instead.
 
 #### Filter Attributes can be Applied to Actions as well
+
 Other interesting points in this port is now that the new API allows Action Filter attributes we could've instead placed the Attribute on each action, instead of on the service where it applies to all Actions. Also it's worth pointing out that the `[DefaultView]` is a Request Filter Attribute so is executed before the Action therefore doesn't clobber the values set by `[ClientCanSwapTemplates]` since it's a Response Filter which is executed after the Action.
-
-### Other New API examples
-
-Examples of more converted services are in the New API [[Release Notes]].

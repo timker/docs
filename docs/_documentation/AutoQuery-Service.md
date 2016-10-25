@@ -108,8 +108,8 @@ public object Get(GetGithubRepos request)
         throw new ArgumentNullException("User");
 
     var url = request.User != null
-        ? "https://api.github.com/users/{0}/repos".Fmt(request.User)
-        : "https://api.github.com/orgs/{0}/repos".Fmt(request.Organization);
+        ? $"https://api.github.com/users/{request.User}/repos"
+        : $"https://api.github.com/orgs/{request.Organization}/repos";
 
     return url.GetJsonFromUrl(requestFilter:req => req.UserAgent = GetType().Name)
         .FromJson<List<GithubRepo>>();
@@ -117,7 +117,7 @@ public object Get(GetGithubRepos request)
 ```
 
 A hidden feature ServiceSources are naturally able to take advantage of due to its behind-the-scenes usage 
-of the new [[Service Gateway]] is that the exact code above could still function if the
+of the new [Service Gateway](?id=service-gateway) is that the exact code above could still function if the
 `QueryGithubRepo` AutoQuery Data Service and underlying `GetGithubRepos` Service were moved to different
 hosts :)
 

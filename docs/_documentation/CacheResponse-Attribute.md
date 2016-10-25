@@ -60,7 +60,7 @@ public class MyCachedAutoQueryServices : Service
 }
 ```
 
-### Server Cached and [[HTTP Caching]] enabled responses
+### Server Cached and [HTTP Caching](?id=http-caching) enabled responses
 
 When only specifying a `Duration=60` ServiceStack only **caches the Server Response** so it behaves similar
 to using the existing `ToOptimizedResult()` API, e.g:
@@ -74,7 +74,7 @@ public object Any(GetCustomer request)
 }
 ```
 
-To also enable [[HTTP Caching]] features you'll need to opt-in by specifying an additional HTTP Caching directive. 
+To also enable [HTTP Caching](?id=http-caching) features you'll need to opt-in by specifying an additional HTTP Caching directive. 
 E.g. including a `MaxAge` instructs ServiceStack to apply **HTTP Caching** logic and return the appropriate headers:
 
 ```csharp

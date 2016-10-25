@@ -1,5 +1,6 @@
 ---
 slug: service-gateway
+title: Service Gateway
 ---
 
 The Service Gateway is implemented on top of ServiceStack's existing message-based architecture to open up 
@@ -188,9 +189,9 @@ public override void Configure(Container container)
 }
 ```
 
-## [[Service Discovery]]
+## [Service Discovery](?id=service-discovery)
 
-This demonstrates the underpinnings by which we can plug into and intercept all intra-Service calls and apply our own high-level custom logic which sets the foundation for other value-added functionality like [[Service Discovery]] which can transparently route service calls to the most appropriate available remote endpoint at run-time, automatically without additional configuration or code-maintenance overhead.
+This demonstrates the underpinnings by which we can plug into and intercept all intra-Service calls and apply our own high-level custom logic which sets the foundation for other value-added functionality like [Service Discovery](?id=service-discovery) which can transparently route service calls to the most appropriate available remote endpoint at run-time, automatically without additional configuration or code-maintenance overhead.
 
 ## Designing for Microservices
 

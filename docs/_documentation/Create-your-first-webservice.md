@@ -115,7 +115,8 @@ The `default.cshtml` home page shows how easy it is to call ServiceStack Service
 
 [![AngularJS Home](https://github.com/ServiceStack/ServiceStackVS/raw/master/Images/angularjs_hello_app.png)](https://github.com/ServiceStack/ServiceStackVS/raw/master/Images/angularjs_hello_app.png)
 
-### [[Testing]]
+### [Testing](?id=testing)
+
 The project templates from the ServiceStackVS extension also include a Tests project. The project structure and addition of the Tests project is there to encourage a pattern that will scale to larger applications whilst maintaining a easy to understand and testable application.
 
 ## [Create a WebService from scratch](?id=Create-your-first-webservice)

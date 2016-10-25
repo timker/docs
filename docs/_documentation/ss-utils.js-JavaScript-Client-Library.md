@@ -3,7 +3,7 @@ slug: ss-utils-js
 title: ss-utils.js JavaScript Client Library
 ---
 
-An Embedded Resource inside **ServiceStack.dll** is ServiceStack's JavaScript utility library that provides a number of convenience utilities in developing javascript web apps. It enables nicer integration with ServiceStack's Server features including [[Validation]], [[Error Handling]] and [Server Events](https://github.com/ServiceStackApps/Chat#server-sent-events) which can be included in any page with:
+An Embedded Resource inside **ServiceStack.dll** is ServiceStack's JavaScript utility library that provides a number of convenience utilities in developing javascript web apps. It enables nicer integration with ServiceStack's Server features including [Validation](?id=validation), [Error Handling](?id=error-handling) and [Server Events](https://github.com/ServiceStackApps/Chat#server-sent-events) which can be included in any page with:
 
 ```html
 <script type="text/javascript" src="/js/ss-utils.js"></script>

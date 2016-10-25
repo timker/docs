@@ -55,7 +55,7 @@ In addition, the Service Clients provide HTTP verbs (Get, Post & PostFile, Put, 
 
 > See [IServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/docs/pages/IServiceClient.md) for the full API available
 
-### Using the [[New Api]]
+### Using the recommended [API Design](?id=api-design)
 
 ```csharp
 HelloResponse response = client.Get(new Hello { Name = "World!" });
@@ -95,7 +95,7 @@ var response = await client.GetAsync<HelloResponse>("/hello/World!");
 
 C#/.NET Clients can call the above Hello Service using any of the JSON, JSV, XML or SOAP Service Clients with the code below:
 
-### Using the [[New Api]]
+### Using the recommended [API Design](?id=api-design)
 
 ```csharp
 var response = client.Send(new Hello { Name = "World!" });

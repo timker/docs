@@ -763,7 +763,7 @@ var top250 = client.GetLazy(new QueryMovies {
 
 Another benefit we get from AutoQuery Services being regular ServiceStack services is taking advantage of [ServiceStack's built-in formats](?id=Formats). 
 
-The [[CSV Format]] especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.
+The [CSV Format](?id=csv-format) especially shines here given queries return a single tabular resultset making it perfect for CSV. In many ways CSV is one of the most interoperable Data Formats given most data import and manipulation programs including Databases and Spreadsheets have native support for CSV allowing for deep and seamless integration.
 
 ServiceStack provides a number of ways to [request your preferred content-type](?id=Routing#content-negotiation), the easiest of which is to just use the `.{format}` extension at the end of the `/pathinfo` e.g:
 

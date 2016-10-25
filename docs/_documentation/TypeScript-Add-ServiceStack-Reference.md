@@ -89,7 +89,7 @@ at the new `/types/typescript` route so you can get both concrete types and inte
   - [/types/typescript](http://techstacks.io/types/typescript) - for generating concrete types
   - [/types/typescript.d](http://techstacks.io/types/typescript.d) - for generating ambient interface definitions
 
-## [[Add ServiceStack Reference]]
+## [Add ServiceStack Reference](?id=add-servicestack-reference)
 
 The easiest way to Add a ServiceStack reference to your project is to **right-click** on a folder to bring up 
 [ServiceStackVS's](?id=create-your-first-webservice)

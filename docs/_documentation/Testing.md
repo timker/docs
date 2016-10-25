@@ -1,6 +1,8 @@
 ---
 slug: testing
+title: Testing
 ---
+
 The tests in [ServiceStack.WebHost.Endpoints.Tests](https://github.com/ServiceStack/ServiceStack/tree/master/tests/ServiceStack.WebHost.Endpoints.Tests) show good examples of how to create stand-alone integration tests that just use a self-hosted HttpListener AppHost. 
 
 ## Example Stand-alone Integration tests

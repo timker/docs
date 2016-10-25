@@ -62,7 +62,7 @@ Plugins.Add(new RequestLogsFeature {
 
 ### Configuration
 
-Like other ServiceStack [[Plugins]] the `RequestLogsFeature` has a number of configuration options that can be specified at registration to customize Request Logging:
+Like other ServiceStack [Plugins](?id=plugins) the `RequestLogsFeature` has a number of configuration options that can be specified at registration to customize Request Logging:
 
 <table>
 <thead>

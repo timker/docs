@@ -5,11 +5,11 @@ title: C# Add ServiceStack Reference
 
 ![C# Platforms](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/csharp-platforms.png)
 
-The primary and most popular [[Add ServiceStack Reference]] language supported is C#, providing a flexible alternative than sharing your DTO assembly with clients, now clients can easily add a reference to a remote ServiceStack instance and update DTO's directly from within VS.NET. This also lays the groundwork and signals our approach on adding support for typed API's in other languages in future. Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
+The primary and most popular [Add ServiceStack Reference](?id=add-servicestack-reference) language supported is C#, providing a flexible alternative than sharing your DTO assembly with clients, now clients can easily add a reference to a remote ServiceStack instance and update DTO's directly from within VS.NET. This also lays the groundwork and signals our approach on adding support for typed API's in other languages in future. Add a [feature request for your favorite language](http://servicestack.uservoice.com/forums/176786-feature-requests) to prioritize support for it sooner!
 
 Our goal with Native Types is to provide an alternative for sharing DTO dlls, that can enable a better dev workflow for external clients who are now able to generate (and update) Typed APIs for your Services from a remote url - reducing the burden and effort required to consume ServiceStack Services whilst benefiting from clients native language strong-typing feedback.
 
-## [[Add ServiceStack Reference]]
+## [Add ServiceStack Reference](?id=add-servicestack-reference)
 
 The easiest way to Add a ServiceStack reference to your project is to right-click on your project to bring up [ServiceStackVS's](?id=create-your-first-webservice) `Add ServiceStack Reference` context-menu item. This opens a dialog where you can add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source file that's added to your project.
 

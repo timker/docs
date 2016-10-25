@@ -1561,8 +1561,6 @@ To deploy on MONO you can just XCOPY/SFTP the files across as-is (i.e. as compil
   
 With a few linux admin tweaks to add and assign a new virtual network interface with a new IP Address, we're easily able to run both Nginx/FastCGI and Apache/mod_mono HTTP servers on the same server, both configured to point to ServiceStack ASP.NET GitHub Example Projects.
 
-[[http://www.servicestack.net]] is running Nginx/FastCGI configuration while the sub domain [[http://api.servicestack.net]] is running Apache/mod_mono (the recommended MONO ASP.NET configuration).
-
 Here are links to ServiceStack.Example projects on both Nginx and Apache:
 
   * [Nginx](http://www.servicestack.net/ServiceStack.Hello/) - [Apache](http://api.servicestack.net/ServiceStack.Hello/)         /ServiceStack.Hello
@@ -1608,15 +1606,6 @@ To help visualize the dependencies between the various components, here is a tre
         * [ServiceStack.Redis.dll](https://github.com/ServiceStack/ServiceStack.Redis)
         * [ServiceStack.OrmLite.dll](https://github.com/ServiceStack/ServiceStack.OrmLite)
 
-
-### Non-core Framework features extracted into new ServiceStack.Contrib project
-
-In the interest of promoting contributions and modifications from the community, the non-core projects of ServiceStack has been extracted into a new user contributed **ServiceStack.Contrib** project site at:
-
-**[[https://github.com/ServiceStack/ServiceStack.Contrib]]**
-
-I invite all ServiceStack users who want to share their generic high-level functionality and useful app-specific classes under this project where the rest of the community can benefit from.
-
 *****
 
 ## Service Stack 1.82 Release Notes
@@ -1624,7 +1613,7 @@ I invite all ServiceStack users who want to share their generic high-level funct
 ### [New HTML5 Report Format Added](?id=HTML5ReportFormat)
 
 The biggest feature added in this release is likely the new HTML5 report format that generates a human-readable HTML view of your web services response when viewing it in a web browser.
-Good news is, like the [[ServiceStack-CSV-Format]] it works with your existing webservices as-is, with no configuration or code-changes required.
+Good news is, like the [CSV Format](?id=csv-format) it works with your existing webservices as-is, with no configuration or code-changes required.
   
 [![HTML5 Report Format](http://servicestack.net/img/HTML5Format.png)](?id=HTML5ReportFormat)
 
@@ -1639,13 +1628,13 @@ Use the **?format=[json|xml|html|csv|jsv]** to toggle and view the same webservi
 ### New ServiceStack.Northwind Example project added
 
 In order to be able to better demonstrate features with a 'real-world' DataSet, a new ServiceStack.Northwind project has been added which inspects the Northwind dataset from an SQLite database.
-A live demo is hosted at [[http://servicestack.net/ServiceStack.Northwind/]]. Here are some links below to better demonstrate the new HTML format with a real-world dataset:
+A live demo is hosted at [http://northwind.servicestack.net](?id=http://northwind.servicestack.net). Here are some links below to better demonstrate the new HTML format with a real-world dataset:
 
 #### Nortwind Database REST web services
+
   * [All Customers](http://servicestack.net/ServiceStack.Northwind/customers) 
   * [Customer Detail](http://servicestack.net/ServiceStack.Northwind/customers/ALFKI)
   * [Customer Orders](http://servicestack.net/ServiceStack.Northwind/customers/ALFKI/orders)
-
 
 ### Improved Caching
 

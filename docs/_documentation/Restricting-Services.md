@@ -1,6 +1,8 @@
 ---
 slug: restricting-services
+title: Restricting Services
 ---
+
 ### Restrict Services
 
 You can change the Visibility and Access restrictions on any service using the new [Restrict] attribute. This is a class based attribute and should be placed on your Service class.

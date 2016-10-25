@@ -61,7 +61,7 @@ If you want to use ServiceStack together with an existing ASP.NET Web Framework,
 </location>
 ```
 
-To use ServiceStack together with ASP.NET MVC follow the steps in the [[Mvc integration]] docs.
+To use ServiceStack together with ASP.NET MVC follow the steps in the [Mvc integration](?id=mvc-integration) docs.
 
 ## Troubleshooting
 

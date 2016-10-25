@@ -7,13 +7,13 @@ Although in addition to this the [ServiceStack.Client](http://nuget.org/packages
 
 ### ServiceStack Clients
 
-  * [[C# client]]
-  * [TypeScript client](?id=TypeScript-Add-ServiceStack-Reference)
-  * [Java/Kotlin Client](?id=Java-Add-ServiceStack-Reference)
-  * [Swift Client](?id=Swift-Add-ServiceStack-Reference)
-  * [Silverlight client](?id=silverlight-client)
-  * [[JavaScript client]]
-  * [[Dart Client]]
+  * [C# Client](?id=csharp-client)
+  * [TypeScript Client](?id=typescript-add-servicestack-reference)
+  * [Java/Kotlin Client](?id=java-add-servicestack-reference)
+  * [Swift Client](?id=swift-add-servicestack-reference)
+  * [Silverlight Client](?id=silverlight-client)
+  * [JavaScript Client](?id=javascript-client)
+  * [Dart Client](?id=dart-client)
   * [MQ Clients](?id=Messaging-and-redis)
 
 ### Add ServiceStack Reference
@@ -23,13 +23,13 @@ You can also use [ServiceStackVS](?id=create-your-first-webservice#step-1-downlo
 ### Supported Languages
 
 
-* [C# Add ServiceStack Reference](?id=CSharp-Add-ServiceStack-Reference)
-* [TypeScript Add ServiceStack Reference](?id=TypeScript-Add-ServiceStack-Reference)
-* [Swift Add ServiceStack Reference](?id=Swift-Add-ServiceStack-Reference)
-* [Java Add ServiceStack Reference](?id=Java-Add-ServiceStack-Reference)
-* [Kotlin Add ServiceStack Reference](?id=Kotlin-Add-ServiceStack-Reference)
-* [F# Add ServiceStack Reference](?id=FSharp-Add-ServiceStack-Reference)
-* [VB.NET Add ServiceStack Reference](?id=VBNet-Add-ServiceStack-Reference)
+* [C# Add ServiceStack Reference](?id=csharp-add-servicestack-reference)
+* [TypeScript Add ServiceStack Reference](?id=typescript-add-servicestack-reference)
+* [Swift Add ServiceStack Reference](?id=swift-add-servicestack-reference)
+* [Java Add ServiceStack Reference](?id=java-add-servicestack-reference)
+* [Kotlin Add ServiceStack Reference](?id=kotlin-add-servicestack-reference)
+* [F# Add ServiceStack Reference](?id=fsharp-add-servicestack-reference)
+* [VB.NET Add ServiceStack Reference](?id=vbnet-add-servicestack-reference)
 
 ***
 

@@ -3,13 +3,13 @@ slug: autoquery-data
 title: AutoQuery Data
 ---
 
-AutoQuery Data is a new implementation that closely follows the dev model you're used to with [[AutoQuery RDBMS]]
+AutoQuery Data is a new implementation that closely follows the dev model you're used to with [AutoQuery RDBMS](?id=autoquery-rdbms)
 where any experience gained in creating RDBMS AutoQuery Services previously are now also applicable to 
 Querying alternative data sources as well.
 
 ### Learn Once, Query Everywhere 
 
-All features from [[AutoQuery RDBMS]] except for the RDBMS-specific 
+All features from [AutoQuery RDBMS](?id=autoquery-rdbms) except for the RDBMS-specific 
 [Joining Tables](?id=AutoQuery#joining-tables) and
 [Raw SQL Filters](?id=AutoQuery#raw-sql-filters) features
 also have an equivalent in AutoQuery Data as well. 
@@ -59,7 +59,7 @@ Plugins.Add(new AutoQueryDataFeature()
 
 AutoQuery Data Open Provider model supports querying of multiple data source back-ends. The 3 data source providers available include:
 
- - [[AutoQuery Memory]] - for querying static or dynamic in-memory .NET collections, some example uses include showing querying a flat-file **.csv** file and querying a throttled 3rd Party API with it's built-in configurable caching.
- - [[AutoQuery Service]] - a step higher than `MemorySource` where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
- - [[AutoQuery DynamoDB]] - adds rich querying capabilities over an AWS DynamoDB Table, offering a leap of greater productivity than constructing DynamoDB queries manually.
+ - [AutoQuery Memory](?id=autoquery-memory) - for querying static or dynamic in-memory .NET collections, some example uses include showing querying a flat-file **.csv** file and querying a throttled 3rd Party API with it's built-in configurable caching.
+ - [AutoQuery Service](?id=autoquery-service) - a step higher than `MemorySource` where you can decorate the response of existing Services with AutoQuery's rich querying capabilities.
+ - [AutoQuery DynamoDB](?id=autoquery-dynamodb) - adds rich querying capabilities over an AWS DynamoDB Table, offering a leap of greater productivity than constructing DynamoDB queries manually.
 

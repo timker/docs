@@ -1,6 +1,8 @@
 ---
 slug: auto-mapping
+title: Auto Mapping
 ---
+
 ## Using ServiceStack's Built-in Auto-mapping
 
 Although [we encourage keeping separate DTO models](http://stackoverflow.com/a/15369736/85785), you don't need to maintain your own manual mapping as you can use ServiceStack's built-in Auto Mapping support. It's quite comprehensive and resilient and does a good job in being able to co-erce one type into another, e.g. you can convert between different Enum types with the same name, between Enums and any value type and Strings, between properties and fields, POCOs and strings and many things in between - some of which can be seen in these [Auto Mapping tests](https://github.com/ServiceStack/ServiceStack.Text/blob/master/tests/ServiceStack.Text.Tests/AutoMappingTests.cs).

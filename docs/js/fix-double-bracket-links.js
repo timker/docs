@@ -1,3 +1,4 @@
+//Shouldn't be needed anymore as there's no more [[implicit links]]
 (function () {
     "use strict";
     String.prototype.replaceAll = function(search, replacement) {

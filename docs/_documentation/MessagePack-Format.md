@@ -7,7 +7,7 @@ title: MsgPack Format
 
 If you ever wished to use JSON for convenience (e.g. storing an image with metadata) but could not for technical reasons (encoding, size, speed...), MessagePack offers a great replacement. Despite the name it ends up being a much [better "Binary JSON" than BSON is](http://stackoverflow.com/questions/6355497/performant-entity-serialization-bson-vs-messagepack-vs-json), as it's much faster, smaller and doesn't require the foreign types like "ObjectId", "UUID" that BSON has.
 
-MsgPack is a great addition to your ServiceStack's web services as it has [similar performance to Protocol Buffers](http://theburningmonk.com/2012/02/performance-test-binary-serializers-part-iii/) (.NET's fastest binary serializer) but is also schema-less like JSON so already works with your Un-Attributed, **Clean POCOs** - no code-changes required. (as opposed to [[Protobuf format]] which requires decorating every serializable property with `[DataMember(Order=N)]`).
+MsgPack is a great addition to your ServiceStack's web services as it has [similar performance to Protocol Buffers](http://theburningmonk.com/2012/02/performance-test-binary-serializers-part-iii/) (.NET's fastest binary serializer) but is also schema-less like JSON so already works with your Un-Attributed, **Clean POCOs** - no code-changes required. (as opposed to [Protobuf format](?id=protobuf-format) which requires decorating every serializable property with `[DataMember(Order=N)]`).
 
 ## Installing via NuGet
 

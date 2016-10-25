@@ -11,7 +11,7 @@ ProtoBuf is a great addition to your ServiceStack's web services as it provides 
 
 _Note: Until we can get marcgravell to succumb to internal pressure and add support for attribute-less POCOs you will need to add unique custom indexes for each property on your DTOs e.g: `[DataMember(Order=N)]`._
 
-Otherwise another fast binary serializer that supports attribute-less POCOs is the new [[MessagePack Format]].
+Otherwise another fast binary serializer that supports attribute-less POCOs is the new [MessagePack Format](?id=messagepack-format).
 
 ## Installing via NuGet
 

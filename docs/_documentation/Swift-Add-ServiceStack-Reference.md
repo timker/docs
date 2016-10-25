@@ -18,7 +18,7 @@ The ServiceStack XCode Plugin can be installed by dragging it to the XCode Plugi
 
 Once installed, developers can easily add a reference to a remote ServiceStack instance and update its typed DTO's using the new Menu options in XCode's Main Menu:
 
-### [[Add ServiceStack Reference]]
+### [Add ServiceStack Reference](?id=add-servicestack-reference)
 
 ![XCode Add Reference](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/xcode-add-reference.png)
 

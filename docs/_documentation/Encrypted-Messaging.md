@@ -1,5 +1,6 @@
 ---
 slug: encrypted-messaging
+title: Encrypted Messaging
 ---
 
 One of the benefits of adopting a message-based design is being able to easily layer functionality and generically add value to all Services, we've seen this recently with [Auto Batched Requests](?id=Auto-Batched-Requests) which automatically enables each Service to be batched and executed in a single HTTP Request. Similarly the new Encrypted Messaging feature 
