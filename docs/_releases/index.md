@@ -5,16 +5,110 @@ title: Release Notes Summary
 
 > [Release Notes History](?id=release-notes-history)
 
+# [v4.5.2 Release Notes](?id=v4-5-2)
+
+## ServiceStack on .NET Core!
+
+We’re super excited to announce ServiceStack is now running on .NET Core.
+If you're interested running on .NET Core, please see the v4.5.2 Release Notes for the full details 
+on ServiceStack's integration story and the different conventions in .NET Core: 
+[/releases/v4.5.2.html](http://docs.servicestack.net/releases/v4.5.2.html)
+
+.NET Core was the most requested feature request of all time and was the also the feature we've been 
+most looking forward to ourselves as we finally have a clean, fast, stable platform for running .NET 
+Server Apps on Linux we can recommend running on production. 
+
+Whilst I encourage you to read the full release notes, I'll do my best to summarize here. 
+Nearly all of ServiceStack’s features are now available across 21 of our most popular NuGet packages, 
+inc. OrmLite support for SQL Server, PostgreSQL and Sqlite. We’ve been able to achieve excellent 
+integration and code-reuse where your ServiceStack AppHost can be registered as a .NET Core module 
+and most of your Service Implementation that uses ServiceStack libraries remains unchanged.
+
+### .NET Core Live Demos running in Linux / Docker
+
+We’ve ported a number of existing Live Demos to .NET Core providing example projects so you can 
+easily compare .NET 4.5 ServiceStack code-bases with what it looks like in .NET Core at: 
+[github.com/NetCoreApps/LiveDemos](https://github.com/NetCoreApps/LiveDemos)
+
+All .NET Core Live Demos are running on Linux / Docker using AWS ECS Container Service. 
+We're particularly optimistic about .NET Core Apps being able to natively participate in the 
+thriving Linux / Docker ecosystem and believe it's the future for deployment / hosting where you 
+can package your App and it's dependencies in a Container image and manage deployment / hosting and 
+scaling instances as an opaque unit. After it's packaged in a Docker Container the fact that your 
+App runs .NET becomes a transparent implementation detail, e.g. you're able to take advantage of 
+the same tooling ecosystem being built around Docker on the same playing field as if it were a pure 
+LAMP stack. 
+
+We’re maintaining .NET Core packages isolated from the Main NuGet packages separated with a `.Core` 
+suffix until we’re satisfied .NET Core has been battle-tested in the wild which will enable us to 
+make frequent releases outside of the main .NET 4.5 release cycle. We recommend using the `1.0.*` 
+to reference all ServiceStack .NET Core packages that way you'll get the latest version whenever 
+you run `dotnet restore`
+
+### New Docs Website
+
+Whilst .NET Core was the predominant feature in this release we've also moved docs in the 
+ServiceStack wiki to the new ServiceStack Docs website at: 
+[docs.servicestack.net](http://docs.servicestack.net) - The new 
+website is built using Github's new Docs Pages feature which is powered behind-the-scenes by its 
+Jekyll static website generator which will automatically regenerate the docs website on every 
+commit to [github.com/ServiceStack/docs](https://github.com/ServiceStack/docs) where the docs are 
+now maintained.
+
+### New Wire Binary Format
+
+A new fast binary format for the Wire serializer developed by the Akka was contributed by 
+[@wwwlicious](https://twitter.com/wwwlicious) 
+which also includes a generic Typed `WireServiceClient` - Wire is a fast POCO alternative with 
+comparable performance to ProtoBuf and MessagePack.
+
+### MongoDB AuthRepository upgraded
+
+The `MongoDbAuthRepository` has been upgraded to use the latest v2.3.0 of the mongocsharpdriver that 
+now also implements the new `IManageApiKeys` interface so it can now also be used as the persistent 
+back-end for the API Key AuthProvider. Special thanks to 
+[@ivanfioravanti](https://twitter.com/ivanfioravanti) for contributing the upgrade. 
+
+### Facebook AuthProvider upgraded to 2.8
+
+As Facebook is deprecating its older v2.1 API at the end of this month we've upgraded the Facebook 
+AuthProvider to use their latest v2.8 APIs.
+
+### DELETE FROM Table JOIN
+
+OrmLite added support for deleting rows by querying from a joined table using a Typed SqlExpression, 
+e.g:
+
+```csharp
+var q = db.From<Person>()
+    .Join<PersonJoin>((x, y) => x.Id == y.PersonId)
+    .Where<PersonJoin>(x => x.Id == 2);
+
+db.Delete(q);
+```
+
+Please see the full release notes includes for a number of other minor features added in this 
+release: http://docs.servicestack.net/releases/v4.5.2.html
+
+If you're currently running **ServiceStack on Linux with Mono** we strongly recommend upgrading 
+to **.NET Core** to take advantage of its superior performance, stability and great support - which 
+is a production-grade platform for running ServiceStack/.NET Server Apps on Linux we can recommend. 
+We'll be on standby to quickly resolve any issues you may hit and are very interested in hearing 
+about your experience with upgrading your existing code-bases to use .NET Core - feel free to post
+your experience in the [Customer Forums](https://forums.servicestack.net/) or on the 
+[Google+ Group](https://plus.google.com/u/0/).
+
 # [v4.5.0 Release Notes](?id=v4-5-0)
 
 We've upgraded all ServiceStack packages to **.NET 4.5**, if you were already using ServiceStack in 
-.NET 4.5 projects this will be a seamless upgrade like any other release but if your ServiceStack projects 
-are instead still on .NET 4.0 this will be a breaking change which will require converting **all** your 
-projects to **.NET 4.5 Framework** before upgrading, e.g:
+.NET 4.5 projects this will be a seamless upgrade like any other release but if your ServiceStack 
+projects are instead still on .NET 4.0 this will be a breaking change which will require converting 
+**all** your projects to **.NET 4.5 Framework** before upgrading, e.g:
 
 ![](http://i.imgur.com/GV8TmAS.png)
 
-You will also need to have .NET 4.5 Framework installed on any deployment Servers that doesn't have it already. 
+You will also need to have .NET 4.5 Framework installed on any deployment Servers that doesn't have 
+it already. 
 
 ### Upgraded 3rd Party NuGet packages
 
