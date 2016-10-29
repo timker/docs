@@ -82,13 +82,14 @@ var response = await "https://example.org/secured".GetJsonFromUrlAsync(
     requestFilter: req => req.AddBearerToken(apiKey));
 ```
 
-#### Multiple Auth Repositories
+#### Supported Auth Repositories
 
 The necessary functionality to support API Keys has been implemented in the following supported Auth Repositories:
 
  - `OrmLiteAuthRepository` - Supporting [most major RDBMS](https://github.com/ServiceStack/ServiceStack.OrmLite#8-flavours-of-ormlite-is-on-nuget)
  - `RedisAuthRepository` - Uses Redis back-end data store
  - `DynamoDbAuthRepository` - Uses AWS DynamoDB data store
+ - `MongoDbAuthRepository` - Uses MongoDB data store
  - `InMemoryAuthRepository` - Uses InMemory Auth Repository
 
 And requires no additional configuration as it just utilizes the existing registered `IAuthRepository`.
