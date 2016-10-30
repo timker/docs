@@ -6,19 +6,19 @@ Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET [I
 
 ### Server Architecture
 
-![ServiceStack Logical Architecture View](http://mono.servicestack.net/files/servicestack-logical-view-02.png) 
+![ServiceStack Logical Architecture View](/images/overview/servicestack-logical-view-02.png) 
 
 ### Client Architecture
 
 ServiceStack's [Message-based design](/advantages-of-message-based-web-services) allows us to easily support [typed, generic and re-usable Service Clients](/clients-overview) for all our popular formats:
 
-![ServiceStack HTTP Client Architecture](http://mono.servicestack.net/files/servicestack-httpclients.png) 
+![ServiceStack HTTP Client Architecture](/images/overview/servicestack-httpclients.png) 
 
 Having all clients share the same interface allow them to be hot-swappable at run-time without code changes and keep them highly testable where the same unit test can also [serve as an XML, JSON, JSV, SOAP Integration Test](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.IntegrationTests/Tests/WebServicesTests.cs).
 
 By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable and can be hosted in non-http contexts as well. E.g. The client architecture when one of the [built-in MQ Host is enabled](/messaging-and-redis):
 
-![ServiceStack MQ Client Architecture](http://mono.servicestack.net/files/servicestack-mqclients.png) 
+![ServiceStack MQ Client Architecture](/images/overview/servicestack-mqclients.png) 
 
 ## Implementation 
 
@@ -31,10 +31,10 @@ There are 2 distinct modes in any ServiceStack application:
 
 The implementation of this can be visualized below:
 
-![ServiceStack Overview](http://mono.servicestack.net/files/servicestack-overview-01.png)
+![ServiceStack Overview](/images/overview/servicestack-overview-01.png)
 
 After the IHttpHandler is returned, it gets executed with the current ASP.NET or HttpListener request wrapped in a common [IRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Web/IRequest.cs) instance. 
 
 The implementation of [RestHandler](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Host/RestHandler.cs) shows what happens during a typical ServiceStack request:
 
-![ServiceStack Request Pipeline](http://mono.servicestack.net/files/servicestack-overview-02.png)
+![ServiceStack Request Pipeline](/images/overview/servicestack-overview-02.png)
