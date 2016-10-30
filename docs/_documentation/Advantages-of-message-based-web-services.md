@@ -129,7 +129,7 @@ Since it promotes clean, re-usable code, ServiceStack has always encouraged the 
   - As the data model in [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite), [db4o](http://code.google.com/p/servicestack/source/browse/#svn%2Ftrunk%2FCommon%2FServiceStack.DataAccess%2FServiceStack.DataAccess.Db4oProvider) and [NHibernate](http://code.google.com/p/servicestack/source/browse/#svn%2Ftrunk%2FCommon%2FServiceStack.DataAccess%2FServiceStack.DataAccess.NHibernateProvider%253Fstate%253Dclosed)
   - As the entities stored in [Redis](https://github.com/ServiceStack/ServiceStack.Redis)
   - As blobs stored in [Caches](/caching) and [Sessions](/sessions)
-  - Dropped and executed in [MQ's services](/messaging-and-redis)
+  - Dropped and executed in [MQ's services](/redis-mq)
   - Dehydrating [complex configurations](http://www.servicestack.net/mvc-powerpack/) into
 
 Leveraging different technologies whose functionality is built around POCO's offer un-precedented levels of re-use, reduces friction, promotes consistent, more usable and easier to rationale code-bases.
@@ -164,7 +164,7 @@ So in contrast to method signatures, message-based designs offer many advantages
   - They're easy to version and evolve since you're freely able to add/remove functionality and properties without error
   - They're easy to route, chain and decorate through to different handlers and pipelines
   - They're easy to serialize and proxy through to remote services 
-  - They're easy to record, defer and replay - evident by ServiceStack's [IMessaging API](/messaging-and-redis) which can automatically drop one-way services into MQ's and have them executed inside an MQ Host, you get this functionality for free since the MQ host can re-use the same web service implementation. It works the other way too where you can supply a Url in the ReplyTo property to have the MQ response POST'ed to a ServiceStack HTTP Service.
+  - They're easy to record, defer and replay - evident by ServiceStack's [IMessaging API](/redis-mq) which can automatically drop one-way services into MQ's and have them executed inside an MQ Host, you get this functionality for free since the MQ host can re-use the same web service implementation. It works the other way too where you can supply a Url in the ReplyTo property to have the MQ response POST'ed to a ServiceStack HTTP Service.
   - They're easy to log, evident by ServiceStack's trivially simple but useful [IRequestLogger service](/request-logger)
   - They're easy to map and translate to and from domain models using convention and auto mappers
   - Ideal for concurrency as immutable messages are thread-safe and can be easily multi-plexed with their handlers over multiple threads.
@@ -203,7 +203,7 @@ They're both [very resilient and can withstand extreme versioning without error]
 
 ### Your services can be consumed by more than just HTTP
 
-Your services implementation can even be re-used inside any [IMessageService hosts](/messaging-and-redis), which at this time includes support for Redis, InMemory and RCON hosts (with more to follow) and work has already begun to enable a fast tcp/IPC async pipeline between ServiceStack and node.js + Dart server processes. All these features actually make ServiceStack one of the most versatile and flexible web service frameworks in existance - enabling your services accessible in a myriad of different use-cases.
+Your services implementation can even be re-used inside any [IMessageService hosts](/redis-mq), which at this time includes support for Redis, InMemory and RCON hosts (with more to follow) and work has already begun to enable a fast tcp/IPC async pipeline between ServiceStack and node.js + Dart server processes. All these features actually make ServiceStack one of the most versatile and flexible web service frameworks in existance - enabling your services accessible in a myriad of different use-cases.
 
 ### Most examples don't actually have .NET clients
 

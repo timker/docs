@@ -66,7 +66,7 @@ The feedback we've received has led us to implement the most popular use-cases, 
 
   - ASP.NET (.NET / Mono)
   - HttpListener / Console App / Windows Service / Linux Daemon (.NET / Mono)
-  - [MQ Host](/messaging-and-redis)
+  - [MQ Host](/redis-mq)
 
 ### Web Services
 
@@ -81,7 +81,7 @@ The feedback we've received has led us to implement the most popular use-cases, 
 
 ### Message Queue Services
 
-  - [Redis MQ](/messaging-and-redis)
+  - [Redis MQ](/redis-mq)
   - In Memory MQ
   - RCON
 

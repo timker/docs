@@ -153,7 +153,7 @@ Whilst OrmLite is foremost a code-first POCO ORM, when you have to work with an 
 
 ## Redis and MQ Server
 
-[RedisMqServer](/messaging-and-redis) has a `PublishResponseWhitelist` to control if all (default) or only a whitelist of service responses should be published into Response INQ's as well as a `PriorityQueuesWhitelist` to control which messages require a Priority Queue enabled for them. 
+[RedisMqServer](/redis-mq) has a `PublishResponseWhitelist` to control if all (default) or only a whitelist of service responses should be published into Response INQ's as well as a `PriorityQueuesWhitelist` to control which messages require a Priority Queue enabled for them. 
 
 ### RedisClient Failover
 
@@ -871,7 +871,7 @@ Pre request filters are called before deserialization (i. e. before ServiceStack
 Significant contributions have also been made on ServiceStack's sub projects: 
 
   - [ServiceStack.Text](https://github.com/ServiceStack/ServiceStack.Text)
-  - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis) and the built-in [Redis MQ Server](/messaging-and-redis)
+  - [ServiceStack.Redis](https://github.com/ServiceStack/ServiceStack.Redis) and the built-in [Redis MQ Server](/redis-mq)
   - [ServiceStack.OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite)
 
 but they each deserve their own Release notes, which we hope to draft up soon.
@@ -1085,7 +1085,7 @@ The [RequestLogsService](https://github.com/ServiceStack/ServiceStack/blob/maste
 
 ServiceStack's typed, message-first design is ideal for coarse-grained out-of-proc communication. Although HTTP is our primary endpoint, through our clean `IMessageService` interface we also provide a number of alternate hosts that are able to **re-use your existing services** made available on different hosts.
 
-  - [Redis MQ](/messaging-and-redis)
+  - [Redis MQ](/redis-mq)
   - [InMemory MQ](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.Messaging.Tests/TransientServiceMessagingTests.cs)
   - [Rcon](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Common/Messaging/Rcon)
 

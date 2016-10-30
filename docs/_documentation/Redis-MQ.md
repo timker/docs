@@ -1,10 +1,11 @@
 ---
-slug: messaging-and-redis
+slug: redis-mq
+title: Redis MQ
 ---
+
 ## MQ Examples
 
 The [Reusability ServiceStack.UseCase](https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/Reusability) contains a good introductory demo of using MQ's(message-queues) in ServiceStack where the same services can be called via Web Service or via MQ. Using MQ's provide instant response times, in addition to reliable and durable execution of your services. 
-
 
 ### The SMessage Service 
 
@@ -65,7 +66,7 @@ Major kudos goes to Redis which thanks to its versatility, has Pub/Sub and Lists
 
 The logical architecture of how a MQ Publisher and MQ Host works together in ServiceStack:
 
-![ServiceStack MQ Client Architecture](http://mono.servicestack.net/files/servicestack-mqclients.png) 
+![ServiceStack MQ Client Architecture](/images/messaging/servicestack-mqclients.png) 
 
 ### Easily testable and swappable
 

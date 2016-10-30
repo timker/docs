@@ -9,7 +9,7 @@ ServiceStack provides a [high-level Messaging API](https://github.com/ServiceSta
 There are currently 4 supported MQ Server options:
 
   - [Rabbit MQ Server](/rabbit-mq)
-  - [Redis MQ Server](/messaging-and-redis)
+  - [Redis MQ Server](/redis-mq)
   - [Amazon SQS MQ Server](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
   - [InMemory MQ Service](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Messaging/InMemoryTransientMessageService.cs)
 
@@ -56,14 +56,14 @@ By promoting clean (endpoint-ignorant and dependency-free) Service and DTO class
 
 Within MQ Services, Request DTO's get wrapped and sent within the [IMessage](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Messaging/IMessage.cs) body, which looks like:
 
-![ServiceStack MQ Client Architecture](http://mono.servicestack.net/files/servicestack-mqclients.png) 
+![ServiceStack MQ Client Architecture](/images/messaging/servicestack-mqclients.png) 
 
 ## MQ Server Architecture
 
 The Server Architecture shows where MQ Hosts (in green) fits within the context of ServiceStack's Request Pipeline.
 Effectively MQ Services are treated as "internal Services" bypassing HTTP Web Services Content Negotiation and Global Request/Response Filters:
 
-![ServiceStack Logical Architecture View](http://mono.servicestack.net/files/servicestack-logical-view-02.png) 
+![ServiceStack Logical Architecture View](/images/overview/servicestack-logical-view-02.png) 
 
 MQ Services also have their own distinct `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` for registering custom logic that only applies to MQ Requests. Plugins like [Validation Feature](/validation#validation-feature) can execute custom behavior for both HTTP and MQ Services by registering it in [both HTTP GlobalRequestFilters and MQ GlobalMessageRequestFilters](https://github.com/ServiceStack/ServiceStack/blob/fc191835d97e5b6d89d3cd7a4742793af44eb8c3/src/ServiceStack/Validation/ValidationFeature.cs#L25-L29), e.g:
 

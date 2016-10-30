@@ -40,7 +40,7 @@ XML,
 [MsgPack](/messagepack-format)) 
 as well as XSD/WSDL for [SOAP endpoints](/soap-support) and 
 [Rabbit MQ](/rabbit-mq), 
-[Redis MQ](/messaging-and-redis) and
+[Redis MQ](/redis-mq) and
 [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver) MQ hosts. 
 
 Its design and simplicity focus offers an unparalleled suite of productivity features that can be declaratively enabled 

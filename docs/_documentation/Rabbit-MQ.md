@@ -332,7 +332,7 @@ The [Rabbit MQ Server](https://github.com/ServiceStack/ServiceStack/blob/master/
   - `bool` **UsePolling** - Whether to use polling for consuming messages instead of a long-term subscription
   - `int` **RetryCount** - How many times a message should be retried before sending to the DLQ. Valid range for Rabbit MQ: 0-1.
 
-In addition to sharing a similar architecture to [Redis MQ](/messaging-and-redis), it also shares a number of common features:
+In addition to sharing a similar architecture to [Redis MQ](/redis-mq), it also shares a number of common features:
 
   - `int?` **KeepAliveRetryAfterMs** - Wait before Starting the MQ Server after a restart
   - `IMessageFactory` **MessageFactory** - The MQ Message Factory used by this MQ Server

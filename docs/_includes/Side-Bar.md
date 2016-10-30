@@ -71,7 +71,7 @@
 - MQ Messaging
     - [Overview](/messaging)
     - [Rabbit MQ](/rabbit-mq)
-    - [Redis MQ](/messaging-and-redis)
+    - [Redis MQ](/redis-mq)
     - [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
 - .NET Core
     - [.NET Core Clients](/netcore-clients)

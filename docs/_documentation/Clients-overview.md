@@ -14,7 +14,7 @@ Although in addition to this the [ServiceStack.Client](http://nuget.org/packages
   * [Silverlight Client](/silverlight-client)
   * [JavaScript Client](/javascript-client)
   * [Dart Client](/dart-client)
-  * [MQ Clients](/messaging-and-redis)
+  * [MQ Clients](/redis-mq)
 
 ### Add ServiceStack Reference
 
@@ -37,7 +37,7 @@ You can also use [ServiceStackVS](/create-your-first-webservice#step-1-download-
 
 There are multiple C# service clients included, each optimized for their respective formats:
 
-![ServiceStack HTTP Client Architecture](http://mono.servicestack.net/files/servicestack-httpclients.png) 
+![ServiceStack HTTP Client Architecture](/images/clients/servicestack-httpclients.png) 
 
 - [JSON Client](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/JsonServiceClient.cs)
 - [XML Client](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/XmlServiceClient.cs)

@@ -21,7 +21,7 @@ ServiceStack only creates a new thread on **Startup** when you call `new AppHost
 
 ### RedisMQ Host (RedisMqServer)
 
-A good option for managing long-running tasks is to delegate requests to a [Redis MQ Host](/messaging-and-redis) which is a light-weight MQ Server allowing you to defer and process requests in managed background threads. By default the RedisMqServer spawns a single background thread for each Message type (i.e. Request), though this is configurable on start-up, e.g: in the example below **2 background threads** are used to handle `PostTwitter` requests, whilst only 1 background thread each is used to process `CallFacebook` and `EmailMessage` requests:
+A good option for managing long-running tasks is to delegate requests to a [Redis MQ Host](/redis-mq) which is a light-weight MQ Server allowing you to defer and process requests in managed background threads. By default the RedisMqServer spawns a single background thread for each Message type (i.e. Request), though this is configurable on start-up, e.g: in the example below **2 background threads** are used to handle `PostTwitter` requests, whilst only 1 background thread each is used to process `CallFacebook` and `EmailMessage` requests:
 
 ```csharp
 mqServer.RegisterHandler<PostTwitter>(ServiceController.ExecuteMessage, noOfThreads:2);
