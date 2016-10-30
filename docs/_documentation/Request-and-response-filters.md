@@ -81,4 +81,4 @@ public override void Configure(Container container)
 
 ### Message Queue Endpoints
 
-Non-HTTP requests like [Redis MQ](/messaging-and-redis) are treated as _Internal Requests_ which only execute the alternate `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` and Action [Filter attributes](/filter-attributes). 
+Non-HTTP requests like [Redis MQ](/redis-mq) are treated as _Internal Requests_ which only execute the alternate `GlobalMessageRequestFilters` and `GlobalMessageResponseFilters` and Action [Filter attributes](/filter-attributes). 

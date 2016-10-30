@@ -142,7 +142,7 @@ List<Reqstar> response = client.Get(new AllReqstars());
 ```
 
 Which makes a **GET** web request to the `/reqstars` route.
-When a custom route is not present on the client it automatically falls back to using ServiceStack's [pre-defined routes](http://mono.servicestack.net/ServiceStack.Hello/#predefinedroutes).
+When a custom route is not present on the client it automatically falls back to using ServiceStack's [pre-defined routes](/routing#pre-defined-routes).
 	
 Finally you can also use the previous more explicit client API (ideal for when you don't have the `IReturn<>` marker):
 

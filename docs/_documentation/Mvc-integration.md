@@ -175,7 +175,7 @@ For more info on the MiniProfiler see the [Built in profiling](/built-in-profili
 The Urls for metadata page and included Services:
 
   * [/api/metadata](http://bootstrapapi.servicestack.net/api/metadata) - Auto generated metadata pages
-  * [/api/hello](http://bootstrapapi.servicestack.net/api/hello/World) - Simple Hello World Service see: http://mono.servicestack.net/ServiceStack.Hello/
+  * [/api/hello](http://bootstrapapi.servicestack.net/api/hello/World) - Simple Hello World Service 
   * [/api/todos](http://bootstrapapi.servicestack.net/api/todos) - Simple REST Service see: http://todos.servicestack.net
   * [/default.htm](http://todos.servicestack.net/) - Backbone.js TODO application talking to the TODO REST service at /api/todos
 

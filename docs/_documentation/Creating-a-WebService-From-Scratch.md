@@ -54,7 +54,7 @@ If you want to host ServiceStack at root path (`/`), you should use this configu
 
 > **Tip:** If you want to host your webservice on a custom path to avoid conflicts with another web framework (eg ASP.Net MVC), see [Run ServiceStack side-by-side with another web framework](/servicestack-side-by-side-with-another-web-framework).
 
-> **Note:** Due to limitations in IIS 6 - host [ServiceStack at a /custompath](http://mono.servicestack.net/ServiceStack.Hello/#custompath) which must end with `.ashx`, e.g: `path="api.ashx"`
+> **Note:** Due to limitations in IIS 6 - host [ServiceStack at a /custompath](/mvc-integration#enabling-servicestack-in-webconfig) which must end with `.ashx`, e.g: `path="api.ashx"`
 
 
 ## Step 3: Create your first webservice
@@ -152,7 +152,7 @@ If everything is configured correctly you can go to `http://<root_path>/metadata
 Let's access the HelloWorld service you created in your browser, so write the following URL in your address bar:
 
 `GET http://<root_path>/hello/YourName`
-eg http://mono.servicestack.net/hello/Max. 
+eg http://example.org/hello/Max. 
     
 As you can see after clicking on this link, ServiceStack also contains a HTML response format, which makes the XML/Json (...) output human-readable. To change the return format to Json, simply add `?format=json` to the end of the URL. You'll learn more about formats, endpoints (URLs, etc) when you continue reading the documentation.
 

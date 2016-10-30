@@ -3,7 +3,7 @@ slug: routing
 ---
 ## Pre-defined Routes
 
-Without any configuration required, ServiceStack already includes [pre-defined routes](http://mono.servicestack.net/ServiceStack.Hello/#predefinedroutes) for all services in the format:
+Without any configuration required, ServiceStack already includes [pre-defined routes](/routing#pre-defined-routes) for all services in the format:
 
     /api?/[xml|json|html|jsv|csv]/[reply|oneway]/[servicename]
 

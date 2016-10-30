@@ -33,7 +33,7 @@ Add this configuration in your `Web.config` to host ServiceStack at the `/` root
 
 > **Tip:** If you want to host your webservice on a custom path to avoid conflicts with another web framework (eg ASP.Net MVC), see [Run ServiceStack side-by-side with another Framework](/servicestack-side-by-side-with-another-web-framework).
 
-> **Note:** Due to limitations in IIS 6 - host [ServiceStack at a /custompath](http://mono.servicestack.net/ServiceStack.Hello/#custompath) which must end with `.ashx`, e.g: `path="api.ashx"`
+> **Note:** Due to limitations in IIS 6 - host [ServiceStack at a /custompath](http://docs.servicestack.net/mvc-integration#enabling-servicestack-in-webconfig) which must end with `.ashx`, e.g: `path="api.ashx"`
 
 ### Configure ServiceStack at `/api` custom path
 

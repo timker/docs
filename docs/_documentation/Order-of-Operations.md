@@ -39,13 +39,13 @@ Any time you close the Response in any of your filters, i.e. `httpRes.EndRequest
 
 The [Implementation architecture diagram][2] shows a visual cue of the internal order of operations that happens in ServiceStack:
 
-![ServiceStack Overview](http://mono.servicestack.net/files/servicestack-overview-01.png)
+![ServiceStack Overview](/images/overview/servicestack-overview-01.png)
 
 After the IHttpHandler is returned, it gets executed with the current ASP.NET or HttpListener request wrapped in a common [IHttpRequest](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/ServiceHost/IHttpRequest.cs) instance. 
 
 The implementation of [RestHandler](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/WebHost.Endpoints/RestHandler.cs) shows what happens during a typical ServiceStack request:
 
-![ServiceStack Request Pipeline](http://mono.servicestack.net/files/servicestack-overview-02.png)
+![ServiceStack Request Pipeline](/images/overview/servicestack-overview-02.png)
 
   [1]: ?/request-and-response-filters
   [2]: /architecture-overview

@@ -9,7 +9,7 @@ These examples are simply links to existing ServiceStack web services, which bas
   - RedisStackOverflow:  [Latest Questions](http://redisstackoverflow.servicestack.net/questions) and [Site Stats](http://redisstackoverflow.servicestack.net/stats)
   - RestFiles:  [Root Directory](http://restfiles.servicestack.net/files)
 
-[![HTML5 Report Format](http://mono.servicestack.net/img/HTML5Format.png)](http://northwind.servicestack.net/customers/ALFKI)
+[![HTML5 Report Format](/images/format/HTML5Format.png)](http://northwind.servicestack.net/customers/ALFKI)
 
 To see it in action, **view the source** in your browser. Webkit and Firefox users can simply go to the url below:
 

@@ -266,11 +266,11 @@ Plugins.Add(new RequestLogsFeature());
 
 The `IRequestLogger` is a great way to introspect and analyze your service requests in real-time. Here's a screenshot from the [http://bootstrapapi.servicestack.net](http://bootstrapapi.servicestack.net) website:
 
-![Live Screenshot](http://mono.servicestack.net/img/request-logs-01.png)
+![Live Screenshot](/images/plugins/request-logs-01.png)
 
 It supports multiple queryString filters and switches so you filter out related requests for better analysis and debuggability:
 
-![Request Logs Usage](http://mono.servicestack.net/img/request-logs-02.png)
+![Request Logs Usage](/images/plugins/request-logs-02.png)
 
 The [RequestLogsService](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Admin/RequestLogsService.cs) is just a simple C# service under-the-hood but is a good example of how a little bit of code can provide a lot of value in ServiceStack's by leveraging its generic, built-in features.
 

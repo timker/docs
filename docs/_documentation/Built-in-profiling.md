@@ -34,7 +34,7 @@ Now if you also have ServiceStack Razor views you can enable the profiler by put
 ```
 That's it! Now everytime you view a web service or a razor page in your browser (locally) you'll see a profiler view of your service broken down in different stages:
 
-![Hello MiniProfiler](http://mono.servicestack.net/files/miniprofiler-hello.png)
+![Hello MiniProfiler](/images/advanced/miniprofiler-hello.png)
 
 By default you get to see how long it took ServiceStack to de-serialize your request, run any Request / Response Filters and more importantly how long it took to **Execute** your service.
 
@@ -96,15 +96,15 @@ public class MiniProfilerService : Service
 
 Calling the above service normally provides the following Profiler output:
 
-![Simple DB Example](http://mono.servicestack.net/files/miniprofiler-simpledb.png)
+![Simple DB Example](/images/advanced/miniprofiler-simpledb.png)
 
 Whilst calling the service with the **n1** param yields the following warning:
 
-![Simple N+1 DB Example](http://mono.servicestack.net/files/miniprofiler-simpledb-n1.png)
+![Simple N+1 DB Example](/images/advanced/miniprofiler-simpledb-n1.png)
 
 In both cases you see the actual SQL statements performed by clicking the **SQL** link. The N+1 query provides shows the following:
 
-![N+1 DB Example SQL Statementes](http://mono.servicestack.net/files/miniprofiler-simpledb-n1-sql.png)
+![N+1 DB Example SQL Statementes](/images/advanced/miniprofiler-simpledb-n1-sql.png)
 
 Notice the special attention the MVC MiniProfiler team put into identifying **Duplicate** queries - Thanks Guys!
 

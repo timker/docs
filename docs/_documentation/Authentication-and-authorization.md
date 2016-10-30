@@ -29,7 +29,7 @@ public override void Configure(Container container)
 
 The high-level overview below shows how all the different parts fit together and which parts are customizable:
 
-![Authentication Overview](http://mono.servicestack.net/files/auth-overview.png)
+![Authentication Overview](/images/security/auth-overview.png)
 
 ### Auth Providers
 

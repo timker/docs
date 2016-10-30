@@ -37,7 +37,7 @@ Or by appending `?format={format}` to the end of the URL:
 - `?format=csv`
 - `?format=html`
 
-> Example: http://mono.servicestack.net/hello/World!?format=json
+> Example: http://test.servicestack.net/hello/World!?format=json
 
 Alternatively ServiceStack also recognizes which format should be used with the `Accept` [http header](http://en.wikipedia.org/wiki/List_of_HTTP_header_fields):
 

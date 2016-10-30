@@ -2,7 +2,14 @@
 slug: architecture-overview
 ---
 
-Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET [IHttpHandler's](http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx). Existing abstractions and [xmlconfig-encumbered legacy ASP.NET providers](http://mono.servicestack.net/mvc-powerpack/) have been abandoned, in favour of fresh, simple and clean [Caching](/caching), [Session](/sessions) and [Authentication](/authentication-and-authorization) providers all based on clean POCOs, supporting multiple back-ends and all working seamlessly with each other. Our best-practices architecture is purposely kept simple, introduces no new concepts or artificial constructs and can all be eloquently captured in the diagram below:
+Ultimately behind-the-scenes ServiceStack is just built on top of Raw ASP.NET 
+[IHttpHandler's](http://msdn.microsoft.com/en-us/library/system.web.ihttphandler.aspx). 
+Existing abstractions and xmlconfig-encumbered legacy ASP.NET providers have been abandoned, 
+in favour of fresh, simple and clean [Caching](/caching), [Session](/sessions) 
+and [Authentication](/authentication-and-authorization) providers all based on clean POCOs, 
+supporting multiple back-ends and all working seamlessly with each other. Our best-practices 
+architecture is purposely kept simple, introduces no new concepts or artificial constructs and 
+can all be eloquently captured in the diagram below:
 
 ### Server Architecture
 
@@ -16,7 +23,7 @@ ServiceStack's [Message-based design](/advantages-of-message-based-web-services)
 
 Having all clients share the same interface allow them to be hot-swappable at run-time without code changes and keep them highly testable where the same unit test can also [serve as an XML, JSON, JSV, SOAP Integration Test](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.IntegrationTests/Tests/WebServicesTests.cs).
 
-By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable and can be hosted in non-http contexts as well. E.g. The client architecture when one of the [built-in MQ Host is enabled](/messaging-and-redis):
+By promoting clean (endpoint-ignorant and dependency-free) Service and DTO classes, your web services are instantly re-usable and can be hosted in non-http contexts as well. E.g. The client architecture when one of the [built-in MQ Host is enabled](/redis-mq):
 
 ![ServiceStack MQ Client Architecture](/images/overview/servicestack-mqclients.png) 
 
