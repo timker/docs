@@ -86,7 +86,7 @@ title: ServiceStack Resources
 - Formats
     - [Overview](/formats)
     - [JSON Foramt](https://github.com/ServiceStack/ServiceStack.Text)
-    - [JSV Foramt](/jsv-format)
+    - [JSV Format](/jsv-format)
     - [CSV Format](/csv-format)
     - [MessagePack Format](/messagepack-format)
     - [ProtoBuf Format](/protobuf-format)
