@@ -72,7 +72,7 @@ Server infrastructure dependency which we'll deploy alongside our App in a separ
 
 We'll use [Travis CI](https://travis-ci.org/) to do the actual build and deployments by running the 
 plain bash scripts that lives alongside your code in the same 
-[Github Repo](https://github.com/NetCoreApps/redis-geo) which build and deploys your Docker App. 
+[Github Repo](https://github.com/NetCoreApps/redis-geo) which builds and deploys your Docker App. 
 Most of the bash scripts are generic and can be reused for deploying different projects with only minor config 
 changes to specify the solution to build and the AWS Account to deploy to, with any sensitive information 
 maintained in Travis-CI private Environment Variables so they're kept out of the public Github repositories. 
@@ -91,11 +91,11 @@ The basic steps for deploy your .NET Core App with Docker that's covered in this
 
  1. Creating a `ecsInstanceRole` Role that your **EC2 Instance** will run as
  2. Creatnig a `ecsDemoUser` User for remotely running AWS CLI utils to deploy to your AWS Account
- 3. Starting a new EC2 Docker Server Instance with the `ecsInstanceRole` Role
- 4. Configuring DNS and associating an **Elastic IP** to new **EC2 Instance**
- 5. Configure the new **EC2 Instance** with `nginx-proxy`
+ 3. Launching a new **EC2 Instance** with the `ecsInstanceRole` Role to use as your Docker Server
+ 4. Configuring DNS and associating an **Elastic IP** to the new **EC2 Instance**
+ 5. SSH into the **EC2 Instance** to run the `nginx-proxy` Docker Container
  6. Forking the `redis-geo` Github project
- 7. Configure **Travis CI** to deploy your `redis-geo` fork to your AWS Account
+ 7. Configure **Travis CI** to deploy your `redis-geo` fork to your AWS ECS Service
  8. Playing with your deployed .NET Core Docker App!
 
 Whislt this may seem like a lot of effort to deploy a Docker App, most of the above steps only need to be done 
