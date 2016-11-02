@@ -3,6 +3,8 @@ slug: deploy-netcore-docker-aws-ecs
 title: Deploy .NET Core with Docker to EC2 Container Service
 ---
 
+![](http://docs.servicestack.net/images/aws/ecs/ecs-banner.png)
+
 One of the primary benefits of .NET Core's first-class support for Linux is being able to leverage 
 the thriving ecosystem that's formed around automating, deploying and hosting Server Apps on Linux. 
 Whilst there have been a number of deployment strategies that have evolved over the years, the 
@@ -486,24 +488,24 @@ to see the fruits of our Labor - our .NET Core Docker App in action!
 
 ## Things to try
 
-### Make a change to your App
+### 1. Make a change to your App
 
-With your .NET Core Docker mission officially a success the first thing you're going to want to try 
-is committing a change to your fork whilst watching your **Travis CI** bot working away to see a your
+With your .NET Core Docker mission officially a success the first thing you're going to want to do 
+is committing a change to your fork whilst watching your **Travis CI** bot working away so you can see your
 Continuous Docker deployments in action :)
 
-### Go through this tutorial again
+### 2. Go through this tutorial again
 
 If you've stuttered hazily through parts of this tutorial I recommend going through it again from scratch as
 things should become a lot clearer and faster the next time around. After doing this a few times everything 
 will appear intuitive and you won't need to refer to this tutorial again.
 
-### Copy the build scripts to Dockerize own .NET Core Apps
+### 3. Copy the build scripts to Dockerize own .NET Core Apps
 
 Customizing the deploy scripts to your own Apps will help familiarize yourself with Docker and identify 
 the areas which are customizable.
 
-### Exec build scripts to Create and Run your Docker App locally 
+### 4. Exec build scripts to Create and Run your Docker App locally 
 
 Install [Docker for Mac](https://docs.docker.com/engine/installation/mac/) or 
 [Docker for Windows](https://docs.docker.com/engine/installation/windows/) and try building and running the
