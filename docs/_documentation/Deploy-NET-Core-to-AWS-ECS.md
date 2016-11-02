@@ -32,7 +32,7 @@ advantage of when building your own .NET Core Docker App which is based on Micro
 As the premier Container format for packaging Server Apps, all major cloud providers include native
 support for Docker that goes beyond the basic hosting of Docker Images to also include repository management, 
 monitoring, inspection and orchestration which lets you easily (or automatically) scale your Docker App on 
-a managed cluster of VMs. You can find out more about the Docker integration offerings of the major Cloud 
+a managed cluster of VMs. You can learn more about the Docker integration offerings of the major Cloud 
 providers in the links below:
 
  - **AWS** - [Amazon EC2 Container Service](https://aws.amazon.com/ecs/) 
@@ -489,7 +489,7 @@ Where we should see **4 running** Docker Containers:
 With all the pieces in place we can visit our virtual host [http://ecsdemo.netcore.io](http://ecsdemo.netcore.io) 
 to see the fruits of our Labor - our .NET Core Docker App, alive!
 
-![](http://docs.servicestack.net/images/aws/ecs/app-01.png)
+[![](http://docs.servicestack.net/images/aws/ecs/app-01.png)](http://ecsdemo.netcore.io)
 
 ## Things to try
 
