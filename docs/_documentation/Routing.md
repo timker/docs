@@ -1,6 +1,8 @@
 ---
 slug: routing
+title: Routing
 ---
+
 ## Pre-defined Routes
 
 Without any configuration required, ServiceStack already includes [pre-defined routes](/routing#pre-defined-routes) for all services in the format:
