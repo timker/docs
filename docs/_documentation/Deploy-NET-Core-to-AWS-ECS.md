@@ -9,7 +9,7 @@ One of the primary benefits of .NET Core's first-class support for Linux is bein
 the thriving ecosystem that's formed around automating, deploying and hosting Server Apps on Linux. 
 Whilst there have been a number of deployment strategies that have evolved over the years, the 
 current state-of-the-art is the standardization around the Docker container format which hits the 
-sweet spot of providing isolation within in a minimal footprint that encapsulates your App and its 
+sweet spot of providing isolation within a minimal footprint that encapsulates your App and its 
 dependencies which is contrast to an entire Operating System when using VM's. In addition to being 
 lightweight and efficient to run, it's also enables fast, reproducible builds where your entire
 App's Docker Image can be rebuilt by your CI Server on each check-in - bringing the same benefits
