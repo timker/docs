@@ -1,6 +1,6 @@
 ---
 slug: deploy-netcore-docker-aws-ecs
-title: Deploy .NET Core with Docker to AWS EC2 Container Service
+title: Deploy .NET Core with Docker to EC2 Container Service
 ---
 
 One of the primary benefits of .NET Core's first-class support for Linux is being able to leverage 
@@ -124,24 +124,24 @@ clicking on **Create New Role** button to start the Create Role Wizard:
 
 Type `ecsInstanceRole` for the **Role Name** then click **Next Step**:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-role-01.png?)
+![](http://docs.servicestack.net/images/aws/ecs/role-01.png)
 
 Select the **Amazon EC2 Role for EC2 Container Service** Role Type:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-role-02.png?)
+![](http://docs.servicestack.net/images/aws/ecs/role-02.png)
 
 You'll also need to attach the `AmazonEC2ContainerServiceforEC2Role` policy which you can quickly find by 
 pasting it in the **Policy Type** filter then checking the only result, then proceed to the **Next Step**:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-role-03.png?)
+![](http://docs.servicestack.net/images/aws/ecs/role-03.png)
 
 The last page in the Wizard lets you review details of the Role you'll creating after clicking **Create Role**:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-role-04.png?)
+![](http://docs.servicestack.net/images/aws/ecs/role-04.png)
 
 The `ecsInstanceRole` will now be listed as a Role in IAM which should look like:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-role-05.png?)
+![](http://docs.servicestack.net/images/aws/ecs/role-05.png)
 
 ## 2. Create a new IAM User 
 
@@ -308,7 +308,7 @@ Once locked down you can use it to SSH into your instance using the `-i` flag, l
 Replace `ecsdemo.netcore.io` with your domain name or Elastic IP. If everything went to plan you should now
 be logged into your EC2 Instance:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-ssh-01.png)
+![](http://docs.servicestack.net/images/aws/ecs/ssh-01.png)
 
 We're only assigned one task while we're here which is to run an instance of the `jwilder/nginx-proxy` 
 Docker App using the command below:
@@ -329,7 +329,7 @@ only that it's responsible for setting up nginx to reverse proxy requests from o
 
 If successful you'll get an output similar to:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-ssh-02.png)
+![](http://docs.servicestack.net/images/aws/ecs/ssh-02.png)
 
 For the more curious you can run `docker ps` to see the running Docker Containers which should include 
 this nginx-proxy and AWS's ECS agent.
@@ -468,7 +468,7 @@ until the **Desired count** of instances is reached.
 If your Service contains a **RUNNING** Task that means your time here was a success which we can further
 verify by SSH'ing back into our EC2 Instance and running `docker ps` to see our running Docker Containers:
 
-![](http://docs.servicestack.net/images/aws/ecs/ecs-ssh-03.png)
+![](http://docs.servicestack.net/images/aws/ecs/ssh-03.png)
 
 Where we should see **4 running** Docker Containers:
 
