@@ -346,7 +346,11 @@
 }
 
 .markdown-body>*:first-child {
-  margin-top: 0 !important;
+  /*margin-top: 0 !important;*/
+}
+.markdown-body>a.pull-right {
+  margin-top: -15px !important;
+  font-size: 14px;
 }
 
 .markdown-body>*:last-child {
