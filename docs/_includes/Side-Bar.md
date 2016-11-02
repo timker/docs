@@ -75,7 +75,7 @@
     - [Amazon SQS](https://github.com/ServiceStack/ServiceStack.Aws#sqsmqserver)
 - .NET Core
     - [Overview](/netcore)
-    - [.NET Core Razor Pages](/netcore-razor)
+    - [Smart MVC Razor Pages](/netcore-razor)
     - [.NET Core Clients](/netcore-clients)
     - [.NET Core Redis](/netcore-redis)
     - [Deploy .NET Core Apps with Docker to AWS](/deploy-netcore-docker-aws-ecs)

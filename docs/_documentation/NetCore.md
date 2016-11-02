@@ -40,13 +40,15 @@ For .NET Core Live Demos we've settled on the popular power combo of:
  - Using [AWS EC2 Container Service](https://aws.amazon.com/ecs/) for managing Docker images and instance deployments
  - Using [nginx-proxy](https://github.com/jwilder/nginx-proxy) setting up an nginx reverse proxy and automatically bind virtual hosts to Docker Instances
 
-We'll publish a step-by-step guide around our deployment story soon, but ultimately packaging .NET Core Apps 
+You can checkout our [Deploy .NET Core with Docker to AWS ECS Guide](/deploy-netcore-docker-aws-ecs) 
+for the details on how we've deployed the .NET Core Live Demos, but ultimately packaging .NET Core Apps 
 inside Docker images enables a higher-level of abstraction letting you define your entire App Server 
 Instance with a repeatable recipe that lets you treat and deploy instances like opaque self-contained units.
 
-With our .NET 4.5 Windows Live Demos we're effectively mutating a static Windows Server VM that required 
-pre-configuring with IIS Virtual Hosts. Any infrastructure Servers each Live Demo needs, are set up 
-out-of-band and to minimize the System administration burden, all Demos share the same Redis server instance.
+With our [.NET 4.5 Windows Live Demos](https://github.com/ServiceStackApps/LiveDemos) we're effectively 
+mutating a static Windows Server VM that required pre-configuring with IIS Virtual Hosts. Any infrastructure 
+Servers each Live Demo needs, are set up out-of-band and to minimize the System administration burden, 
+all Demos share the same Redis server instance.
 
 #### Repeatable, Isolated, no-touch automated Deployments
 
@@ -955,5 +957,5 @@ app.Use(new RazorHandler("/login"));
 ```
 
 Which will render the `/wwwroot/login.cshtml` Razor Page using the 
-[MVC Smart Razor Pages support]()
+[MVC Smart Razor Pages support](/netcore-razor)
 

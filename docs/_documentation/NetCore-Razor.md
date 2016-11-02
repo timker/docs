@@ -5,8 +5,7 @@ slug: netcore-razor
 
 Driven by our preference for 
 [API-first style of Web Development](https://github.com/ServiceStackApps/EmailContacts#api-first-development)
-we never saw value in the boilerplate required in MVC's forced Controller and Action pattern so we instead 
-developed our own [ServiceStack Razor Pages](http://razor.netcore.io) which let you develop dynamic
+we've developed our own [ServiceStack Razor Pages](http://razor.netcore.io) which lets you develop dynamic
 Web Pages using Razor to generate the HTML view of your existing Services - saving you from maintaining a 
 parallel Controller implementation that's limited to just Web Pages. The benefits of an API-first
 approach is that you'll naturally get a well-defined servicified interface which can be consumed by all 
