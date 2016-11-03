@@ -21,11 +21,6 @@ To install ServiceStack into your application, you have two options to get the b
 
 > **Tip:** You can find an explanation about all NuGet packages which ServiceStack offers [here](/nuget). The package above only adds the binaries, but there also exist some packages which add the required configurations etc.
 
-#### Manual Download
-
-Only current option for manual download is to download source and build yourself.
-
-***
 
 ### Register ServiceStack Handler
 
