@@ -18,9 +18,9 @@
     <!-- Sidebar -->
     <div id="sidebar-wrapper" class="sidebar-nav">
         <i id="menu-toggle" class="fa fa-angle-up" aria-hidden="true"></i>
-        <h2>
-            <a href="/">ServiceStack Docs</a>
-        </h2>
+        <a id="logo" href="/">
+            <img src="../images/logo-docs.png" width="292" height="40" style="margin:6px" />
+        </a>
         {% capture my-include %}{% include Side-Bar.md %}{% endcapture %}
         {{ my-include | markdownify }}
     </div>

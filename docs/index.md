@@ -3,6 +3,7 @@ layout: default
 title: ServiceStack Resources
 ---
 
+- [servicestack.net](http://www.servicestack.net/) - See ServiceStack's Website for product info and pricing 
 - [StackOverflow](http://stackoverflow.com/search?q=servicestack) - Ask questions on StackOverflow using the `servicestack` tag
 - [Customer Forums](https://forums.servicestack.net/) - Customers can get Technical Support in the Customer Forums
 - [Issue Tracker](https://github.com/ServiceStack/Issues) - Report issues on our Issue Tracker
@@ -10,7 +11,6 @@ title: ServiceStack Resources
 - [Live Demos](https://github.com/ServiceStackApps/LiveDemos) - Checkout Live Demos and source code created with ServiceStack
 - [Gistlyn](http://gistlyn.com) - Explore ServiceStack Live on Gistlyn
 - [Release Notes](https://servicestack.net/release-notes) - Stay up to date with ServiceStack's latest features
-- [servicestack.net](http://www.servicestack.net/) - See ServiceStack's Official Website for product info and pricing 
 
 ## ServiceStack Downloads
 
