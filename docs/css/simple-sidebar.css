@@ -149,6 +149,10 @@ img {
     max-width:900px;
 }
 
+#logo img {
+    margin: 6px;
+}
+
 @media(min-width:1024px) {
     #menu-toggle {
         display: none;
@@ -189,6 +193,9 @@ img {
 and (max-device-width:1024px) {
     #wrapper, #wrapper.toggled {
         padding-left: 0;
+    }
+    #logo img {
+        width: 274px;
     }
     #sidebar-wrapper {
         width: 330px;
