@@ -19,10 +19,10 @@
     - [Complexity, Services and Role of DTOs](http://stackoverflow.com/a/32940275/85785)
 - Reference
     - [Order of Operations](/order-of-operations)
-    - [Metadata page](/metadata-page)
-    - [The IoC container](/ioc)
+    - [IOC](/ioc)
     - [Configuration & AppSettings](/appsettings)
     - [Routing](/routing)
+    - [Metadata page](/metadata-page)
     - [REST, SOAP & default endpoints](/endpoints)
     - [SOAP support](/soap-support)
     - [Service return types](/service-return-types)

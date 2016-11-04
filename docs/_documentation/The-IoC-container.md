@@ -1,11 +1,15 @@
 ---
 slug: ioc
-title: The IOC Container 
+title: ServiceStack's IOC 
 ---
 
-ServiceStack uses a slightly modified version of [Funq](http://funq.codeplex.com/) - which was adopted because of its excellent [performance and memory characteristics](http://www.servicestack.net/benchmarks/). ServiceStack's version of Funq has been enhanced with Expression-based Auto-wiring and lifetime Request Scope.
+ServiceStack uses a slightly modified version of [Funq](http://funq.codeplex.com/) - which was adopted because 
+of its excellent [performance and memory characteristics](http://www.servicestack.net/benchmarks/). 
+ServiceStack's version of Funq has been enhanced with Expression-based Auto-wiring and lifetime Request Scope.
 
-If you so wish, you can still elect to use your favourite IOC by creating an `IContainerAdapter` for them. See below for examples of adapters for popular IOC's. All ServiceStack's customizable hooks support Auto-wiring out-of-the-box, namely:
+If you so wish, you can still elect to use your favourite IOC by creating an `IContainerAdapter` for them. 
+See below for examples of adapters for popular IOC's. All ServiceStack's customizable hooks support 
+Auto-wiring out-of-the-box, namely:
 
 - [Services](/your-first-webservice-explained)
 - [Request and Response Filter attributes](/filter-attributes) _(are executed before a service gets called)_
@@ -13,9 +17,35 @@ If you so wish, you can still elect to use your favourite IOC by creating an `IC
 
 For each of these features, dependencies are resolved for all parameters in the constructor that has the most arguments as well as all public properties.
 
+## .NET Core Compatible Registration APIs
+
+To retain the same nomenclature that .NET Core uses to register dependencies you can use the 
+[.NET Core-compatible overloads](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/ContainerNetCoreExtensions.cs)
+letting you use a single consistent API to register dependencies in both ServiceStack's and .NET Core's IOC 
+making it easy to move registrations between the two, e.g:
+
+```csharp
+public void Configure(Container container)
+{
+    //Register Singleton instance using Factory function
+    container.AddSingleton<IBar>(c => new Bar { Name = "bar" }); //Equivalent to:
+    container.Register<IBar>(c => new Bar { Name = "bar" });
+
+    //Register Auto-Wired Transient instance
+    container.AddTransient<IFoo, Foo>(); //Equivalent to:
+    container.RegisterAutoWiredAs<Foo,IFoo>().ReusedWithin(ReuseScope.None);
+    
+    //Register Auto-Wired Request Scope instance
+    container.AddScoped<IScoped, Scoped>(); //Equivalent to:
+    container.RegisterAutoWiredAs<Foo,IFoo>().ReusedWithin(ReuseScope.Request);    
+}
+```
+
 ## Autowire Registration
 
-You can register dependencies so that all the dependencies are automatically auto-wired. Just like the hooks above, once resolved Funq will create a new instance resolving dependencies for the constructor that has the most arguments as well as all public properties.
+You can register dependencies so that all the dependencies are automatically auto-wired. Just like the hooks 
+above, once resolved Funq will create a new instance resolving dependencies for the constructor that has the 
+most arguments as well as all public properties.
 
 ```csharp
 public override void Configure(Container container)
@@ -34,11 +64,14 @@ container.RegisterAutoWiredTypes(typeof(MyType),typeof(MyType2),typeof(MyType3))
 ```
 
 ## Custom Registration
-Funq also supports custom creation of instances. When used no auto-wiring is performed and it's left up to you to explicitly resolve all your dependencies.
+
+Funq also supports custom creation of instances. When used no auto-wiring is performed and it's left up to you 
+to explicitly resolve all your dependencies.
 
 ### Using Custom Factories
 
-In addition to Auto-wiring Funq allows you to customize the creation of your instance with custom delegates. This is useful when your dependencies require custom configuration. E.g:
+In addition to Auto-wiring Funq allows you to customize the creation of your instance with custom delegates. 
+This is useful when your dependencies require custom configuration. E.g:
 
 ```csharp
 container.Register(c => new MyType(c.Resolve<IDependency>(), connectionString));
@@ -48,13 +81,17 @@ container.Register(c => CreateAndInitializeMyType(c.Resolve<IDependency1>(), c.R
 
 ### Register instances
 
-Other than factories, you can also register custom instances where instead of returning a lambda above you can return an instance:
+Other than factories, you can also register custom instances where instead of returning a lambda above you 
+can return an instance:
 
 ```csharp
 container.Register(new MyType(c.Resolve<IDependency>(), connectionString));
 ```
 
-> **Note:** When using the methods above, the properties and the constructor of the registered type aren't auto-wired (ie **the properties and the constructor are not injected**). You would need to do that manually like that:
+> **Note:** When using the methods above, the properties and the constructor of the registered type aren't 
+auto-wired (ie **the properties and the constructor are not injected**). You would need to do that manually 
+like that:
+
 ```csharp
 container.Register<T>(c => new Foo(c.Resolve<Some>(), c.Resolve<Other>(), c.Resolve<Dependencies>());
 ```
@@ -102,6 +139,7 @@ public interface IContainerAdapter : IResolver {
 ```
 
 #### Example Usage
+
 ```csharp
 IKernel kernel = new StandardKernel();
 container.Adapter = new NinjectIocAdapter(kernel);
@@ -112,6 +150,7 @@ Adding a custom ContainerAdapter allows your services to resolve its dependencie
 Here are some example how to use some popular IoC containers side-by-side with Funq. Of course you're not only limited to the these IoC containers here:
 
 ### Use Ninject
+
 ```csharp
 public class NinjectIocAdapter : IContainerAdapter
 {
@@ -187,9 +226,7 @@ public class ApplicationAssemblyFilter : AssemblyFilter
     public ApplicationAssemblyFilter()
         : base(AppDomain.CurrentDomain.BaseDirectory, Assembly.GetExecutingAssembly().GetName().Name + ".*.dll"){}
 }
-```
 
-```csharp
 public class WindsorContainerAdapter : IContainerAdapter, IDisposable 
 { 
     private readonly IWindsorContainer container; 

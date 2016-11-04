@@ -3,9 +3,9 @@ slug: wire-format
 title: Wire Format
 ---
 
-[https://github.com/akkadotnet/Wire) is an efficient binary serialization format from the 
+[Wire](https://github.com/akkadotnet/Wire) is an efficient binary serialization format from the 
 [Akka.NET Team](http://getakka.net) with comparable performance to ProtoBuf but like MsgPack doesn’t 
-require your POCO’s to be annotated with [DataContract] attributes making it more suitable for 
+require your POCO’s to be annotated with `[DataContract]` attributes making it more suitable for 
 code-first POCO DTOs.
 
 ## Installing via NuGet
