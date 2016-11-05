@@ -18,7 +18,7 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
 - **Host Agnostic** - Services are decoupled from HTTP and can be hosted in MQ Services
 - **Highly testable** - Typed, idiomatic client APIs enable succinct, intuitive Integration tests
 - **Mature** - Stable with over 8+ years of development 
-- **Preserve Investment** - clean modern libraries that are [Continuously Improved](/release-notes-history) (not abandoned or replaced)
+- **Preserve Investment** - modern libraries that are [Continuously Improved](/release-notes-history) (not abandoned or replaced)
 - **Dependable** - Commercially supported and actively developed
 
 ### [Features Overview](https://servicestack.net/features)
