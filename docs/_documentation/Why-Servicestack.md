@@ -10,7 +10,7 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
 - Web Services Best Practices
 - Model-driven, code-first, friction-free development
 - Native Clients - Clean, end-to-end Typed idiomatic APIs for most major platforms
-- Clean, No XML config, no code-gen, conventional defaults
+- Modern - No XML config, IOC built-in, no code-gen, conventional defaults
 - Smart - Infers greater intelligence from your strongly typed DTOs
 - Effortless Features - Most features enhance your existing DTOs making them trivial to enable
 - Multi Platform - Supports .NET 4.5 and .NET Core platforms for hosting on Windows, OSX, Linux
