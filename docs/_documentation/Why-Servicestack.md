@@ -7,16 +7,17 @@ Developed in the modern age, Service Stack provides an alternate, cleaner POCO-d
  
 - Simplicity
 - Speed
-- Best Practices
+- Web Services Best Practices
 - Model-driven, code-first, friction-free development
+- Native Clients - Clean, end-to-end Typed idiomatic APIs for most major platforms
 - Clean, No XML config, no code-gen, conventional defaults
 - Smart - Infers greater intelligence from strongly typed DTOs
-- Supports .NET 4.5 and .NET Core platforms for hosting on Windows, OSX, Linux
+- Multi Platform - Supports .NET 4.5 and .NET Core platforms for hosting on Windows, OSX, Linux
 - Multiple Hosts - Run in Web, Console, native Windows/OSX Desktop Apps, Windows Services
 - Host Agnostic - Services are decoupled from HTTP and can be hosted in MQ
-- Highly testable
+- Highly testable - Typed, idiomatic client APIs enable succinct, intuitive Integration tests
 - Mature - Stable with over 8+ years of development 
-- Preserve Investment - libraries are clean, modern and [Continuously Improved](/release-notes-history) (not abandoned or replaced)
+- Preserve Investment - clean modern libraries that are [Continuously Improved](/release-notes-history) (not abandoned or replaced)
 - Commercially supported and actively developed
 
 ### [Features Overview](https://servicestack.net/features)
