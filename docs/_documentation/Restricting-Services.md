@@ -67,3 +67,34 @@ A popular configuration that takes advantage of this feature would be to only al
           RequestAttributes.Secure   | RequestAttributes.External)]
 public class InternalHttpAndExternalHttps { }
 ```
+
+### Restricting built-in Services
+
+In addition to statically annotating classes, you can also add .NET Attributes at runtime to restrict Services 
+you don't control. So to only allow built-in Services to be visible from **localhost** requests you can add 
+restriction attributes to Request DTO's in your AppHost with:
+
+```csharp
+typeof(AssignRoles)
+    .AddAttributes(new RestrictAttribute { VisibleLocalhostOnly = true });
+typeof(UnAssignRoles)
+    .AddAttributes(new RestrictAttribute { VisibleLocalhostOnly = true });
+```
+
+Or to hide it for all requests you can set the visibility to none:
+
+```csharp
+typeof(AssignRoles)
+    .AddAttributes(new RestrictAttribute { VisibilityTo=RequestAttributes.None });
+typeof(UnAssignRoles)
+    .AddAttributes(new RestrictAttribute { VisibilityTo=RequestAttributes.None });
+```
+
+Note they'll still be shown in development mode when `Debug=true` which is automatically enabled for 
+**Debug** builds, to simulate what it would look like in a release build you can set it to `false`, e.g:
+
+```csharp
+SetConfig(new HostConfig {
+    DebugMode = false
+});
+```
