@@ -98,7 +98,7 @@ The basic steps for deploy your .NET Core App with Docker that's covered in this
  7. Configure **Travis CI** to deploy your `redis-geo` fork to your AWS ECS Service
  8. Playing with your deployed .NET Core Docker App!
 
-Whislt this may seem like a lot of effort to deploy a Docker App, most of the above steps only need to be done 
+Whilst this may seem like a lot of effort to deploy a Docker App, most of the above steps only need to be done 
 once - only **steps 6-8** are repeatable for each new project that you want to deploy to your ECS Container 
 EC2 Instance.
 
