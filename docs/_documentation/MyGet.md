@@ -1,18 +1,23 @@
 ---
 slug: myget
+title: MyGet
 ---
+
 ## ServiceStack pre-release MyGet Feed
 
-Our interim pre-release NuGet packages first get published to [MyGet](https://www.myget.org/).
+Our interim pre-release NuGet packages first get published to 
+[MyGet](https://www.myget.org/).
 
 Instructions to add ServiceStack's MyGet feed to VS.NET are:
 
   1. Go to `Tools -> Options -> Package Manager -> Package Sources`
-  2. Add the Source `https://www.myget.org/F/servicestack` with the name of your choice, e.g. _ServiceStack MyGet feed_
+  2. Add the Source `https://www.myget.org/F/servicestack` with the name of your choice, 
+  e.g. _ServiceStack MyGet feed_
 
 ![NuGet Package Sources](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/myget/package-sources.png)
 
-After registering the MyGet feed it will show up under NuGet package sources when opening the NuGet package manager dialog:
+After registering the MyGet feed it will show up under NuGet package sources when opening the NuGet 
+package manager dialog:
 
 ![NuGet Package Manager](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/wikis/myget/package-manager-ui.png)
 
@@ -20,7 +25,8 @@ Which will allow you to search and install pre-release packages from the selecte
 
 ## Redownloading MyGet packages
 
-If you've already packages with the **same version number** from MyGet previously installed, you will need to manually delete the NuGet `/packages` folder for NuGet to pull down the latest packages.
+If you've already packages with the **same version number** from MyGet previously installed, you will 
+need to manually delete the NuGet `/packages` folder for NuGet to pull down the latest packages.
 
 ### Clear NuGet Package Cache
 
