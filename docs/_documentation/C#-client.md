@@ -628,6 +628,8 @@ Whilst the list below contain the built-in clients based on .NET's built-in `Htt
     (uses default endpoint with **Message-Pack**)
     - [ProtoBufServiceClient](/protobuf-format)
     (uses default endpoint with **Protocol Buffers**)
+    - [WireServiceClient](/wire-format)
+    (uses default endpoint with **Wire** Format)
 - implements `IServiceClient` only:
     - [Soap11ServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/Soap11ServiceClient.cs) (uses **SOAP 11** endpoint)
     - [Soap12ServiceClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Client/Soap12ServiceClient.cs)
