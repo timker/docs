@@ -318,11 +318,9 @@ public class GetStripeCustomers : IGet, IReturn<StripeCollection<Customer>>, IUr
     [IgnoreDataMember]
     public string[] Include { get; set; }
 
-    public string ToUrl(string absoluteUrl)
-    {
-        return Include == null ? absoluteUrl 
-            : absoluteUrl.AddQueryParam("include[]", string.Join(",", Include));
-    }
+    public string ToUrl(string absoluteUrl) => Include != null 
+        ? absoluteUrl.AddQueryParam("include[]", string.Join(",", Include)) 
+        : absoluteUrl;
 }
 ```
 
