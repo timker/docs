@@ -35,9 +35,9 @@ Where Request Logs are flushed every **1 second** using a background Timer to a 
 the logical date format structure above. As it would be useful to be able to inspect any errors in isolation, 
 errors are also written to a separate `YYYY-MM-DD-errors.csv` format, in addition to the main Request logs.
 
-### [Custom CSV AutoQuery Data implementation](/autoquery-Service#custom-autoquery-data-implementation)
+### [Custom CSV AutoQuery Data implementation](/autoquery-service#custom-autoquery-data-implementation)
 
-The AutoQuery Service example shows you can quickly create an AutoQuery Data Service that lets you inspect your CSV Request and Error Logs with AutoQuery, which in addition to the rich querying benefits also gives you access to an instant UI in [AutoQuery Viewer](https://github.com/ServiceStack/Admin) to be able to [View your Request Logs](/autoquery-Service#view-request-logs-in-autoquery-viewer).
+The AutoQuery Service example shows you can quickly create an AutoQuery Data Service that lets you inspect your CSV Request and Error Logs with AutoQuery, which in addition to the rich querying benefits also gives you access to an instant UI in [AutoQuery Viewer](https://github.com/ServiceStack/Admin) to be able to [View your Request Logs](/autoquery-service#view-request-logs-in-autoquery-viewerhttpsgithubcomservicestackadmin).
 
 ## Redis Request Logger
 
