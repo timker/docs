@@ -12,7 +12,7 @@ Rather than taking the normal .NET approach of wrapping WebRequest inside a suit
 The [PocoPower project](https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/PocoPower) shows some good examples of what this looks like in Practice. Here's how you can retrieve a typed list of GitHub User Repos from GitHub's JSON REST API:
 
 ```csharp
-List<GithubRepo> repos = "https://api.github.com/users/{0}/repos".Fmt(user)
+List<GithubRepo> repos = $"https://api.github.com/users/{user}/repos"
     .GetJsonFromUrl()
     .FromJson<List<GithubRepo>>();
 ```
@@ -22,7 +22,7 @@ List<GithubRepo> repos = "https://api.github.com/users/{0}/repos".Fmt(user)
 You can make use of the accompanying String Extensions to programatically construct a url as seen in this Twitter API example:
 
 ```csharp
-var url ="http://api.twitter.com/statuses/user_timeline.json?screen_name={0}".Fmt(name);
+var url = $"http://api.twitter.com/statuses/user_timeline.json?screen_name={name}";
 if (sinceId != null)
     url = url.AddQueryParam("since_id", sinceId);
 if (maxId != null)
@@ -66,7 +66,7 @@ var json = "http://example.org/users".GetJsonFromUrl(requestFilter:webReq =>{
 This also works for Response Filters as well where if you need access to the Response HTTP Headers as well as the body you can add a callback for the response filter:
 
 ```csharp
-List<GithubRepo> repos = "https://api.github.com/users/{0}/repos".Fmt(user)
+List<GithubRepo> repos = $"https://api.github.com/users/{user}/repos"
     .GetJsonFromUrl(responseFilter: httpRes => {
         var remaining = httpRes.Headers["X-Api-Remaining"];
     })
