@@ -1,8 +1,12 @@
 ---
 slug: security
+title: Security Overview
 ---
-  1. [Authentication/authorization](/authentication-and-authorization)
-     - [Open Id 2.0 Support](/openId)
+
+  1. [Authentication and Authorization](/authentication-and-authorization)
+     - [JWT Auth Provider](/jwt-authprovider)
+     - [API Key Auth Provider](/api-key-authprovider)
+     - [Open Id 2.0 Support](/openId)     
   2. [Sessions](/sessions)
   3. [Restricting Services](/restricting-services)
 
