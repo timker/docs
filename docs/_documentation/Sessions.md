@@ -222,6 +222,83 @@ This API is also available in MVC Controllers that inherit `ServiceStackControll
 base.SaveSession(session);
 ```
 
+### Sliding Sessions
+
+You can extend existing User Sessions in ServiceStack by just re-saving the Users Session.
+This can be done anywhere in [ServiceStack's Request Pipeline](/order-of-operations), E.g.
+in a [Request or Response Filter Attribute](/filter-attributes) or 
+[Global Request or Response Filter](/request-and-response-filters):
+
+E.g. here's a Sliding Sessions example using a custom `[SlideExpiration]` Response Filter Attribute:
+
+```csharp
+public class SlidingSessionAttribute : ResponseFilterAttribute
+{
+    public TimeSpan? Expiry { get; set; }
+
+	public SlidingSessionAttribute(int expirySecs=0)
+	{
+		this.Expiry = expirySecs <= 0
+            ? (TimeSpan?)null 
+            : TimeSpan.FromSeconds(expirySecs);
+	}
+
+    public override void Execute(IRequest req, IResponse res, object responseDto)
+    {
+        var session = req.GetSession();
+        if (session != null) 
+            req.SaveSession(session, this.Expiry);
+    }
+}
+```
+
+Which can be applied to any protected User Services, e.g:
+
+```csharp
+[Authenticate]
+[SlidingSession(10 * 60)] //= 10 minutes
+public class UserServices : Service
+{
+    public object Any(MyUserRequest request) => ...;
+}
+```
+
+Which just re-saves the Session in order to extend it with a new Session Expiry, this can 
+instead be done in a Global Response Filter with:
+
+```csharp
+GlobalResponseFilters.Add((req, res, dto) =>
+{
+    var session = req.GetSession();
+    if (session != null)
+        req.SaveSession(session, TimeSpan.FromMinutes(10));
+});
+```
+
+#### Find the remaining time left before a Session expires
+
+For [Cache Clients](/) that implement you can retrieve the 
+`ICacheClientExtended.GetTimeToLive()` returns a `TimeSpan?` which will return:
+
+ - `null` if no key exists
+ - `TimeSpan.MaxValue` if there is no expiry set on the key
+ - or a `TimeSpan` value with the time remaining before the key is set to expire
+
+ So you can determine the remaining time on a Session by querying the **Time To Live** 
+ remaining on the Session Key in the Cache which you could use to extend the Users Session
+ by **10 minutes** if they have **less than 10 minutes** remaining:
+
+ ```csharp
+var sessionId = req.GetSessionId(); 
+var sessionKey = SessionFeature.GetSessionKey(sessionId);
+var ttl = req.GetCacheClient().GetTimeToLive(sessionKey);
+
+if (ttl != null && ttl <= TimeSpan.FromMinutes(10)) 
+{
+    var session = req.GetSession();
+    req.SaveSession(session, TimeSpan.FromMinutes(10));
+}
+```
 
 ### Typed Sessions in MVC
 
