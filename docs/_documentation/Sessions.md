@@ -283,4 +283,4 @@ var allSessions = Cache.GetAll<IAuthSession>(sessionKeys);
 
   - [Sliding session expirations in ServiceStack](http://teadriven.me.uk/2013/02/14/sliding-sessions-in-service-stack/) by [@teadriven](https://twitter.com/teadriven)
   - [Accessing ASP.NET Session from ServiceStack](http://www.richardfawcett.net/2012/02/29/accessing-asp-net-session-from-servicestack/) by [@yeurch](https://twitter.com/yeurch)
-  - [REST Web Services with ServiceStack](https://web.archive.org/web/20121124003901/http://openlandscape.net/2011/03/21/rest-web-services-with-servicestack) by [Jacques du Preez](http://openlandscape.net/about/)
+  - [REST Web Services with ServiceStack](https://web.archive.org/web/20121124003901/http://openlandscape.net/2011/03/21/rest-web-services-with-servicestack) by Jacques du Preez
