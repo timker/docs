@@ -288,7 +288,7 @@ For [Cache Clients](/) that implement you can retrieve the
  remaining on the Session Key in the Cache which you could use to extend the Users Session
  by **10 minutes** if they have **less than 10 minutes** remaining:
 
- ```csharp
+```csharp
 var sessionId = req.GetSessionId(); 
 var sessionKey = SessionFeature.GetSessionKey(sessionId);
 var ttl = req.GetCacheClient().GetTimeToLive(sessionKey);
