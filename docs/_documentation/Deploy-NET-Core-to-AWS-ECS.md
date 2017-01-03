@@ -484,6 +484,8 @@ Where we should see **4 running** Docker Containers:
  3. redis-server
  4. Our .NET Core Docker App!
 
+## Problems with the task not running
+
 If you don't have a **RUNNING** Task then you might need to [restart the ECS container agent](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html) by SSH'ing into the EC2 Instance and running the commands below:
 
 ```
@@ -492,6 +494,14 @@ ecs stop/waiting
 [ec2-user ~]$ sudo start ecs
 ecs start/running, process 26119
 ```
+
+If that still doesn't work you should see if any of the containers are stopping shortly after they have started. A good way of doing this is to run `docker ps -a` which will show you all the containers that have started (without the -a, it only shows the currently running ones). If you see that some are exiting with a code that is not 0, then you may have a problem with that container. Run that container using `docker run` using its image name and omitting the -d flag. For example:
+
+```
+docker run 473481601643.dkr.ecr.ap-southeast-2.amazonaws.com/netcoreapps-redisgeo:latest
+```
+
+That will run the container and show its output, which might give you some indication of the problem.
 
 ## 8. Play your deployed .NET Core Docker App!
 
