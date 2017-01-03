@@ -484,6 +484,15 @@ Where we should see **4 running** Docker Containers:
  3. redis-server
  4. Our .NET Core Docker App!
 
+If you don't have a **RUNNING** Task then you might need to [restart the ECS container agent](http://docs.aws.amazon.com/AmazonECS/latest/developerguide/troubleshooting.html) by SSH'ing into the EC2 Instance and running the commands below:
+
+```
+[ec2-user ~]$ sudo stop ecs
+ecs stop/waiting
+[ec2-user ~]$ sudo start ecs
+ecs start/running, process 26119
+```
+
 ## 8. Play your deployed .NET Core Docker App!
 
 With all the pieces in place we can visit our virtual host [http://ecsdemo.netcore.io](http://ecsdemo.netcore.io) 
