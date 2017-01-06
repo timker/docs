@@ -35,7 +35,8 @@ Plugins.Add(new AuthFeature(...,
         new ApiKeyAuthProvider(AppSettings),
         new CredentialsAuthProvider(AppSettings),
         //...
-    }));
+    }
+));
 ```
 
 The `ApiKeyAuthProvider` works similarly to the other ServiceStack `IAuthWithRequest` providers where a 
@@ -106,7 +107,8 @@ Plugins.Add(new AuthFeature(...,
         new ApiKeyAuthProvider(AppSettings) {
             KeyTypes = new[] { "secret", "publishable" },
         }
-    });
+    }
+));
 ```
 
 If preferred, any of the API Key Provider options can instead be specified in 
