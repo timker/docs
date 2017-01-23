@@ -8,7 +8,7 @@ slug: swift-add-servicestack-reference
 
 ServiceStack's **Add ServiceStack Reference** feature lets iOS/OSX developers generate an native typed Swift 2.0 API for your ServiceStack Services directly from within XCode using the new [ServiceStack XCode Plugin](https://github.com/ServiceStack/ServiceStack.Swift/raw/master/dist/ServiceStackXcode.dmg) - providing a simpler, cleaner and more versatile alternative to WCF's Add Service Reference feature that reduces the burden and effort required for consuming ServiceStack Services whilst benefiting from Swift's strong-typing feedback: 
 
-## Download ServiceStack Xcode 7 Plugin
+## Download ServiceStack Xcode Plugin
 
 [![ServiceStackXCode.dmg download](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestackxcode-dmg.png)](https://github.com/ServiceStack/ServiceStack.Swift/raw/master/dist/ServiceStackXcode.dmg)
 
