@@ -7,7 +7,7 @@
     - [Why remote services should use DTOs?](http://stackoverflow.com/a/15369736/85785)
     - [Live Demos](https://github.com/ServiceStackApps/LiveDemos)
 - Releases
-    - [Latest Release Notes](/releases/v4.5.2)
+    - [Latest Release Notes](/releases/v4.5.6)
     - [2016 Summary](/releases/)
     - [Release Notes History](/release-notes-history)
 - Getting Started
