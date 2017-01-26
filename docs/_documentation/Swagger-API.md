@@ -87,7 +87,9 @@ Exclude **properties** from being listed in Swagger Schema Body with:
 [ApiMember(ExcludeInSchema=true)]
 ```
 
-Or exclude entire Services from showing up in Swagger or any other Metadata Services (i.e. Metadata Pages, Postman, NativeTypes, etc) by annotating **Request DTO's** with:
+### Exclude Services from Metadata Pages
+
+To exclude entire Services from showing up in Swagger or any other Metadata Services (i.e. Metadata Pages, Postman, NativeTypes, etc), annotate **Request DTO's** with:
 
 ```csharp
 [Exclude(Feature.Metadata)]
