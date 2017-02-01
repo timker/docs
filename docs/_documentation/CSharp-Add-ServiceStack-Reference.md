@@ -262,11 +262,14 @@ var response = client.Get(new SearchQuestions {
 
 ### IncludeTypes
 Is used as a Whitelist to specify only the types you would like to have code-generated:
+
 ```
 /* Options:
 IncludeTypes: GetTechnology,GetTechnologyResponse
 ```
+
 Will only generate `GetTechnology` and `GetTechnologyResponse` DTO's:
+
 ```csharp
 public class GetTechnology { ... }
 public class GetTechnologyResponse { ... }
@@ -274,10 +277,12 @@ public class GetTechnologyResponse { ... }
 
 ### ExcludeTypes
 Is used as a Blacklist to specify which types you would like excluded from being generated:
+
 ```
 /* Options:
 ExcludeTypes: GetTechnology,GetTechnologyResponse
 ```
+
 Will exclude `GetTechnology` and `GetTechnologyResponse` DTOs from being generated.
 
 ### AddDefaultXmlNamespace
