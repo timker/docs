@@ -696,6 +696,23 @@ func createAutoQueryParam(field:String, _ operand:String) -> String {
 
 Essentially employing the same strategy for both AutoQuery Services where it builds a query String parameter to send with the request. For incomplete queries, the default search queries both `NameContains` and `DescriptionContains` field conventions returning results where the Search Text is either in `Name` **OR** `Description` fields.
 
+### [Swift TechStacks Console App](https://github.com/ServiceStackApps/swift-techstacks-console)
+
+In its quest to become a popular mainstream language, Swift includes a built-in Package Manager 
+to simplify the maintenance, distribution and building of Swift code. Swift Package Manager can be used to
+build native statically-linked modules or Console Apps but currently has no support for iOS, watchOS, 
+or tvOS platforms.
+ 
+Nevertheless it's simple console and text-based programming model provides a great way to quickly develop 
+prototypes or Console-based Swift Apps like [swiftref](https://github.com/ServiceStack/swiftref) 
+using your favorite text editor. To support this environment we've packaged ServiceStack's Swift Service 
+clients into a **ServiceStackClient** package so it can be easily referenced in Swift PM projects.
+
+Together with **Swift Add ServiceStack Reference** we now have a productive development workflow for 
+building statically-linked native executables that consume Typed ServiceStack Services as seen in the new 
+step-by-step guide below showing how to create a simple
+[Swift TechStacks Console App](https://github.com/ServiceStackApps/swift-techstacks-console). 
+
 ## Swift Generated DTO Types
 
 With Swift support our goal was to ensure a high-fidelity, idiomatic translation within the constraints of Swift language and built-in libraries, where the .NET Server DTO's are translated into clean Swift POSO's (Plain Old Swift Objects :) having their .NET built-in types mapped to their equivalent Swift data type. 
