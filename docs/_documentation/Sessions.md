@@ -174,12 +174,6 @@ var sessionKey = SessionFeature.GetSessionKey();
 // geting an existing User Session or create a new one 
 var userSession = SessionFeature.GetOrCreateSession<AuthUserSession>(CacheClient); 
 // or SessionFeature.GetOrCreateSession<CustomUserSession>(CacheClient); 
-
-// modifying User Session
-userSession.UserAuthId = model.UserName;
-
-// saving User Session
-CacheClient.CacheSet(sessionKey , userSession);
 ```
 
 ### Saving in Service
