@@ -452,15 +452,15 @@ If your web server is configured to automatically buffer the response it will de
 
 Alternatively you can switch to use Visual Studio Development Server which doesn't buffer by default.
 
-# ServerEvent Examples
+## ServerEvent Examples
 
-## [Gistlyn](https://github.com/ServiceStack/Gistlyn)
+### [Gistlyn](https://github.com/ServiceStack/Gistlyn)
 
 Gistlyn is a C# Gist IDE for creating, running and sharing stand-alone, executable C# snippets.
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/gistlyn/home-screenshot.png)](http://gistlyn.com)
 
-## [React Chat](https://github.com/ServiceStackApps/ReactChat)
+### [React Chat](https://github.com/ServiceStackApps/ReactChat)
 
 React Chat is a port of [ServiceStack Chat](https://github.com/ServiceStackApps/Chat) ES5, jQuery Server Events 
 demo into a [TypeScript](http://www.typescriptlang.org/), [React](http://facebook.github.io/react/) and 
@@ -468,7 +468,7 @@ demo into a [TypeScript](http://www.typescriptlang.org/), [React](http://faceboo
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat-react/screenshot.png)](http://react-chat.servicestack.net/)
 
-## [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
+### [Xamarin.Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat)
 
 Xamarin.Android Chat utilizes the 
 [.NET PCL Server Events Client](/csharp-server-events-client)
@@ -480,7 +480,7 @@ with existing Ajax clients and other connected Android Chat Apps.
 
 > [YouTube Video](https://www.youtube.com/watch?v=tImAm2LURu0) and [AndroidXamarinChat Repo](https://github.com/ServiceStackApps/AndroidXamarinChat)
 
-## [Networked Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-9---real-time-networked-time-traveller)
+### [Networked Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-9---real-time-networked-time-traveller)
 
 A network-enhanced version of the
 [stand-alone Time Traveller Shape Creator](https://github.com/ServiceStackApps/typescript-redux#example-8---time-travelling-using-state-snapshots)
@@ -491,13 +491,13 @@ to how users can use Remote Desktop to watch another computer's screen:
 
 > Live demo: http://redux.servicestack.net
 
-## [Chat](https://github.com/ServiceStackApps/Chat)
+### [Chat](https://github.com/ServiceStackApps/Chat)
 
 > Feature-rich Single Page Chat App, showcasing Server Events support in 170 lines of JavaScript!
 
 [![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/chat.png)](http://chat.servicestack.net)
 
-## [React Chat Desktop](https://github.com/ServiceStackApps/ReactChatApps)
+### [React Chat Desktop](https://github.com/ServiceStackApps/ReactChatApps)
 
 > Built with [React Desktop Apps](https://github.com/ServiceStackApps/ReactDesktopApps)
 VS.NET template and packaged into a native Desktop App for Windows and OSX - showcasing synchronized 

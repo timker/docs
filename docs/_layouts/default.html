@@ -103,7 +103,7 @@
     }
 
     //Allow clicking on non-linked headers to jump to its #href
-    $("h1,h2,h3,h4").click(function(){
+    $("h2,h3,h4").click(function(){
         if (this.id && this.innerHTML.indexOf("<a") == -1) {
             location.href = "#" + this.id;
         }
