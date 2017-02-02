@@ -72,6 +72,7 @@ typesConfig.AddResponseStatus = true;
 ```
 
 More Swift-specific configuration is available on the `SwiftGenerator` class itself, e.g:
+
 ```csharp
 SwiftGenerator.DefaultImports.Add("UIKit");
 ```
@@ -333,7 +334,7 @@ client.getAsync(AppOverview())
     }
 ```
 
-Swift 2.0 also lets you continue marking it up with explicit Type Information and optional syntax as preferred, e.g: 
+Swift also lets you continue marking it up with explicit Type Information and optional syntax as preferred, e.g: 
 
 ```swift
 client.getAsync(AppOverview())
