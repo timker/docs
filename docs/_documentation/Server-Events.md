@@ -452,7 +452,7 @@ If your web server is configured to automatically buffer the response it will de
 
 Alternatively you can switch to use Visual Studio Development Server which doesn't buffer by default.
 
-## ServerEvent Examples
+## ServerEvents Examples
 
 ### [Gistlyn](https://github.com/ServiceStack/Gistlyn)
 
