@@ -482,9 +482,11 @@ JsonServiceClient.Global.requestFilter = {(req:NSMutableURLRequest) in ... }
 JsonServiceClient.Global.responseFilter = {(res:NSURLResponse) in ... }
 ```
 
-## TechStacks iOS App
+## [TechStacks iOS App](https://github.com/ServiceStackApps/TechStacksApp)
 
-To illustrate the ease-of-use and utility of ServiceStack's new Swift support you can checkout the TechStacks native iOS App for http://techstacks.io that has been recently published and is now available to download for free on the AppStore:
+To illustrate the ease-of-use and utility of ServiceStack's new Swift support you can checkout the 
+TechStacks native iOS App for [techstacks.io](http://techstacks.io) that has been recently published and is 
+now available to download for free on the AppStore:
 
 [![TechStacks on AppStore](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/techstacks-appstore.png)](https://itunes.apple.com/us/app/techstacks/id965680615?ls=1&mt=8)
 
@@ -625,11 +627,15 @@ public func loadImageAsync(url:String) -> Promise<UIImage?> {
 }
 ```
 
-## TechStacks OSX Desktop App
+## [TechStacks OSX Desktop App](https://github.com/ServiceStackApps/TechStacksDesktopApp)
 
-As `JsonServiceClient.swift` has no external dependencies and only relies on core `Foundation` classes it can be used anywhere Swift can including OSX Cocoa Desktop and Command Line Apps and Frameworks.
+As `JsonServiceClient.swift` has no external dependencies and only relies on core `Foundation` classes it 
+can be used anywhere Swift can including OSX Cocoa Desktop and Command Line Apps and Frameworks.
 
-Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a TechStacks OSX Desktop available which showcases how easy it is to call ServiceStack's dynamic [AutoQuery Services](/autoquery) and how much auto-querying functionality they can provide for free.
+Most of the API's used in TechStacks iOS App are standard typed Web Services calls. There is also a 
+[TechStacks OSX Desktop](https://github.com/ServiceStackApps/TechStacksDesktopApp) 
+available which showcases how easy it is to call ServiceStack's dynamic 
+[AutoQuery Services](/autoquery) and how much auto-querying functionality they can provide for free.
 
 E.g. The TechStacks Desktop app is essentially powered with these 2 AutoQuery Services:
 
