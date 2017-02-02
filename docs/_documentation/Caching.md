@@ -47,6 +47,16 @@ container.RegisterAs<OrmLiteCacheClient, ICacheClient>();
 container.Resolve<ICacheClient>().InitSchema(); 
 ``` 
 
+#### SQL Server Memory Optimized Cache
+
+SQL Server's Memory Optimized support can be used to improve the performance of `OrmLiteCacheClient` 
+by configuring it to use the above In Memory Table Schema instead, e.g:
+
+```csharp
+container.Register<ICacheClient>(c => 
+    new OrmLiteCacheClient<SqlServerMemoryOptimizedCacheEntry>());
+```
+
 ##### NuGet Package: [ServiceStack.Server](http://www.nuget.org/packages/ServiceStack.Server)
 
 #### Memcached:

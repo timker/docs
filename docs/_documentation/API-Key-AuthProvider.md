@@ -118,6 +118,25 @@ If preferred, any of the API Key Provider options can instead be specified in
 <add key="apikey.KeyTypes" value="secret,publishable" />
 ```
 
+### Cached API Key Sessions
+
+You can reduce the number of I/O Requests and improve the performance of API Key Auth Provider Requests by 
+specifying a `SessionCacheDuration` to temporarily store the Authenticated UserSession against the API Key
+which will reduce subsequent API Key requests down to 1 DB call to fetch and validate the API Key + 1 Cache Hit 
+to restore the User's Session which if you're using the default in-memory Cache will mean it only requires 1 I/O 
+call for the DB request.
+
+This can be enabled with:
+
+```csharp
+Plugins.Add(new AuthFeature(...,
+    new IAuthProvider[] {
+        new ApiKeyAuthProvider(AppSettings) {
+            SessionCacheDuration = TimeSpan.FromMinutes(10),
+        }
+    }));
+```
+
 #### Multitenancy
 
 Thanks to the ServiceStack's trivial support for enabling 
@@ -192,6 +211,9 @@ new ApiKeyAuthProvider
 
     // Run custom filter after API Key is created
     public Action<ApiKey> CreateApiKeyFilter { get; set; }
+
+    // Cache the User Session so it can be reused between subsequent API Key Requests
+    public TimeSpan? SessionCacheDuration { get; set; }
 }
 ```
 

@@ -697,7 +697,7 @@ func createAutoQueryParam(field:String, _ operand:String) -> String {
 
 Essentially employing the same strategy for both AutoQuery Services where it builds a query String parameter to send with the request. For incomplete queries, the default search queries both `NameContains` and `DescriptionContains` field conventions returning results where the Search Text is either in `Name` **OR** `Description` fields.
 
-### [Swift TechStacks Console App](https://github.com/ServiceStackApps/swift-techstacks-console)
+### [TechStacks Console App](https://github.com/ServiceStackApps/swift-techstacks-console)
 
 In its quest to become a popular mainstream language, Swift includes a built-in Package Manager 
 to simplify the maintenance, distribution and building of Swift code. Swift Package Manager can be used to

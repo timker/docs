@@ -24,6 +24,26 @@ By default ServiceStack automatically includes the Assembly where your `AppHost`
 
 See the ServiceStack.Gap project for different examples of how to create single **.exe** ILMerged applications with Embedded Resources and Compiled Razor Views.
 
+### FileSystem Mappings
+
+Custom FileSystem mappings can be easily registered under a specific alias by overriding your AppHost's 
+`GetVirtualFileSources()` and registering a custom `FileSystemMapping`, e.g:
+
+```csharp
+public override List<IVirtualPathProvider> GetVirtualFileSources()
+{
+    var existingProviders = base.GetVirtualFileSources();
+    existingProviders.Add(new FileSystemMapping(this, "img", "i:\\images"));
+    existingProviders.Add(new FileSystemMapping(this, "docs", "d:\\documents"));
+    return existingProviders;
+}
+```
+
+This will let you access File System Resources under the custom `/img` and `/doc` routes, e.g:
+
+ - http://host/img/the-image.jpg
+ - http://host/docs/word.doc
+
 ### Registering additional Virtual Path Providers
 
 An easy way to register additional VirtualPath Providers in ServiceStack is to override the `GetVirtualFileSources()` method in your AppHost where you can add, remove, or re-order existing providers to change their priority. E.g. we can use this to provide an elegant solution for minifying static `.html`, `.css` and `.js` resources by simply pre-loading a new **InMemory Virtual FileSystem** with minified versions of existing files and giving the Memory FS a higher precedence so any matching requests serve up the minified version first with:

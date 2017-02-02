@@ -339,6 +339,26 @@ Stream stream = new MemoryStream(bytes);
 await client.PostAsync<SendRawResponse>("/sendraw", stream);
 ```
 
+## Client / Server Request Compression
+
+You can  elect to compress HTTP Requests in any C#/.NET Service Clients by specifying the Compression 
+Type you wish to use, e.g:
+
+```csharp
+var client = new JsonServiceClient(baseUrl) {
+    RequestCompressionType = CompressionTypes.GZip,
+};
+
+var client = new JsonHttpClient(baseUrl) {
+    RequestCompressionType = CompressionTypes.Deflate,
+};
+
+var response = client.Post(new Request { ... });
+```
+
+Where sending any HTTP Request containing a Request Body (e.g. POST/PUT) will send a compressed Request body
+to the Server where it's now able to be transparently decompressed and deserialized into your Request DTO.
+
 ## Authentication
 
 ServiceStack's [Auth Tests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/AuthTests.cs#L108) shows different ways of authenticating when using the C# Service Clients. By default BasicAuth and DigestAuth is built into the clients, e.g:

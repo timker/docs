@@ -535,7 +535,7 @@ path references.
 ### .NET Core ServiceStack packages
 
 We've extended the .NET Core support of the Redis and Service Clients in our last release to now include 
-OrmLite (SQL Server, Sqlite, PostgreSQL), ServiceStack, MVC Integration with Razor Pages, Swagger API, 
+OrmLite (SQL Server, Sqlite, PostgreSQL, MySql), ServiceStack, MVC Integration with Razor Pages, Swagger API, 
 AutoQuery, AutoQuery Viewer, Stripe, AWS Integration with PocoDynamo and SQS, RedisMq, RabbitMq, ProtoBuf 
 and Wire formats:
 
@@ -549,6 +549,7 @@ and Wire formats:
  - ServiceStack.OrmLite.Sqlite.Core
  - ServiceStack.OrmLite.SqlServer.Core
  - ServiceStack.OrmLite.PostgreSQL.Core
+ - ServiceStack.OrmLite.MySql.Core
  - ServiceStack.Core
  - ServiceStack.Mvc.Core
  - ServiceStack.Server.Core
