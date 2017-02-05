@@ -5,6 +5,256 @@ title: Release Notes Summary
 
 > [Release Notes History](/release-notes-history)
 
+# [v4.5.6 Release Notes](/releases/v4.5.6)
+
+For the full details of this release please see the [full v4.5.6 release notes](http://docs.servicestack.net/releases/v4.5.6).
+
+## New Angular2 Single Page App template!
+
+We've added a new modern SPA VS.NET Template for Angular2 which is built the same npm-based TypeScript / JSPM / Gulp technology stack that's solidified in our other SPA templates with the main difference being that it's based on the *Material Design Lite* theme.
+
+The Angular2 template also takes advantage of Angular2's modular architecture with a physical structure optimal for small-to-medium sized projects where its modular layout is compartmentalized into multiple independent sub modules which can easily scale to support large code bases. 
+
+## Simpler and Optimized Single Page App Templates
+
+We've also simplified all our existing npm-based SPA Templates to take advantage of the latest dependencies which can simplify our existing development workflow, some changes include:
+
+### Upgraded to JSPM 0.17 beta
+
+One of the benefits of using JSPM 0.17 beta is we're now using its built-in static builds with Rollup optimizations for production deployments which statically links your entire App's JavaScript into a single `app.js`, eliminating the need for `system.js` at runtime and removing the packaging overhead from using modules.
+
+### Removed interim deps.tsx
+
+The interim `deps.tsx` file used to minimize the number of requests required during development is no longer needed. We're now able to generate a cache of 3rd party npm dependencies using your App's main .js file and your dependencies listed in npm's `package.json`. 
+
+### Simplified Typings
+
+The typings dependency manager has been removed leaving one less `typings.json` that needs to be maintained. Templates now use TypeScript's new @types definitions directly from npm or when they exist, the definitions contained in each npm package that's referenced in *devDependencies*. 
+
+### Upgraded to latest Bootstrap v4
+
+The React and Aurelia SPA Templates have been upgraded to use the just released Bootstrap v4 alpha-6.
+
+## Enhanced TypeScript Support
+
+The SPA Templates also benefit from our enhanced TypeScript support with improvements to both the generated TypeScript DTOs and the `JsonServiceClient` which now includes TypeScript Definitions published with the npm package.
+
+ - *Support for Basic Auth* - Basic Auth support is now implemented in `JsonServiceClient` and follows the same API made available in the C# Service Clients
+ - *Raw Data Responses* - The `JsonServiceClient` also supports Raw Data responses like `string` and `byte[]`
+
+## Swift 3
+
+Swift Add ServiceStack Reference and the Swift `JsonServiceClient` has been upgraded to Swift 3 including
+its embedded PromiseKit implementation. The earlier Swift 2 compiler bugs preventing AutoQuery Services from working have now been resolved. 
+
+### [swiftref OSX command-line utility](https://github.com/ServiceStack/swiftref)
+
+In response to XcodeGhost, Apple has killed support for plugins in Xcode 8 disabling all existing 3rd party 
+plugins from working, and along with it our Integration with Xcode built into ServiceStack Xcode Plugin. 
+
+To enable the best development experience we can without using an Xcode plugin we've developed the 
+swiftref OSX command-line utility to provide a simple command-line UX to easily Add and Update Swift 
+ServiceStack References.
+
+Installation and Usage instructions for swiftref are available from: https://github.com/ServiceStack/swiftref
+
+### All Swift Example Apps upgraded to Swift 3
+
+Our existing Swift Example Apps have all been upgraded to use ServiceStack's new Swift 3 Support:
+
+ - [TechStacks iOS App](https://github.com/ServiceStackApps/TechStacksApp) 
+ - [TechStacks Desktop Cocoa OSX App](https://github.com/ServiceStackApps/TechStacksDesktopApp)
+ - [AutoQuery Viewer iOS App](https://github.com/ServiceStackApps/AutoQueryViewer)
+ - [101 Swift LINQ Samples](https://github.com/mythz/swift-linq-examples)
+
+### [Swift Package Manager Apps](https://github.com/ServiceStack/SwiftClient)
+
+In its quest to become a popular mainstream language, Swift now includes a built-in Package Manager 
+to simplify the maintenance, distribution and building of Swift code. Swift Package Manager can be used to
+build native statically-linked modules or Console Apps but currently has no support for iOS, watchOS, 
+or tvOS platforms. 
+
+Nevertheless it's simple console and text-based programming model provides a great way to quickly develop 
+prototypes or Console-based Swift Apps like swiftref using your favorite text editor. To support this 
+environment we've packaged ServiceStack's Swift Service clients into a *ServiceStackClient* package 
+so it can be easily referenced in Swift PM projects.
+
+A step-by-step guide showing how to build Swift PM Apps is available at: https://github.com/ServiceStackApps/swift-techstacks-console
+
+### [Service Fabric Example](https://github.com/ServiceStackApps/HelloServiceFabric)
+
+Another Example project developed during this release is [Hello ServiceFabric](https://github.com/ServiceStackApps/HelloServiceFabric) to show a Hello World example of running a ServiceStack Self Hosted Service inside Microsoft's Service Fabric platform.
+
+### Performance Improvements
+
+Our first support for .NET Core was primarily focused on compatibility and deep integration with .NET Core's 
+Pipeline, Modules and Conventions. In this release we focused on performance and memory usage which we kicked 
+off by developing a benchmarking solution for automatically spinning up Azure VM's that we use to run 
+benchmarking and load tests against: https://github.com/NetCoreApps/Benchmarking
+
+A simple JSON Service running our initial .NET Core support in v4.5.4 release yields *Requests/Sec Average*:
+
+ - .NET Core 1.1 **26179**
+ - mono 4.6.2 (nginx+hyperfasctcgi) **6428**
+
+Running on Standard_F4s azure instance (4 Core, 8GB RAM) using the following 
+[wrk benchmarking tool](https://github.com/wg/wrk) command:
+
+    wrk -c 256 -t 8 -d 30 http://benchmarking_url
+
+Using **8 threads**, keeping **256 concurrent HTTP Connections** open, Running for **30s**.
+
+With the profiling and performance improvements added in this release, the same service now yields:
+
+ - .NET Core 1.1 **37073**
+ - mono 4.6.2 (nginx+hyperfasctcgi) **6840**
+
+Which is over a **40% improvement** for this benchmark since last release. Running the same ServiceStack 
+Service on the same VM also shows us that .NET Core is **5.4x faster** than Mono.
+
+### Upgraded to .NET Core 1.1
+
+We're closely following .NET Core's progress and continue to upgrade ServiceStack libraries and their test 
+suites to run on the latest stable .NET Core 1.1 release.
+
+### Client/Server Request Compression
+
+You can now also elect to compress HTTP Requests in any C#/.NET Service Clients by specifying the Compression 
+Type you wish to use, e.g:
+
+```csharp
+var client = new JsonServiceClient(baseUrl) {
+    RequestCompressionType = CompressionTypes.GZip,
+};
+```
+
+### FileSystem Mapping
+
+Custom FileSystem mappings can now be easily registered under a specific alias by overriding your AppHost's 
+`GetVirtualFileSources()` and registering a custom `FileSystemMapping`, e.g:
+
+```csharp
+public override List<IVirtualPathProvider> GetVirtualFileSources()
+{
+    var existingProviders = base.GetVirtualFileSources();
+    existingProviders.Add(new FileSystemMapping(this, "img", "i:\\images"));
+    existingProviders.Add(new FileSystemMapping(this, "docs", "d:\\documents"));
+    return existingProviders;
+}
+```
+
+This will let you access File System Resources under the custom `/img` and `/doc` routes, e.g:
+
+ - http://host/img/the-image.jpg
+ - http://host/docs/word.doc
+
+## OrmLite
+
+### SQL Server Features
+
+Kevin Howard has continued enhancing the SQL Server Support in OrmLite with access to advanced SQL Server features including Memory-Optimized Tables where you can tell SQL Server to maintain specific tables in Memory using the `[SqlServerMemoryOptimized]` attribute, e.g:
+
+```csharp
+[SqlServerMemoryOptimized(SqlServerDurability.SchemaOnly)]
+public class SqlServerMemoryOptimizedCacheEntry : ICacheEntry
+{
+    [PrimaryKey]
+    [StringLength(StringLengthAttribute.MaxText)]
+    [SqlServerBucketCount(10000000)]
+    public string Id { get; set; }
+    [StringLength(StringLengthAttribute.MaxText)]
+    public string Data { get; set; }
+    public DateTime CreatedDate { get; set; }
+    public DateTime? ExpiryDate { get; set; }
+    public DateTime ModifiedDate { get; set; }
+}
+```
+
+The new Memory Optimized support can be used to improve the performance of SQL Server `OrmLiteCacheClient` by configuring it to use the above In Memory Table Schema instead, e.g:
+
+```csharp
+container.Register<ICacheClient>(c => 
+    new OrmLiteCacheClient<SqlServerMemoryOptimizedCacheEntry>());
+```
+
+### PostgreSQL Data Types
+
+To make it a little nicer to be define custom PostgreSQL columns, we've added `[PgSql*]` specific attributes which will let you use a typed `[PgSqlJson]` instead of previously needing to use `[CustomField("json")]`. 
+
+The list of PostgreSQL Attributes include:
+
+```csharp
+public class MyPostgreSqlTable
+{
+    [PgSqlJson]
+    public List<Poco> AsJson { get; set; }
+
+    [PgSqlJsonB]
+    public List<Poco> AsJsonB { get; set; }
+
+    [PgSqlTextArray]
+    public string[] AsTextArray { get; set; }
+
+    [PgSqlIntArray]
+    public int[] AsIntArray { get; set; }
+
+    [PgSqlBigIntArray]
+    public long[] AsLongArray { get; set; }
+}
+```
+
+### .NET Core support for MySql
+
+You can now use OrmLite with MySQL in .NET Core using the new [ServiceStack.OrmLite.MySql.Core](https://www.nuget.org/packages/ServiceStack.OrmLite.MySql.Core) NuGet package.
+
+### Create Tables without Foreign Keys
+
+You can temporarily disable and tell OrmLite to create tables without Foreign Keys by setting `OrmLiteConfig.SkipForeignKeys = true`.
+
+### Custom SqlExpression Filter
+
+The generated SQL from a Typed `SqlExpression` can now be customized using the new `.WithSqlFilter()`, e.g:
+
+```csharp
+var q = db.From<Table>()
+    .Where(x => x.Age == 27)
+    .WithSqlFilter(sql => sql + " option (recompile)");
+
+var q = db.From<Table>()
+    .Where(x => x.Age == 27)
+    .WithSqlFilter(sql => sql + " WITH UPDLOCK");
+
+var results = db.Select(q);
+```
+
+### Custom SQL Fragments
+
+The new `Sql.Custom()` API lets you use raw SQL Fragments in Custom `.Select()` expressions, e.g:
+
+```csharp
+var q = db.From<Table>()
+    .Select(x => new {
+        FirstName = x.FirstName,
+        LastName = x.LastName,
+        Initials = Sql.Custom("CONCAT(LEFT(FirstName,1), LEFT(LastName,1))")
+    });
+```
+
+### Cached API Key Sessions
+
+You can reduce the number of I/O Requests and improve the performance of API Key Auth Provider Requests by specifying a `SessionCacheDuration` to temporarily store the Authenticated UserSession against the API Key which will reduce subsequent API Key requests down to 1 DB call to fetch and validate the API Key + 1 Cache Hit to restore the User's Session which if you're using the default in-memory Cache will mean it only requires 1 I/O call for the DB request. This can be enabled with:
+
+```csharp
+Plugins.Add(new AuthFeature(...,
+    new IAuthProvider[] {
+        new ApiKeyAuthProvider(AppSettings) {
+            SessionCacheDuration = TimeSpan.FromMinutes(10),
+        }
+    }));
+```
+
+That covers the major features, for the full details please see the full release notes at: http://docs.servicestack.net/releases/v4.5.6
+
 # [v4.5.2 Release Notes](/releases/v4.5.2)
 
 ## ServiceStack on .NET Core!
