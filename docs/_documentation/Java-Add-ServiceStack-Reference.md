@@ -309,11 +309,13 @@ Whilst the `AndroidServiceClient` is contained in the **net.servicestack:android
 
 ### Async API Usage
 To make use of Async API's in an Android App (which you'll want to do to keep web service requests off the Main UI thread), you'll instead need to use an instance of `AndroidServiceClient` which as it inherits `JsonServiceClient` can be used to perform both Sync and Async requests:
+
 ```java
 AndroidServiceClient client = new AndroidServiceClient("http://techstacks.io");
 ```
 
 Like other Service Clients, there's an equivalent Async API matching their Sync counterparts which differs by ending with an **Async** suffix which instead of returning a typed response, fires a **success(TResponse)** or **error(Exception)** callback with the typed response, e.g: 
+
 ```java
 client.getAsync(new AppOverview(), new AsyncResult<AppOverviewResponse>(){
     @Override
@@ -325,6 +327,7 @@ client.getAsync(new AppOverview(), new AsyncResult<AppOverviewResponse>(){
 ```
 
 Which just like the `JsonServiceClient` examples above also provide a number of flexible options to execute Custom Async Web Service Requests, e.g: 
+
 ```java
 client.getAsync("/overview", OverviewResponse.class, new AsyncResult<OverviewResponse>(){
     @Override
@@ -334,6 +337,7 @@ client.getAsync("/overview", OverviewResponse.class, new AsyncResult<OverviewRes
 ```
 
 Example calling a Web Service with an absolute url:
+
 ```java
 client.getAsync("http://techstacks.io/overview", OverviewResponse.class, new AsyncResult<OverviewResponse>() {
     @Override
@@ -344,6 +348,7 @@ client.getAsync("http://techstacks.io/overview", OverviewResponse.class, new Asy
 
 #### Async AutoQuery Example
 Example calling an untyped AutoQuery Service with additional Dictionary String arguments:
+
 ```java
 client.getAsync(request, Utils.createMap("DescriptionContains", "framework"),
     new AsyncResult<QueryResponse<Technology>>() {
@@ -355,6 +360,7 @@ client.getAsync(request, Utils.createMap("DescriptionContains", "framework"),
 
 #### Download Raw Image Async Example
 Example downloading raw Image bytes and loading it into an Android Image `Bitmap`:
+
 ```java
 client.getAsync("https://servicestack.net/img/logo.png", new AsyncResult<byte[]>() {
     @Override
@@ -427,6 +433,7 @@ catch (WebServiceException webEx) {
 ```
 
 Likewise structured Validation Field Errors are also accessible from the familiar `ResponseStatus` DTO, e.g:
+
 ```java
 ThrowValidation request = new ThrowValidation()
     .setEmail("invalidemail");
@@ -445,6 +452,7 @@ try {
 
 #### Async Error Handling
 Async Error handling differs where in order to access the `WebServiceException` you'll need to implement the **error(Exception)** callback, e.g:
+
 ```java
 client.postAsync(request, new AsyncResult<ThrowTypeResponse>() {
     @Override
@@ -459,6 +467,7 @@ client.postAsync(request, new AsyncResult<ThrowTypeResponse>() {
 ```
 
 Async Validation Errors are also handled in the same way: 
+
 ```java
 client.postAsync(request, new AsyncResult<ThrowValidationResponse>() {
     @Override
@@ -476,6 +485,7 @@ client.postAsync(request, new AsyncResult<ThrowValidationResponse>() {
 
 ### JsonServiceClient Error Handlers
 To make it easier to generically handle Web Service Exceptions, the Java Service Clients also support static Global Exception handlers by assigning `AndroidServiceClient.GlobalExceptionFilter`, e.g:
+
 ```java
 AndroidServiceClient.GlobalExceptionFilter = new ExceptionFilter() {
     @Override
@@ -486,6 +496,7 @@ AndroidServiceClient.GlobalExceptionFilter = new ExceptionFilter() {
 ```
 
 As well as local Exception Filters by specifying a handler for `client.ExceptionFilter`, e.g:
+
 ```java
 client.ExceptionFilter = new ExceptionFilter() {
     @Override
@@ -536,6 +547,7 @@ Whilst the public fields match the remote server JSON naming convention, the get
 
 ### Java Type Conversions
 By inspecting the `AllTypes` DTO fields we can see what Java Type each built-in .NET Type gets translated into. In each case it selects the most suitable concrete Java datatype available, inc. generic collections. We also see only reference types are used (i.e. instead of their primitive types equivalents) since DTO properties are optional and need to be nullable. 
+
 ```java
 public static class AllTypes
 {
@@ -571,12 +583,14 @@ public static class AllTypes
 The only built-in Value Type that didn't have a suitable built-in Java equivalent was `TimeSpan`. In this case it uses our new [TimeSpan.java](https://github.com/ServiceStack/ServiceStack.Java/blob/master/src/AndroidClient/client/src/main/java/net/servicestack/client/TimeSpan.java) class which implements the same familiar API available in .NET's `TimeSpan`. 
 
 Something else you'll notice is that some fields are annotated with the `@SerializedName()` Gson annotation. This is automatically added for Java keywords - required since Java doesn't provide anyway to escape keyword identifiers. The first time a Gson annotation is referenced it also automatically includes the required Gson namespace imports. If needed, this can also be explicitly added by with:
+
 ```java
 JavaGenerator.AddGsonImport = true;
 ```
 
 ### Java Enums
 .NET enums are also translated into typed Java enums where basic enums end up as a straightforward translation, e.g:
+
 ```java
 public static enum BasicEnum
 {
@@ -587,6 +601,7 @@ public static enum BasicEnum
 ```
 
 Whilst as Java doesn't support integer Enum flags directly the resulting translation ends up being a bit more convoluted:
+
 ```java
 @Flags()
 public static enum EnumFlags
@@ -618,6 +633,7 @@ which can be mapped to its equivalent core functional method.
 The header comments in the generated DTO's allows for further customization of how the DTO's are generated which can then be updated with any custom Options provided using the **Update ServiceStack Reference** Menu Item in Android Studio. Options that are preceded by a single line Java comment `//` are defaults from the server which can be overridden.
 
 To override a value, remove the `//` and specify the value to the right of the `:`. Any value uncommented will be sent to the server to override any server defaults.
+
 ```java
 /* Options:
 Date: 2015-04-10 12:41:14
@@ -644,6 +660,7 @@ Specify the package name that the generated DTO's are in:
 Package: net.servicestack.techstacks
 ```
 Will generate the package name for the generated DTO's as:
+
 ```java
 package net.servicestack.techstacks;
 ```
@@ -654,6 +671,7 @@ Change the name of the top-level Java class container that all static POJO class
 GlobalNamespace: techstacksdto
 ```
 Will change the name of the top-level class to `techstacksdto`, e.g:
+
 ```java
 public class techstacksdto
 {
@@ -661,6 +679,7 @@ public class techstacksdto
 }
 ```
 Where all static DTO classes can be imported using the wildcard import below:
+
 ```java
 import net.servicestack.techstacksdto.*;
 ```
@@ -671,6 +690,7 @@ By default **getters** and **setters** are generated for each DTO property, you 
 AddPropertyAccessors: false
 ```
 Which will no longer generate any property accessors, leaving just public fields, e.g:
+
 ```java
 public static class AppOverviewResponse
 {
@@ -687,6 +707,7 @@ To allow for chaining DTO field **setters** returns itself by default, this can 
 SettersReturnThis: false
 ```
 Which will change the return type of each setter to `void`:
+
 ```java
 public static class GetTechnology implements IReturn<GetTechnologyResponse>
 {
@@ -710,6 +731,7 @@ Lets you specify the Version number to be automatically populated in all Request
 AddImplicitVersion: 1
 ```
 Which will embed the specified Version number in each Request DTO, e.g:
+
 ```java
 public static class GetTechnology implements IReturn<GetTechnologyResponse>
 {
@@ -727,6 +749,7 @@ Is used as a Whitelist that can be used to specify only the types you would like
 IncludeTypes: GetTechnology,GetTechnologyResponse
 ```
 Will only generate `GetTechnology` and `GetTechnologyResponse` DTO's, e.g:
+
 ```java
 public class dto
 {
@@ -749,6 +772,7 @@ Lets you override the default import packages included in the generated DTO's:
 java.math.*,java.util.*,net.servicestack.client.*,com.acme.custom.*
 ```
 Will override the default imports with the ones specified, i.e: 
+
 ```java
 import java.math.*;
 import java.util.*;
@@ -757,10 +781,13 @@ import com.acme.custom.*;
 ```
 
 By default the generated DTO's do not require any Google's Gson-specific serialization hints, but when they're needed e.g. if your DTO's use Java keywords or are attributed with `[DataMember(Name=...)]` the required Gson imports are automatically added which can also be added explicitly with:
+
 ```csharp
 JavaGenerator.AddGsonImport = true;
 ```
+
 Which will add the following Gson imports:
+
 ```java
 import com.google.gson.annotations.*;
 import com.google.gson.reflect.*;

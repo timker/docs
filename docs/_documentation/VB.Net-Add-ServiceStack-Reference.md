@@ -50,6 +50,7 @@ The header comments in the generated DTO's allows for further customization of h
 '''InitializeCollections: True
 '''AddDefaultXmlNamespace: http://schemas.servicestack.net/types
 ```
+
 To override these options on the client, the comment has to be changed to start with a single `'` instead of triple `'''`. This convention is due to VB.Net not having block quotes. For example, if we did't want our classes to be partial by default for the VB.Net client, our options would look like below.
 
 ```VB.Net

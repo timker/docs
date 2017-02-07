@@ -587,6 +587,7 @@ try {
 
 #### Async Error Handling
 Async Error handling differs where in order to access the `WebServiceException` you'll need to implement the **error(Exception)** callback, e.g:
+
 ```kotlin
 client.postAsync(request, AsyncSuccess<ThrowTypeResponse> { },
     AsyncError {
@@ -599,6 +600,7 @@ client.postAsync(request, AsyncSuccess<ThrowTypeResponse> { },
 ```
 
 Async Validation Errors are also handled in the same way: 
+
 ```kotlin
 client.postAsync(request, AsyncSuccess<ThrowValidationResponse> { },
     AsyncError {
@@ -614,12 +616,14 @@ client.postAsync(request, AsyncSuccess<ThrowValidationResponse> { },
 
 ### JsonServiceClient Error Handlers
 To make it easier to generically handle Web Service Exceptions, the Java Service Clients also support static Global Exception handlers by assigning `AndroidServiceClient.GlobalExceptionFilter`, e.g:
+
 ```kotlin
 AndroidServiceClient.GlobalExceptionFilter = ExceptionFilter { res:HttpURLConnection?, ex ->
 }
 ```
 
 As well as local Exception Filters by specifying a handler for `client.ExceptionFilter`, e.g:
+
 ```kotlin
 client.ExceptionFilter = ExceptionFilter { res:HttpURLConnection?, ex ->
 }
@@ -726,6 +730,7 @@ KotlinGenerator.AddGsonImport = true;
 
 ### Kotlin Enums
 .NET enums are also translated into typed Kotlin enums where basic enums end up as a straightforward translation, e.g:
+
 ```kotlin
 enum class BasicEnum
 {
@@ -736,6 +741,7 @@ enum class BasicEnum
 ```
 
 Whilst as Kotlin doesn't support integer Enum flags directly the resulting translation ends up being a bit more convoluted:
+
 ```kotlin
 @Flags()
 enum class EnumFlags(val value:Int)
@@ -754,6 +760,7 @@ which can be overridden.
 
 To override a value, remove the `//` and specify the value to the right of the `:`. Any value uncommented will 
 be sent to the server to override any server defaults.
+
 ```kotlin
 /* Options:
 Date: 2015-12-17 05:17:47
@@ -780,6 +787,7 @@ Specify the package name that the generated DTO's are in:
 Package: net.servicestack.techstacks
 ```
 Will generate the package name for the generated DTO's as:
+
 ```kotlin
 package servicestack.net.techstacks
 ```
@@ -797,6 +805,7 @@ Lets you specify the Version number to be automatically populated in all Request
 AddImplicitVersion: 1
 ```
 Which will embed the specified Version number in each Request DTO, e.g:
+
 ```kotlin
 open class GetTechnology : IReturn<GetTechnologyResponse>
 {
@@ -813,6 +822,7 @@ Is used as a Whitelist that can be used to specify only the types you would like
 IncludeTypes: GetTechnology,GetTechnologyResponse
 ```
 Will only generate `GetTechnology` and `GetTechnologyResponse` DTO's, e.g:
+
 ```kotlin
 open class GetTechnology : IReturn<GetTechnologyResponse> { ... }
 open class GetTechnologyResponse { ... }
@@ -832,6 +842,7 @@ Lets you override the default import packages included in the generated DTO's:
 DefaultImports: java.math.*,java.util.*,net.servicestack.client.*,com.acme.custom.*
 ```
 Will override the default imports with the ones specified, i.e: 
+
 ```kotlin
 import java.math.*
 import java.util.*
