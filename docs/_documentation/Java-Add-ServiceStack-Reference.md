@@ -55,7 +55,7 @@ dependencies {
 
 This also lets you to change which ServiceStack Client library version you want to use, the example above uses **1.0.21**.
 
-### [Add ServiceStack Reference](/add-servicestack-reference)
+### Add ServiceStack Reference
 
 If you've previously used [Add ServiceStack Reference](/add-servicestack-reference) in any of the supported IDE's before, you'll be instantly familiar with Add ServiceStack Reference in Android Studio. The only additional field is **Package**, required in order to comply with Java's class definition rules. 
 
