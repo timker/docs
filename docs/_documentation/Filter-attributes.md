@@ -44,7 +44,7 @@ It's recommended that you create separate attributes for each interface, but of 
 ```csharp
 public class CustomRequestFilterAttribute : RequestFilterAttribute 
 {
-    public void RequestFilter(IRequest req, IResponse res, object requestDto)
+    public override void Execute(IRequest req, IResponse res, object requestDto)
     {
         //This code is executed before the service
         string userAgent = req.UserAgent;
@@ -56,7 +56,7 @@ public class CustomRequestFilterAttribute : RequestFilterAttribute
 ```csharp
 public class CustomResponseFilterAttribute : ResponseFilterAttribute 
 {
-    public void ResponseFilter(IRequest req, IResponse res, object responseDto)
+    public override void Execute(IRequest req, IResponse res, object responseDto)
     {
         //This code is executed after the service
         res.AddHeader("Cache-Control", "max-age=3600");
