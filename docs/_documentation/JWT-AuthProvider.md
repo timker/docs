@@ -409,7 +409,7 @@ validate tokens:
 #### Retrieve Token with API Key 
 
 ```csharp
-var authClient = JsonServiceClient(centralAuthBaseUrl) {
+var authClient = new JsonServiceClient(centralAuthBaseUrl) {
     Credentials = new NetworkCredential(apiKey, "")
 };
 
@@ -422,7 +422,7 @@ var response = client.Get(new Secured { ... });
 #### Retrieve Token with HTTP Basic Auth
 
 ```csharp
-var authClient = JsonServiceClient(centralAuthBaseUrl) {
+var authClient = new JsonServiceClient(centralAuthBaseUrl) {
     Credentials = new NetworkCredential(username, password)
 };
 
@@ -432,7 +432,7 @@ var jwtToken = authClient.Send(new Authenticate()).BearerToken;
 #### Retrieve Token with Credentials Auth
 
 ```csharp
-var authClient = JsonServiceClient(centralAuthBaseUrl);
+var authClient = new JsonServiceClient(centralAuthBaseUrl);
 
 var jwtToken = authClient.Send(new Authenticate {
     provider = "credentials",
