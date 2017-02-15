@@ -483,6 +483,8 @@ This also removes the our Session from the App Servers Cache as now the Users **
 contained solely in the JWT Cookie and is valid until the JWT Cookies Expiration, instead of determined
 by Server Session State.
 
+### Converting an existing Authenticated Session into A JWT Token
+
 Another way we can access our Token is to call the `ConvertSessionToToken` Service which also converts our 
 currently Authenticated Session into a JWT Token which we can use instead to communicate with all our 
 independent Services, e.g:
