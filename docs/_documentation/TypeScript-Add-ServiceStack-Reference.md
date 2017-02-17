@@ -56,7 +56,7 @@ client.post(request)
 
 Where the `r` param in the returned `then()` Promise callback is typed to `StoreGistResponse` DTO Type.
 
-### Isomorphic Fetch
+## TypeScript ServiceClient
 
 The `servicestack-client` is a clean "jQuery-free" implementation based on JavaScript's new 
 [Fetch API standard](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), 
@@ -76,10 +76,10 @@ and node server projects can instead install it with:
 
     npm install servicestack-client --save
 
-Then fetch the Type Definitions for either project type with:
+The Type Definitions are contained in the above `servicestack-client` npm package, if using jspm it 
+can be installed with:
 
-    typings install servicestack-client --save
-    typings install dt~isomorphic-fetch --global --save
+    npm install servicestack-client --save-dev
 
 ### TypeScript Ambient Interface Definitions or Concrete Types
 

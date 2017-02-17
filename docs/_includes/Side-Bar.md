@@ -35,6 +35,7 @@
 - Clients
     - [Overview](/clients-overview)
     - [C#/.NET client](/csharp-client)
+    - [TypeScript client](/typescript-add-servicestack-reference#typescript-serviceclient)
     - [JavaScript client](/javascript-client)
     - [Silverlight client](/silverlight-client)
     - [Dart Client](/dart-client)

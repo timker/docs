@@ -6,7 +6,7 @@ title: JavaScript Client
 Of course, you're able to call your ServiceStack webservice from your 
 ajax and JavaScript clients, too. 
 
-### [Using TypeScript](/typescript-add-servicestack-reference)
+### [Using TypeScript](/typescript-add-servicestack-reference#typescript-serviceclient)
 
 The best tooling available for Ajax clients is to use ServiceStack's 
 [integrated TypeScript support](/typescript-add-servicestack-reference) where
