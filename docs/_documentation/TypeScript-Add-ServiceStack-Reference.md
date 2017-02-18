@@ -83,8 +83,7 @@ can be installed with:
 
 ### TypeScript Ambient Interface Definitions or Concrete Types
 
-Use the `ExportAsTypes=true` option to generate non-ambient concrete TypeScript Types. This option is enabled 
-at the new `/types/typescript` route so you can get both concrete types and interface definitions at:
+You can get both concrete types and interface definitions for your Services at the following routes:
 
   - [/types/typescript](http://techstacks.io/types/typescript) - for generating concrete types
   - [/types/typescript.d](http://techstacks.io/types/typescript.d) - for generating ambient interface definitions
@@ -125,7 +124,6 @@ Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: http://techstacks.io
 
 //GlobalNamespace: 
-//ExportAsTypes: True
 //MakePropertiesOptional: True
 //AddServiceStackTypes: True
 //AddResponseStatus: False
@@ -244,7 +242,6 @@ Version: 4.048
 BaseUrl: 
 
 GlobalNamespace: dtos
-//ExportAsTypes: False
 //MakePropertiesOptional: True
 //AddServiceStackTypes: True
 //AddResponseStatus: False
