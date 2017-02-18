@@ -183,7 +183,7 @@ slug: community-resources
   - [JQueryMobile and Service Stack: EventsManager tutorial](http://paymentnetworks.wordpress.com/2012/04/22/jquerymobile-and-service-stack-eventsmanager-tutorial-post-2/) by [+Kyle Hodgson](https://plus.google.com/u/0/113523377752095590770/posts)
   - [Like WCF: Only cleaner!](http://paymentnetworks.wordpress.com/2012/04/19/like-wcf-only-cleaner-9/) by [+Kyle Hodgson](https://plus.google.com/u/0/113523377752095590770/posts)
   - [Service Stack vs WCF Data Services](http://codealoc.wordpress.com/2012/03/24/service-stack-vs-wcf-data-services/)
-  - [ServiceStack - REST with Protobuf] (http://stevenhollidge.blogspot.co.uk/2012/04/servicestack-rest-with-protobuf.html) by [@stevenhollidge](https://twitter.com/stevenhollidge)
+  - [ServiceStack - REST with Protobuf](http://stevenhollidge.blogspot.co.uk/2012/04/servicestack-rest-with-protobuf.html) by [@stevenhollidge](https://twitter.com/stevenhollidge)
   - [Service Stack a quick IPC solution](http://www.simonsegal.net/blog/2012/03/20/service-stack-a-quick-ipc-solution/)
   - [Service Stack walk through with Screenshots on MonoDevelop](http://www.ienablemuch.com/2012/04/servicestack-setup-screenshots-guide.html) by [@ienablemuch](https://twitter.com/ienablemuch)
   - [Using Redis on Windows with ServiceStack](http://www.clippersoft.net/using-redis-on-windows-with-servicestack/)
@@ -230,10 +230,8 @@ slug: community-resources
 ### Examples and Demos
 
   - [An API created in 2 days at govhack 2012. Exposes BoM public Acorn dataset via RESTful services.](http://www.govhack.org/2012/06/02/weatheredoak/) by [@layoric](https://twitter.com/layoric)
-  - [Razor Rockstars - Showcase of Razor and Markdown views, inc. AngularJS SinglePageApp]
-(http://razor.servicestack.net) by [@ServiceStack](https://twitter.com/ServiceStack)
-  - [Social Bootstrap Api: ASP.NET MVC + Bootstrap + Backbone template]
-(https://github.com/ServiceStack/SocialBootstrapApi) by [@ServiceStack](https://twitter.com/ServiceStack)
+  - [Razor Rockstars - Showcase of Razor and Markdown views, inc. AngularJS SinglePageApp](http://razor.servicestack.net) by [@ServiceStack](https://twitter.com/ServiceStack)
+  - [Social Bootstrap Api: ASP.NET MVC + Bootstrap + Backbone template](https://github.com/ServiceStack/SocialBootstrapApi) by [@ServiceStack](https://twitter.com/ServiceStack)
 
 ### Podcasts and Videos
 
