@@ -229,7 +229,7 @@ Algorithms `JwtAuthProvider` supports include:
 
 HMAC is the simplest to use as it lets you use the same AuthKey to Sign and Verify the message. 
 
-But if preferred you can use a RSA Keys to sign and verify tokens by changing the `HashAlgorithm` and 
+But if preferred you can use an RSA Key to sign and verify tokens by changing the `HashAlgorithm` and 
 specifying a RSA Private Key:
 
 ```csharp
@@ -530,7 +530,7 @@ Likewise this API lets you convert Sessions created by any of the OAuth provider
 ### Switching existing Sites to JWT
 
 Thanks to the flexibility and benefits of using stateless JWT Tokens, we've upgraded both our Single Page App
-http://techstacks.io which uses Twitter and Github OAuth to [use JWT with a single Ajax call](https://github.com/ServiceStackApps/TechStacks/blob/78ecd5e390e585c14f616bb27b24e0072b756040/src/TechStacks/TechStacks/js/user/services.js#L30):
+[techstacks.io](http://techstacks.io) Website which uses Twitter and Github OAuth to [use JWT with a single Ajax call](https://github.com/ServiceStackApps/TechStacks/blob/78ecd5e390e585c14f616bb27b24e0072b756040/src/TechStacks/TechStacks/js/user/services.js#L30):
 
 ```javascript
 $.post("/session-to-token");
@@ -542,7 +542,7 @@ Whilst [Gistlyn uses the new Fetch API](https://github.com/ServiceStack/Gistlyn/
 fetch("/session-to-token", { method:"POST", credentials:"include" });
 ```
 
-We've also upgraded https://servicestack.net which as it uses normal Username/Password Credentials Authentication 
+We've also upgraded [servicestack.net](https://servicestack.net) which as it uses normal Username/Password Credentials Authentication 
 (i.e. instead of redirects in OAuth), it doesn't need any additional network calls as we can add the `UseTokenCookie`
 option as a hidden variable in our FORM request:
 
@@ -673,4 +673,5 @@ class JwtAuthProviderReader
 ### Further Examples
 
 More examples of both the new API Key and JWT Auth Providers are available in 
-[StatelessAuthTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/RazorRockstars.Console.Files/StatelessAuthTests.cs).
+[StatelessAuthTests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/RazorRockstars.Console.Files/StatelessAuthTests.cs)
+and [JWT Token Cookie Example](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/UseCases/JwtAuthProviderTokenCookieExample.cs).
