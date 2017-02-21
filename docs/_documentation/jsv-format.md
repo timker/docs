@@ -71,3 +71,34 @@ is serialized as:
 ```js
 {Size:"2"" x 1"""}
 ```
+
+#### [.NET JsvServiceClient](http://docs.servicestack.net/csharp-client#httpwebrequest-service-clients)
+
+Thanks to the performance benefits of JSV's CSV-style escaping, the `JsvServiceClient` 
+is our fastest text-based [.NET ServiceClient](/csharp-client):
+
+```csharp
+var client = new JsvServiceClient(baseUrl);
+var response = client.Get(new Hello { Name = "World" });
+```
+
+### [JavaScript JSV Serialier](https://github.com/ServiceStack/ServiceStack/blob/master/lib/js/JSV.js)
+
+A JavaScript JSV parser is also available from [JSV.js](https://github.com/ServiceStack/ServiceStack/blob/master/lib/js/JSV.js):
+
+```javascript
+var jsv = JSV.stringify(model);
+var dto = JSV.parse(jsv);
+```
+
+#### JavaScript JsvServiceClient
+
+[JSV.js](https://github.com/ServiceStack/ServiceStack/blob/ddff928fe711ce8e8e1d0e31cba0916437694937/lib/js/JSV.js#L464) also includes the `JsvServiceClient` for consuming JSV Services:
+
+```javascript
+var client = new JsvServiceClient(baseUrl);
+client.getFromService("Hello", { name: "World" }, 
+    function(r) {
+    });
+```
+
