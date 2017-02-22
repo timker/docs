@@ -82,7 +82,7 @@ var client = new JsvServiceClient(baseUrl);
 var response = client.Get(new Hello { Name = "World" });
 ```
 
-### [JavaScript JSV Serialier](https://github.com/ServiceStack/ServiceStack/blob/master/lib/js/JSV.js)
+### [JavaScript JSV Serializer](https://github.com/ServiceStack/ServiceStack/blob/master/lib/js/JSV.js)
 
 A JavaScript JSV parser is also available from [JSV.js](https://github.com/ServiceStack/ServiceStack/blob/master/lib/js/JSV.js):
 
