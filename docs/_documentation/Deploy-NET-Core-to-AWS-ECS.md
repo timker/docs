@@ -388,6 +388,8 @@ ECS Service is located. You'll also need to change `AWS_VIRTUAL_HOST` with your 
 
 ![](http://docs.servicestack.net/images/aws/ecs/code-03.png)
 
+### ECS task-definition.json
+
 The `task-definition.json` is specific to AWS ECS which lets you declaratively define an atomic collection
 of Docker Containers ECS should run when it deploys this "Task". It's essentially a thin wrapper around
 [docker run](https://docs.docker.com/engine/reference/run/) where most features can be easily mapped 
