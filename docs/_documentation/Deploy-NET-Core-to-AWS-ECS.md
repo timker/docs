@@ -473,6 +473,8 @@ until the **Desired count** of instances is reached.
 
 ![](http://docs.servicestack.net/images/aws/ecs/ecs-08.png)
 
+### View list of running Docker Containers
+
 If your Service contains a **RUNNING** Task that means your time here was a success. We can further verify 
 that's everything's in order by SSH'ing back into our EC2 Instance and running `docker ps` to see our 
 running Docker Containers:
