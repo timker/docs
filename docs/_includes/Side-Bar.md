@@ -16,6 +16,7 @@
     - [Your first webservice explained](/your-first-webservice-explained)
     - [ServiceStack's API Design](/api-design)
     - [Designing a REST-ful service with ServiceStack](http://stackoverflow.com/a/15235822/85785)
+    - [How to design a Message-Based API](http://stackoverflow.com/a/15941229/85785)
     - [Complexity, Services and Role of DTOs](http://stackoverflow.com/a/32940275/85785)
 - Reference
     - [Order of Operations](/order-of-operations)
