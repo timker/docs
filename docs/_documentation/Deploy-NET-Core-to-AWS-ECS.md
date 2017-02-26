@@ -483,10 +483,10 @@ running Docker Containers:
 
 Where we should see **4 running** Docker Containers:
 
- 1. AWS ECS agent
- 2. nginx-proxy
+ 1. nginx-proxy
+ 2. Our .NET Core Docker App
  3. redis-server
- 4. Our .NET Core Docker App!
+ 4. AWS ECS agent
 
 ## Problems with the task not running
 
