@@ -419,6 +419,8 @@ This takes you to your Github Profile view where you just need to click on the t
 
 ![](http://docs.servicestack.net/images/aws/ecs/travis-03.png)
 
+### CI Environment Variables
+
 After enabling your project it will appear in your repositories list. Here we need to click on 
 the **Settings** Menu Item in the **More Options** drop down menu in order to provide Travis the 
 sensitive `ecsDemoUser` credentials that we don't want to include in a public Github Repository. 
