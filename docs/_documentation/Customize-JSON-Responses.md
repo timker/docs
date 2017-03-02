@@ -108,6 +108,7 @@ For a quick reference the following **bool** customizations are supported:
     <tr><td>TryToParseNumericType</td><td>ttpnt</td></tr>
     <tr><td>ThrowOnDeserializationError</td><td>tode</td></tr>
     <tr><td>EscapeUnicode</td><td>eu</td></tr>
+    <tr><td>EscapeHtmlChars</td><td>ehc</td></tr>
     <tr><td>PreferInterfaces</td><td>pi</td></tr>
     <tr><td>SkipDateTimeConversion</td><td>sdtc</td></tr>
     <tr><td>AlwaysUseUtc</td><td>auu</td></tr>
