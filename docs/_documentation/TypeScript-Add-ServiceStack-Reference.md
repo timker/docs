@@ -220,6 +220,32 @@ client.get(request)
     });
 ```
 
+### Sending additional arguments with Typed API Requests
+
+Many AutoQuery Services utilize [implicit conventions](/autoquery-rdbms#implicit-conventions) to 
+query fields that aren't explicitly defined on AutoQuery Request DTOs, these can be queried by specifying
+additional arguments with the typed Request DTO, e.g:
+
+```ts
+const request = new FindTechStacks();
+
+client.get(request, { VendorName: "ServiceStack" })
+    .then(r => { })               // typed to QueryResponse<TechnologyStack> 
+```
+
+### Making API Requests with URLs
+
+In addition to making Typed API Requests you can also call Services using relative or absolute urls, e.g:
+
+```ts
+client.get<GetTechnologyResponse>("/technology/ServiceStack")
+
+client.get<GetTechnologyResponse>("http://techstacks.io/technology/ServiceStack")
+
+// http://techstacks.io/technology?Slug=ServiceStack
+client.get<GetTechnologyResponse>("/technology", { Slug: "ServiceStack" }) 
+```
+
 ## DTO Customization Options 
 
 In most cases you'll just use the generated TypeScript DTO's as-is, however you can further customize how
