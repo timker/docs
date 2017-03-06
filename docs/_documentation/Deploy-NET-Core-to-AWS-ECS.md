@@ -511,10 +511,10 @@ That will run the container and show its output, which might give you some indic
 
 ## 8. Play your deployed .NET Core Docker App!
 
-With all the pieces in place we can visit our virtual host [http://ecsdemo.netcore.io](http://ecsdemo.netcore.io) 
+With all the pieces in place we can visit our virtual host [http://ecsdemo.netcore.io](http://redisgeo.netcore.io) 
 to see the fruits of our Labor - our .NET Core Docker App, alive!
 
-[![](http://docs.servicestack.net/images/aws/ecs/app-01.png)](http://ecsdemo.netcore.io)
+[![](http://docs.servicestack.net/images/aws/ecs/app-01.png)](http://redisgeo.netcore.io)
 
 ## Things to try
 
