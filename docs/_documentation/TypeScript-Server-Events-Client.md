@@ -3,7 +3,7 @@ slug: typescript-server-events-client
 title: TypeScript ServerEvents Client
 ---
 
-[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)](https://github.com/ServiceStack/ServiceStack/wiki/TypeScript-Add-ServiceStack-Reference)
+![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)
 
 The TypeScript `ServerEventClient` is an idiomatic port of ServiceStack's 
 [C# Server Events Client](/csharp-server-events-client) in native TypeScript providing a productive 
