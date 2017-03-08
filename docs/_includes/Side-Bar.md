@@ -134,7 +134,7 @@
     - [AutoQuery UI](https://github.com/ServiceStack/Admin)
 - Server Events
     - [Overview](/server-events)
-    - [C# Server Events Client](/csharp-server-events-client)
+    - [C# Client](/csharp-server-events-client)
     - [TypeScript Client](/typescript-server-events-client)
     - [JavaScript Client](/javascript-server-events-client)
     - [Redis Server Events](/redis-server-events)
