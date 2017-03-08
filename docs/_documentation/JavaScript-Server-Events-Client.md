@@ -31,34 +31,38 @@ The ServiceStack binding itself is just a thin jQuery plugin that extends `Event
 ```javascript
 $(source).handleServerEvents({
     handlers: {
-        onConnect: function (subscription) {
-            console.log("You've connected! welcome " + u.displayName);
+        onConnect: function (sub) {
+            console.log("You've connected! welcome " + sub.displayName);
         },
         onJoin: function (user) {
             console.log("Welcome, " + user.displayName);
         },
         onLeave: function (user) {
             console.log(user.displayName + " has left the building");
+        },        
+        onMessage: function (msg, e) { // fired after every message
+            console.log(msg);
         },
         //... Register custom handlers
     },
     receivers: { 
         //... Register any receivers
     },
-    // fired after every message
-    success: function (selector, msg, json) {
-        console.log(selector, msg, json);
-    },
 });
 ```
 
-ServiceStack Server Events has 3 built-in events sent during a subscriptions life-cycle: 
+ServiceStack Server Events has 4 built-in events sent during a subscriptions life-cycle: 
 
  - **onConnect** - sent when successfully connected, includes the subscriptions private `subscriptionId` as well as heartbeat and unregister urls that's used to automatically setup periodic heartbeats.
  - **onJoin** - sent when a new user joins the channel.
  - **onLeave** - sent when a user leaves the channel.
+ - **onUpdate** - sent when a users channels subscription was updated
 
-> The onJoin/onLeave events can be turned off with `ServerEventsFeature.NotifyChannelOfSubscriptions=false`.
+> The onJoin/onLeave/onUpdate events can be turned off with `ServerEventsFeature.NotifyChannelOfSubscriptions=false`.
+
+All other messages can be handled with the catch-all:
+
+ - **onMessage** - fired when any other message is sent
 
 ## Selectors
 
@@ -66,7 +70,7 @@ A selector is a string that identifies what should handle the message, it's used
 
 ### Global Event Handlers
 
-To recap [Declarative Events](https://github.com/ServiceStack/EmailContacts/#declarative-events) allow you to define global handlers on a html page which can easily be applied on any element by decorating it with `data-{event}='{handler}'` attribute, eliminating the need to do manual bookkeeping of DOM events. 
+To recap [Declarative Events](https://github.com/ServiceStackApps/EmailContacts#declarative-events) allow you to define global handlers on a html page which can easily be applied on any element by decorating it with `data-{event}='{handler}'` attribute, eliminating the need to do manual bookkeeping of DOM events. 
 
 The example below first invokes the `paintGreen` handler when the button is clicked and fires the `paintRed` handler when the button loses focus:
 
@@ -147,7 +151,7 @@ Which will bind `this` to the `#btnSubmit` HTML Element, retaining the same beha
 
 ### Modifying CSS via jQuery
 
-As it's a popular use-case Server Events also has native support for modifying CSS properties on any jQuery with:
+As it's a popular use-case Server Events also has native support for modifying CSS properties with:
 
     css.{propertyName}${jQuerySelector} {propertyValue}
 

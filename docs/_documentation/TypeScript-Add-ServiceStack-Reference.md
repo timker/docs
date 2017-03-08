@@ -442,38 +442,58 @@ Which results in a HTTP GET request with the expected Url:
 
     /hello/World?title=Dr
 
-### ServerEventsClient
+### [ServerEvents Client](/typescript-server-events-client)
 
-In addition to `JsonServiceClient` most of the JavaScript utils in 
-[ss-utils.js](/ss-utils-js)
-are also in the `servicestack-client` npm package including the `ServerEventsClient` for 
-processing real-time [Server Events](/server-events).
-
-Here's how [Gistlyn](http://gistlyn.com) uses `ServerEventsClient` for handling real-time Script Status
-updates and Console logs from the executing C# Script:
+The [TypeScript ServerEventClient](typescript-server-events-client) is an idiomatic port of ServiceStack's 
+[C# Server Events Client](/csharp-server-events-client) in native TypeScript providing a productive 
+client to consume ServiceStack's [real-time Server Events](/server-events) that can be used in both 
+TypeScript Web and node.js server applications.
 
 ```ts
-const channels = ["gist"];
-const sse = new ServerEventsClient("/", channels, {
+const channels = ["home"];
+const client = new ServerEventsClient("/", channels, {
     handlers: {
-        onConnect(activeSub:ISseConnect) {                       // Successful SSE connection
-            store.dispatch({ type: 'SSE_CONNECT', activeSub });  // Tell Redux Store we're connected 
-            fetch("/session-to-token", {                         // Convert Session to JWT
-                method:"POST", credentials:"include" 
-            }); 
+        onConnect: (sub:ServerEventConnect) => {  // Successful SSE connection
+            console.log("You've connected! welcome " + sub.displayName);
         },
-        ConsoleMessage(m, e) {                                   // C# Gist Console Logs
-            batchLogs.queue({ msg: m.message });
+        onJoin: (msg:ServerEventJoin) => {        // User has joined subscribed channel
+            console.log("Welcome, " + msg.displayName);
         },
-        ScriptExecutionResult(m:ScriptExecutionResult, e) {      // Script Status Updates
-            //...
+        onLeave: (msg:ServerEventLeave) => {      // User has left subscribed channel
+            console.log(user.displayName + " has left the building");
+        },
+        onUpdate: (msg:ServerEventUpdate) => {    // User
+            console.log(user.displayName + " channels subscription were updated");
+        },        
+        onMessage: (msg:ServerEventMessage) => {}  // Invoked for each other message
+        //... Register custom handlers
+        CustomMessage: (msg:CustomMessage) = {}    // Handle CustomMessage Request DTO
+    },
+    receivers: { 
+        //... Register any receivers
+        tv: {
+            watch: function (id) {                 // Handle 'tv.watch {url}' messages 
+                var el = document.querySelector("#tv");
+                if (id.indexOf('youtu.be') >= 0) {
+                    var v = splitOnLast(id, '/')[1];
+                    el.innerHTML = templates.youtube.replace("{id}", v);
+                } else {
+                    el.innerHTML = templates.generic.replace("{id}", id);
+                }
+                el.style.display = 'block'; 
+            },
+            off: function () {                     // Hanndle 'tv.off' messages
+                var el = document.querySelector("#tv");
+                el.style.display = 'none';
+                el.innerHTML = '';
+            }
         }
     }
-});
+}).start();
 ```
 
-If you're publishing a DTO Type for your Server Events message you'll also be able to benefit from the
-generated Type definition like Gistlyn does with `ScriptExecutionResult`.
+When publishing a DTO Type for your Server Events message, your clients will be able to benefit from 
+the generated DTOs in [TypeScript ServiceStack References](/typescript-add-servicestack-reference).
 
 ## ServiceStackIDEA plugin
 
