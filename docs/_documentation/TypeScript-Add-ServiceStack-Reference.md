@@ -444,7 +444,7 @@ Which results in a HTTP GET request with the expected Url:
 
 ### [ServerEvents Client](/typescript-server-events-client)
 
-The [TypeScript ServerEventClient](typescript-server-events-client) is an idiomatic port of ServiceStack's 
+The [TypeScript ServerEventClient](/typescript-server-events-client) is an idiomatic port of ServiceStack's 
 [C# Server Events Client](/csharp-server-events-client) in native TypeScript providing a productive 
 client to consume ServiceStack's [real-time Server Events](/server-events) that can be used in both 
 TypeScript Web and node.js server applications.
@@ -462,12 +462,12 @@ const client = new ServerEventsClient("/", channels, {
         onLeave: (msg:ServerEventLeave) => {      // User has left subscribed channel
             console.log(user.displayName + " has left the building");
         },
-        onUpdate: (msg:ServerEventUpdate) => {    // User
+        onUpdate: (msg:ServerEventUpdate) => {    // User's subscribed channels have changed
             console.log(user.displayName + " channels subscription were updated");
         },        
-        onMessage: (msg:ServerEventMessage) => {}  // Invoked for each other message
+        onMessage: (msg:ServerEventMessage) => {} // Invoked for each other message
         //... Register custom handlers
-        CustomMessage: (msg:CustomMessage) = {}    // Handle CustomMessage Request DTO
+        CustomMessage: (msg:CustomMessage) = {}   // Handle CustomMessage Request DTO
     },
     receivers: { 
         //... Register any receivers
