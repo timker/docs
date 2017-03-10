@@ -394,26 +394,45 @@ client.registerNamedReceiver("window", window);
 
 Whilst Named Receivers are used to handle messages sent to a specific namespaced selector, the client also supports registering a **Global Receiver** for handling messages sent with the special `cmd.*` selector.
 
-### Triggers
+### Event Triggers
 
-You can subscribe to triggers in the same way as handlers and receivers, e.g:
+Triggers enable a pub/sub event model where multiple listeners can subscribe and be notified of an event.
+
+Registering an event handler can be done at anytime using the `addListener()` API, e.g:
 
 ```ts
-const client = new ServerEventsClient("/", channels, {
-    triggers: {
-        customEvent(msg, e) { 
-            var target = this;
-        }
-    }
-}).start();
+const handler = (e:ServerEventMessage) => {
+    console.log(`received event ${e.target} with arg: ${JSON.parse(e.json)}`);
+}
+
+const client = new ServerEventsClient("/", channels)
+    .addListener("customEvent", handler)
+    .start();
+
+//Register another listener to 'customEvent' event
+client.addListener("customEvent", e => { ... });
 ```
 
-The selector to trigger this event is:
+The selector to trigger this custom event is:
 
     trigger.customEvent arg
-    trigger.customEvent$#btnPaint arg
+    trigger.customEvent {json}
 
-Where if no CSS selector is specified it defaults to `document`. 
+Which can be sent in ServiceStack with a simple or complex type argument, e.g:
+
+```csharp
+ServerEvents.NotifyChannel(channel, "trigger.customEvent", "arg");
+ServerEvents.NotifyChannel(channel, "trigger.customEvent", new ChatMessage { ... });
+```
+
+#### Removing Listeners
+
+Use `removeListener()` to stop listening for an event, e.g:
+
+```ts
+//Remove first event listener
+client.removeListener("customEvent", handler);
+```
 
 ### Channel Subscriber APIs
 
