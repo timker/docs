@@ -45,17 +45,19 @@ const client = new ServerEventsClient("/", channels, {
         onLeave: (msg:ServerEventLeave) => {      // User has left subscribed channel
             console.log(user.displayName + " has left the building");
         },
-        onUpdate: (msg:ServerEventUpdate) => {    // User
+        onUpdate: (msg:ServerEventUpdate) => {    // User channel subscription was changed
             console.log(user.displayName + " channels subscription were updated");
         },        
-        onMessage: (msg:ServerEventMessage) => {}  // Invoked for each other message
+        onMessage: (msg:ServerEventMessage) => {} // Invoked for each other message
         //... Register custom handlers
-        CustomMessage: (msg:CustomMessage) = {}    // Handle CustomMessage Request DTO
+        announce: (s:string) => {}                // Handle messages with simple argument
+        chat: (chatMsg:ChatMessage) => {}         // Handle messages with complex type argument
+        CustomMessage: (msg:CustomMessage) => {}  // Handle complex types with default selector
     },
     receivers: { 
         //... Register any receivers
         tv: {
-            watch: function (id) {                 // Handle 'tv.watch {url}' messages 
+            watch: function (id) {                // Handle 'tv.watch {url}' messages 
                 var el = document.querySelector("#tv");
                 if (id.indexOf('youtu.be') >= 0) {
                     var v = splitOnLast(id, '/')[1];
@@ -65,14 +67,16 @@ const client = new ServerEventsClient("/", channels, {
                 }
                 el.style.display = 'block'; 
             },
-            off: function () {                     // Handle 'tv.off' messages
+            off: function () {                    // Handle 'tv.off' messages
                 var el = document.querySelector("#tv");
                 el.style.display = 'none';
                 el.innerHTML = '';
             }
         }
     }
-}).start();
+})
+.addListener("theEvent",(e:ServerEventMessage) => {}) // Add listener for pub/sub event trigger
+.start();
 ```
 
 > If hosted from same ServiceStack Instance, the relative `/` url can be used instead of the absolute `baseUrl` 
@@ -101,8 +105,10 @@ The easiest way to handle a custom event is to define a handler, e.g:
 ```ts
 const client = new ServerEventsClient("/", channels, {
     handlers: {
-        paint: (color) => {
+        paint: (color:string) => {
             this.style.background = color;
+        },
+        chat: (chatMsg:ChatMessage, e:ServerEventMessage) => {
         }
     }
 }).start();
@@ -116,15 +122,16 @@ Which can be sent in ServiceStack with:
 
 ```csharp
 ServerEvents.NotifyChannel(channel, "cmd.paint", "green");
+ServerEvents.NotifyChannel(channel, "cmd.chat", new ChatMessage { ... });
 ```
 
 Where `{handler}` is the name of the handler you want to invoke, e.g `cmd.paint`. When invoked from a server event the message (deserialized from JSON) is the first argument, the Server Sent DOM Event is the 2nd argument and `this` by default is assigned to `document.body`.
 
 ```ts
-function paint(msg /* JSON object msg */, e /*SSE Event*/){
+function paint(msg /* JSON object msg */, e /*ServerEventMessage*/){
     this // HTML Element or document.body
     this.style.background = "green";
-},
+}
 ```
 
 #### Handling Messages with the Default Selector
