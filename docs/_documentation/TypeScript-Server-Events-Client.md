@@ -50,7 +50,7 @@ const client = new ServerEventsClient("/", channels, {
         },        
         onMessage: (msg:ServerEventMessage) => {} // Invoked for each other message
         //... Register custom handlers
-        announce: (s:string) => {}                // Handle messages with simple argument
+        announce: (text:string) => {}             // Handle messages with simple argument
         chat: (chatMsg:ChatMessage) => {}         // Handle messages with complex type argument
         CustomMessage: (msg:CustomMessage) => {}  // Handle complex types with default selector
     },
@@ -76,7 +76,7 @@ const client = new ServerEventsClient("/", channels, {
     }
 })
 .addListener("theEvent",(e:ServerEventMessage) => {}) // Add listener for pub/sub event trigger
-.start();
+.start();                                             // Start listening for Server Events!
 ```
 
 > If hosted from same ServiceStack Instance, the relative `/` url can be used instead of the absolute `baseUrl` 
