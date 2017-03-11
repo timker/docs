@@ -73,13 +73,17 @@ const client = new ServerEventsClient("/", channels, {
                 el.innerHTML = '';
             }
         }
-    }
+    },
+    onException: (e:Error) => {},                 // Invoked on each Error
+    onReconnect: (e:Error) => {}                  // Invoked after each auto-reconnect
 })
 .addListener("theEvent",(e:ServerEventMessage) => {}) // Add listener for pub/sub event trigger
 .start();                                             // Start listening for Server Events!
 ```
 
 > If hosted from same ServiceStack Instance, the relative `/` url can be used instead of the absolute `baseUrl` 
+
+### Message Events
 
 ServiceStack Server Events has 4 built-in events sent during a subscriptions life-cycle: 
 
@@ -93,6 +97,14 @@ ServiceStack Server Events has 4 built-in events sent during a subscriptions lif
 All other messages can be handled with the catch-all:
 
  - **onMessage** - fired when any other message is sent
+
+### Server Event Client Events
+
+Other top-level events the `ServerEventClient` fires that can be handled include: 
+
+ - **onException** - Invoked on each error the client receives
+ - **onReconnect** - Invoked after each time the client had to auto-reconnect
+ - **onTick** - Invoked after any event or state change
 
 ## Selectors
 
@@ -143,8 +155,8 @@ As they're prefixed with `cmd.*` these events can be handled with a handler **ba
 ```ts
 const client = new ServerEventsClient("/", channels, {
     handlers: {
-        CustomType: (msg:CustomType, e) => { ... },
-        SetterType: (msg:SetterType, e) => { ... }
+        CustomType: (msg:CustomType) => { ... },
+        SetterType: (msg:SetterType, e:ServerEventMessage) => { ... }
     }
 }).start();
 ```
