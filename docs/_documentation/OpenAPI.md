@@ -110,6 +110,63 @@ Plugins.Add(new Swagger2Feature {
 });
 ```
 
+### API operation filters
+
+You can override operation or parameter definitions by specifying appropriate `Action<>` in plugin configuration:
+
+```csharp
+Plugins.Add(new Swagger2Feature()
+{
+    OperationFilter = (verb, operation) => operation.Tags.Add("all operations")
+});
+```
+
+Available configuration options:
+
+```
+ApiDeclarationFilter - allows to modify final result of returned swagger json
+OperationFilter - allows to modify operations
+ModelFilter - allows to modify swagger schema for user types
+ModelPropertyFilter - allows to modify propery declarations in swagger schema
+```
+
+### Properties naming conventions
+
+You can control naming conventions of generated properties by following configuration options:
+
+```
+UseCamelCaseModelPropertyNames - generate camel case property names
+UseLowercaseUnderscoreModelPropertyNames - generate underscored lower cased property names (to enable this feature UseCamelCaseModelPropertyNames must also be set) 
+```
+
+Example:
+
+```csharp
+Plugins.Add(new Swagger2Feature()
+{
+    UseCamelCaseModelPropertyNames = true,
+    UseLowercaseUnderscoreModelPropertyNames = true
+});
+```
+
+### Miscellaneous configuration options
+
+```
+DisableAutoDtoInBodyParam - disables adding `body` parameter for request DTO to operations
+UseBootstrapTheme - use bootstrap for Swagger UI
+LogoUrl - url of the logo image for Swagger UI
+```
+
+Example:
+
+```csharp
+Plugins.Add(new Swagger2Feature()
+{
+    DisableAutoDtoInBodyParam = true
+});
+```
+
+
 ## Virtual File System
 
 The docs on the Virtual File System shows how to override embedded resources:
