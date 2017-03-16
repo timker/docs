@@ -126,6 +126,8 @@ var login = new NameValueCollection {
 var response = "http://example.org/login".PostToUrl(login.ToFormUrlEncoded());
 ```
 
+### POSTing JSON data
+
 Although POST'ing other Content-Types are also easily supported. An example using JSON:
 
 Either as any serializable JSON object:
