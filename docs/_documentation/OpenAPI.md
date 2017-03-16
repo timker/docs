@@ -1,22 +1,22 @@
 ---
-slug: swagger2-api
-title: Swagger 2.0 API
+slug: openapi
+title: OpenAPI
 ---
 
-[Swagger](http://swagger.io/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
-[Swagger 2.0 Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under [Swagger NuGet package](http://nuget.org/packages/ServiceStack.Api.Swagger2/):
+[OpenAPI](http://swagger.io/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
+[OpenAPI Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) back-end and embeds the OpenAPI UI front-end in a separate plugin which is available under [OpenAPI NuGet package](http://nuget.org/packages/ServiceStack.Api.OpenApi/):
 
-    PM> Install-Package ServiceStack.Api.Swagger2
+    PM> Install-Package ServiceStack.Api.OpenApi
 
 ## Installation
 
-You can enable Swagger 2.0 by registering the `Swagger2Feature` plugin in AppHost with:
+You can enable OpenAPI by registering the `OpenApiFeature` plugin in AppHost with:
 
 ```csharp
 public override void Configure(Container container)
 {
     ...
-    Plugins.Add(new Swagger2Feature());
+    Plugins.Add(new OpenApiFeature());
 
     // uncomment CORS feature if it's has to be available from external sites 
     //Plugins.Add(new CorsFeature()); 
@@ -24,7 +24,7 @@ public override void Configure(Container container)
 }
 ```
 
-Then you will be able to view the Swagger UI from `/swagger2-ui/`. A link to **Swagger2 UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
+Then you will be able to view the OpenAPI UI from `/openapi-ui/`. A link to **OpenAPI UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
 
 #### Configuring ServiceStack with MVC
 
@@ -40,7 +40,7 @@ For MVC4 projects, you'll also need to disable WebAPI:
 //WebApiConfig.Register(GlobalConfiguration.Configuration);
 ```
 
-## Swagger Attributes
+## OpenAPI Attributes
 
 Each route could have a separate summary and description. You can set it with `Route` attribute:
 
@@ -58,7 +58,7 @@ You can set specific description for each HTTP method like shown below:
     Notes = "Longer description of the POST method which says 'Hello'")]
 ```
 
-You can further document your services in the Swagger UI with the new `[Api]` and `[ApiMember]` annotation attributes, e,g: Here's an example of a fully documented service:
+You can further document your services in the OpenAPI with the new `[Api]` and `[ApiMember]` annotation attributes, e,g: Here's an example of a fully documented service:
 
 ```csharp
 [Api("Service Description")]
@@ -75,13 +75,13 @@ public class MyRequestDto
 }
 ```
 
-You can Exclude **properties** from being listed in Swagger with:
+You can Exclude **properties** from being listed in OpenAPI with:
 
 ```csharp
 [IgnoreDataMember]
 ```
 
-Exclude **properties** from being listed in Swagger Schema Body with:
+Exclude **properties** from being listed in OpenAPI Schema Body with:
 
 ```csharp
 [ApiMember(ExcludeInSchema=true)]
@@ -89,33 +89,33 @@ Exclude **properties** from being listed in Swagger Schema Body with:
 
 ### Exclude Services from Metadata Pages
 
-To exclude entire Services from showing up in Swagger or any other Metadata Services (i.e. Metadata Pages, Postman, NativeTypes, etc), annotate **Request DTO's** with:
+To exclude entire Services from showing up in OpenAPI or any other Metadata Services (i.e. Metadata Pages, Postman, NativeTypes, etc), annotate **Request DTO's** with:
 
 ```csharp
 [Exclude(Feature.Metadata)]
 public class MyRequestDto { ... }
 ```
 
-### Swagger UI Route Summaries
+### OpenAPI UI Route Summaries
 
-The Swagger UI groups multiple routes under a single top-level route that covers multiple different 
+The OpenAPI UI groups multiple routes under a single top-level route that covers multiple different 
 services sharing the top-level route which can be specified using the `RouteSummary` dictionary of 
-the `Swagger2Feature` plugin, e.g: 
+the `OpenApiFeature` plugin, e.g: 
 
 ```csharp
-Plugins.Add(new Swagger2Feature {
+Plugins.Add(new OpenApiFeature {
     RouteSummary = {
         { "/top-level-path", "Route Summary" }
     }
 });
 ```
 
-### API operation filters
+### OpenAPI operation filters
 
 You can override operation or parameter definitions by specifying appropriate `Action<>` in plugin configuration:
 
 ```csharp
-Plugins.Add(new Swagger2Feature()
+Plugins.Add(new OpenApiFeature()
 {
     OperationFilter = (verb, operation) => operation.Tags.Add("all operations")
 });
@@ -124,10 +124,10 @@ Plugins.Add(new Swagger2Feature()
 Available configuration options:
 
 ```
-ApiDeclarationFilter - allows to modify final result of returned swagger json
+ApiDeclarationFilter - allows to modify final result of returned OpenAPI json
 OperationFilter - allows to modify operations
-ModelFilter - allows to modify swagger schema for user types
-ModelPropertyFilter - allows to modify propery declarations in swagger schema
+ModelFilter - allows to modify OpenAPI schema for user types
+ModelPropertyFilter - allows to modify propery declarations in OpenAPI schema
 ```
 
 ### Properties naming conventions
@@ -142,7 +142,7 @@ UseLowercaseUnderscoreModelPropertyNames - generate underscored lower cased prop
 Example:
 
 ```csharp
-Plugins.Add(new Swagger2Feature()
+Plugins.Add(new OpenApiFeature()
 {
     UseCamelCaseModelPropertyNames = true,
     UseLowercaseUnderscoreModelPropertyNames = true
@@ -153,14 +153,14 @@ Plugins.Add(new Swagger2Feature()
 
 ```
 DisableAutoDtoInBodyParam - disables adding `body` parameter for request DTO to operations
-UseBootstrapTheme - use bootstrap for Swagger UI
-LogoUrl - url of the logo image for Swagger UI
+UseBootstrapTheme - use bootstrap for OpenAPI UI
+LogoUrl - url of the logo image for OpenAPI UI
 ```
 
 Example:
 
 ```csharp
-Plugins.Add(new Swagger2Feature()
+Plugins.Add(new OpenApiFeature()
 {
     DisableAutoDtoInBodyParam = true
 });
@@ -171,28 +171,28 @@ Plugins.Add(new Swagger2Feature()
 
 The docs on the Virtual File System shows how to override embedded resources:
 
-### Overriding Swaggers Embedded Resources
+### Overriding OpenAPI Embedded Resources
 
-ServiceStack's [Virtual File System](/virtual-file-system) supports multiple file source locations where you can override Swagger's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/swagger2-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui) or [/swagger2-ui-bootstrap](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.Swagger/swagger-ui-bootstrap) files you want to customize and placing them in your Website Directory at:
+ServiceStack's [Virtual File System](/virtual-file-system) supports multiple file source locations where you can override OpenAPI's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/openapi-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.OpenApi/openapi-ui) or [/openapi-ui-bootstrap](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.OpenApi/openapi-ui-bootstrap) files you want to customize and placing them in your Website Directory at:
 
 ```
-/swagger2-ui
+/openapi-ui
   /css
   /images
   /lib
   index.html
 
-/swagger2-ui-bootstrap
+/openapi-ui-bootstrap
   index.html
   swagger-like-template.html
 ```
 
-### Basic Auth added to Swagger UI
+### Basic Auth added to OpenAPI
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swagger-basicauth.png)
 
-Users can call protected Services using the Username and Password fields in Swagger UI. 
-Swagger sends these credentials with every API request using HTTP Basic Auth, 
+Users can call protected Services using the Username and Password fields in OpenAPI UI. 
+OpenAPI UI sends these credentials with every API request using HTTP Basic Auth, 
 which can be enabled in your AppHost with:
 
 ```csharp
@@ -202,8 +202,8 @@ Plugins.Add(new AuthFeature(...,
       }));
 ```
 
-Alternatively users can login outside of Swagger, to access protected Services in Swagger UI.
+Alternatively users can login outside of OpenAPI UI, to access protected Services in OpenAPI UI.
 
 ## Demo Project
 
-ServiceStack.UseCases project contains example [Swagger2HelloWorld](https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/Swagger2HelloWorld). It demonstrates how to use and integrate [ServiceStack.Api.Swagger2](http://nuget.org/packages/ServiceStack.Api.Swagger2/). Take a look at [README.txt](https://github.com/ServiceStack/ServiceStack.UseCases/blob/master/Swagger2HelloWorld/README.txt) for more details. 
+ServiceStack.UseCases project contains example [OpenApiHelloWorld](https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/OpenApiHelloWorld). It demonstrates how to use and integrate [ServiceStack.Api.OpenApi](http://nuget.org/packages/ServiceStack.Api.OpenApi/). Take a look at [README.txt](https://github.com/ServiceStack/ServiceStack.UseCases/blob/master/OpenApiHelloWorld/README.txt) for more details.
