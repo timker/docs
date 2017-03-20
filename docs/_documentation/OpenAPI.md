@@ -126,8 +126,8 @@ Available configuration options:
 ```
 ApiDeclarationFilter - allows to modify final result of returned OpenAPI json
 OperationFilter - allows to modify operations
-ModelFilter - allows to modify OpenAPI schema for user types
-ModelPropertyFilter - allows to modify propery declarations in OpenAPI schema
+SchemaFilter - allows to modify OpenAPI schema for user types
+SchemaPropertyFilter - allows to modify propery declarations in OpenAPI schema
 ```
 
 ### Properties naming conventions
@@ -135,8 +135,8 @@ ModelPropertyFilter - allows to modify propery declarations in OpenAPI schema
 You can control naming conventions of generated properties by following configuration options:
 
 ```
-UseCamelCaseModelPropertyNames - generate camel case property names
-UseLowercaseUnderscoreModelPropertyNames - generate underscored lower cased property names (to enable this feature UseCamelCaseModelPropertyNames must also be set) 
+UseCamelCaseSchemaPropertyNames - generate camel case property names
+UseLowercaseUnderscoreSchemaPropertyNames - generate underscored lower cased property names (to enable this feature UseCamelCaseModelPropertyNames must also be set) 
 ```
 
 Example:
@@ -144,8 +144,8 @@ Example:
 ```csharp
 Plugins.Add(new OpenApiFeature()
 {
-    UseCamelCaseModelPropertyNames = true,
-    UseLowercaseUnderscoreModelPropertyNames = true
+    UseCamelCaseSchemaPropertyNames = true,
+    UseLowercaseUnderscoreSchemaPropertyNames = true
 });
 ```
 
@@ -204,6 +204,33 @@ Plugins.Add(new AuthFeature(...,
 
 Alternatively users can login outside of OpenAPI UI, to access protected Services in OpenAPI UI.
 
+## Generating Autorest client
+
+You can use OpenAPI plugin to automatically generate client using [Autorest](https://guthub.com/Azure/Autorest). To do it, you need to install autorest first
+
+    npm install -g autorest
+
+After installing open powershell console and download api specification json from you solution.
+
+    iwr http://your.domain/openapi -o openapi.json
+
+Then generate client source code.
+
+    autorest --latest-release -Input openapi.json -CodeGenerator CSharp -OutputDirectory AutorestClient -Namespace AutorestClient
+
+It will generate directory with model types and REST operations, accessible throught the client. To use it you can write following code:
+
+```csharp
+using (var client = new SampleProjectAutorestClient("http://localhost:20000"))
+{
+    var dto = new SampleDto { /* .... */ }; 
+    var result = client.SampleOperation.Post(body: dto);
+
+    // process result
+}
+```    
+
 ## Demo Project
 
 ServiceStack.UseCases project contains example [OpenApiHelloWorld](https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/OpenApiHelloWorld). It demonstrates how to use and integrate [ServiceStack.Api.OpenApi](http://nuget.org/packages/ServiceStack.Api.OpenApi/). Take a look at [README.txt](https://github.com/ServiceStack/ServiceStack.UseCases/blob/master/OpenApiHelloWorld/README.txt) for more details.
+
