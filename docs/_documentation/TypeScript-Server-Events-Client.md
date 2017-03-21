@@ -502,7 +502,7 @@ client.serviceClient.post(new MyRequest())
 
 More examples of the `ServerEventClient` can be found in the [TypeScript ServerEventClient Test Suite](https://github.com/ServiceStack/servicestack-client/blob/master/tests/serverevents.spec.ts).
 
-# ServerEvent JavaScript Examples
+# TypeScript ServerEvents Examples
 
 ## [Web, Node.js and React Native ServerEvents Apps](https://github.com/ServiceStackApps/typescript-server-events)
 

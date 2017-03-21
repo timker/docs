@@ -245,9 +245,9 @@ import UIKit;
 import Foundation;
 ```
 
-# Swift Client Usage
+## Swift Client Usage
 
-## [JsonServiceClient.swift](https://github.com/ServiceStack/ServiceStack.Swift/blob/master/dist/JsonServiceClient.swift)
+### [JsonServiceClient.swift](https://github.com/ServiceStack/ServiceStack.Swift/blob/master/dist/JsonServiceClient.swift)
 
 The same ideal, high-level API available in [.NET's ServiceClients](/csharp-client) have been translated into idiomatic Swift as seen with its `ServiceClient` protocol definition below:
 
