@@ -4,7 +4,7 @@ title: OpenAPI
 ---
 
 [OpenAPI](http://swagger.io/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
-[OpenAPI Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) back-end and embeds the OpenAPI UI front-end in a separate plugin which is available under [OpenAPI NuGet package](http://nuget.org/packages/ServiceStack.Api.OpenApi/):
+[OpenAPI Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under [OpenAPI NuGet package](http://nuget.org/packages/ServiceStack.Api.OpenApi/):
 
     PM> Install-Package ServiceStack.Api.OpenApi
 
@@ -24,7 +24,7 @@ public override void Configure(Container container)
 }
 ```
 
-Then you will be able to view the OpenAPI UI from `/openapi-ui/`. A link to **OpenAPI UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
+Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
 
 #### Configuring ServiceStack with MVC
 
@@ -96,9 +96,9 @@ To exclude entire Services from showing up in OpenAPI or any other Metadata Serv
 public class MyRequestDto { ... }
 ```
 
-### OpenAPI UI Route Summaries
+### Swagger UI Route Summaries
 
-The OpenAPI UI groups multiple routes under a single top-level route that covers multiple different 
+The Swagger UI groups multiple routes under a single top-level route that covers multiple different 
 services sharing the top-level route which can be specified using the `RouteSummary` dictionary of 
 the `OpenApiFeature` plugin, e.g: 
 
@@ -153,8 +153,7 @@ Plugins.Add(new OpenApiFeature()
 
 ```
 DisableAutoDtoInBodyParam - disables adding `body` parameter for request DTO to operations
-UseBootstrapTheme - use bootstrap for OpenAPI UI
-LogoUrl - url of the logo image for OpenAPI UI
+LogoUrl - url of the logo image for Swagger UI
 ```
 
 Example:
@@ -173,26 +172,22 @@ The docs on the Virtual File System shows how to override embedded resources:
 
 ### Overriding OpenAPI Embedded Resources
 
-ServiceStack's [Virtual File System](/virtual-file-system) supports multiple file source locations where you can override OpenAPI's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/openapi-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.OpenApi/openapi-ui) or [/openapi-ui-bootstrap](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.OpenApi/openapi-ui-bootstrap) files you want to customize and placing them in your Website Directory at:
+ServiceStack's [Virtual File System](/virtual-file-system) supports multiple file source locations where you can override OpenAPI's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/swagger-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.OpenApi/swagger-ui) files you want to customize and placing them in your Website Directory at:
 
 ```
-/openapi-ui
+/swagger-ui
   /css
   /images
   /lib
   index.html
-
-/openapi-ui-bootstrap
-  index.html
-  swagger-like-template.html
 ```
 
 ### Basic Auth added to OpenAPI
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swagger-basicauth.png)
 
-Users can call protected Services using the Username and Password fields in OpenAPI UI. 
-OpenAPI UI sends these credentials with every API request using HTTP Basic Auth, 
+Users can call protected Services using the Username and Password fields in Swagger UI. 
+Swagger UI sends these credentials with every API request using HTTP Basic Auth, 
 which can be enabled in your AppHost with:
 
 ```csharp
@@ -202,7 +197,7 @@ Plugins.Add(new AuthFeature(...,
       }));
 ```
 
-Alternatively users can login outside of OpenAPI UI, to access protected Services in OpenAPI UI.
+Alternatively users can login outside of Swagger UI, to access protected Services in Swagger UI.
 
 ## Generating Autorest client
 
