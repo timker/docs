@@ -90,14 +90,18 @@ Service Stack re-uses the custom artefacts above and with zero-config and withou
 burden on the developer adds discover-ability and provides hosting of your web service on a number 
 of different physical end-points which as of today includes: 
  
- - JSON
+ - [JSON](https://github.com/ServiceStack/ServiceStack.Text/)
  - XML
- - CSV
- - JSV
- - MsgPack
- - ProtoBuf
- - Wire
- - SOAP 1.1/1.2
+ - [JSV](/jsv-format)
+ - [CSV](/csv-format)
+ - [MsgPack](/messagepack-format)
+ - [ProtoBuf](/protobuf-format)
+ - [Wire](/wire-format)
+ - [SOAP 1.1/1.2](/soap-support)
+ - HTML
+   - [HTML5 Report Format](/html5reportformat)
+   - [Razor](http://razor.servicestack.net/)
+   - [Markdown Razor](/markdown-razor)
 
 ### WCF the anti-DTO Web Services Framework
 

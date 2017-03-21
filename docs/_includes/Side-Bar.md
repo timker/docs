@@ -38,6 +38,8 @@
     - [C#/.NET client](/csharp-client)
     - [TypeScript client](/typescript-add-servicestack-reference#typescript-serviceclient)
     - [JavaScript client](/javascript-client)
+    - [Java Client](/java-add-servicestack-reference#jsonserviceclient-api)
+    - [Swift Client](/swift-add-servicestack-reference#swift-client-usage)
     - [Silverlight client](/silverlight-client)
     - [Dart Client](/dart-client)
     - [MQ Clients](/messaging#mq-client-architecture)
