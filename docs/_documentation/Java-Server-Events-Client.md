@@ -79,8 +79,8 @@ ServerEventsClient client = new AndroidServerEventsClient(baseUrl, "home")
     .registerHandler("chat", (client, e) -> {     // Invoked for cmd.chat adhoc messages
         ChatMessage chatMsg = JsonUtils.fromJson(e.getJson(), ChatMessage.class);
     })    
-    .registerReceiver(MyReceiver.class)           // Register default receiver
-    .registerNamedReceiver(TvReceiver.class)      // Register named 'tv.' receiver
+    .registerReceiver(MyReceiver.class)           // Register Global/default receiver
+    .registerNamedReceiver("tv",TvReceiver.class) // Register named 'tv.' receiver
     .addListener("theEvent", msg -> {})           // Add listener for pub/sub event trigger
     .setOnException(e -> { })                     // Invoked on each Error
     .setOnReconnect(() -> { })                    // Invoked after each auto-reconnect
@@ -90,7 +90,7 @@ ServerEventsClient client = new AndroidServerEventsClient(baseUrl, "home")
 public class MyReceiver extends ServerEventReceiver {
     public void announce(String message){}       // Handle messages with simple argument
     public void chat(ChatMessage message){}      // Handle messages with complex type argument
-    public void CustomType(CustomType message){} // Handle complex types with default selector      
+    public void customType(CustomType message){} // Handle complex types with default selector      
     @Override                                    // Handle other unknown messages
     public void noSuchMethod(String selector, Object message){}
 }
