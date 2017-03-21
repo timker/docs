@@ -1,6 +1,6 @@
 ---
 slug: typescript-server-events-client
-title: TypeScript ServerEvents Client
+title: TypeScript Server Events Client
 ---
 
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)
