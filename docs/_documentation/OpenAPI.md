@@ -223,7 +223,38 @@ using (var client = new SampleProjectAutorestClient("http://localhost:20000"))
 
     // process result
 }
-```    
+```
+
+## Publish Azure Management API
+
+Login to [Azure Portal](https://portal.azure.com) and search for `API management service`.
+
+![](../images/azure-api-management/1-search.png?raw=true)
+
+Choose `API management service`. In opened window click `Add` button.
+
+![](../images/azure-api-management/2-add.png?raw=true)
+
+Fill the creation form. Put your own values in `Name`, `Resource Group`, `Organization name` and `Administrator email`. When creation form will be ready, click `Create` button.
+
+![](../images/azure-api-management/3-create.png?raw=true)
+
+Wait while Management API will be activated. It can take more than forty minutes. When it ready click on created API management resource.
+
+![](../images/azure-api-management/4-activating.png?raw=true)
+
+In opened window click `APIs - PREVIEW` menu item on the left pane.
+
+![](../images/azure-api-management/5-publisher-portal.png?raw=true)
+
+Choose `OpenAPI specification` in `Add API` section.
+
+![](../images/azure-api-management/6-add-api.png?raw=true)
+
+Fill the url with location of you services, ended with `/openapi` or just click `Upload` button and upload json openapi definition, which is available at `/openapi` path of your services.
+
+![](../images/azure-api-management/7-create-api.png?raw=true)
+
 
 ## Demo Project
 
