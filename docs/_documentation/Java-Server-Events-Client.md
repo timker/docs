@@ -8,7 +8,7 @@ title: Java Server Events Client
 The Java `ServerEventClient` is an idiomatic port of ServiceStack's 
 [C# Server Events Client](/csharp-server-events-client) to Java providing a productive 
 client to consume ServiceStack's [real-time Server Events](/server-events) that can be used in any 
-Java/JVM (JDK 7+) Client/Server Applications or Java/Kotlin Android applications.
+Java/JVM (JRE 7+) Client/Server Applications or Java/Kotlin Android applications.
 
 ## Install
 
@@ -34,13 +34,13 @@ Or in Maven with:
 </dependency>
 ```
 
-Other Java/JVM languages running on the JVM can use the `ServerEventsClient` in the 
+Other Java/JVM languages running on the JVM (JRE 7+) can use the `ServerEventsClient` in the 
 [net.servicestack:client](https://bintray.com/servicestack/maven/ServiceStack.Client) package which can 
 be installed using Gradle:
 
     compile 'net.servicestack:client:1.0.31'
 
-Or Maven with:
+Or Maven:
 
 ```xml
 <dependency>
