@@ -1,6 +1,6 @@
 ---
 slug: typescript-server-events-client
-title: TypeScript ServerEvents Client
+title: TypeScript Server Events Client
 ---
 
 ![ServiceStack and TypeScript Banner](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/servicestack-heart-typescript.png)
@@ -43,10 +43,10 @@ const client = new ServerEventsClient("/", channels, {
             console.log("Welcome, " + msg.displayName);
         },
         onLeave: (msg:ServerEventLeave) => {      // User has left subscribed channel
-            console.log(user.displayName + " has left the building");
+            console.log(msg.displayName + " has left the building");
         },
         onUpdate: (msg:ServerEventUpdate) => {    // User channel subscription was changed
-            console.log(user.displayName + " channels subscription were updated");
+            console.log(msg.displayName + " channels subscription were updated");
         },        
         onMessage: (msg:ServerEventMessage) => {} // Invoked for each other message
         //... Register custom handlers
@@ -473,7 +473,7 @@ client.updateSubscriber(request);
 Once connected, you can get a list of channel subscribers the `ServerEventsClient` is currently connected
 to with:
 
-```csharp
+```ts
 client.getChannelSubscribers()
     .then(users => users.forEach(x => 
         console.log(`#${x.userId} @${x.displayName} ${x.profileUrl} ${x.channels}`)));
@@ -483,7 +483,7 @@ client.getChannelSubscribers()
 
 Alternatively you can access the channel subscribers using the built-in `JsonServiceClient`, e.g:
 
-```csharp
+```ts
 let request = new GetEventSubscribers();
 request.channels = ["chan1","chan2"];
 

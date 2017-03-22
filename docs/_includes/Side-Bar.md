@@ -138,6 +138,7 @@
     - [Overview](/server-events)
     - [C# Client](/csharp-server-events-client)
     - [TypeScript Client](/typescript-server-events-client)
+    - [Java Client](/java-server-events-client)
     - [JavaScript Client](/javascript-server-events-client)
     - [Redis Server Events](/redis-server-events)
 - Service Gateway
