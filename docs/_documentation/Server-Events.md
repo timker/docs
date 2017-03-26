@@ -14,8 +14,10 @@ We've chosen to adopt Server Sent Events for Server Notifications as it's a beau
 
 ### Server Event Clients
 
-  - [JavaScript Client](/javascript-server-events-client)
   - [C# Client](/csharp-server-events-client)
+  - [TypeScript Client](/typescript-server-events-client)
+  - [Java Client](/java-server-events-client)
+  - [JavaScript Client](/javascript-server-events-client)
 
 ### Server Event Providers
 
