@@ -251,9 +251,13 @@ Choose `OpenAPI specification` in `Add API` section.
 
 ![](../images/azure-api-management/6-add-api.png?raw=true)
 
-Fill the url with location of you services, ended with `/openapi` or just click `Upload` button and upload json openapi definition, which is available at `/openapi` path of your services.
+Fill the url with location of you services, ended with `/openapi` or just click `Upload` button and upload OpenAPI json definition, which is available at `/openapi` path of your services.
 
 ![](../images/azure-api-management/7-create-api.png?raw=true)
+
+After successfull import you should see list of available operations for your services
+
+![](../images/azure-api-management/8-created.png?raw=true)
 
 
 ## Demo Project
