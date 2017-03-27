@@ -62,24 +62,24 @@ To configure Server Sent Events on the client create a new instance of `AndroidS
 
 ```java
 ServerEventsClient client = new AndroidServerEventsClient(baseUrl, "home")
-    .setOnConnect(e -> {                          // Successful SSE connection
+    .setOnConnect(sub -> {                        // Successful SSE connection
         Log.d("You've connected! welcome " + sub.getDisplayName());
     })
-    .setOnJoin(msg -> {                           // User has joined subscribed channel
+    .setOnJoin(e -> {                             // User has joined subscribed channel
         Log.d("Welcome, " + e.getDisplayName());
     })
-    .setOnLeave(msg -> {                          // User has left subscribed channel
-        Log.d(msg.getDisplayName() + " has left the building");
+    .setOnLeave(e -> {                            // User has left subscribed channel
+        Log.d(e.getDisplayName() + " has left the building");
     })
-    .setOnUpdate(msg -> {                         // User channel subscription was changed
-        Log.d(msg.getDisplayName() + " has left the building");
+    .setOnUpdate(e -> {                           // User channel subscription was changed
+        Log.d(e.getDisplayName() + " has left the building");
     })
     .setOnMessage(msg -> { })                     // Invoked for each other message
     //... Register custom handlers
     .registerHandler("chat", (client, e) -> {     // Invoked for cmd.chat adhoc messages
         ChatMessage chatMsg = JsonUtils.fromJson(e.getJson(), ChatMessage.class);
     })    
-    .registerReceiver(MyReceiver.class)           // Register Global/default receiver
+    .registerReceiver(MyReceiver.class)           // Register Global 'cmd.' default receiver
     .registerNamedReceiver("tv",TvReceiver.class) // Register named 'tv.' receiver
     .addListener("theEvent", msg -> {})           // Add listener for pub/sub event trigger
     .setOnException(e -> { })                     // Invoked on each Error
@@ -97,8 +97,8 @@ public class MyReceiver extends ServerEventReceiver {
 
 //Named Receiver Class
 public class TvReciever extends ServerEventReceiver {
-    public void watch(String videoUrl){}        // Handle 'tv.watch {url}' messages 
-    public void off(){}                         // Handle 'tv.off' messages 
+    public void watch(String videoUrl){}         // Handle 'tv.watch {url}' messages 
+    public void off(){}                          // Handle 'tv.off' messages 
 }
 ```
 
