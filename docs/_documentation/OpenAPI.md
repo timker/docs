@@ -182,9 +182,7 @@ ServiceStack's [Virtual File System](/virtual-file-system) supports multiple fil
   index.html
 ```
 
-### Basic Auth added to OpenAPI
-
-![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/release-notes/swagger-basicauth.png)
+### Basic Auth in OpenAPI
 
 Users can call protected Services using the Username and Password fields in Swagger UI. 
 Swagger UI sends these credentials with every API request using HTTP Basic Auth, 
@@ -197,7 +195,18 @@ Plugins.Add(new AuthFeature(...,
       }));
 ```
 
+To login, you need to click "Authorize" button.
+
+![](../images/openapi/1-swaggerui-authorize.png?raw=true)
+
+And then enter username and password.
+
+![](../images/openapi/2-swaggerui-password.png?raw=true)
+
+Also you can click "Try it out" button on services, which requires authentication and browser will prompt a window with user/password field for entering basic auth credentials.
+
 Alternatively users can login outside of Swagger UI, to access protected Services in Swagger UI.
+
 
 ## Generating Autorest client
 
@@ -258,9 +267,4 @@ Fill the url with location of you services, ended with `/openapi` or just click 
 After successfull import you should see list of available operations for your services
 
 ![](../images/azure-api-management/8-created.png?raw=true)
-
-
-## Demo Project
-
-ServiceStack.UseCases project contains example [OpenApiHelloWorld](https://github.com/ServiceStack/ServiceStack.UseCases/tree/master/OpenApiHelloWorld). It demonstrates how to use and integrate [ServiceStack.Api.OpenApi](http://nuget.org/packages/ServiceStack.Api.OpenApi/). Take a look at [README.txt](https://github.com/ServiceStack/ServiceStack.UseCases/blob/master/OpenApiHelloWorld/README.txt) for more details.
 
