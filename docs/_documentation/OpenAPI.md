@@ -75,6 +75,30 @@ public class MyRequestDto
 }
 ```
 
+Please note, that if you used `ApiMember.DataType` for annotating `SwaggerFeature` then you need to change the types to OpenAPI type. For example, annotation of 
+```csharp
+[ApiMember(DataType="int")]
+```
+need to be changed to 
+```csharp
+[ApiMember(DataType="numeric" DataFormat="int32")]
+```
+
+Here is the table for type migration
+
+| Swagger Type (DataType) | OpenAPI Type (DataType) | OpenAPI Format (DataFormat) |
+|-------------------------|-------------------------|-----------------------------|
+| Array                   | array                   |                             |
+| boolean                 | boolean                 |                             |
+| byte                    | integer                 | int                         |
+| Date                    | string                  | date                        |
+|                         | string                  | date-time                   |
+| double                  | number                  | double                      |
+| float                   | number                  | float                       |
+| int                     | integer                 | int32                       |
+| long                    | integer                 | int64                       |
+| string                  | string                  |                             |
+
 You can Exclude **properties** from being listed in OpenAPI with:
 
 ```csharp
@@ -86,7 +110,6 @@ Exclude **properties** from being listed in OpenAPI Schema Body with:
 ```csharp
 [ApiMember(ExcludeInSchema=true)]
 ```
-
 ### Exclude Services from Metadata Pages
 
 To exclude entire Services from showing up in OpenAPI or any other Metadata Services (i.e. Metadata Pages, Postman, NativeTypes, etc), annotate **Request DTO's** with:
@@ -233,6 +256,10 @@ using (var client = new SampleProjectAutorestClient("http://localhost:20000"))
     // process result
 }
 ```
+
+### Known issues
+
+Autorest generated clients do not support `application/octet-stream` MIME type, which is used when service returns `byte[]` array. There is an [issue](https://github.com/Azure/autorest/issues/1932) you can track.
 
 ## Publish Azure Management API
 
