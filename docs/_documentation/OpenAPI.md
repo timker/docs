@@ -137,17 +137,16 @@ Plugins.Add(new OpenApiFeature
 
 ### Change default Verbs
 
-If left unspecified ServiceStack `[Route]` allows Services to be called using any HTTP Verb, as a result the 
-Open API specification will generate APIs for the same route on the most popular HTTP Verbs, namely 
-`GET`, `POST`, `PUT` and `DELETE`.
+If left unspecified, the `[Route]` attribute allows Services to be called from any HTTP Verb which by default 
+are listed in the Open API specification under the most popular HTTP Verbs, namely `GET`, `POST`, `PUT` and `DELETE`.
 
-This behavior can be modified with `AnyRouteVerbs` which will let you specify which Verbs should be generated 
-for **ANY** Routes with unspecified verbs, e.g. we can restrict it to only generate `GET` and `POST` Verbs with:
+This can be modified with `AnyRouteVerbs` which will let you specify which Verbs should be generated 
+for **ANY** Routes with unspecified verbs, e.g. we can restrict it to only emit routes for `GET` and `POST` Verbs with:
 
 ```csharp
 Plugins.Add(new OpenApiFeature
 {
-    AnyRouteVerbs =  new List<string> { HttpMethods.Get, HttpMethods.Post };,
+    AnyRouteVerbs =  new List<string> { HttpMethods.Get, HttpMethods.Post }
 });
 ```
 
