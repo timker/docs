@@ -5,8 +5,8 @@ title: OpenAPI
 
 ![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/openapi/openapi-banner.png)
 
-[OpenAPI](http://swagger.io/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
-[OpenAPI Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under [OpenAPI NuGet package](http://nuget.org/packages/ServiceStack.Api.OpenApi/):
+[Open API](https://www.openapis.org/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
+[OpenAPI Spec](https://github.com/OAI/OpenAPI-Specification/blob/master/versions/2.0.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under [OpenAPI NuGet package](http://nuget.org/packages/ServiceStack.Api.OpenApi/):
 
     PM> Install-Package ServiceStack.Api.OpenApi
 
@@ -28,7 +28,7 @@ public override void Configure(Container container)
 
 Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
 
-## OpenAPI Attributes
+## Open API Attributes
 
 Each route could have a separate summary and description. You can set it with `Route` attribute:
 
@@ -121,7 +121,7 @@ Plugins.Add(new OpenApiFeature {
 });
 ```
 
-### OpenAPI operation filters
+### Operation filters
 
 You can override operation or parameter definitions by specifying the appropriate filter in plugin configuration:
 
@@ -222,11 +222,11 @@ Plugins.Add(new AuthFeature(...,
 
 To login, you need to click "Authorize" button.
 
-![](../images/openapi/1-swaggerui-authorize.png?raw=true)
+![](/images/openapi/1-swaggerui-authorize.png)
 
 And then enter username and password.
 
-![](../images/openapi/2-swaggerui-password.png?raw=true)
+![](/images/openapi/2-swaggerui-password.png)
 
 Also you can click "Try it out" button on services, which requires authentication and browser will prompt a window with user/password field for entering basic auth credentials.
 
@@ -305,33 +305,33 @@ Autorest generated clients do not support `application/octet-stream` MIME type, 
 
 Login to [Azure Portal](https://portal.azure.com) and search for `API management service`.
 
-![](../images/azure-api-management/1-search.png?raw=true)
+![](/images/azure-api-management/1-search.png)
 
 Choose `API management service`. In opened window click `Add` button.
 
-![](../images/azure-api-management/2-add.png?raw=true)
+![](/images/azure-api-management/2-add.png)
 
 Fill the creation form. Put your own values in `Name`, `Resource Group`, `Organization name` and `Administrator email`. When creation form will be ready, click `Create` button.
 
-![](../images/azure-api-management/3-create.png?raw=true)
+![](/images/azure-api-management/3-create.png)
 
 Wait while Management API will be activated. It can take more than forty minutes. When it ready click on created API management resource.
 
-![](../images/azure-api-management/4-activating.png?raw=true)
+![](/images/azure-api-management/4-activating.png)
 
 In opened window click `APIs - PREVIEW` menu item on the left pane.
 
-![](../images/azure-api-management/5-publisher-portal.png?raw=true)
+![](/images/azure-api-management/5-publisher-portal.png)
 
 Choose `OpenAPI specification` in `Add API` section.
 
-![](../images/azure-api-management/6-add-api.png?raw=true)
+![](/images/azure-api-management/6-add-api.png)
 
 Fill the url with location of you services, ended with `/openapi` or just click `Upload` button and upload OpenAPI json definition, which is available at `/openapi` path of your services.
 
-![](../images/azure-api-management/7-create-api.png?raw=true)
+![](/images/azure-api-management/7-create-api.png)
 
 After successfull import you should see list of available operations for your services
 
-![](../images/azure-api-management/8-created.png?raw=true)
+![](/images/azure-api-management/8-created.png)
 
