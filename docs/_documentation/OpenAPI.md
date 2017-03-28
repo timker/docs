@@ -228,27 +228,33 @@ And then enter username and password.
 
 Also you can click "Try it out" button on services, which requires authentication and browser will prompt a window with user/password field for entering basic auth credentials.
 
-Alternatively users can login outside of Swagger UI, to access protected Services in Swagger UI.
+Alternatively you can authenticate outside Swagger (e.g. via an OAuth Provider) which will also let you
+call protected Services in `/swagger-ui`.
 
+## Generating AutoRest client
 
-## Generating Autorest client
-
-You can use OpenAPI plugin to automatically generate client using [Autorest](https://guthub.com/Azure/Autorest). To do it, you need to install autorest first
+You can use OpenAPI plugin to automatically generate client using [Autorest](https://guthub.com/Azure/Autorest). 
+To use AutoRest first install it from npm:
 
     npm install -g autorest
 
-After installing open powershell console and download api specification json from you solution.
+Then you need to download the Open API specification for your Services using a tool like curl:
+
+    curl http://your.domain/openapi > openapi.json
+
+Or using `iwr` if you have PowerShell installed:
 
     iwr http://your.domain/openapi -o openapi.json
 
-Then generate client source code.
+You can then use the `openapi.json` with autorest to generate a client for your API in your preferred language, e.g:
 
-    autorest --latest-release -Input openapi.json -CodeGenerator CSharp -OutputDirectory AutorestClient -Namespace AutorestClient
+    autorest --latest-release -Input openapi.json -CodeGenerator CSharp -OutputDirectory AutoRestClient -Namespace AutoRestClient
 
-It will generate directory with model types and REST operations, accessible throught the client. To use it you can write following code:
+This will generate directory containing your model types and REST operations that you can use with the 
+generated client, e.g:
 
 ```csharp
-using (var client = new SampleProjectAutorestClient("http://localhost:20000"))
+using (var client = new SampleProjectAutoRestClient("http://localhost:20000"))
 {
     var dto = new SampleDto { /* .... */ }; 
     var result = client.SampleOperation.Post(body: dto);
@@ -256,6 +262,38 @@ using (var client = new SampleProjectAutorestClient("http://localhost:20000"))
     // process result
 }
 ```
+
+AutoRest clients will allow usage of tooling that have adopted AutoRest and is a good stop gap solution for generating
+native clients for languages that [Add ServiceStack Reference](/add-servicestack-reference) doesn't support yet like
+Python and Ruby.
+
+### AutoRest Generated Clients
+
+However AutoRest generated clients is similar to WCF Service Reference generated clients where the generated Client 
+emits both implementation logic and models for sending each request that's coupled to external HttpClient and JSON.NET 
+dependencies. This approach generates significantly more code generation that populates a directory containing
+[multiple implementation and Model classes](https://github.com/ServiceStack/ServiceStack/tree/master/tests/ServiceStack.OpenApi.Tests/GeneratedClient)
+generated for each Service.
+
+In contrast [Add ServiceStack Reference](/add-servicestack-reference) adopts the 
+venerable [Data Transfer Object](https://martinfowler.com/eaaCatalog/dataTransferObject.html), 
+[Gateway](https://martinfowler.com/eaaCatalog/gateway.html) and 
+[Remote Facade](https://martinfowler.com/eaaCatalog/remoteFacade.html) patterns where it only needs to generate
+clean, implementation-free DTO models that it captures in **a single source file** for all supported languages. 
+
+The generated DTOs are cleaner and more reusable where it isn't coupled to any Serialization implementation and
+can be reused in any of ServiceStack's 
+[Service Clients and Serialization Formats](http://docs.servicestack.net/csharp-client#httpwebrequest-service-clients)
+or different [Service Gateway](http://docs.servicestack.net/service-gateway) implementations.
+The models are also richer where it's able to include additional metadata attributes and marker interfaces 
+that isn't possible when tunneling through an API specification. 
+
+The use of intelligent generic Service Clients will always be able to provide a richer more productive development 
+experience that can enable higher-level functionality like being able to easily leverage value-added features like 
+[Structured Error Handling](/error-handling), [Smart HTTP Caching](/cache-aware-clients), 
+[Auto Batching](/auto-batched-requests), [Encrypted Messaging](/encrypted-messaging#encrypted-service-client), 
+[AutoQuery Streaming](/autoquery-rdbms#service-clients-support), 
+[Request Compression](/csharp-client#client--server-request-compression) and more.
 
 ### Known issues
 
