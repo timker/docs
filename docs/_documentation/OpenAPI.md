@@ -67,7 +67,7 @@ Please note, that if you used `ApiMember.DataType` for annotating `SwaggerFeatur
 ```
 need to be changed to 
 ```csharp
-[ApiMember(DataType="integer" Format="int32")]
+[ApiMember(DataType="integer", Format="int32")]
 ```
 
 Here is the table for type migration
