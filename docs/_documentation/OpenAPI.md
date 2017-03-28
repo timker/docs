@@ -1,6 +1,6 @@
 ---
 slug: openapi
-title: OpenAPI
+title: Open API
 ---
 
 ![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/openapi/openapi-banner.png)
