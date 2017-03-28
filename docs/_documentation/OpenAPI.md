@@ -61,18 +61,18 @@ public class MyRequestDto
 }
 ```
 
-Please note, that if you used `ApiMember.DataType` for annotating `SwaggerFeature` then you need to change the types to OpenAPI type. For example, annotation of 
+Please note, that if you used `ApiMember.DataType` for annotating `SwaggerFeature` then you need to change the types to OpenAPI type when migrating to `OpenApiFeature`. For example, annotation of 
 ```csharp
 [ApiMember(DataType="int")]
 ```
 need to be changed to 
 ```csharp
-[ApiMember(DataType="numeric" DataFormat="int32")]
+[ApiMember(DataType="integer" Format="int32")]
 ```
 
 Here is the table for type migration
 
-| Swagger Type (DataType) | OpenAPI Type (DataType) | OpenAPI Format (DataFormat) |
+| Swagger Type (DataType) | OpenAPI Type (DataType) | OpenAPI Format (Format) |
 |-------------------------|-------------------------|-----------------------------|
 | Array                   | array                   |                             |
 | boolean                 | boolean                 |                             |
