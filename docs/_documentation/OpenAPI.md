@@ -10,7 +10,7 @@ title: OpenAPI
 
 ## Installation
 
-You can enable OpenAPI by registering the `OpenApiFeature` plugin in AppHost with:
+You can enable Open API by registering the `OpenApiFeature` plugin in AppHost with:
 
 ```csharp
 public override void Configure(Container container)
@@ -18,27 +18,13 @@ public override void Configure(Container container)
     ...
     Plugins.Add(new OpenApiFeature());
 
-    // uncomment CORS feature if it's has to be available from external sites 
-    //Plugins.Add(new CorsFeature()); 
+    // Uncomment CORS feature if it needs to be accessible from external sites 
+    // Plugins.Add(new CorsFeature()); 
     ...
 }
 ```
 
 Then you will be able to view the Swagger UI from `/swagger-ui/`. A link to **Swagger UI** will also be available from your `/metadata` [Metadata Page](/metadata-page).
-
-#### Configuring ServiceStack with MVC
-
-If you're [Hosting ServiceStack with MVC](/mvc-integration) then you'll need to tell MVC to ignore the path where ServiceStack is hosted, e.g:
-
-```csharp
-routes.IgnoreRoute("api/{*pathInfo}"); 
-```
-
-For MVC4 projects, you'll also need to disable WebAPI:
-
-```csharp
-//WebApiConfig.Register(GlobalConfiguration.Configuration);
-```
 
 ## OpenAPI Attributes
 
@@ -135,10 +121,10 @@ Plugins.Add(new OpenApiFeature {
 
 ### OpenAPI operation filters
 
-You can override operation or parameter definitions by specifying appropriate `Action<>` in plugin configuration:
+You can override operation or parameter definitions by specifying the appropriate filter in plugin configuration:
 
 ```csharp
-Plugins.Add(new OpenApiFeature()
+Plugins.Add(new OpenApiFeature
 {
     OperationFilter = (verb, operation) => operation.Tags.Add("all operations")
 });
@@ -165,10 +151,25 @@ UseLowercaseUnderscoreSchemaPropertyNames - generate underscored lower cased pro
 Example:
 
 ```csharp
-Plugins.Add(new OpenApiFeature()
+Plugins.Add(new OpenApiFeature
 {
     UseCamelCaseSchemaPropertyNames = true,
     UseLowercaseUnderscoreSchemaPropertyNames = true
+});
+```
+
+### Change default Verbs
+
+If left unspecified, the `[Route]` attribute allows Services to be called from any HTTP Verb which by default 
+are listed in the Open API specification under the most popular HTTP Verbs, namely `GET`, `POST`, `PUT` and `DELETE`.
+
+This can be modified with `AnyRouteVerbs` which will let you specify which Verbs should be generated 
+for **ANY** Routes with unspecified verbs, e.g. we can restrict it to only emit routes for `GET` and `POST` Verbs with:
+
+```csharp
+Plugins.Add(new OpenApiFeature
+{
+    AnyRouteVerbs =  new List<string> { HttpMethods.Get, HttpMethods.Post }
 });
 ```
 
@@ -182,12 +183,11 @@ LogoUrl - url of the logo image for Swagger UI
 Example:
 
 ```csharp
-Plugins.Add(new OpenApiFeature()
+Plugins.Add(new OpenApiFeature
 {
     DisableAutoDtoInBodyParam = true
 });
 ```
-
 
 ## Virtual File System
 
