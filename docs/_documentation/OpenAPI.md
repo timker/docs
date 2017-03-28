@@ -3,6 +3,8 @@ slug: openapi
 title: OpenAPI
 ---
 
+![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/openapi/openapi-banner.png)
+
 [OpenAPI](http://swagger.io/) is a specification and complete framework implementation for describing, producing, consuming, and visualizing RESTful web services. ServiceStack implements the 
 [OpenAPI Spec](https://github.com/swagger-api/swagger-spec/blob/master/versions/2.0.md) back-end and embeds the Swagger UI front-end in a separate plugin which is available under [OpenAPI NuGet package](http://nuget.org/packages/ServiceStack.Api.OpenApi/):
 
