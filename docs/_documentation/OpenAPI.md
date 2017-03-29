@@ -289,7 +289,7 @@ The models are also richer where it's able to include additional metadata attrib
 that isn't possible when tunneling through an API specification. 
 
 The use of intelligent generic Service Clients will always be able to provide a richer more productive development 
-experience that can enable higher-level functionality like being able to easily leverage value-added features like 
+experience that can enable higher-level, value-added functionality like 
 [Structured Error Handling](/error-handling), [Smart HTTP Caching](/cache-aware-clients), 
 [Auto Batching](/auto-batched-requests), [Encrypted Messaging](/encrypted-messaging#encrypted-service-client), 
 [AutoQuery Streaming](/autoquery-rdbms#service-clients-support), 
