@@ -271,20 +271,18 @@ Python and Ruby.
 
 ### AutoRest Generated Clients
 
-However AutoRest generated clients is similar to WCF Service Reference generated clients where the generated Client 
-emits both implementation logic and models for sending each request that's coupled to external HttpClient and JSON.NET 
-dependencies. This approach generates significantly more code generation that populates a directory containing
+However AutoRest generated clients is similar to WCF Service Reference generated clients where the generated RPC-style Clients emits both implementation logic and models for sending each request that's coupled to external HttpClient and JSON.NET dependencies. This approach generates significantly more code generation that populates a directory containing
 [multiple implementation and Model classes](https://github.com/ServiceStack/ServiceStack/tree/master/tests/ServiceStack.OpenApi.Tests/GeneratedClient)
 generated for each Service.
 
 In contrast [Add ServiceStack Reference](/add-servicestack-reference) adopts the 
 venerable [Data Transfer Object](https://martinfowler.com/eaaCatalog/dataTransferObject.html), 
 [Gateway](https://martinfowler.com/eaaCatalog/gateway.html) and 
-[Remote Facade](https://martinfowler.com/eaaCatalog/remoteFacade.html) patterns where it only needs to generate
+[Remote Facade](https://martinfowler.com/eaaCatalog/remoteFacade.html) Service patterns where it only needs to generate
 clean, implementation-free DTO models that it captures in **a single source file** for all supported languages. 
 
 The generated DTOs are cleaner and more reusable where it isn't coupled to any Serialization implementation and
-can be reused in any of ServiceStack's 
+can be reused in any of ServiceStack's message-based 
 [Service Clients and Serialization Formats](http://docs.servicestack.net/csharp-client#httpwebrequest-service-clients)
 or different [Service Gateway](http://docs.servicestack.net/service-gateway) implementations.
 The models are also richer where it's able to include additional metadata attributes and marker interfaces 
