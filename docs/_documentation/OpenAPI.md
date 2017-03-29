@@ -134,21 +134,17 @@ Plugins.Add(new OpenApiFeature
 
 Available configuration options:
 
-```
-ApiDeclarationFilter - allows to modify final result of returned OpenAPI json
-OperationFilter - allows to modify operations
-SchemaFilter - allows to modify OpenAPI schema for user types
-SchemaPropertyFilter - allows to modify propery declarations in OpenAPI schema
-```
+- `ApiDeclarationFilter` - allows to modify final result of returned OpenAPI json
+- `OperationFilter` - allows to modify operations
+- `SchemaFilter` - allows to modify OpenAPI schema for user types
+- `SchemaPropertyFilter` - allows to modify propery declarations in OpenAPI schema
 
 ### Properties naming conventions
 
 You can control naming conventions of generated properties by following configuration options:
 
-```
-UseCamelCaseSchemaPropertyNames - generate camel case property names
-UseLowercaseUnderscoreSchemaPropertyNames - generate underscored lower cased property names (to enable this feature UseCamelCaseModelPropertyNames must also be set) 
-```
+- `UseCamelCaseSchemaPropertyNames` - generate camel case property names
+- `UseLowercaseUnderscoreSchemaPropertyNames` - generate underscored lower cased property names (to enable this feature `UseCamelCaseModelPropertyNames` must also be set) 
 
 Example:
 
@@ -177,10 +173,8 @@ Plugins.Add(new OpenApiFeature
 
 ### Miscellaneous configuration options
 
-```
-DisableAutoDtoInBodyParam - disables adding `body` parameter for request DTO to operations
-LogoUrl - url of the logo image for Swagger UI
-```
+- `DisableAutoDtoInBodyParam` - disables adding `body` parameter for request DTO to operations
+- `LogoUrl` - url of the logo image for Swagger UI
 
 Example:
 
@@ -199,13 +193,11 @@ The docs on the Virtual File System shows how to override embedded resources:
 
 ServiceStack's [Virtual File System](/virtual-file-system) supports multiple file source locations where you can override OpenAPI's embedded files by including your own custom files in the same location as the existing embedded files. This lets you replace built-in ServiceStack embedded resources with your own by simply copying the [/swagger-ui](https://github.com/ServiceStack/ServiceStack/tree/master/src/ServiceStack.Api.OpenApi/swagger-ui) files you want to customize and placing them in your Website Directory at:
 
-```
-/swagger-ui
-  /css
-  /images
-  /lib
-  index.html
-```
+    /swagger-ui
+    /css
+    /images
+    /lib
+    index.html
 
 ### Basic Auth in OpenAPI
 
