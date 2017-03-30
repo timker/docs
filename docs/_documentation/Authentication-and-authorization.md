@@ -138,9 +138,9 @@ By default the `CredentialsAuthProvider` and `BasicAuthProvider` validate agains
 
 A good starting place to create your own Auth provider that relies on username/password validation is to subclass `CredentialsAuthProvider` and override the `bool TryAuthenticate(service, username, password)` hook so you can add in your own implementation. If you want to make this available via BasicAuth as well you will also need to subclass `BasicAuthProvider` with your own custom implementation.
 
-### UserAuth Persistence - the [IUserAuthRepository](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/IAuthRepository.cs#L19)
+### User Auth Repository
 
-The Authentication module allows you to use your own persistence back-ends but for the most part you should be able to use one of the existing InMemory, Redis, OrmLite or MongoDB adapters. Use the OrmLite adapter if you want to store the Users Authentication information in any of the RDBMS's that [OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) supports, which as of this writing includes Sql Server, Sqlite, MySql, PostgreSQL and Firebird. 
+The Authentication module allows you to use your own persistence back-ends but for the most part you should be able to reuse one of the existing [IUserAuthRepository](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/Auth/IAuthRepository.cs): 
 
   - **OrmLite**: `OrmLiteAuthRepository` in [ServiceStack.Server](https://nuget.org/packages/ServiceStack.Server)
     - [OrmLiteAuthRepositoryMultitenancy](/multitenancy#multitenancy-rdbms-authprovider)
@@ -150,16 +150,29 @@ The Authentication module allows you to use your own persistence back-ends but f
   - **Mongo DB**: `MongoDBAuthRepository` in [ServiceStack.Authentication.MongoDB](https://nuget.org/packages/ServiceStack.Authentication.MongoDB)
   - **Raven DB**: `RavenUserAuthRepository` in [ServiceStack.Authentication.RavenDB](https://nuget.org/packages/ServiceStack.Authentication.RavenDB)
 
-### Caching / Sessions - the [ICacheClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClient.cs)
+Use the OrmLite adapter if you want to store the Users Authentication information in any of the RDBMS's that 
+[OrmLite](https://github.com/ServiceStack/ServiceStack.OrmLite) supports. 
 
-Once authenticated the **AuthUserSession** model is populated and stored in the Cache using one of ServiceStack's [supported Caching providers](/caching). ServiceStack's Sessions simply uses the `ICacheClient` API so any new provider added can be used for both Session and Caching options. Which currently include the following implementations:
+### Session Persistence
+
+Once authenticated the **AuthUserSession** model is populated and stored in the Cache using one of ServiceStack's [supported Caching providers](/caching). ServiceStack's Sessions simply uses the 
+[ICacheClient](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ICacheClient.cs)
+API so any new provider added can be used for both Session and Caching, which currently includes:
 
   - **In Memory**: `MemoryCacheClient` in [ServiceStack](https://nuget.org/packages/ServiceStack)
   - **Redis**: `RedisClient`, `PooledRedisClientManager` or `BasicRedisClientManager` in [ServiceStack.Redis](https://nuget.org/packages/ServiceStack.Redis)
+  - **OrmLite**: `OrmLiteCacheClient` in [ServiceStack.Server](https://nuget.org/packages/ServiceStack.Server)
   - **Memcached**: `MemcachedClientCache` in [ServiceStack.Caching.Memcached](https://nuget.org/packages/ServiceStack.Caching.Memcached)
   - **AWS DynamoDB**: `DynamoDbCacheClient` in [ServiceStack.Aws](https://nuget.org/packages/ServiceStack.Aws)
   - **Azure**: `AzureCacheClient` in [ServiceStack.Caching.Azure](https://nuget.org/packages/ServiceStack.Caching.Azure)
-The Auth Feature also allows you to specify your own custom `IUserAuthSession` type so you can attach additional metadata to your users session which will also get persisted and hydrated from the cache. 
+
+The Auth Feature also allows you to specify your own custom `IUserAuthSession` type where you can capture additional metadata with your users session which will also get persisted and hydrated from the cache, e.g: 
+
+```csharp
+Plugins.Add(new AuthFeature(() => new CustomUserSession(), 
+    ...
+));
+```
 
 > Note: If you're using Custom Sessions and have `JsConfig.ExcludeTypeInfo=true`, you need to [explicitly enable it](http://stackoverflow.com/q/18842685/85785) with `JsConfig<TCustomSession>.IncludeTypeInfo=true`.
 
@@ -170,7 +183,7 @@ public class SecuredService : Service
 {
     public object Get(Secured request)
     {
-        IAuthSession session = this.GetSession();
+        var session = this.SessionAs<AuthUserSession>();
         return new SecuredResponse() { Test = "You're" + session.FirstName };
     }
 }
