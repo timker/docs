@@ -149,6 +149,7 @@
     - [Encrypted Service Client](/encrypted-messaging#encrypted-service-client)
 - Plugins
     - [Overview](/plugins)
+    - [Open API](/openapi)
     - [Swagger API](/swagger-api)
     - [Postman](/postman)
     - [CORS Feature](/corsfeature)

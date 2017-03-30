@@ -70,6 +70,9 @@ title: ServiceStack Resources
     - [Overview](/clients-overview)
     - [C#/.NET client](/csharp-client)
         - [.NET Core Clients](https://github.com/ServiceStack/ServiceStack/blob/netcore/docs/pages/netcore.md)
+    - [TypeScript client](/typescript-add-servicestack-reference#typescript-serviceclient)
+    - [Java Client](/java-add-servicestack-reference#jsonserviceclient-api)
+    - [Swift Client](/swift-add-servicestack-reference#swift-client-usage)
     - [Add ServiceStack Reference](/add-servicestack-reference)
         - [C# Add Reference](/csharp-add-servicestack-reference)
         - [TypeScript Add Reference](/typescript-add-servicestack-reference)
@@ -90,6 +93,7 @@ title: ServiceStack Resources
     - [CSV Format](/csv-format)
     - [MessagePack Format](/messagepack-format)
     - [ProtoBuf Format](/protobuf-format)
+    - [Wire Format](/wire-format)
     - [HTML5 Report Format](/html5reportformat)
 
 - View Engines
@@ -166,8 +170,10 @@ title: ServiceStack Resources
 
 - Server Events
     - [Overview](/server-events)
+    - [C# Client](/csharp-server-events-client)
+    - [TypeScript Client](/typescript-server-events-client)
+    - [Java Client](/java-server-events-client)
     - [JavaScript Client](/javascript-server-events-client)
-    - [C# Server Events Client](/csharp-server-events-client)
     - [Redis Server Events](/redis-server-events)
 
 - Service Gateway
@@ -180,6 +186,7 @@ title: ServiceStack Resources
   
 - Plugins
     - [Overview](/plugins)
+    - [Open API](/openapi)
     - [Swagger API](/swagger-api)
     - [Postman](/postman)
     - [CORS Feature](/corsfeature)
