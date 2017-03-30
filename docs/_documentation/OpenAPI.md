@@ -261,9 +261,10 @@ AutoRest clients will allow usage of tooling that have adopted AutoRest and is a
 native clients for languages that [Add ServiceStack Reference](/add-servicestack-reference) doesn't support yet like
 Python and Ruby.
 
-### AutoRest Generated Clients
+### AutoRest Generated Clients vs Add ServiceStack Reference
 
-However AutoRest generated clients is similar to WCF Service Reference generated clients where the generated RPC-style Clients emits both implementation logic and models for sending each request that's coupled to external HttpClient and JSON.NET dependencies. This approach generates significantly more code generation that populates a directory containing
+However AutoRest generated clients are similar to WCF Service Reference generated clients where it generates RPC-style Clients that emits both implementation logic and models for sending each request that's coupled to external HttpClient 
+and JSON.NET dependencies. This approach generates significantly more code generation that populates a directory containing
 [multiple implementation and Model classes](https://github.com/ServiceStack/ServiceStack/tree/master/tests/ServiceStack.OpenApi.Tests/GeneratedClient)
 generated for each Service.
 
@@ -275,21 +276,21 @@ clean, implementation-free DTO models that it captures in **a single source file
 
 The generated DTOs are cleaner and more reusable where it isn't coupled to any Serialization implementation and
 can be reused in any of ServiceStack's message-based 
-[Service Clients and Serialization Formats](http://docs.servicestack.net/csharp-client#httpwebrequest-service-clients)
-or different [Service Gateway](http://docs.servicestack.net/service-gateway) implementations.
+[Service Clients and Serialization Formats](/csharp-client#httpwebrequest-service-clients)
+or different [Service Gateway](/service-gateway) implementations.
 The models are also richer where it's able to include additional metadata attributes and marker interfaces 
-that isn't possible when tunneling through an API specification. 
+that isn't possible when tunneling through a generic API specification. 
 
 The use of intelligent generic Service Clients will always be able to provide a richer more productive development 
 experience that can enable higher-level, value-added functionality like 
 [Structured Error Handling](/error-handling), [Smart HTTP Caching](/cache-aware-clients), 
 [Auto Batching](/auto-batched-requests), [Encrypted Messaging](/encrypted-messaging#encrypted-service-client), 
 [AutoQuery Streaming](/autoquery-rdbms#service-clients-support), 
-[Request Compression](/csharp-client#client--server-request-compression) and more.
+[Request Compression](/csharp-client#client--server-request-compression), integrated authentication and lots more.
 
 ### Known issues
 
-Autorest generated clients do not support `application/octet-stream` MIME type, which is used when service returns `byte[]` array. There is an [issue](https://github.com/Azure/autorest/issues/1932) you can track.
+Autorest generated clients do not support `application/octet-stream` MIME type, which is used when service returns `byte[]` array. You can track [this issue on Github](https://github.com/Azure/autorest/issues/1932).
 
 ## Publish Azure Management API
 
