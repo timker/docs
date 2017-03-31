@@ -157,8 +157,55 @@ img {
     margin: 6px;
 }
 
+@media(min-width:1200px) {
+    #wrapper, #wrapper.toggled {
+        padding-left: 0;
+    }
+    #logo img {
+        width: 274px;
+    }
+    #sidebar-wrapper {
+        width: 330px;
+    }
+    #page-content-wrapper {
+        width: auto;
+        max-width: 1024px;
+        padding: 10px;
+        margin: 0 0 0 320px;
+        -webkit-transition: all 0.5s ease;
+        -moz-transition: all 0.5s ease;
+        -o-transition: all 0.5s ease;
+        transition: all 0.5s ease;
+    }
+    .menu-collapsed #page-content-wrapper {
+        margin: 0;
+    }
+    #menu-toggle {
+        display: block;
+        font-size: 30px;
+        color: #999;
+        padding: 0 0 0 10px;
+        position: fixed;
+        left: 285px;
+        top: 0;
+    }
+    .menu-collapsed #menu-toggle {
+        padding: 0 0 0 10px;
+        position: initial;
+    }
+    .menu-collapsed #sidebar-wrapper {
+        width: 40px !important;
+        height: 36px;
+        overflow: hidden;
+    }
+    .menu-collapsed #sidebar-wrapper h2 {
+        display: none;
+    }
+}
+
 /* <= iPad landscape */
-@media only screen and (max-width:1024px) {
+@media only screen 
+and (max-device-width:1024px) {
     #wrapper, #wrapper.toggled {
         padding-left: 0;
     }
