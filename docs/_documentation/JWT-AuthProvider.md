@@ -441,6 +441,89 @@ var jwtToken = authClient.Send(new Authenticate {
 }).BearerToken;
 ```
 
+## Refresh Tokens
+
+Just like JWT Tokens, Refresh Tokens are populated on the `AuthenticateResponse` DTO after successfully 
+authenticating via any registered Auth Provider, e.g:
+
+```csharp
+var response = client.Post(new Authenticate {
+    provider = "credentials",
+    UserName = userName,
+    Password = password,
+});
+
+var jwtToken = response.BearerToken;
+var refreshToken = response.RefreshToken;
+```
+
+### Automatically refreshing Access Tokens
+
+The `RefreshToken` property in all Service Clients can be used to instruct the client to automatically 
+retrieve a new JWT Token behind-the-scenes when the original JWT token has expired, e.g:
+
+```csharp
+var client = new JsonServiceClient(baseUrl) {
+    BearerToken = jwtToken,
+    RefreshToken = refreshToken,
+};
+
+var response = client.Send(new Secured());
+```
+
+You don't even need to configure the client with a JWT Token as it will also fetch a new one on first use:
+
+```csharp
+var client = new JsonServiceClient(baseUrl) {
+    RefreshToken = refreshToken,
+};
+
+var response = client.Send(new Secured());
+```
+
+### Using an alternative JWT Server
+
+By default Service Clients will assume they should call the same ServiceStack Instance at the BaseUrl it's 
+configured with to fetch new JWT Tokens. If instead refresh tokens need to be sent to a different server, 
+it can be specified using the `RefreshTokenUri` property, e.g:
+
+```csharp
+var client = new JsonServiceClient(baseUrl) {
+    RefreshToken = refreshToken,
+    RefreshTokenUri = authBaseUrl + "/access-token"
+};
+```
+
+### Handling Refresh Tokens Expiring
+
+For the case when Refresh Tokens themselves expire the `WebServiceException` is wrapped in a typed 
+`RefreshTokenException` to make it easier to handle initiating the flow to re-authenticate the User, e.g:
+
+```csharp
+try
+{
+    var response = client.Send(new Secured());
+} 
+catch (RefreshTokenException ex) 
+{
+    // re-authenticate to get new RefreshToken
+}
+```
+
+### Lifetimes of tokens
+
+The default expiry time of JWT and Refresh Tokens below can be overridden when registering the `JwtAuthProvider`:
+
+```csharp
+new JwtAuthProvider {
+    ExpireTokensIn        = TimeSpan.FromDays(14),  // JWT Token Expiry
+    ExpireRefreshTokensIn = TimeSpan.FromDays(365), // Refresh Token Expiry
+}
+```
+
+These expiry times are use-case specific so you'll want to check what values are appropriate for your System.
+The `ExpireTokensIn` property controls how long a client is allowed to make Authenticated Requests with the same JWT Token, whilst the `ExpireRefreshTokensIn` property controls how long the client can keep requesting new JWT Tokens using the same Refresh Token before needing to re-authenticate and generate a new one.
+
 ### Convert Sessions to Tokens
 
 Another useful Service that `JwtAuthProvider` provides is being able to Convert your current Authenticated
