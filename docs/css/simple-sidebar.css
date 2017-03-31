@@ -157,7 +157,7 @@ img {
     margin: 6px;
 }
 
-@media(min-width:1024px) {
+@media(min-width:1200px) {
     #menu-toggle {
         display: none;
     }
