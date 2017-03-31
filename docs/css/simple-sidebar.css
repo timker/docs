@@ -157,7 +157,7 @@ img {
     margin: 6px;
 }
 
-@media(min-width:1200px) {
+@media(max-width:1200px) {
     #wrapper, #wrapper.toggled {
         padding-left: 0;
     }
