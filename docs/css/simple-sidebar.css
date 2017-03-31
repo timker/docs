@@ -157,48 +157,37 @@ img {
     margin: 6px;
 }
 
-@media(min-width:1200px) {
-    #wrapper, #wrapper.toggled {
-        padding-left: 0;
-    }
-    #logo img {
-        width: 274px;
-    }
-    #sidebar-wrapper {
-        width: 330px;
-    }
-    #page-content-wrapper {
-        width: auto;
-        max-width: 1024px;
-        padding: 10px;
-        margin: 0 0 0 320px;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 0.5s ease;
-    }
-    .menu-collapsed #page-content-wrapper {
-        margin: 0;
-    }
+@media(min-width:1024px) {
     #menu-toggle {
-        display: block;
-        font-size: 30px;
-        color: #999;
-        padding: 0 0 0 10px;
-        position: fixed;
-        left: 285px;
-        top: 0;
+        display: none;
     }
-    .menu-collapsed #menu-toggle {
-        padding: 0 0 0 10px;
-        position: initial;
+    #wrapper {
+        padding-left: 350px;
     }
-    .menu-collapsed #sidebar-wrapper {
-        width: 40px !important;
-        height: 36px;
-        overflow: hidden;
+
+    #wrapper.toggled {
+        padding-left: 45px;
     }
-    .menu-collapsed #sidebar-wrapper h2 {
+
+    #sidebar-wrapper {
+        width: 350px;
+    }
+
+    #wrapper.toggled #sidebar-wrapper {
+        width: 45px;
+    }
+
+    #page-content-wrapper {
+        padding: 20px;
+        position: relative;
+    }
+
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+
+    .toggled .side-nav-container {
         display: none;
     }
 }
