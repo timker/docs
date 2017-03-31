@@ -541,7 +541,6 @@ More examples of `ServerEventClient` usage can be found in the Test Suites below
 
 ## [Android Java Chat](https://github.com/ServiceStackApps/AndroidJavaChat)
 
-Native Java port of [C# Xamarin Android Chat](https://github.com/ServiceStackApps/AndroidXamarinChat) utilizing
-built-in Facebook and Twitter SDK's enabling seamless persistent Authentication:
+Java Chat client utilizing [Server Events](/java-server-events-client) for real-time notifications and enabling seamless OAuth Sign In's using Facebook, Twitter and Google's native SDKs:
 
 [![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/java/java-android-chat-screenshot-540x960.png)](https://github.com/ServiceStackApps/AndroidJavaChat)
