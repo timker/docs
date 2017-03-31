@@ -157,44 +157,9 @@ img {
     margin: 6px;
 }
 
-@media(min-width:1200px) {
-    #menu-toggle {
-        display: none;
-    }
-    #wrapper {
-        padding-left: 350px;
-    }
-
-    #wrapper.toggled {
-        padding-left: 45px;
-    }
-
-    #sidebar-wrapper {
-        width: 350px;
-    }
-
-    #wrapper.toggled #sidebar-wrapper {
-        width: 45px;
-    }
-
-    #page-content-wrapper {
-        padding: 20px;
-        position: relative;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-    }
-
-    .toggled .side-nav-container {
-        display: none;
-    }
-}
-
 /* <= iPad landscape */
-@media only screen 
-and (max-device-width:1024px) {
+@media(max-width:1200px), 
+@media only screen and (max-device-width:1024px) {
     #wrapper, #wrapper.toggled {
         padding-left: 0;
     }

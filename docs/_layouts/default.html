@@ -71,7 +71,7 @@
 
     // Add .active class to active link + scroll into view
     var pathinfo = location.pathname + location.hash;
-    if (screenWidth > 768 && pathinfo != "/")
+    if (screenWidth > 1024 && pathinfo != "/")
     {
         var scrollItem = $("#sidebar-wrapper").find("a[href='" + pathinfo + "']")
                 .addClass('active')
