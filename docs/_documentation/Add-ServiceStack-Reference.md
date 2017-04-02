@@ -204,6 +204,19 @@ There's also the rarer option when you only want a service accessible from exter
 public class RestrictedToExternalRequests { }
 ```
 
+### Enable Versioning
+
+You can implement our [recommended Versioning strategy](http://stackoverflow.com/a/12413091/85785) 
+and embed a version number to all generated Request DTOs by specifying an `AddImplicitVersion`, 
+either globally on the Server in your AppHost:
+
+```csharp
+var nativeTypes = this.GetPlugin<NativeTypesFeature>();
+nativeTypes.MetadataTypesConfig.AddImplicitVersion = 1;
+```
+
+Alternatively you can configure [AddImplicitVersion in client Options](/csharp-add-servicestack-reference#addimplicitversion).
+
 ### How it works
 
 The Add ServiceStack Reference dialog just takes the URL provided and requests the appropriate route for the current project. Eg, for C#, the path used is at `/types/csharp`. The defaults are specified by the server and the resultant DTOs are saved and added the the project as {Name}.dtos.{LanguageExtension}. The `Update ServiceStack Reference` menu is available when any file matches same naming convention of {Name}.dtos.{LanguageExtension}. An update then looks at the comments at the top of the file and parses them to provide overrides when requesting new DTOs from the server. ServiceStackVS also watches these DTO files for updates, so just by saving them these files are updated from the server.

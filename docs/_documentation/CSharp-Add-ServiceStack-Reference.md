@@ -211,6 +211,12 @@ public class GetAnswersResponse
 
 ### AddImplicitVersion
 
+Usage: 
+```
+/* Options:
+AddImplicitVersion: 1
+```
+
 Lets you specify the Version number to be automatically populated in all Request DTOs sent from the client: 
 
 ```csharp
