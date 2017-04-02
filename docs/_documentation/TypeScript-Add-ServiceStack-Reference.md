@@ -88,9 +88,11 @@ You can get both concrete types and interface definitions for your Services at t
   - [/types/typescript](http://techstacks.io/types/typescript) - for generating concrete types
   - [/types/typescript.d](http://techstacks.io/types/typescript.d) - for generating ambient interface definitions
 
-## [Add ServiceStack Reference](/add-servicestack-reference)
+## Add TypeScript Reference
 
-The easiest way to Add a ServiceStack reference to your project is to **right-click** on a folder to bring up 
+The easiest way to 
+[Add a ServiceStack Reference](](/add-servicestack-reference)) 
+to your project is to **right-click** on a folder to bring up 
 [ServiceStackVS's](/create-your-first-webservice)
 VS.NET context-menu item, then click on `Add -> TypeScript Reference...`. This opens a dialog where you can 
 add the url of the ServiceStack instance you want to typed DTO's for, as well as the name of the DTO source 
