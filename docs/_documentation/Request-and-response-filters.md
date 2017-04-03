@@ -39,6 +39,26 @@ this.GlobalResponseFilters.Add((req, res, responseDto) => {
 
 Tip: If you're writing your own response to the response stream inside the response filter, add `res.EndRequest();` to signal to ServiceStack not to do anymore processing for this request.
 
+
+### Async Global Request Filters
+
+Use `GlobalRequestFiltersAsync` when you need to make async requests in your Global Request Filters, e.g:
+
+```csharp
+GlobalRequestFiltersAsync.Add(async (req,res,dto) => {
+    var response = await client.Send(new CheckRateLimit { 
+        Service = dto.GetType().Name,
+        IpAddress = req.UserHostAddress,
+     });
+     if (response.RateLimitExceeded) 
+     {
+         res.StatusCode = 403;
+         res.StatusDescription = "RateLimitExceeded";
+         res.EndRequest();
+     }
+})
+```
+
 ### Typed Request Filters
 
 A more typed API to register Global Request and Response filters per Request DTO Type are available under the `RegisterTyped*` API's in AppHost where you can register both typed Request and Response Filters for HTTP and MQ Services independently:

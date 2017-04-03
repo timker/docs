@@ -185,6 +185,37 @@ Like services registered in the IoC container, validators are also auto-wired, s
 
 > **Tip:** You can access the current `IRequest` in your Custom Validator from `base.Request`
 
+### Async Validators
+
+Async validators can be registered using the `MustAsync` validator where you could simulate the following built-in **Not Empty** validation:
+
+```csharp
+public class MyRequestValidator : AbstractValidator<MyRequest>
+{
+    public MyRequestValidator()
+    {
+        RuleFor(x => x.Name).NotEmpty();
+    }
+}
+```
+
+And replace it with an Async version that uses the [Service Gateway](/service-gateway) to 
+call a custom Async `GetStringLength` Service that returns the same `ErrorCode` and Error Message as the 
+**Not Empty** validator:
+
+```csharp
+public class MyRequestValidator : AbstractValidator<MyRequest>
+{
+    public MyRequestValidator()
+    {
+        RuleFor(x => x.Name).MustAsync(async (s, token) => 
+            (await Gateway.SendAsync(new GetStringLength { Value = s })).Result > 0)
+        .WithMessage("'Name' should not be empty.")
+        .WithErrorCode("NotEmpty");
+    }
+}
+```
+
 ### Register Validators
 
 All validators have to be registered in the IoC container, a convenient way to register all validators which exist in one assembly is to use `RegisterValidators()`, e.g:
