@@ -524,6 +524,12 @@ new JwtAuthProvider {
 These expiry times are use-case specific so you'll want to check what values are appropriate for your System.
 The `ExpireTokensIn` property controls how long a client is allowed to make Authenticated Requests with the same JWT Token, whilst the `ExpireRefreshTokensIn` property controls how long the client can keep requesting new JWT Tokens using the same Refresh Token before needing to re-authenticate and generate a new one.
 
+#### Requires User Auth Repository
+
+One limitation for Refresh Tokens support is that it must be configured to use a 
+[User Auth Repository](/authentication-and-authorization#user-auth-repository)
+which is the persisted data source used to rehydrate the User Session that's embedded in the JWT Token.
+
 ### Convert Sessions to Tokens
 
 Another useful Service that `JwtAuthProvider` provides is being able to Convert your current Authenticated
@@ -741,6 +747,18 @@ class JwtAuthProviderReader
 
     // How long should JWT Tokens be valid for. (default 14 days)
     TimeSpan ExpireTokensIn
+
+    // Convenient overload to initialize ExpireTokensIn with an Integer
+    int ExpireTokensInDays
+
+    // How long should JWT Refresh Tokens be valid for. (default 365 days)
+    TimeSpan ExpireRefreshTokensIn 
+
+    // Allow custom logic to invalidate JWT Tokens
+    Func<JsonObject, IRequest, bool> ValidateToken
+
+    // Allow custom logic to invalidate Refresh Tokens
+    Func<JsonObject, IRequest, bool> ValidateRefreshToken
 
     // Whether to invalidate all JWT Tokens issued before a specified date.
     DateTime? InvalidateTokensIssuedBefore
