@@ -361,6 +361,52 @@ To Authenticate with your `CustomCredentialsAuthProvider` (which inherits from C
 
 When the client now tries to authenticate with the request above and the auth succeeded, the client will retrieve some cookies with a session id which identify the client on each Web Service call.
 
+### Authentication via OAuth AccessTokens 
+
+To improve OAuth Sign In integration from native Mobile or Desktop Apps you can also Authenticate via AccessTokens which can dramatically simplify the Development and User Experience by being able to leverage the Native Facebook, Twitter and Google Client SDK's to Sign In users locally then reuse their local **AccessToken** to Authenticate with back-end ServiceStack Servers. 
+
+Example usage of this feature is in the [Integrated Facebook, Twitter and Google Logins](https://github.com/ServiceStackApps/AndroidJavaChat/#integrated-facebook-twitter-and-google-logins)
+in Android Java Chat which is also able to [Automatically Sign In users with saved AccessTokens](https://github.com/ServiceStackApps/AndroidJavaChat#automatically-sign-in-previously-signed-in-users).
+
+This capability is available on the popular OAuth Providers below:
+
+- `FacebookAuthProvider` - Sign in with Facebook
+- `TwitterAuthProvider` - Sign in with Twitter
+- `GithubAuthProvider` - Sign in with Github
+- `GoogleOAuth2Provider` - Sign in with Google
+
+It can also be enabled in other OAuth2 Providers by implementing `VerifyAccessToken` to manually 
+validate whether the provided AccessToken is valid with the registered OAuth App. The API to validate Access 
+Tokens isn't part of the OAuth2 specification and is different (and often missing) for other OAuth2 providers. 
+
+As an example, the `GoogleOAuth2Provider` uses a `VerifyAccessToken` implementation that's similar to:
+
+```csharp
+new GoogleOAuth2Provider {
+    VerifyAccessToken = accessToken => {
+        var url = $"https://www.googleapis.com/oauth2/v1/tokeninfo?access_token={accessToken}";
+        var json = url.GetJsonFromUrl();
+        var obj = JsonObject.Parse(json);
+        return obj["issued_to"] == ConsumerKey;
+    }
+}
+```
+
+#### Client Authentication with AccessToken
+
+Clients can utilize this feature with the new `AccessToken` and `AccessTokenSecret` properties on the existing
+`Authenticate` request DTO, sent with the **provider** that the AccessToken is for, e.g:
+
+```csharp
+var response = client.Post(new Authenticate {
+    provider = "facebook",
+    AccessToken = facebookAccessToken,
+    RememberMe = true,
+});
+```
+
+> Most OAuth Providers only require sending an `AccessToken` with Twitter being the exception which also requires sending an `AccessTokenSecret`.
+
 ### User Sessions Cache
 
 ServiceStack uses the [Cache Provider](/caching) which was registered in the IoC container:
