@@ -2,6 +2,8 @@
 slug: server-events
 ---
 
+![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/server-events/server-events-banner.png)
+
 [Server Sent Events](http://www.html5rocks.com/en/tutorials/eventsource/basics/) (SSE) is an elegant [web technology](http://dev.w3.org/html5/eventsource/) for efficiently receiving push notifications from any HTTP Server. It can be thought of as a mix between long polling and one-way WebSockets and contains many benefits over each:
 
   - **Simple** - Server Sent Events is just a single long-lived HTTP Request that any HTTP Server can support
@@ -10,16 +12,46 @@ slug: server-events
   - **Interoperable** - As it's just plain-old HTTP, it's introspectable with your favorite HTTP Tools and even works through HTTP proxies (with buffering and [chunked-encoding turned off](http://www.w3.org/TR/2011/WD-eventsource-20111020/#notes)).
   - **Well Supported** - As a Web Standard it's supported in all major browsers except for IE which [can be enabled with polyfills](http://html5doctor.com/server-sent-events/#yaffle) - see [default_ieshim.cshtml](https://github.com/ServiceStackApps/Chat/blob/master/src/Chat/default_ieshim.cshtml) and its [Live Chat Example](http://chat.servicestack.net/default_ieshim).
 
-We've chosen to adopt Server Sent Events for Server Notifications as it's a beautifully simple and elegant [Web Standard](http://dev.w3.org/html5/eventsource/) with better HTTP fidelity than **WebSockets**, that's perfect fit for Server Push Communications that works in both ServiceStack' ASP.NET and SelfHosts without requiring any extra .NET dependencies or [require the host Windows Server have WebSockets support](http://stackoverflow.com/a/12073593/85785) to use. 
+We've chosen to adopt Server Sent Events for Server Notifications as it's a beautifully simple and elegant [Web Standard](http://dev.w3.org/html5/eventsource/) with better HTTP fidelity than **WebSockets**, that's perfect fit for Server Push Communications that works in both ServiceStack' ASP.NET, SelfHosts and .NET Core without requiring any extra .NET dependencies or [require the host Windows Server have WebSockets support](http://stackoverflow.com/a/12073593/85785) to use. 
+
+Our integrated and high-performance solution enhances this simple lightweight protocol with rich pub/sub features allowing for [flexible and targeted messaging](/server-events#sending-server-events)
+and intelligent clients enabling a variety of different strategies for easily handling events, includes built-in APIs for easily modifying active subscriptions and querying the state of subscribed channels as well as built-in heartbeats and auto-retries for establishing hassle-free persistent connections to backend servers.
 
 ### Server Event Clients
 
-  - [C# Client](/csharp-server-events-client)
-  - [TypeScript Client](/typescript-server-events-client)
-  - [Java Client](/java-server-events-client)
-  - [JavaScript Client](/javascript-server-events-client)
+Our native Server Event clients covers the most popular Mobile, Desktop and Server platforms with new first-class implementations for Android, Java and TypeScript which now includes:
+
+ - [C# Server Events Client](/csharp-server-events-client)
+    - Xamarin.iOS
+    - Xamarin.Android
+    - UWP
+    - .NET Framework 4.5+
+    - .NET Core (.NET Standard 1.3+)
+- [TypeScript Server Events Client](/typescript-server-events-client)
+    - Web
+    - Node.js Server
+    - React Native
+        - iOS
+        - Android
+- [Java Server Events Client](/java-server-events-client)
+    - Android
+    - JVM 1.7+ (Java, Kotlin, Scala, etc)
+        - Java Clients
+        - Java Servers
+- [JavaScript (jQuery plugin)](/javascript-server-events-client)
+    - Web
+
+Our C#, TypeScript and Java Server Event Clients are ports with full feature parity as C#, offering the same functionality behind idiomatic APIs for their respective programming language. The Integration test suite has also been ported to each platform to assert behavior conformance and provides a good reference showcasing the aesthetics of using Server Events Clients in each language:
+
+ - [C# Server Events Integration Tests](https://github.com/ServiceStack/ServiceStack/blob/master/tests/ServiceStack.WebHost.Endpoints.Tests/ServerEventTests.cs)
+ - [TypeScript  Server Events Integration Tests](https://github.com/ServiceStack/servicestack-client/blob/master/tests/serverevents.spec.ts)
+ - [Java 8 / JVM Server Events Integration Tests](https://github.com/ServiceStack/ServiceStack.Java/blob/master/src/AndroidClient/client/src/test/java/net/servicestack/client/ServerEventClientTests.java)
+ - [Java 7 / Android Server Events Integration Tests](https://github.com/ServiceStack/ServiceStack.Java/blob/master/src/AndroidClient/android/src/androidTest/java/net/servicestack/android/ServerEventClientTests.java)
 
 ### Server Event Providers
+
+There are 2 Server Implementations of Server Events available, the default In Memory provider enables sending
+real-time communications to all clients subscribed to the same ServiceStack Instance whilst Redis Server Events utilizes a distributed redis-server back-end to provide a scale-out option capable of serving across multiple fan-out/load-balanced App Servers: I
 
   - Memory Server Events (default)
   - [Redis Server Events](/redis-server-events)
@@ -455,6 +487,18 @@ If your web server is configured to automatically buffer the response it will de
 Alternatively you can switch to use Visual Studio Development Server which doesn't buffer by default.
 
 ## ServerEvents Examples
+
+### [Android Java Chat](https://github.com/ServiceStackApps/AndroidJavaChat)
+
+Java Chat client utilizing [Server Events](/java-server-events-client) for real-time notifications and enabling seamless OAuth Sign In's using Facebook, Twitter and Google's native SDKs:
+
+[![](https://raw.githubusercontent.com/ServiceStack/docs/master/docs/images/java/java-android-chat-screenshot-540x960.png)](https://github.com/ServiceStackApps/AndroidJavaChat)
+
+### [Web, Node.js and React Native ServerEvents Apps](https://github.com/ServiceStackApps/typescript-server-events)
+
+Using TypeScript ServerEvents Client to create real-time Web, node.js server and React Native Mobile Apps:
+
+[![](https://raw.githubusercontent.com/ServiceStack/Assets/master/img/livedemos/typescript-serverevents/typescript-server-events-banner.png)](https://github.com/ServiceStackApps/typescript-server-events)
 
 ### [Gistlyn](https://github.com/ServiceStack/Gistlyn)
 
