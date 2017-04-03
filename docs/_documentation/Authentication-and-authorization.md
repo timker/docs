@@ -42,6 +42,9 @@ From the overview we can see the built-in AuthProviders that are included:
   * **Digest Auth** - Allowing users to authenticate with HTTP Digest Authentication 
   * **Custom Credentials** - By inheriting CredentialsAuthProvider and providing your own Username/Password `TryAuthenticate` implementation
   * **AspNetWindowsAuthProvider** - Allowing users to authenticate with Windows Authentication
+
+### OAuth Providers
+
   * **Twitter OAuth** - Allow users to Register and Authenticate with Twitter
   * **Facebook OAuth** - Allow users to Register and Authenticate with Facebook 
   * **GitHub OAuth** - Allow users to Register and Authenticate with GitHub 
