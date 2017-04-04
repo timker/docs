@@ -94,12 +94,8 @@
         $("#wrapper").toggleClass("menu-collapsed");
     });
 
-    if (screenWidth <= 1024) {
-        $("#page-content-wrapper").css({ maxWidth: screenWidth });
-
-        if (screenWidth <= 768) {
-            $("#menu-toggle").click();            
-        }
+    if (screenWidth <= 768) {
+        $("#menu-toggle").click();            
     }
 
     //Allow clicking on non-linked headers to jump to its #href

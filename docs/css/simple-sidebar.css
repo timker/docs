@@ -36,10 +36,9 @@ h2[id]:hover:after, h3[id]:hover:after, h4[id]:hover:after {
 #sidebar-wrapper {
     z-index: 1000;
     position: fixed;
-    left: 350px;
-    width: 0;
+    left: 0;
+    width: 350px;
     height: 100%;
-    margin-left: -350px;
     overflow-y: auto;
     background: #f1f1f1;
     -webkit-transition: all 0.5s ease;
@@ -53,14 +52,8 @@ h2[id]:hover:after, h3[id]:hover:after, h4[id]:hover:after {
 }
 
 #page-content-wrapper {
-    width: 900px;
-    position: absolute;
+    max-width: 900px;
     padding: 15px;
-}
-
-#wrapper.toggled #page-content-wrapper {
-    position: absolute;
-    margin-right: -350px;
 }
 
 /* Sidebar Styles */
@@ -186,8 +179,74 @@ img {
     display: none;
 }
 
+::-webkit-scrollbar { width:7px; height:5px }
+::-webkit-scrollbar-thumb { background-color:#ccc; }
 
-@media(min-width:1024px) {
+
+/* 
+  ##Device = Low Resolution Tablets, Mobiles (Landscape)
+  ##Screen = B/w 481px to 767px
+  @media (min-width: 481px) and (max-width: 767px) {}
+*/
+@media (max-width: 767px) {
+    #page-content-wrapper {
+      padding: 15px 0 0 0;
+    }
+    #logo img {
+        width: 274px;
+    }
+    #sidebar-wrapper {
+        width: 320px;
+    }
+    #menu-toggle {
+        left: 275px;
+    }
+}
+/* 
+  ##Device = Tablets, Ipads (portrait)
+  ##Screen = B/w 768px to 1024px
+  @media (min-width: 768px) and (max-width: 1024px) {}
+*/
+@media (min-width: 768px) and (max-width: 1024px) {
+    #logo img {
+        width: 274px;
+    }
+    #sidebar-wrapper {
+        width: 320px;
+    }
+    #menu-toggle {
+        left: 275px;
+    }
+    #page-content-wrapper {
+        width: auto;
+        padding: 10px;
+    }
+    #wrapper.toggled #page-content-wrapper {
+        position: relative;
+        margin-right: 0;
+    }
+    .toggled .side-nav-container {
+        display: none;
+    }
+    #wrapper {
+        padding-left: 320px;
+    }
+}
+
+/* 
+  ##Device = Laptops, Desktops
+  ##Screen = B/w 1025px to 1280px
+  @media (min-width: 1025px) and (max-width: 1280px) {}
+*/
+/* 
+  ##Device = Tablets, Ipads (landscape)
+  ##Screen = B/w 768px to 1024px
+  @media (min-width: 768px) and (max-width: 1024px) and (orientation: landscape) {}
+*/
+@media (min-width: 1024px) {
+    #page-content-wrapper {
+        padding: 20px;
+    }
     #menu-toggle {
         left: 300px;
     }
@@ -200,42 +259,12 @@ img {
         width: 350px;
     }
 
-    #page-content-wrapper {
-        padding: 20px;
-        position: relative;
-    }
-
-    #wrapper.toggled #page-content-wrapper {
-        position: relative;
-        margin-right: 0;
-    }
-
     .toggled .side-nav-container {
         display: none;
     }
 }
-
-/* <= iPad landscape */
-@media only screen 
-and (max-device-width:1024px) {
-    #logo img {
-        width: 274px;
-    }
-    #sidebar-wrapper {
-        width: 330px;
-    }
+@media (min-width: 1281px) {
     #page-content-wrapper {
-        width: auto;
-        max-width: 1024px;
-        padding: 10px;
-        margin: 0 0 0 320px;
-        -webkit-transition: all 0.5s ease;
-        -moz-transition: all 0.5s ease;
-        -o-transition: all 0.5s ease;
-        transition: all 0.5s ease;
+        padding: 30px;
     }
 }
-
-::-webkit-scrollbar { width:7px; height:5px }
-::-webkit-scrollbar-thumb { background-color:#ccc; }
-
