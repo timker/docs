@@ -267,4 +267,7 @@ img {
     #page-content-wrapper {
         padding: 30px;
     }
+    #menu-toggle {
+        display: none;
+    }
 }
