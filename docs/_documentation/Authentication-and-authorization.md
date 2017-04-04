@@ -560,10 +560,11 @@ class MyService : MyServiceBase {
 Otherwise you can use a [global Request Filter](?/request-and-response-filters) if you wanted to restrict all requests any other way, e.g something like:
 
 ```csharp
-appHost.RequestFilters.Add((httpReq, httpResp, requestDto) =>
+GlobalRequestFilters.Add((req, res, requestDto) =>
 {
-    if (IsAProtectedPath(httpReq.PathInfo)) {
-        new AuthenticateAttribute().Execute(httpReq, httpResp, requestDto);
+    if (ShouldProtectRequest(requestDto)) 
+    {
+        new AuthenticateAttribute().Execute(req, res, requestDto);
     }
 });
 ```
