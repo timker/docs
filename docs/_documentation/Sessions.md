@@ -22,7 +22,7 @@ The Permanent session cookie `ss-pid` is always created even if `ss-opt` is Temp
 
 If you're interested in the implementation, all the source code for ServiceStack's Sessions are kept in the [ISession](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack.Interfaces/Caching/ISession.cs), [SessionFeature](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/SessionFeature.cs), [SessionFactory](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/SessionFactory.cs), [SessionExtensions](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/SessionExtensions.cs) and [ServiceExtensions](https://github.com/ServiceStack/ServiceStack/blob/master/src/ServiceStack/ServiceExtensions.cs) classes.
 
-## Can be used with any [ICacheClient](/caching)
+## Can be used with any ICacheClient
 
 ServiceStack's implementation of Sessions are clean, in that they work with all of [ServiceStack's Caching Providers](/caching) and are simply pointers to POCOs in your Cache. An example of getting ServiceStack to use an in-memory cache:
 
