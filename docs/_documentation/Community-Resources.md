@@ -4,6 +4,7 @@ slug: community-resources
 
 ### Blog posts
 
+  - [ServiceStack in a Console Application](https://dev.to/tonytalkstech/servicestack-in-a-console-application) by [@TonyTalksTech](https://twitter.com/TonyTalksTech)
   - [Journey into Microservices](http://www.wwwlicious.com/2016/05/03/servicestack-microservices-1/) by [@wwwlicious](https://twitter.com/wwwlicious)
     - [Logging and Debugging](http://www.wwwlicious.com/2016/05/06/servicestack-microservices-logging-debugging-2/)
     - [Service discovery, load balancing and routing](http://www.wwwlicious.com/2016/05/11/servicestack-microservices-discovery-routing-3/)
