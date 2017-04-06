@@ -18,6 +18,10 @@ ServiceStack supports the following formats:
 - [Protocol Buffers](/protobuf-format)
 - [Wire](/wire-format)
 
+### .NET Service Clients
+
+The different Content Types can be easily consumed using [ServiceStack's Typed Generic Service Clients](/csharp-client#httpwebrequest-service-clients).
+
 ## HTTP/REST Endpoints
 
 You can define which format should be used by adding a `.{format}` extension:
