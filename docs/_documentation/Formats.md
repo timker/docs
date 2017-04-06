@@ -8,7 +8,7 @@ ServiceStack supports the following formats:
 - [JSON](https://github.com/ServiceStack/ServiceStack.Text)
 - XML
 - [SOAP 1.1/1.2](/soap-support)
-- [JSV](https://github.com/ServiceStack/ServiceStack.Text#servicestacktypeserializer-and-the-jsv-format) _(hybrid CSV-style escaping + JSON format that is optimized for both size and speed)_
+- [JSV](/jsv-format) _(hybrid CSV-style escaping + JSON format that is optimized for both size and speed)_
 - [CSV](/csv-format)
 - HTML
     - [Razor](http://razor.servicestack.net)
