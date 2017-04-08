@@ -217,6 +217,8 @@ new ApiKeyAuthProvider
 }
 ```
 
+### IManageApiKeys API
+
 Should you need to, you can access API Keys from the Auth Repository directly through the following interface:
 
 ```csharp
